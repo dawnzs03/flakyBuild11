@@ -283,8 +283,8 @@ public abstract class TestInterProcessMutexBase extends BaseClassForTests {
                                 Thread.sleep(100);
                             }
                         } finally {
-                            hasLock.set(false);
                             mutex.release();
+                            hasLock.set(false);
                         }
                         return null;
                     }
