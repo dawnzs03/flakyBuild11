@@ -1,0 +1,46 @@
+allprojects {
+  apply plugin: "idea"
+  apply plugin: "eclipse"
+
+  idea {
+    module {
+      outputFile = file(outputFile.path.replace(".iml", "-${variant}.iml"))
+    }
+  }
+}
+
+def gitIgnore = file(".gitignore").readLines()
+def gitIgnoreDirs = gitIgnore*.trim().findAll { !it.startsWith("#") && it.endsWith("/") }
+def (topLevelDirs, allLevelDirs) = gitIgnoreDirs.split { it.startsWith("/") }
+topLevelDirs = topLevelDirs.collect { it.substring(1) }
+
+idea {
+  project {
+    languageLevel = "1.8"
+    vcs = "Git"
+    outputFile = file(outputFile.path.replace(".ipr", "-${variant}.ipr"))
+    configure(modules) { module ->
+      def prj = module.project
+      if(prj.name == "spock-specs") {
+        module.iml {
+          withXml {
+            def node = it.asNode()
+            def comp = node.component.find{it.@name == 'NewModuleRootManager'}
+            if(comp) {
+              comp.@LANGUAGE_LEVEL = "JDK_$javaVersion".replace('.', '_')
+            }
+          }
+        }
+      }
+      excludeDirs = prj.files(allLevelDirs) as Set
+      if (prj == prj.rootProject) {
+        excludeDirs += allLevelDirs.collect { prj.file("buildSrc/$it") }
+        excludeDirs += (prj.files(topLevelDirs) as Set)
+      }
+    }
+  }
+}
+
+tasks.named("ideaWorkspace") {
+  outputFile = file(outputFile.path.replace(".iws", "-${variant}.iws"))
+}

@@ -1,0 +1,115 @@
+plugins {
+  id 'jvm-test-suite'
+}
+
+apply from: script("publishMaven")
+
+ext.displayName = "Spock Framework - Spring Module"
+
+description = "Spock's Spring Module makes it possible to use Spring's TestContext framework together with Spock. \
+Supports Spring 2.5.x, 3.x, and 4.x."
+
+def springVersion = "4.3.5.RELEASE"
+def testSpringVersions = [
+  (springVersion): (8..11),
+  "5.0.2.RELEASE": (8..11),
+  "6.0.0"        : (17..17)
+].findAll { javaVersion in it.value }.keySet()
+
+dependencies {
+  api projects.spockCore
+  compileOnly "org.springframework:spring-test:$springVersion"
+  compileOnly "org.springframework:spring-beans:$springVersion"
+  compileOnly "org.springframework:spring-context:$springVersion"
+}
+
+testing {
+  suites {
+    all {
+      useJUnitJupiter()
+      dependencies {
+        implementation "javax.inject:javax.inject:1"
+        implementation groovylibs.groovySql // for groovy.sql.Sql
+        implementation libs.junit.platform.testkit
+        runtimeOnly libs.h2database
+        runtimeOnly libs.log4j
+        runtimeOnly libs.bytebuddy
+        runtimeOnly libs.cglib
+        runtimeOnly libs.objenesis
+      }
+    }
+
+    test {
+      targets {
+        all {
+          testTask.configure {
+            onlyIf { false } //skip normal test task
+          }
+        }
+      }
+    }
+
+    // Add a variant for each combination of spring version and cglib, if cglib is supported
+    def cgLibVariants = javaVersion <= 16 ? [false, true] : [false]
+    [testSpringVersions, cgLibVariants].combinations().each { testSpringVersion, forceCgLib ->
+      String testTaskName = "spring${testSpringVersion.charAt(0)}${(forceCgLib ? 'CgLib' : '')}Test"
+      "$testTaskName"(JvmTestSuite) {
+
+        sources {
+          java {
+            srcDir 'src/test/java'
+          }
+          groovy {
+            srcDir 'src/test/groovy'
+          }
+          resources {
+            srcDir 'src/test/resources'
+          }
+        }
+
+        dependencies {
+          implementation project(project.path)
+          implementation "org.springframework:spring-test:$testSpringVersion"
+          implementation "org.springframework:spring-beans:$testSpringVersion"
+          implementation "org.springframework:spring-context:$testSpringVersion"
+          implementation "org.springframework:spring-core:$testSpringVersion"
+          implementation "org.springframework:spring-jdbc:$testSpringVersion"
+          implementation "org.springframework:spring-tx:$testSpringVersion"
+        }
+
+        // ideally we would just define another test task for this suite, but jvm-test-suites doesn't support that yet
+        if (forceCgLib) {
+          targets {
+            all {
+              testTask.configure {
+                systemProperty("org.spockframework.mock.ignoreByteBuddy", "true")
+              }
+            }
+          }
+        }
+      }
+      tasks.named("check") { dependsOn testTaskName }
+    }
+  }
+}
+
+["compileTestJava", "compileTestGroovy"].each { taskName ->
+  tasks.named(taskName).configure {
+    onlyIf { false } //skip normal test task
+  }
+}
+
+tasks.named("jar", Jar) {
+  manifest {
+    attributes(
+      'Build-Revision': versioning.info.commit,
+      'Specification-Title': project.name,
+      'Specification-Version': baseVersion,
+      'Specification-Vendor': 'spockframework.org',
+      'Implementation-Title': project.name,
+      'Implementation-Version': variantLessVersion,
+      'Implementation-Vendor': 'spockframework.org',
+      'Automatic-Module-Name': 'org.spockframework.spring'
+    )
+  }
+}

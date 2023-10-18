@@ -1,3 +1,0 @@
-torch-neuronx
-transformers-neuronx
-transformers

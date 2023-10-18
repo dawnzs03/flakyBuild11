@@ -1,4 +1,0 @@
-ts_metrics:
-  counter:
-    - name: InferenceRequestsTotal
-      unit: Count

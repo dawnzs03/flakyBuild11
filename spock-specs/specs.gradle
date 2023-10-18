@@ -1,0 +1,80 @@
+import org.spockframework.gradle.JacocoJavaagentProvider
+
+plugins {
+  id 'org.spockframework.base'
+}
+
+ext.displayName = "Spock Framework - Specs for Core Module"
+
+description = "Spock specifications for the Core Module. Yes, we eat our own dog food."
+
+configurations {
+  groovyConsole
+  jacocoAgentRuntime
+}
+
+dependencies {
+  implementation projects.spockCore
+  implementation groovylibs.groovyJmx
+  implementation groovylibs.groovyNio  //for groovy methods on Path
+
+  testCompileOnly libs.jetbrains.annotations
+  testImplementation libs.junit.platform.testkit
+  testImplementation libs.geantyref
+
+  testImplementation groovylibs.groovySql  //for groovy.sql.Sql
+  testImplementation(groovylibs.groovyTest) {  //for groovy.test.NotYetImplemented
+    exclude group: 'junit'
+  }
+
+  testRuntimeOnly libs.asm
+  testRuntimeOnly libs.bytebuddy
+  testRuntimeOnly libs.cglib
+  testRuntimeOnly libs.objenesis
+  testRuntimeOnly libs.h2database
+
+  groovyConsole groovyConsoleExtraDependencies
+
+  // https://melix.github.io/blog/2021/03/version-catalogs-faq.html#_why_can_t_i_use_excludes_or_classifiers
+  jacocoAgentRuntime variantOf(libs.jacoco.agent) { classifier('runtime') }
+}
+
+boolean isCiServer = System.env["CI"] || System.env["GITHUB_ACTIONS"]
+tasks.named("test", Test) {
+  reports.junitXml.required = true
+  reports.html.required = true
+
+  testLogging.exceptionFormat = "full"
+  testLogging.showExceptions = true
+  testLogging.events 'standard_out'
+  testLogging.events 'standard_error'
+  maxParallelForks = 1
+  systemProperty "spock.snapshots.rootPath", "src/test/resources"
+  if (project.hasProperty("updateSnapshots")) {
+    systemProperty("spock.snapshots.updateSnapshots", "true")
+  }
+
+  if (isCiServer) {
+    retry {
+      maxRetries = 2
+      maxFailures = 20
+
+      filter {
+        includeAnnotationClasses.add("spock.lang.Timeout")
+        includeAnnotationClasses.add("spock.lang.Isolated")
+      }
+    }
+  }
+}
+
+tasks.register("groovyConsole", JavaExec) {
+  main = variant == 2.5 ? "groovy.ui.Console" : "groovy.console.ui.Console"
+  classpath(sourceSets.named("test").map {it.runtimeClasspath }, configurations.named("groovyConsole"))
+}
+
+tasks.named("compileTestGroovy", GroovyCompile) {
+  def jacocoAgent = objects.newInstance(JacocoJavaagentProvider)
+  jacocoAgent.jacocoAgent = file(configurations.jacocoAgentRuntime.asPath)
+  jacocoAgent.execResultFile = file("$buildDir/jacoco/compileTestGroovy.exec")
+  groovyOptions.forkOptions.jvmArgumentProviders.add(jacocoAgent)
+}
