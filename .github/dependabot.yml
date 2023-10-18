@@ -1,0 +1,34 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  assignees:
+  - violetagg
+  target-branch: "1.0.x"
+  labels:
+  - type/dependency-upgrade
+  ignore:
+  - dependency-name: io.micrometer:micrometer-core
+    versions:
+    - "> 1.5.0"
+  - dependency-name: org.apache.tomcat.embed:tomcat-embed-core
+    versions:
+    - ">= 10.0.a"
+  - dependency-name: com.diffplug.spotless
+    versions:
+    - ">= 6.14.a"
+  rebase-strategy: disabled
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+      interval: daily
+  open-pull-requests-limit: 10
+  assignees:
+      - violetagg
+  target-branch: "1.0.x"
+  labels:
+      - type/dependency-upgrade
+  rebase-strategy: disabled
