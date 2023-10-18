@@ -1,4 +1,0 @@
-*.sh text eol=lf
-gradlew text eol=lf
-blackbox/bin/** text eol=lf
-app/src/main/dist/bin/crate eol=lf
