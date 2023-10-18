@@ -1,406 +1,123 @@
 <!--
+Copyright IBM Corp. and others 2017
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+This program and the accompanying materials are made available under
+the terms of the Eclipse Public License 2.0 which accompanies this
+distribution and is available at https://www.eclipse.org/legal/epl-2.0/
+or the Apache License, Version 2.0 which accompanies this distribution and
+is available at https://www.apache.org/licenses/LICENSE-2.0.
 
-        http://www.apache.org/licenses/LICENSE-2.0
+This Source Code may also be made available under the following
+Secondary Licenses when the conditions for such availability set
+forth in the Eclipse Public License, v. 2.0 are satisfied: GNU
+General Public License, version 2 with the GNU Classpath
+Exception [1] and GNU General Public License, version 2 with the
+OpenJDK Assembly Exception [2].
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+[1] https://www.gnu.org/software/classpath/license.html
+[2] https://openjdk.org/legal/assembly-exception.html
 
+SPDX-License-Identifier: EPL-2.0 OR Apache-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0 OR GPL-2.0-only WITH OpenJDK-assembly-exception-1.0
 -->
-[English](./README.md) | [中文](./README_ZH.md)
-
-# IoTDB
-[![Main Mac and Linux](https://github.com/apache/iotdb/actions/workflows/main-unix.yml/badge.svg)](https://github.com/apache/iotdb/actions/workflows/main-unix.yml)
-[![Main Win](https://github.com/apache/iotdb/actions/workflows/main-win.yml/badge.svg)](https://github.com/apache/iotdb/actions/workflows/main-win.yml)<!--[![coveralls](https://coveralls.io/repos/github/apache/iotdb/badge.svg?branch=master)](https://coveralls.io/repos/github/apache/iotdb/badge.svg?branch=master)-->
-[![GitHub release](https://img.shields.io/github/release/apache/iotdb.svg)](https://github.com/apache/iotdb/releases)
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-![](https://github-size-badge.herokuapp.com/apache/iotdb.svg)
-![](https://img.shields.io/github/downloads/apache/iotdb/total.svg)
-![](https://img.shields.io/badge/platform-win%20%7C%20macos%20%7C%20linux-yellow.svg)
-![](https://img.shields.io/badge/java--language-1.8%20%7C%2011%20%7C%2017-blue.svg)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/apache/iotdb.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/apache/iotdb/context:java)
-[![IoTDB Website](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=iotdb-website)](https://iotdb.apache.org/)
-[![Maven Version](https://maven-badges.herokuapp.com/maven-central/org.apache.iotdb/iotdb-parent/badge.svg)](http://search.maven.org/#search|gav|1|g:"org.apache.iotdb")
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/apache/iotdb)
-[![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://join.slack.com/t/apacheiotdb/shared_invite/zt-qvso1nj8-7715TpySZtZqmyG5qXQwpg)
-
-# Overview
-
-IoTDB (Internet of Things Database) is a data management system for time series data, which provides users with specific services including data collection, storage and analysis. Due to its light weight structure, high performance and usable features, together with its seamless integration with the Hadoop and Spark ecology, IoTDB meets the requirements of massive dataset storage, high throughput data input, and complex data analysis in the industrial IoT field.
-
-# Main Features
-
-Main features of IoTDB are as follows:
 
-1. Flexible deployment strategy. IoTDB provides users a one-click installation tool on either the cloud platform or the terminal devices, and a data synchronization tool bridging the data on cloud platform and terminals.
-2. Low cost on hardware. IoTDB can reach a high compression ratio of disk storage.
-3. Efficient directory structure. IoTDB supports efficient organization for complex time series data structures from intelligent networking devices, organization for time series data from devices of the same type, and fuzzy searching strategy for massive and complex directory of time series data.
-4. High-throughput read and write. IoTDB supports millions of low-power devices' strong connection data access, high-speed data read and write for intelligent networking devices and mixed devices mentioned above.
-5. Rich query semantics. IoTDB supports time alignment for time series data across devices and measurements, computation in time series field (frequency domain transformation) and rich aggregation function support in time dimension.
-6. Easy to get started. IoTDB supports SQL-Like language, JDBC standard API and import/export tools which is easy to use.
-7. Seamless integration with state-of-the-practice Open Source Ecosystem. IoTDB supports analysis ecosystems such as, Hadoop, Spark, and visualization tool, such as, Grafana.
+<p align="center">
+<img src="https://github.com/eclipse-openj9/openj9/blob/master/artwork/OpenJ9.svg" alt="OpenJ9 logo" align="middle" width="50%" height="50%" />
+<p>
 
-For the latest information about IoTDB, please visit [IoTDB official website](https://iotdb.apache.org/). If you encounter any problems or identify any bugs while using IoTDB, please report an issue in [jira](https://issues.apache.org/jira/projects/IOTDB/issues).
+Welcome to the Eclipse OpenJ9 repository
+========================================
+[![License](https://img.shields.io/badge/License-EPL%202.0-green.svg)](https://opensource.org/licenses/EPL-2.0)
+[![License](https://img.shields.io/badge/License-APL%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<!-- TOC -->
 
-## Outline
+We're not sure which route you might have taken on your way here, but we're really pleased to see you! If you came directly from our website, you've probably already learned a lot about Eclipse OpenJ9 and how it fits in to the OpenJDK ecosystem. If you came via some other route, here are a few key links to get you started:
 
-- [IoTDB](#iotdb)
-- [Overview](#overview)
-- [Main Features](#main-features)
-  - [Outline](#outline)
-- [Quick Start](#quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-    - [Build from source](#build-from-source)
-    - [Configurations](#configurations)
-  - [Start](#start)
-    - [Start IoTDB](#start-iotdb)
-    - [Use IoTDB](#use-iotdb)
-      - [Use Cli](#use-cli)
-      - [Basic commands for IoTDB](#basic-commands-for-iotdb)
-    - [Stop IoTDB](#stop-iotdb)
-  - [Only build server](#only-build-server)
-  - [Only build cli](#only-build-cli)
-  - [Usage of CSV Import and Export Tool](#usage-of-csv-import-and-export-tool)
+- [Eclipse OpenJ9 website](https://www.eclipse.org/openj9) - Learn about this high performance, enterprise-grade Java Virtual Machine (JVM) and why we think you want to get involved in its development.
+- Build instructions for [JDK8](https://github.com/eclipse-openj9/openj9/blob/master/doc/build-instructions/Build_Instructions_V8.md), [JDK11](https://github.com/eclipse-openj9/openj9/blob/master/doc/build-instructions/Build_Instructions_V11.md), and [More](https://github.com/eclipse-openj9/openj9/blob/master/doc/build-instructions) - Here's how you can build an OpenJDK with OpenJ9 yourself.
 
-<!-- /TOC -->
+If you're looking for ways to help out at the project (thanks!), we have:
+- [Beginner issues](https://github.com/eclipse-openj9/openj9/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)
+- [Help Wanted issues](https://github.com/eclipse-openj9/openj9/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
 
-# Quick Start
+If you're here to learn more about the project, read on ...
 
-This short guide will walk you through the basic process of using IoTDB. For a more detailed introduction, please visit our website's [User Guide](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html).
+What is Eclipse OpenJ9?
+=======================
 
-## Prerequisites
+Eclipse OpenJ9 is an independent implementation of a Java Virtual Machine. "Independent implementation"
+means it was built using the Java Virtual Machine specification without using any code from any other Java
+Virtual Machine. 
 
-To use IoTDB, you need to have:
+The OpenJ9 JVM combines with the Java Class libraries from OpenJDK to create a complete JDK tuned for
+footprint, performance, and reliability that is well suited for cloud deployments.
 
-1. Java >= 1.8 (1.8, 11 to 17 are verified. Please make sure the environment path has been set accordingly).
-2. Maven >= 3.6 (If you want to compile and install IoTDB from source code).
-3. Set the max open files num as 65535 to avoid "too many open files" error.
-4. (Optional) Set the somaxconn as 65535 to avoid "connection reset" error when the system is under high load.
-    ```
-    # Linux
-    > sudo sysctl -w net.core.somaxconn=65535
-   
-    # FreeBSD or Darwin
-    > sudo sysctl -w kern.ipc.somaxconn=65535
-    ```
+The original source contribution to OpenJ9 came from the IBM "J9" JVM which has been used in production
+by thousands of Java applications for the last two decades.  In September 2017, IBM completed open sourcing
+the J9 JVM as "Eclipse OpenJ9" at the Eclipse Foundation. Significant parts of J9 are also open source
+at the [Eclipse OMR project](https://github.com/eclipse/omr). OpenJ9 has a permissive license (Apache
+License 2.0 or Eclipse Public License 2.0 with a secondary compatibility license for the OpenJDK project's
+GPLv2 license) that is designed to allow OpenJDK to be built with the OpenJ9 JVM.  Please see our
+[LICENSE file](https://github.com/eclipse-openj9/openj9/blob/master/LICENSE) for more details.
 
-## Installation
+Eclipse OpenJ9 is a source code project that can be built alongside Java class libraries. See the
+[build instructions](https://github.com/eclipse-openj9/openj9/blob/master/doc/build-instructions). Eclipse
+Foundation projects are not permitted to distribute, market or promote JDK binaries unless they have
+passed a Java SE Technology Compatibility Kit licensed from Oracle, to which the OpenJ9 project does
+not currently have access. See the [Eclipse Adoptium Project Charter](https://projects.eclipse.org/projects/adoptium/charter).
 
-IoTDB provides three installation methods, you can refer to the following suggestions, choose the one fits you best:
+What is the goal of the project?
+================================
 
-* Installation from source code. If you need to modify the code yourself, you can use this method.
-* Installation from binary files. Download the binary files from the official website. This is the recommended method, in which you will get a binary released package which is out-of-the-box.
-* Using Docker：The path to the dockerfile is [here](https://github.com/apache/iotdb/tree/master/docker/src/main)
+The long term goal of the Eclipse OpenJ9 project is to foster an open ecosystem of JVM developers that can collaborate and innovate with designers and developers of hardware platforms, operating systems, tools, and frameworks.
 
+The project welcomes collaboration, embraces fresh innovation, and extends an opportunity to influence the development of OpenJ9 for the next generation of Java applications.
 
-Here in the Quick Start, we give a brief introduction of using source code to install IoTDB. For further information, please refer to [User Guide](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html).
+The Java community has benefited over its history from having multiple implementations of the JVM specification competing to provide the best runtime for your application.  Whether adding compressed references, new Cloud features, AOT (ahead of time compilation), or straight up faster performance and lower memory use, the ecosystem has improved through that competition.  Eclipse OpenJ9 aims to continue to spur innovation in the runtimes space.
 
-## Build from source
+How do I contribute?
+====================
 
-### Prepare Thrift compiler
+Since we are an Eclipse Foundation project, each contributor needs to sign an Eclipse Contributor Agreement. The Eclipse Foundation operates under the [Eclipse Code of Conduct][coc]
+to promote fairness, openness, and inclusion.
 
-Skip this chapter if you are using Windows. 
+To get started, read our [Contribution Guide](CONTRIBUTING.md).
 
-As we use Thrift for our RPC module (communication and
-protocol definition), we involve Thrift during the compilation, so Thrift compiler 0.13.0 (or
-higher) is required to generate Thrift Java code. Thrift officially provides binary compiler for
-Windows, but unfortunately, they do not provide that for Unix OSs. 
+[coc]: https://eclipse.org/org/documents/Community_Code_of_Conduct.php
 
-If you have permission to install new softwares, use `apt install` or `yum install` or `brew install`
-to install the Thrift compiler (If you already have installed the thrift compiler, skip this step).
-Then, you may add the following parameter
-when running Maven: `-Dthrift.download-url=http://apache.org/licenses/LICENSE-2.0.txt -Dthrift.exec.absolute.path=<YOUR LOCAL THRIFT BINARY FILE>`.
+If you think you want to contribute but you're not ready to sign the Eclipse Contributor Agreement, why not come along to our weekly *Ask the OpenJ9 community* calls to find out more about how we work. We talk about new ideas, answer any questions that get raised, and discuss project plans and status. We also do lightning talks on features and functions of the VM. Visit the *#planning* channel in our [Slack workspace](https://openj9.slack.com/) for information about upcoming community calls and minutes from previous meetings (Join [here](https://join.slack.com/t/openj9/shared_invite/enQtNDU4MDI4Mjk0MTk2LWVhNTMzMGY1N2JkODQ1OWE0NTNmZjM4ZDcxOTBiMjk3NGFjM2U0ZDNhMmY0MDZlNzU0ZjAyNzQ1ODlmYjg3MjA)). 
 
-If not, then you have to compile the thrift compiler, and it requires you install a boost library first.
-Therefore, we compiled a Unix  compiler ourselves and put it onto GitHub, and with the help of a
-maven plugin, it will be  downloaded automatically during compilation. 
-This compiler works fine with gcc8 or later, Ubuntu  MacOS, and CentOS, but previous versions 
-and other OSs are not guaranteed.
+What repos are part of the project?
+===================================
+- https://github.com/eclipse-openj9/openj9 : OpenJ9 main code base
+- https://github.com/eclipse-openj9/openj9-omr : Eclipse OMR clone to stage temporary OMR changes.  (None so far!)
+- https://github.com/eclipse-openj9/openj9-systemtest : OpenJ9-specific system tests
+- https://github.com/eclipse-openj9/openj9-website : OpenJ9 website repo
+- https://github.com/eclipse-openj9/openj9-docs : OpenJ9 documentation repo
+- https://github.com/eclipse-openj9/build-openj9 : OpenJ9 GitHub actions repo
+- https://github.com/eclipse-openj9/openj9-utils : OpenJ9 utility programs / tools repo, a place to develop community around the tools
 
-If you can not download the thrift compiler automatically because of network problem, you can download 
-it yourself, and then either:
-rename your thrift file to `{project_root}\thrift\target\tools\thrift_0.12.0_0.13.0_linux.exe`;
-or, add Maven commands:
-`-Dthrift.download-url=http://apache.org/licenses/LICENSE-2.0.txt -Dthrift.exec.absolute.path=<YOUR LOCAL THRIFT BINARY FILE>`.
 
-### Compile IoTDB
+Where can I learn more?
+=======================
 
-You can download the source code from:
+- [Moving to OpenJ9](https://blog.openj9.org/2019/02/26/moving-to-openjdk-with-eclipse-openj9/)
+- [User documentation](https://www.eclipse.org/openj9/docs/)
+- Many more resources are available on the [OpenJ9 blog](https://blog.openj9.org/)
 
-```
-git clone https://github.com/apache/iotdb.git
-```
+Videos and Presentations
+------------------------
 
-The default dev branch is the master branch, If you want to use a released version x.x.x:
+- [JavaOne 2017: John Duimovich and Mike Milinkovich having fun chatting about Eclipse OpenJ9 (and EE4J)](https://www.youtube.com/watch?v=4g9SdVCPlnk)
+- [JavaOne 2017: Holly Cummins interviewing Dan Heidinga and Mark Stoodley on Eclipse OpenJ9 and OMR](https://www.youtube.com/watch?v=c1LVXqD3cII)
+- [JavaOne 2017: Open sourcing the IBM J9 Java Virtual Machine](https://www.slideshare.net/MarkStoodley/javaone-2017-mark-stoodley-open-sourcing-ibm-j9-jvm)
+- [JavaOne 2017: Eclipse OpenJ9 Under the hood of the next open source JVM](https://www.slideshare.net/DanHeidinga/javaone-2017-eclipse-openj9-under-the-hood-of-the-jvm)
+- [JavaOne 2017: Ask the OpenJ9 Architects](https://www.youtube.com/watch?v=qb5ennM_pgc)
+- [Eclipse OpenJ9 verbose JIT logs](https://mstoodle.github.io/EclipseOpenJ9JitVerboseLogs/)
+- [JavaOne 2017: How to build a debuggable runtime](https://www.slideshare.net/TobiAjila1/how-to-build-a-debuggle-runtime)
+- [Reducing Garbage Collection pause times with Concurrent Scavenge and the Guarded Storage Facility](https://developer.ibm.com/javasdk/2017/09/18/reducing-garbage-collection-pause-times-concurrent-scavenge-guarded-storage-facility/)
+- [How Concurrent Scavenge using the Guarded Storage Facility Works](https://developer.ibm.com/javasdk/2017/09/25/concurrent-scavenge-using-guarded-storage-facility-works/)
+- [Are you still paying for unused memory when your Java app is idle?](https://developer.ibm.com/javasdk/2017/09/25/still-paying-unused-memory-java-app-idle/)
+- [Under the hood of the Testarossa JIT Compiler](https://www.slideshare.net/MarkStoodley/under-the-hood-of-the-testarossa-jit-compiler)
+- [Class sharing In Eclipse OpenJ9](https://developer.ibm.com/tutorials/j-class-sharing-openj9/)
 
-```
-git checkout vx.x.x
-```
-
-Or checkout to the branch of a big version, e.g., the branch of 1.0 is rel/1.0
-
-```
-git checkout rel/x.x
-```
-
-### Build IoTDB from source
-
-Under the root path of iotdb:
-
-```
-> mvn clean package -pl distribution -am -DskipTests
-```
-
-After being built, the IoTDB distribution is located at the folder: "distribution/target".
-
-
-### Only build cli
-
-Under the root path of iotdb:
-
-```
-> mvn clean package -pl cli -am -DskipTests
-```
-
-After being built, the IoTDB cli is located at the folder "cli/target".
-
-### Build Others
-
-Using `-P compile-cpp` for compiling cpp client (For more details, read client-cpp's Readme file.)
-
-**NOTE: Directories "`thrift/target/generated-sources/thrift`", "`thrift-sync/target/generated-sources/thrift`",
-"`thrift-cluster/target/generated-sources/thrift`", "`thrift-influxdb/target/generated-sources/thrift`" 
-and "`antlr/target/generated-sources/antlr4`" need to be added to sources roots to avoid compilation errors in the IDE.**
-
-**In IDEA, you just need to right click on the root project name and choose "`Maven->Reload Project`" after 
-you run `mvn package` successfully.**
-
-### Configurations
-
-configuration files are under "conf" folder
-
-  * environment config module (`datanode-env.bat`, `datanode-env.sh`),
-  * system config module (`iotdb-datanode.properties`)
-  * log config module (`logback.xml`).
-
-For more information, please see [Config Manual](https://iotdb.apache.org/UserGuide/Master/Reference/DataNode-Config-Manual.html).
-
-## Start
-
-You can go through the following steps to test the installation. If there is no error returned after execution, the installation is completed.
-
-### Start IoTDB
-
-Users can start 1C1D IoTDB by the start-standalone script under the sbin folder.
-
-```
-# Unix/OS X
-> sbin/start-standalone.sh
-
-# Windows
-> sbin\start-standalone.bat
-```
-
-### Use IoTDB
-
-#### Use Cli
-
-IoTDB offers different ways to interact with server, here we introduce the basic steps of using Cli tool to insert and query data.
-
-After installing IoTDB, there is a default user 'root', its default password is also 'root'. Users can use this
-default user to login Cli to use IoTDB. The startup script of Cli is the start-cli script in the folder sbin. When executing the script, user should assign
-IP, PORT, USER_NAME and PASSWORD. The default parameters are "-h 127.0.0.1 -p 6667 -u root -pw -root".
-
-Here is the command for starting the Cli:
-
-```
-# Unix/OS X
-> sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
-
-# Windows
-> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
-```
-
-The command line cli is interactive, so you should see the welcome logo and statements if everything is ready:
-
-```
- _____       _________  ______   ______
-|_   _|     |  _   _  ||_   _ `.|_   _ \
-  | |   .--.|_/ | | \_|  | | `. \ | |_) |
-  | | / .'`\ \  | |      | |  | | |  __'.
- _| |_| \__. | _| |_    _| |_.' /_| |__) |
-|_____|'.__.' |_____|  |______.'|_______/  version x.x.x
-
-
-IoTDB> login successfully
-IoTDB>
-```
-
-#### Basic commands for IoTDB
-
-Now, let us introduce the way of creating timeseries, inserting data and querying data.
-
-The data in IoTDB is organized as timeseries. Each timeseries includes multiple data-time pairs, and is owned by a database. Before defining a timeseries, we should define a database using CREATE DATABASE first, and here is an example:
-
-```
-IoTDB> CREATE DATABASE root.ln
-```
-
-We can also use SHOW DATABASES to check the database being created:
-
-```
-IoTDB> SHOW DATABASES
-+-------------+
-|     Database|
-+-------------+
-|      root.ln|
-+-------------+
-Total line number = 1
-```
-
-After the database is set, we can use CREATE TIMESERIES to create a new timeseries. When creating a timeseries, we should define its data type and the encoding scheme. Here we create two timeseries:
-
-```
-IoTDB> CREATE TIMESERIES root.ln.wf01.wt01.status WITH DATATYPE=BOOLEAN, ENCODING=PLAIN
-IoTDB> CREATE TIMESERIES root.ln.wf01.wt01.temperature WITH DATATYPE=FLOAT, ENCODING=RLE
-```
-
-In order to query the specific timeseries, we can use SHOW TIMESERIES <Path>. <Path> represent the location of the timeseries. The default value is "null", which queries all the timeseries in the system(the same as using "SHOW TIMESERIES root"). Here are some examples:
-
-1. Querying all timeseries in the system:
-
-```
-IoTDB> SHOW TIMESERIES
-+-----------------------------+-----+-------------+--------+--------+-----------+----+----------+
-|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|
-+-----------------------------+-----+-------------+--------+--------+-----------+----+----------+
-|root.ln.wf01.wt01.temperature| null|      root.ln|   FLOAT|     RLE|     SNAPPY|null|      null|
-|     root.ln.wf01.wt01.status| null|      root.ln| BOOLEAN|   PLAIN|     SNAPPY|null|      null|
-+-----------------------------+-----+-------------+--------+--------+-----------+----+----------+
-Total line number = 2
-```
-
-2. Querying a specific timeseries(root.ln.wf01.wt01.status):
-
-```
-IoTDB> SHOW TIMESERIES root.ln.wf01.wt01.status
-+------------------------+-----+-------------+--------+--------+-----------+----+----------+
-|              timeseries|alias|database|dataType|encoding|compression|tags|attributes|
-+------------------------+-----+-------------+--------+--------+-----------+----+----------+
-|root.ln.wf01.wt01.status| null|      root.ln| BOOLEAN|   PLAIN|     SNAPPY|null|      null|
-+------------------------+-----+-------------+--------+--------+-----------+----+----------+
-Total line number = 1
-```
-
-Insert timeseries data is a basic operation of IoTDB, you can use ‘INSERT’ command to finish this. Before insertion, you should assign the timestamp and the suffix path name:
-
-```
-IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status) values(100,true);
-IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status,temperature) values(200,false,20.71)
-```
-
-The data that you have just inserted will display as follows:
-
-```
-IoTDB> SELECT status FROM root.ln.wf01.wt01
-+------------------------+------------------------+
-|                    Time|root.ln.wf01.wt01.status|
-+------------------------+------------------------+
-|1970-01-01T00:00:00.100Z|                    true|
-|1970-01-01T00:00:00.200Z|                   false|
-+------------------------+------------------------+
-Total line number = 2
-```
-
-You can also query several timeseries data using one SQL statement:
-
-```
-IoTDB> SELECT * FROM root.ln.wf01.wt01
-+------------------------+-----------------------------+------------------------+
-|                    Time|root.ln.wf01.wt01.temperature|root.ln.wf01.wt01.status|
-+------------------------+-----------------------------+------------------------+
-|1970-01-01T00:00:00.100Z|                         null|                    true|
-|1970-01-01T00:00:00.200Z|                        20.71|                   false|
-+------------------------+-----------------------------+------------------------+
-Total line number = 2
-```
-
-To change the time zone in Cli, you can use the following SQL:
-
-```
-IoTDB> SET time_zone=+08:00
-Time zone has set to +08:00
-IoTDB> SHOW time_zone
-Current time zone: Asia/Shanghai
-```
-
-Add then the query result will show using the new time zone.
-
-```
-IoTDB> SELECT * FROM root.ln.wf01.wt01
-+-----------------------------+-----------------------------+------------------------+
-|                         Time|root.ln.wf01.wt01.temperature|root.ln.wf01.wt01.status|
-+-----------------------------+-----------------------------+------------------------+
-|1970-01-01T08:00:00.100+08:00|                         null|                    true|
-|1970-01-01T08:00:00.200+08:00|                        20.71|                   false|
-+-----------------------------+-----------------------------+------------------------+
-Total line number = 2
-```
-
-The commands to exit the Cli are:
-
-```
-IoTDB> quit
-or
-IoTDB> exit
-```
-
-For more information about the commands supported by IoTDB SQL, please see [User Guide](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html).
-
-### Stop IoTDB
-
-The server can be stopped with "ctrl-C" or the following script:
-
-```
-# Unix/OS X
-> sbin/stop-standalone.sh
-
-# Windows
-> sbin\stop-standalone.bat
-```
-
-# Usage of CSV Import and Export Tool
-
-see [Usage of CSV Import and Export Tool](https://iotdb.apache.org/UserGuide/Master/Maintenance-Tools/CSV-Tool.html)
-
-# Frequent Questions for Compiling
-see [Frequent Questions when Compiling the Source Code](https://iotdb.apache.org/Development/ContributeGuide.html#_Frequent-Questions-when-Compiling-the-Source-Code)
-
-# Contact Us
-### QQ Group
-
-* Apache IoTDB User Group: 659990460
-
-### Wechat Group
-
-* Add friend: `tietouqiao` or `liutaohua001`, and then we'll invite you to the group.
-
-### Slack
-
-* [Slack channel](https://join.slack.com/t/apacheiotdb/shared_invite/zt-qvso1nj8-7715TpySZtZqmyG5qXQwpg)
-
-see [Join the community](https://github.com/apache/iotdb/issues/1995) for more!
+Copyright IBM Corp. and others 2017
