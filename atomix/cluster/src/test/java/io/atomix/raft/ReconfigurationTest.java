@@ -212,14 +212,10 @@ final class ReconfigurationTest {
               new DefaultRaftMember(id3, Type.ACTIVE, Instant.now()),
               new DefaultRaftMember(id4, Type.ACTIVE, Instant.now()));
 
-      Awaitility.await("All members have configuration with 4 active members")
-          .untilAsserted(
-              () ->
-                  assertThat(List.of(m1, m2, m3, m4))
-                      .allSatisfy(
-                          member ->
-                              assertThat(member.cluster().getMembers())
-                                  .containsExactlyInAnyOrderElementsOf(expected)));
+      assertThat(m1.cluster().getMembers()).containsExactlyInAnyOrderElementsOf(expected);
+      assertThat(m2.cluster().getMembers()).containsExactlyInAnyOrderElementsOf(expected);
+      assertThat(m3.cluster().getMembers()).containsExactlyInAnyOrderElementsOf(expected);
+      assertThat(m4.cluster().getMembers()).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
@@ -345,14 +341,11 @@ final class ReconfigurationTest {
       // then - all members show a configuration with 2 active members
       final var expected =
           others.stream().map(server -> server.cluster().getLocalMember()).toList();
-      Awaitility.await("All members have configuration with 2 active members")
-          .untilAsserted(
-              () ->
-                  assertThat(others)
-                      .allSatisfy(
-                          member ->
-                              assertThat(member.cluster().getMembers())
-                                  .containsExactlyInAnyOrderElementsOf(expected)));
+      assertThat(others)
+          .allSatisfy(
+              member ->
+                  assertThat(member.cluster().getMembers())
+                      .containsExactlyInAnyOrderElementsOf(expected));
     }
 
     @Test
