@@ -1,7 +1,0 @@
-def doSomethingCool() {
-    echo 'cool'
-}
-
-node {
-    doSomethingCool()
-}

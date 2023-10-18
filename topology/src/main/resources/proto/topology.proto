@@ -1,0 +1,66 @@
+syntax = 'proto3';
+package topology_protocol;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.camunda.zeebe.topology.protocol";
+
+message GossipState {
+  ClusterTopology clusterTopology = 1;
+}
+
+message ClusterTopology {
+  int64 version = 1;
+  map<string, MemberState> members = 2;
+  ClusterChangePlan changes = 3;
+}
+
+message MemberState {
+  int64 version = 1;
+  google.protobuf.Timestamp lastUpdated = 2;
+  State state = 3;
+  map<int32, PartitionState> partitions = 4;
+}
+
+message PartitionState {
+  State state = 1;
+  int32 priority = 2;
+}
+
+message ClusterChangePlan {
+  int32 version = 1;
+  repeated TopologyChangeOperation operation = 2;
+}
+
+message TopologyChangeOperation {
+  string memberId = 1;
+  oneof operation {
+    PartitionJoinOperation partitionJoin = 2;
+    PartitionLeaveOperation partitionLeave = 3;
+    MemberJoinOperation memberJoin = 4;
+    MemberLeaveOperation memberLeave = 5;
+  }
+}
+
+message PartitionJoinOperation {
+  int32 partitionId = 1;
+  int32 priority = 2;
+}
+
+message PartitionLeaveOperation {
+  int32 partitionId = 1;
+}
+
+message MemberJoinOperation {}
+
+message MemberLeaveOperation {}
+
+enum State {
+  UNKNOWN = 0;
+  JOINING = 1;
+  ACTIVE = 2;
+  LEAVING = 3;
+  LEFT = 4;
+}
+
+

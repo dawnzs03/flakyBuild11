@@ -1,6 +1,0 @@
-
-stage('some-stage') {
-    node('test') {
-        echo 'hello'
-    }
-}

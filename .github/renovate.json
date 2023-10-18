@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":semanticCommitTypeAll(deps)"
+  ],
+  "baseBranches": [
+    "main",
+    "/^stable\\/8\\..*/"
+  ],
+  "dependencyDashboard": true,
+  "enabledManagers": [
+    "dockerfile"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "enabled": false
+    }
+  ],
+  "dockerfile": {
+    "ignorePaths": [
+      "benchmarks/**",
+      "clients/go/vendor/**"
+    ]
+  },
+  "schedule": [
+    "every weekday"
+  ]
+}
