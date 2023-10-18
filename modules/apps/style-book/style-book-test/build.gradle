@@ -1,0 +1,4 @@
+dependencies {
+	testIntegrationImplementation project(":apps:style-book:style-book-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}

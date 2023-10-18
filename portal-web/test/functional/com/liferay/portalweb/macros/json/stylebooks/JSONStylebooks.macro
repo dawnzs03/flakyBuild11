@@ -1,0 +1,15 @@
+definition {
+
+	macro addStyleBookEntry {
+		Variables.assertDefined(parameterList = "${groupName},${styleBookEntryName}");
+
+		var groupId = JSONStylebooksSetter.setGroupId(
+			groupName = ${groupName},
+			site = ${site});
+
+		JSONStylebooksAPI._addStylebookEntry(
+			groupId = ${groupId},
+			styleBookEntryName = ${styleBookEntryName});
+	}
+
+}

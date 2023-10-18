@@ -1,0 +1,85 @@
+@default = "mouseOver"
+@summary = "Mouse over '${locator1}'"
+definition {
+
+	function javaScriptFocus {
+		WaitForSPARefresh();
+
+		var javascript = '''
+var event = document.createEvent('FocusEvent');
+
+event.initEvent('focus', true, false);
+
+arguments[0].dispatchEvent(event);
+		''';
+
+		selenium.executeJavaScript(${javascript}, ${locator1});
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+	function javaScriptMouseOver {
+		WaitForSPARefresh();
+
+		selenium.javaScriptMouseOver();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOver {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible();
+
+		selenium.mouseOver();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOverInvisible {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent();
+
+		selenium.mouseOver();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOverNotVisible {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent();
+
+		selenium.mouseOver();
+
+		selenium.waitForVisible();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+	function waitForMenuToggleJSMouseOver {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent();
+
+		selenium.waitForElementPresent("//script[contains(@src,'/o/frontend-js-aui-web/liferay/menu_toggle.js')]");
+
+		selenium.mouseOver();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
+}

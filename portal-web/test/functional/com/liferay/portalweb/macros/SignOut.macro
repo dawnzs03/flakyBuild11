@@ -1,0 +1,15 @@
+definition {
+
+	macro signOut {
+		Navigator.openURL();
+
+		UserBar.signOut();
+	}
+
+	macro signOutOfSpecificURL {
+		Navigator.openSpecificURL(url = ${url});
+
+		UserBar.signOut();
+	}
+
+}

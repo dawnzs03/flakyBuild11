@@ -1,0 +1,41 @@
+definition {
+
+	macro _getFileEntryTypeId {
+		Variables.assertDefined(parameterList = "${fileEntryTypeName},${groupId}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/dlfileentrytype/get-file-entry-types \
+				-u ${userLoginInfo} \
+				-d groupIds=[${groupId}]
+		''';
+
+		var fileEntryTypeId = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${fileEntryTypeName}')]['fileEntryTypeId']");
+
+		if (${fileEntryTypeId} == "") {
+			echo("The ${fileEntryTypeName} doesn't exist.");
+		}
+
+		return ${fileEntryTypeId};
+	}
+
+	macro _getFileEntryTypeIds {
+		Variables.assertDefined(parameterList = ${groupId});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/dlfileentrytype/get-file-entry-types \
+				-u ${userLoginInfo} \
+				-d groupIds=[${groupId}]
+		''';
+
+		var fileEntryTypeIds = JSONCurlUtil.post(${curl}, "$..fileEntryTypeId");
+
+		return ${fileEntryTypeIds};
+	}
+
+}

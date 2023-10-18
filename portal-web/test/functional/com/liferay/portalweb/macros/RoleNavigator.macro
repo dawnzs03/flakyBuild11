@@ -1,0 +1,66 @@
+definition {
+
+	macro gotoDefineRolePermissions {
+		if (contains("Account,Asset Library,Organization,Site", ${roleType})) {
+			Navigator.gotoNavItem(navItem = "${roleType} Roles");
+		}
+		else {
+			Navigator.gotoNavItem(navItem = "Regular Roles");
+		}
+
+		AssertClick(
+			key_itemName = ${roleTitle},
+			locator1 = "ListGroupItem#ITEM_NAME_LINK",
+			value1 = ${roleTitle});
+
+		Navigator.gotoNavItem(navItem = "Define Permissions");
+
+		if (isSet(permissionNavItem)) {
+			Type(
+				locator1 = "RolesPermissionsNavigation#SEARCH_FIELD",
+				value1 = ${permissionNavItem});
+
+			AssertClick(
+				key_permissionNavHeader = ${permissionNavHeader},
+				key_permissionNavItem = ${permissionNavItem},
+				locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVIGATION",
+				value1 = ${permissionNavItem});
+
+			AssertTextEquals(
+				key_title = ${permissionNavItem},
+				locator1 = "Header#H3_TITLE",
+				value1 = ${permissionNavItem});
+		}
+	}
+
+	macro gotoRoleType {
+		if (!(isSet(roleType))) {
+			var roleType = "Regular";
+		}
+
+		Navigator.gotoNavItem(navItem = "${roleType} Roles");
+	}
+
+	macro gotoViewNotHaveRolePermissions {
+		if (contains("Asset Library,Organization,Site", ${roleType})) {
+			Navigator.gotoNavItem(navItem = "${roleType} Roles");
+		}
+		else {
+			Navigator.gotoNavItem(navItem = "Regular Roles");
+		}
+
+		AssertClick(
+			key_itemName = ${roleTitle},
+			locator1 = "ListGroupItem#ITEM_NAME_LINK",
+			value1 = ${roleTitle});
+
+		Navigator.gotoNavItem(navItem = "Define Permissions");
+
+		if ((IsElementPresent.isElementPresentAfterWait(locator1 = "Message#INFO")) && (IsVisible(locator1 = "Message#INFO"))) {
+			AssertTextEquals(
+				locator1 = "Message#INFO",
+				value1 = "This role does not have any permissions.");
+		}
+	}
+
+}

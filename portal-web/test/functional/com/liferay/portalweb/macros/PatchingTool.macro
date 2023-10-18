@@ -1,0 +1,45 @@
+definition {
+
+	macro installPatch {
+		if (!(contains(${patchFileZipURL}, "dxp-0-"))) {
+			AntCommands.runCommand("build-test.xml", "install-patch -Dpatch.file.zip.url=${patchFileZipURL}");
+		}
+		else {
+			echo("No previous fix pack available to install");
+		}
+	}
+
+	macro installPatchOnSpecificServer {
+		var leadingPortNumber = StringUtil.replace(${nodePort}, 080, "");
+
+		var bundleIndex = ${leadingPortNumber} - 8;
+
+		if (!(contains(${patchFileZipURL}, "dxp-0-"))) {
+			AntCommands.runCommand("build-test.xml", "install-patch -Dinstall.patch.cluster.node.index=${bundleIndex} -Dpatch.file.zip.url=${patchFileZipURL}");
+		}
+		else {
+			echo("No previous fix pack available to install");
+		}
+	}
+
+	macro uninstallPatches {
+		AntCommands.runCommand("build-test.xml", "uninstall-patches");
+	}
+
+	macro uninstallPatchOnSpecificServer {
+		var leadingPortNumber = StringUtil.replace(${nodePort}, 080, "");
+
+		var bundleIndex = ${leadingPortNumber} - 8;
+
+		AntCommands.runCommand("build-test.xml", "uninstall-patches -Duninstall.patch.cluster.node.index=${bundleIndex}");
+	}
+
+	macro updateConfigurationOnSpecificServer {
+		var leadingPortNumber = StringUtil.replace(${nodePort}, 080, "");
+
+		var bundleIndex = ${leadingPortNumber} - 8;
+
+		AntCommands.runCommand("build-test.xml", "update-osgi-module-configuration -Dinstall.patch.cluster.node.index=${bundleIndex} -Dupdate.configuration=\"${updateConfiguration}\"");
+	}
+
+}

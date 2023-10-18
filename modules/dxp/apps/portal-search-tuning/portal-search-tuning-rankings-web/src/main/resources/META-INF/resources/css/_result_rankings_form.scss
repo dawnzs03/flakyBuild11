@@ -1,0 +1,23 @@
+.result-rankings-form-root {
+	.form-section-header {
+		margin-bottom: 24px;
+	}
+
+	.input-label-help-icon {
+		padding-left: 4px;
+	}
+
+	.result-rankings-container {
+		padding-top: 6rem;
+
+		.container-fluid {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	.results-title {
+		color: $main;
+		font-weight: 600;
+	}
+}

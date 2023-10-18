@@ -1,0 +1,127 @@
+definition {
+
+	macro _curlAccount {
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(accountId)) {
+			var api = "accounts/${accountId}";
+
+			if (isSet(relationshipName)) {
+				var api = "accounts/${accountId}/${relationshipName}";
+			}
+		}
+		else {
+			var api = "accounts";
+		}
+
+		var curl = '''
+			${portalURL}/o/headless-admin-user/v1.0/${api} \
+				-H accept: application/json \
+				-H Content-Type: application/json \
+				-u test@liferay.com:test \
+		''';
+
+		return ${curl};
+	}
+
+	macro createAccount {
+		Variables.assertDefined(parameterList = ${name});
+
+		var curl = AccountAPI._curlAccount();
+		var body = '''"name": "${name}"''';
+
+		if (isSet(externalReferenceCode)) {
+			var body = StringUtil.add(${body}, ",\"externalReferenceCode\":\"${externalReferenceCode}\"", " ");
+		}
+
+		if (isSet(description)) {
+			var body = StringUtil.add(${body}, ",\"description\":\"${description}\"", " ");
+		}
+
+		var curl = StringUtil.add(${curl}, "-d {${body}}", " ");
+
+		var response = JSONCurlUtil.post(${curl});
+
+		var accountId = JSONUtil.getWithJSONPath(${response}, "$..id");
+
+		return ${accountId};
+	}
+
+	macro deleteAccount {
+		Variables.assertDefined(parameterList = ${accountId});
+
+		var curl = AccountAPI._curlAccount(accountId = ${accountId});
+
+		JSONCurlUtil.delete(${curl});
+	}
+
+	macro deleteAllAccounts {
+		var response = AccountAPI.getAccounts();
+
+		var accountIdList = JSONUtil.getWithJSONPath(${response}, "$.items..id");
+
+		for (var accountId : list ${accountIdList}) {
+			AccountAPI.deleteAccount(accountId = ${accountId});
+		}
+	}
+
+	macro getAccounts {
+		var curl = AccountAPI._curlAccount();
+
+		var response = JSONCurlUtil.get(${curl});
+
+		return ${response};
+	}
+
+	macro getRelationshipByAccountId {
+		var curl = AccountAPI._curlAccount(
+			accountId = ${accountId},
+			relationshipName = ${relationshipName});
+
+		var response = JSONCurlUtil.get(${curl});
+
+		return ${response};
+	}
+
+	macro putAccountRelationship {
+		var curl = AccountAPI._curlAccount(
+			accountId = ${accountId},
+			relationshipName = ${relationshipName});
+
+		var response = JSONCurlUtil.put(${curl});
+
+		return ${response};
+	}
+
+	macro relateObjectEntries {
+		Variables.assertDefined(parameterList = "${userAccountId},${customObjectId},${relationshipName}");
+
+		var curl = AccountAPI._curlAccount(
+			customObjectId = ${customObjectId},
+			relationshipName = ${relationshipName},
+			userAccountId = ${userAccountId});
+
+		var response = JSONCurlUtil.put(${curl});
+
+		return ${response};
+	}
+
+	macro setUpGlobalAccountId {
+		var accountId = AccountAPI.createAccount(name = "user1");
+
+		static var staticAccountId = ${accountId};
+
+		return ${staticAccountId};
+	}
+
+	macro tearDownAllAccounts {
+		var response = AccountAPI.getAccounts();
+
+		var accountIds = JSONUtil.getWithJSONPath(${response}, "$..items[*].id");
+
+		for (var accountId : list ${accountIds}) {
+			AccountAPI.deleteAccount(accountId = ${accountId});
+		}
+	}
+
+}

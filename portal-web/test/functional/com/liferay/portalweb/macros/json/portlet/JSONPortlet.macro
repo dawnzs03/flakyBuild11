@@ -1,0 +1,11 @@
+definition {
+
+	macro hasPortlet {
+		Variables.assertDefined(parameterList = ${portletId});
+
+		var result = JSONPortletAPI._hasPortlet(portletId = ${portletId});
+
+		return ${result};
+	}
+
+}
