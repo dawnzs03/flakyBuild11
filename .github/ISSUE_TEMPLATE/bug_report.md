@@ -7,31 +7,20 @@ assignees: ''
 
 ---
 
+**Read the documentation**
+Read the documentation, especially the [troubleshooting](https://github.com/lukas-krecan/ShedLock#troubleshooting) section.
+
+Update to the latest version.
+
 **Describe the bug**
-A clear and concise description of what the bug is.
+1. Which version do you use
+2. Which Lock Provider
+3. ShedLock configuration
+4. ShedLock logs
 
-**Client Version**
-e.g. `11.0.1`
-
-**Kubernetes Version**
-e.g. `1.19.3`
-
-**Java Version**
-e.g. Java 8
-
-**To Reproduce**
-Steps to reproduce the behavior:
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**KubeConfig**
-If applicable, add a KubeConfig file with secrets redacted.
-
-**Server (please complete the following information):**
- - OS: [e.g. Linux]
- - Environment [e.g. container]
- - Cloud [e.g. Azure]
-
-**Additional context**
-Add any other context about the problem here.
+**Actual behavior**
+What happened instead.
