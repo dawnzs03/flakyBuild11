@@ -386,7 +386,7 @@ public:
 		, freeSizeThresholdForSurvivor(DEFAULT_SURVIVOR_THRESHOLD)
 		, recycleRemainders(true)
 		, continuationListOption(enable_continuation_list)
-		, timingAddContinuationInList(onCreated)
+		, timingAddContinuationInList(onStarted)
 	{
 		_typeId = __FUNCTION__;
 	}
