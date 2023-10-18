@@ -1,0 +1,14 @@
+{
+    "annotated":[
+    ],
+    "class-hierarchy": [
+        "jakarta.ws.rs.client.ClientBuilder",
+        "jakarta.ws.rs.client.ClientRequestFilter",
+        "jakarta.ws.rs.client.ClientResponseFilter",
+        "jakarta.ws.rs.client.RxInvokerProvider"
+    ],
+    "classes": [
+    ],
+    "exclude": [
+    ]
+}
