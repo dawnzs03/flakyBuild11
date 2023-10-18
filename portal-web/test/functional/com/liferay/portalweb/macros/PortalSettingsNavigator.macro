@@ -1,7 +1,0 @@
-definition {
-
-	macro expandAuthenticationPanel {
-		Panel.expandPanel(panel = "Authentication");
-	}
-
-}

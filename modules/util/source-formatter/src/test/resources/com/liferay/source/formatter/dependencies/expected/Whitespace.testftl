@@ -1,5 +1,0 @@
-<#if testA>
-	<#assign test = "test" />
-
-	<@displayPortlet />
-</#if>

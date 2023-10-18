@@ -1,5 +1,0 @@
-dependencies {
-	testIntegrationImplementation project(":apps:portal-background-task:portal-background-task-api")
-	testIntegrationImplementation project(":apps:portal-background-task:portal-background-task-service")
-	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
-}

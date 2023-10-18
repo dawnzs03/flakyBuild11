@@ -1,7 +1,0 @@
-buildscript {
-	apply from: file("../modules/build-buildscript.gradle"), to: buildscript
-}
-
-apply plugin: "com.liferay.tlddoc.builder"
-
-apply from: "../modules/build-portal.gradle"

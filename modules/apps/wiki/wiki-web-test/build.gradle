@@ -1,6 +1,0 @@
-dependencies {
-	testIntegrationImplementation project(":apps:export-import:export-import-test-util")
-	testIntegrationImplementation project(":apps:wiki:wiki-api")
-	testIntegrationImplementation project(":apps:wiki:wiki-test-util")
-	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
-}

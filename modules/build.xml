@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE project>
-
-<project>
-	<import file="build-common.xml" />
-
-	<import file="build-app.xml" />
-</project>

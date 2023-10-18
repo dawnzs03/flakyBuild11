@@ -1,5 +1,0 @@
-dependencies {
-	testIntegrationImplementation project(":apps:marketplace:marketplace-api")
-	testIntegrationImplementation project(":apps:marketplace:marketplace-service")
-	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
-}

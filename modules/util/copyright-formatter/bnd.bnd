@@ -1,4 +1,0 @@
-Bundle-Name: Liferay Copyright Formatter
-Bundle-SymbolicName: com.liferay.copyright.formatter
-Bundle-Version: 1.0.1
-Main-Class: com.liferay.copyright.formatter.CopyrightFormatter

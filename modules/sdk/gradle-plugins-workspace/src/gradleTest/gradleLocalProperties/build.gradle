@@ -1,7 +1,0 @@
-task runGradleTest
-
-runGradleTest {
-	doLast {
-		assert project.property("key1") == "test1"
-	}
-}
