@@ -1,123 +1,85 @@
-# Reactor Netty
+# Apache Gobblin 
+[![Build Status](https://github.com/apache/gobblin/actions/workflows/build_and_test.yaml/badge.svg?branch=master)](https://travis-ci.org/apache/gobblin)
+[![Documentation Status](https://readthedocs.org/projects/gobblin/badge/?version=latest)](https://gobblin.readthedocs.org/en/latest/?badge=latest)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.gobblin/gobblin-api/badge.svg)](https://search.maven.org/search?q=g:org.apache.gobblin)
+[![Stack Overflow](http://img.shields.io/:stack%20overflow-gobblin-brightgreen.svg)](http://stackoverflow.com/questions/tagged/gobblin)
+[![Join us on Slack](https://img.shields.io/badge/slack-apache--gobblin-brightgreen.svg)]( https://join.slack.com/t/apache-gobblin/shared_invite/zt-vqgdztup-UUq8S6gGJqE6L5~9~JelNg)
+[![codecov.io](https://codecov.io/github/apache/gobblin/branch/master/graph/badge.svg)](https://codecov.io/github/apache/gobblin)
 
-[![Join the chat at https://gitter.im/reactor/reactor-netty](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/reactor/reactor-netty)
+Apache Gobblin is a highly scalable data management solution for structured and byte-oriented data in heterogeneous data ecosystems. 
 
-[![Reactor Netty](https://img.shields.io/maven-central/v/io.projectreactor.netty/reactor-netty.svg?colorB=brightgreen)](https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty)
+### Capabilities
+- Ingestion and export of data from a variety of sources and sinks into and out of the data lake. Gobblin is optimized and designed for ELT patterns with inline transformations on ingest (small t).
+- Data Organization within the lake (e.g. compaction, partitioning, deduplication)
+- Lifecycle Management of data within the lake (e.g. data retention)
+- Compliance Management of data across the ecosystem (e.g. fine-grain data deletions)
 
-[![publish](https://github.com/reactor/reactor-netty/actions/workflows/publish.yml/badge.svg)](https://github.com/reactor/reactor-netty/actions/workflows/publish.yml) [![CodeQL](https://github.com/reactor/reactor-netty/workflows/CodeQL/badge.svg?event=push)](https://github.com/reactor/reactor-netty/actions?query=workflow%3ACodeQL)
+### Highlights
+- Battle tested at scale: Runs in production at petabyte-scale at companies like LinkedIn, PayPal, Verizon etc.
+- Feature rich: Supports task partitioning, state management for incremental processing, atomic data publishing, data quality checking, job scheduling, fault tolerance etc.
+- Supports stream and batch execution modes 
+- Control Plane (Gobblin-as-a-service) supports programmatic triggering and orchestration of data plane operations. 
 
-`Reactor Netty` offers non-blocking and backpressure-ready `TCP`/`HTTP`/`UDP`/`QUIC`
-clients & servers based on `Netty` framework.
-
-## Getting it
-`Reactor Netty` requires Java 8 or + to run.
-
-With `Gradle` from [repo.spring.io](https://repo.spring.io) or `Maven Central` repositories (stable releases only):
-
-```groovy
-    repositories {
-      //maven { url 'https://repo.spring.io/snapshot' }
-      maven { url 'https://repo.spring.io/milestone' }
-      mavenCentral()
-    }
-
-    dependencies {
-      //compile "io.projectreactor.netty:reactor-netty-core:1.0.37-SNAPSHOT"
-      compile "io.projectreactor.netty:reactor-netty-core:1.0.36"
-      //compile "io.projectreactor.netty:reactor-netty-http:1.0.37-SNAPSHOT"
-      compile "io.projectreactor.netty:reactor-netty-http:1.0.36"
-    }
-```
-
-See the [Reference documentation](https://projectreactor.io/docs/netty/release/reference/index.html#getting)
-for more information on getting it (eg. using `Maven`, or on how to get milestones and snapshots).
+### Common Patterns used in production
+- Stream / Batch ingestion of Kafka to Data Lake (HDFS, S3, ADLS)
+- Bulk-loading serving stores from the Data Lake (e.g. HDFS -> Couchbase)
+- Support for data sync across Federated Data Lake (HDFS <-> HDFS, HDFS <-> S3, S3 <-> ADLS)
+- Integrate external vendor API-s (e.g. Salesforce, Dynamics etc.) with data store (HDFS, Couchbase etc)
+- Enforcing Data retention policies and GDPR deletion on HDFS / ADLS
 
 
-## Getting Started
-New to `Reactor Netty`? Check this [Reactor Netty Workshop](https://violetagg.github.io/reactor-netty-workshop/)
-and the [Reference documentation](https://projectreactor.io/docs/netty/release/reference/index.html)
+### Apache Gobblin is NOT
+- A general purpose data transformation engine like Spark or Flink. Gobblin can delegate complex-data processing tasks to Spark, Hive etc. 
+- A data storage system like Apache Kafka or HDFS. Gobblin integrates with these systems as sources or sinks. 
+- A general-purpose workflow execution system like Airflow, Azkaban, Dagster, Luigi. 
 
-Here is a very simple `HTTP` server and the corresponding `HTTP` client example
 
-```java
-HttpServer.create()   // Prepares an HTTP server ready for configuration
-          .port(0)    // Configures the port number as zero, this will let the system pick up
-                      // an ephemeral port when binding the server
-          .route(routes ->
-                      // The server will respond only on POST requests
-                      // where the path starts with /test and then there is path parameter
-                  routes.post("/test/{param}", (request, response) ->
-                          response.sendString(request.receive()
-                                                     .asString()
-                                                     .map(s -> s + ' ' + request.param("param") + '!')
-                                                     .log("http-server"))))
-          .bindNow(); // Starts the server in a blocking fashion, and waits for it to finish its initialization
-```
+# Requirements
+* Java >= 1.8
 
-```java
-HttpClient.create()             // Prepares an HTTP client ready for configuration
-          .port(server.port())  // Obtains the server's port and provides it as a port to which this
-                                // client should connect
-          .post()               // Specifies that POST method will be used
-          .uri("/test/World")   // Specifies the path
-          .send(ByteBufFlux.fromString(Flux.just("Hello")))  // Sends the request body
-          .responseContent()    // Receives the response body
-          .aggregate()
-          .asString()
-          .log("http-client")
-          .block();
+If building the distribution with tests turned on:
+* Maven version 3.5.3 
+
+# Instructions to download gradle wrapper
+If you are going to build Gobblin from the source distribution,
+run the following command for downloading the gradle-wrapper.jar from Gobblin git repository to gradle/wrapper directory
+(replace GOBBLIN_VERSION in the URL with the version you downloaded).
 
 ```
-
-## Getting help
-Having trouble with `Reactor Netty`? We'd like to help!
-* If you are upgrading, read the [release notes](https://github.com/reactor/reactor-netty/releases)
-  for upgrade instructions and *new and noteworthy* features.
-* Ask a question - we monitor [stackoverflow.com](https://stackoverflow.com) for questions
-  tagged with [`reactor-netty`](https://stackoverflow.com/questions/tagged/reactor-netty). You can also chat
-  with the community on [Gitter](https://gitter.im/reactor/reactor-netty).
-* Report bugs with `Reactor Netty` at [github.com/reactor/reactor-netty/issues](https://github.com/reactor/reactor-netty/issues).
-* More about [Support and Deprecation policies](https://github.com/reactor/.github/blob/main/SUPPORT.adoc)
-
-## Reporting Issues
-`Reactor Netty` uses `GitHub’s` integrated issue tracking system to record bugs and feature requests.
-If you want to raise an issue, please follow the recommendations below:
-* Before you log a bug, please [search the issue tracker](https://github.com/reactor/reactor-netty/search?type=Issues)
-  to see if someone has already reported the problem.
-* If the issue doesn't already exist, [create a new issue](https://github.com/reactor/reactor-netty/issues/new/choose).
-* Please provide as much information as possible with the issue report, we like to know
-  the version of `Reactor Netty` that you are using, as well as your `Operating System` and
-  `JVM` version.
-* If you want to raise a security vulnerability, please review our [Security Policy](https://github.com/reactor/reactor-netty/security/policy) for more details.
-
-## Contributing
-See our [Contributing Guide](https://github.com/reactor/.github/blob/main/CONTRIBUTING.md) for information about contributing to `Reactor Netty`.
-
-## Building from Source
-You don't need to build from source to use `Reactor Netty` (binaries in
-[repo.spring.io](https://repo.spring.io)), but if you want to try out the latest and
-greatest, `Reactor Netty` can be easily built with the
-[gradle wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html). You also need JDK 1.8.
-
-```shell
-$ git clone https://github.com/reactor/reactor-netty.git
-$ cd reactor-netty
-$ ./gradlew build
+wget --no-check-certificate -P gradle/wrapper https://github.com/apache/gobblin/raw/${GOBBLIN_VERSION}/gradle/wrapper/gradle-wrapper.jar
+```
+(or)
+```
+curl --insecure -L https://github.com/apache/gobblin/raw/${GOBBLIN_VERSION}/gradle/wrapper/gradle-wrapper.jar > gradle/wrapper/gradle-wrapper.jar
 ```
 
-If you want to publish the artifacts to your local `Maven` repository use:
+Alternatively, you can download it manually from:
+`https://github.com/apache/gobblin/blob/${GOBBLIN_VERSION}/gradle/wrapper/gradle-wrapper.jar`
 
-```shell
-$ ./gradlew publishToMavenLocal
-```
+Make sure that you download it to gradle/wrapper directory.
 
-## Javadoc
-https://projectreactor.io/docs/netty/release/api/
+# Instructions to run Apache RAT (Release Audit Tool)
+1. Extract the archive file to your local directory.
+2. Run `./gradlew rat`. Report will be generated under build/rat/rat-report.html
 
-## Guides
+# Instructions to build the distribution
+1. Extract the archive file to your local directory.
+2. Skip tests and build the distribution: 
+Run `./gradlew build -x findbugsMain -x test -x rat -x checkstyleMain` 
+The distribution will be created in build/gobblin-distribution/distributions directory.
+(or)
+3. Run tests and build the distribution (requires Maven): 
+Run `./gradlew build` 
+The distribution will be created in build/gobblin-distribution/distributions directory.
 
-* https://projectreactor.io/docs/netty/release/reference/index.html
-* https://violetagg.github.io/reactor-netty-workshop/
+# Quick Links
 
-## License
-`Reactor Netty` is Open Source Software released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+  * [Gobblin documentation](https://gobblin.apache.org/docs/)
+    * [Running Gobblin on Docker from your laptop](https://github.com/apache/gobblin/blob/master/gobblin-docs/user-guide/Docker-Integration.md)
+    * [Getting started guide](https://gobblin.apache.org/docs/Getting-Started/)
+    * [Gobblin architecture](https://gobblin.apache.org/docs/Gobblin-Architecture/)
+  * Community Slack: [Get your invite](https://join.slack.com/t/apache-gobblin/shared_invite/zt-1bjgp38mq-ZLozP9rEic6Odvhxoqtbkg)
+  * [List of companies known to use Gobblin](https://gobblin.apache.org/docs/Powered-By/) 
+  * [Sample project](https://github.com/apache/gobblin/tree/master/gobblin-example)
+  * [How to build Gobblin from source code](https://gobblin.apache.org/docs/user-guide/Building-Gobblin/)
+  * [Issue tracker - Apache Jira](https://issues.apache.org/jira/projects/GOBBLIN/issues/)
