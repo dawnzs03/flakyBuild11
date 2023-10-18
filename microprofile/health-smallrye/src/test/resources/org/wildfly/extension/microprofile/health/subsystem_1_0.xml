@@ -1,1 +1,0 @@
-<subsystem xmlns="urn:wildfly:microprofile-health-smallrye:1.0" security-enabled="${security-enabled:true}"/>

@@ -1,7 +1,0 @@
-<suite name="MicroProfile TCKs" verbose="1" preserve-order="true" configfailurepolicy="continue">
-    <test name="microprofile-telemetry">
-        <packages>
-            <package name="org.eclipse.microprofile.telemetry.tracing.tck.*"/>
-        </packages>
-    </test>
-</suite>

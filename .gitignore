@@ -1,60 +1,40 @@
-# ignore .svn metadata files
-.svn
-# ignore Maven generated target folders
-~
-target
-# ignore downloaded maven
-/tools/maven
-/tools/maven.zip
-/tools/wrapper
-# ignore eclipse files
-.project
-.classpath
-.settings
-.metadata
-.checkstyle
-# ignore m2e annotation processing files
-.factorypath
-# ignore IDEA files
+#Ignore all dot files
+# Warning!
+# Make sure that .npmignore is the same as this, BUT DOES NOT CONTAIN "dist"
+
+node_modules/
+npm-debug.log
+.DS_Store
+.idea/
+.idea.*/
 *.iml
+nbactions.xml
 *.ipr
 *.iws
-.idea
-# ignore NetBeans files
-nbactions.xml
-nb-configuration.xml
-catalog.xml
-#
-maven-ant-tasks.jar
-test-output
-transaction.log
-# vim files
-*.swp
-/.gitk-tmp.*
-atlassian-ide-plugin.xml
-# temp files
+target
 *~
-# maven versions plugin
-pom.xml.versionsBackup
-# hprof dumps
-/*.hprof
-# ignore 'randomly' strewn around logs
-server.log
-# ignore java crashes
-hs_err_pid*.log
-# H2 databases produced by tests
-*.h2.db
-# JBoss transaction generated files
-PutObjectStoreDirHere
-# ignore mvn-rpmbuild repo
-/.m2
-# ignore eap repo
-local-repo-eap
-# ignore the build metadata created by the build metadata plugin
-build.metadata
-#These keep hanging around
-arquillian/*/server.log*
-client/shade/dependency-reduced-pom.xml
-
-#OS X stuff
-.DS_Store
+node
+node_modules
+work
+app.properties
+npm-debug.log*
+.settings
+.project
+.classpath
+blueocean-web/src/main/webapp/assets
+.build_container
+.watch_trigger
+.vscode
+jsconfig.json
+blueocean-core-js/nohup.out
+dist
+reports
+/website/storybook
+/website/component-docs/doc*
+/website-build
+acceptance-tests/runner/.blueocean-ath-jenkins-url
+acceptance-tests/live.properties
+src/main/groovy/pipeline.gdsl
+nb-configuration.xml
+nbactions.xml
+out

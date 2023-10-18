@@ -1,1 +1,0 @@
-root.management.'audit-log'.appendNode { 'foo'('bar') }

@@ -1,8 +1,0 @@
-package org.jboss.as.ejb3.component.session;
-
-/**
- * @TypeId(361)
- */
-message StatelessSerializedProxy {
-	optional	string	viewName	 = 1;
-}

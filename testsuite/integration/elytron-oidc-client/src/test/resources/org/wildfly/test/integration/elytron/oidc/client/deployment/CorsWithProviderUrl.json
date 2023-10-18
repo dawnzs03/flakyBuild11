@@ -1,8 +1,0 @@
-{
-    "client-id" : "DirectAccessGrantEnabledClient",
-    "public-client" : "false",
-    "provider-url" : "${oidc.provider.url}",
-    "ssl-required" : "EXTERNAL",
-    "enable-cors" : "true",
-    "bearer-only" : "true"
-}

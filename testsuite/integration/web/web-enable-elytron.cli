@@ -1,5 +1,0 @@
-embed-server --server-config=standalone.xml
-
-/subsystem=undertow/application-security-domain=other:add(security-domain=ApplicationDomain)
-
-stop-embedded-server

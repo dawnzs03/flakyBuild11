@@ -1,7 +1,0 @@
-package com.sun.faces.context.flash;
-
-/**
- * @TypeId(510)
- */
-message SessionHelper {
-}

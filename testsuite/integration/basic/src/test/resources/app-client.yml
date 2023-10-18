@@ -1,6 +1,0 @@
-wildfly-configuration:
-  system-property:
-    aaa: 
-      value: foo
-    bbb:
-      value: bar
