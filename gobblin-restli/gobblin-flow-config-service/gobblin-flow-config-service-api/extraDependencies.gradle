@@ -1,3 +1,0 @@
-dependencies {
-  compile externalDependency.quartz
-}

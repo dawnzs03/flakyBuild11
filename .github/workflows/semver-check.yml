@@ -1,0 +1,19 @@
+name: Semver Check
+
+on:
+  push:
+    branches: [ firebase-android-sdk ]
+
+
+
+
+
+jobs:
+  semver-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+
+      - name: Perform gradle build
+        run: |
+          ./gradlew semverCheckForRelease

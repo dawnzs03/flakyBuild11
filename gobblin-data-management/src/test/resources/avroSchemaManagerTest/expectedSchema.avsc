@@ -1,1 +1,0 @@
-{"type":"record","name":"baseRecord","fields":[{"name":"foo","type":["null","int"],"default":null}]}

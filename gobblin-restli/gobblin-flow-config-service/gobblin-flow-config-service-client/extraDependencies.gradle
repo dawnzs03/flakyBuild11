@@ -1,4 +1,0 @@
-dependencies {
-  compile externalDependency.pegasus.r2Netty
-  testCompile project(":gobblin-runtime")
-}
