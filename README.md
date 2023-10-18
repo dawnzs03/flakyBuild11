@@ -1,126 +1,35 @@
-<p align="center">
-    <img src="./etc/images/Primary_logo_blue.png">
-</p>
-<p align="center">
-    <a href="https://github.com/oracle/helidon/tags">
-        <img src="https://img.shields.io/github/tag/oracle/helidon.svg" alt="latest version">
-    </a>
-    <a href="https://github.com/oracle/helidon/issues">
-        <img src="https://img.shields.io/github/issues/oracle/helidon.svg" alt="latest version">
-    </a>
-    <a href="https://twitter.com/intent/follow?screen_name=helidon_project">
-        <img src="https://img.shields.io/twitter/follow/helidon_project.svg?style=social&logo=twitter" alt="follow on Twitter">
-    </a>
-</p>
+# Kubernetes Java Client
 
-# Helidon: Java Libraries for Microservices
+[![build](https://github.com/kubernetes-client/java/workflows/build/badge.svg)](https://github.com/kubernetes-client/java/actions/workflows/maven.yml)
+[![Client Capabilities](https://img.shields.io/badge/Kubernetes%20client-Silver-blue.svg?style=flat&colorB=C0C0C0&colorA=306CE8)](https://bit.ly/kubernetes-client-capabilities-badge)
+[![Client Support Level](https://img.shields.io/badge/kubernetes%20client-beta-green.svg?style=flat&colorA=306CE8)](https://bit.ly/kubernetes-client-support-badge)
+[![Maven Central](https://img.shields.io/maven-central/v/io.kubernetes/client-java.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.kubernetes%22%20AND%20a:%22client-java%22)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.kubernetes/client-java?label=Maven%20Snapshot&server=https%3A%2F%2Foss.sonatype.org)
 
-Project Helidon is a set of Java Libraries for writing microservices.
-Helidon supports two programming models:
+Java client for the [kubernetes](https://kubernetes.io/) API.
 
-* Helidon MP: [MicroProfile](https://microprofile.io/) 5.0
-* Helidon SE: a small, functional style API
+## To start using Kubernetes Java Client
 
-In either case your application is just a Java SE program.
+See the wiki page and documentation [here](https://github.com/kubernetes-client/java/wiki).
 
-## License
+- [Installation](https://github.com/kubernetes-client/java/wiki/1.-Installation)
+- [Client Versioning and Compatibility](https://github.com/kubernetes-client/java/wiki/2.-Versioning-and-Compatibility)
+- [Code Examples](https://github.com/kubernetes-client/java/wiki/3.-Code-Examples)
 
-Helidon is available under Apache License 2.0.
+## Development
 
-## Documentation
+- [Development and Contributing](https://github.com/kubernetes-client/java/wiki/4.-Development-and-Contributing)
+- [Generate Java CRD Models](https://github.com/kubernetes-client/java/wiki/5.-Generate-Java-CRD-Model)
+- [Known Issues](https://github.com/kubernetes-client/java/wiki/6.-Known-Issues)
+- [Troubleshooting/FAQ](https://github.com/kubernetes-client/java/wiki/7.-FAQ)
 
-Latest documentation and javadocs are available at <https://helidon.io/docs/latest>.
+## Support
 
-Helidon White Paper is available [here](https://www.oracle.com/a/ocom/docs/technical-brief--helidon-report.pdf).
+If you need support, start with checking whether you're hitting known issues. If that doesn't work, please [open an issue](https://github.com/kubernetes-client/java/issues/new)
+to describe the cases. Additionally, before you file an issue, please search [existing issues](https://github.com/kubernetes-client/java/issues)
+to see if your issue is 
+already covered.
 
+You can also reach out to us via [#kubernetes-client](https://kubernetes.slack.com/messages/kubernetes-clients/) slack 
+channel.
 
-## Get Started
-
-See Getting Started at <https://helidon.io>.
-
-## Downloads / Accessing Binaries
-
-There are no Helidon downloads. Just use our Maven releases (GroupID `io.helidon`).
-See Getting Started at <https://helidon.io>. 
-
-## Helidon CLI
-
-MacOS:
-```bash
-curl -O https://helidon.io/cli/latest/darwin/helidon
-chmod +x ./helidon
-sudo mv ./helidon /usr/local/bin/
-```
-
-Linux:
-```bash
-curl -O https://helidon.io/cli/latest/linux/helidon
-chmod +x ./helidon
-sudo mv ./helidon /usr/local/bin/
-```
-
-Windows:
-```bat
-PowerShell -Command Invoke-WebRequest -Uri "https://helidon.io/cli/latest/windows/helidon.exe" -OutFile "C:\Windows\system32\helidon.exe"
-```
-
-See this [document](HELIDON-CLI.md) for more info.
-
-## Build
-
-You need JDK 17+ to build Helidon.
-
-You also need Maven. We recommend 3.6.1 or newer.
-
-Building the documentation requires the `dot` utility from Graphviz.
-This is included in many Linux distributions. For other platforms
-see <https://www.graphviz.org/>.
-
-**Full build**
-```bash
-$ mvn install
-```
-
-**Checkstyle**
-```bash
-# Cd to the component you want to check
-$ mvn validate  -Pcheckstyle
-```
-
-**Copyright**
-
-```bash
-# Cd to the component you want to check
-$ mvn validate  -Pcopyright
-```
-
-**Spotbugs**
-
-```bash
-# Cd to the component you want to check
-$ mvn verify  -Pspotbugs
-```
-
-**Build Scripts**
-
-Build scripts are located in `etc/scripts`. These are primarily used by our pipeline,
-but a couple are handy to use on your desktop to verify your changes. 
-
-* `copyright.sh`: Run a full copyright check
-* `checkstyle.sh`: Run a full style check
-
-## Get Help
-
-* See the [Helidon FAQ](https://github.com/oracle/helidon/wiki/FAQ)
-* Ask questions on Stack Overflow using the [helidon tag](https://stackoverflow.com/tags/helidon)
-* Join us on Slack: [#helidon-users](http://slack.helidon.io)
-
-## Get Involved
-
-* Learn how to [contribute](CONTRIBUTING.md)
-* See [issues](https://github.com/oracle/helidon/issues) for issues you can help with
-
-## Stay Informed
-
-* Twitter: [@helidon_project](https://twitter.com/helidon_project)
-* Blog: [Helidon on Medium](https://medium.com/helidon)

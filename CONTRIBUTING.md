@@ -1,42 +1,24 @@
+# Contributing
 
-# Contributing to Project Helidon
+Thanks for taking the time to join our community and start contributing!
 
-We welcome your contributions! There are multiple ways to contribute.
+Please remember to read and observe the [Code of Conduct](https://github.com/cncf/foundation/blob/master/code-of-conduct.md).
 
-## Discussion
+This  project accepts contribution via github [pull requests](https://help.github.com/articles/about-pull-requests/).
+This document outlines the process to help get your contribution accepted.
+Please also read the [Kubernetes contributor guide](https://github.com/kubernetes/community/blob/master/contributors/guide/README.md).
 
-Join us at [#helidon-users](http://slack.helidon.io) and participate in discussions.
+## Sign the Contributor License Agreement
+We'd love to accept your patches! Before we can accept them you need to sign Cloud Native Computing Foundation (CNCF) [CLA](https://github.com/kubernetes/community/blob/master/CLA.md).
 
-## Issues
+## Reporting an issue
+If you have any problem with the package or any suggestions, please file an [issue](https://github.com/kubernetes-client/java/issues).
 
-If you hit a bug or have an enhancement request then file a [GitHub issue](https://github.com/oracle/helidon/issues).
-When filing a bug remember that the better written the bug is, the more likely it is
-to be fixed. Please include:
+## Contributing a Patch
+1. Submit an issue describing your proposed change to the repo.
+2. Fork this repo, develop and test your code changes.
+3. Submit a pull request.
+4. The bot will automatically assign someone to review your PR. Check the full list of bot commands [here](https://prow.k8s.io/command-help).
 
-1. Version of Helidon
-2. Whether you are writing a Helidon SE or MP application
-3. OS
-4. Version of Docker or Kubernetes or other software if it's relevant to your issue
-5. Steps to reproduce
-
-## Code
-
-We welcome code contributions, but we need the contributor to sign the
-[Oracle Contributor Agreement (OCA)](https://oca.opensource.oracle.com)
-first.
-
-The process:
-
-0. Sign the [OCA](https://oca.opensource.oracle.com)
-1. Fork the repo
-2. Fix an issue or create an issue and fix it
-3. Create a Pull Request that fixes the issue. Follow [DEV-GUIDELINES](DEV-GUIDELINES.md) for a list of rules and best practices followed by project Helidon.
-4. Watch your PR for pipeline results. If there are failures then fix them.
-5. We will review your PR and merge as appropriate.
-
-## Code of Conduct
-
-Follow the [Golden Rule](https://en.wikipedia.org/wiki/Golden_Rule). If
-you'd like more specific guidelines see the
-[Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html)
-
+### Contact
+You can reach the maintainers of this project at [SIG API Machinery](https://github.com/kubernetes/community/tree/master/sig-api-machinery) or on the [#kubernetes-client](https://kubernetes.slack.com/messages/kubernetes-client) channel on the Kubernetes slack.
