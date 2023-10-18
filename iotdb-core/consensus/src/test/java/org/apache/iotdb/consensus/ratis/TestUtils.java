@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -299,12 +300,11 @@ public class TestUtils {
         FileUtils.deleteFully(storage);
       }
       stateMachines.clear();
-      servers.clear();
     }
 
     void restart() throws IOException {
       logger.info("start restarting the mini cluster");
-      // clear the servers and rebuild them
+      isStopped.set(false);
       servers.clear();
       stateMachines.clear();
       for (int i = 0; i < replicas; i++) {
@@ -356,10 +356,12 @@ public class TestUtils {
   }
 
   static class MiniClusterFactory {
-    private final int replicas = 3;
-    private final ConsensusGroupId gid = new DataRegionId(1);
-    private final Function<Integer, File> peerStorageProvider =
-        peerId -> new File("target" + java.io.File.separator + peerId);
+    private int replicas = 3;
+    private ConsensusGroupId gid = new DataRegionId(1);
+    private Function<Integer, File> peerStorageProvider =
+        peerId ->
+            new File(
+                "target" + java.io.File.separator + UUID.randomUUID() + File.separator + peerId);
 
     private Supplier<IStateMachine> smProvider = TestUtils.IntegerCounter::new;
     private RatisConfig ratisConfig;
