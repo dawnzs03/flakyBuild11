@@ -18,7 +18,6 @@ import hudson.model.Job;
 import hudson.model.ParametersAction;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
-import hudson.model.Queue;
 import hudson.model.Result;
 import hudson.model.Run;
 import hudson.model.StringParameterDefinition;
@@ -548,10 +547,6 @@ public class PipelineApiTest extends BaseTest {
         b2.doStop();
         j.assertBuildStatus(Result.ABORTED, j.waitForCompletion(b1));
         j.assertBuildStatus(Result.ABORTED, j.waitForCompletion(b2));
-        for (Queue.Item i : j.jenkins.getQueue().getItems()) {
-            j.jenkins.getQueue().cancel(i);
-        }
-        j.waitUntilNoActivity();
     }
 
     @Test
