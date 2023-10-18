@@ -1,7 +1,6 @@
-
                                  Apache License
                            Version 2.0, January 2004
-                        https://www.apache.org/licenses/
+                        http://www.apache.org/licenses/
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
@@ -193,10 +192,98 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       https://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+--------------------------------------------------------------------------------
+                           APACHE IOTDB SUBCOMPONENTS
+--------------------------------------------------------------------------------
+
+The following class is copied from maven-wrapper (https://github.com/takari/maven-wrapper),
+which is under Apache License 2.0:
+
+mvnw files from https://github.com/apache/maven-wrapper Apache 2.0
+
+--------------------------------------------------------------------------------
+
+The following class is modified from Apache commons-collections
+
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/utils/Murmur128Hash.java
+Relevant pr is: https://github.com/apache/commons-collections/pull/83/
+
+--------------------------------------------------------------------------------
+
+The following files include code modified from Michael Burman's gorilla-tsc project.
+
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/encoder/GorillaEncoderV2.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/encoder/IntGorillaEncoder.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/encoder/LongGorillaEncoder.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/encoder/SinglePrecisionEncoderV2.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/encoder/DoublePrecisionEncoderV2.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/decoder/GorillaDecoderV2.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/decoder/IntGorillaDecoder.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/decoder/LongGorillaDecoder.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/decoder/SinglePrecisionDecoderV2.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/encoding/decoder/DoublePrecisionDecoderV2.java
+
+Copyright: 2016-2018 Michael Burman and/or other contributors
+Project page: https://github.com/burmanm/gorilla-tsc
+License: http://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+
+The following files include code modified from Apache HBase project.
+
+./iotdb-core/confignode/src/main/java/org/apache/iotdb/procedure/Procedure.java
+./iotdb-core/confignode/src/main/java/org/apache/iotdb/procedure/ProcedureExecutor.java
+./iotdb-core/confignode/src/main/java/org/apache/iotdb/procedure/StateMachineProcedure.java
+./iotdb-core/confignode/src/main/java/org/apache/iotdb/procedure/TimeoutExecutorThread.java
+./iotdb-core/confignode/src/main/java/org/apache/iotdb/procedure/StoppableThread.java
+
+Copyright: 2016-2018 Michael Burman and/or other contributors
+Project page: https://github.com/burmanm/gorilla-tsc
+License: http://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+
+The following files include code modified from Eclipse Collections project.
+
+./tsfile/src/main/java/org/apache/iotdb/tsfile/utils/ByteArrayList.java
+
+Copyright: 2021 Goldman Sachs
+Project page: https://www.eclipse.org/collections
+License: https://github.com/eclipse/eclipse-collections/blob/master/LICENSE-EDL-1.0.txt
+
+--------------------------------------------------------------------------------
+
+The following files include code modified from Micrometer project.
+
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/jvm/JvmClassLoaderMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/jvm/JvmCompileMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/jvm/JvmGcMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/jvm/JvmMemoryMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/jvm/JvmThreadMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/predefined/logback/LogbackMetrics
+./iotdb-core/metrics/interface/src/main/java/org/apache/iotdb/metrics/utils/JvmUtils
+
+Copyright: 2017 VMware
+Project page: https://github.com/micrometer-metrics/micrometer
+License: https://github.com/micrometer-metrics/micrometer/blob/main/LICENSE
+
+--------------------------------------------------------------------------------
+
+The following files include code modified from Trino project(https://github.com/trinodb/trino),
+which is under Apache License 2.0:
+
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/execution/QueryState.java
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/execution/StateMachine.java
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/execution/driver/Driver.java
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/execution/fragment/FragmentInstanceState.java
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/execution/fragment/FragmentInstanceStateMachine.java
+./iotdb-core/datanode/src/main/java/org/apache/iotdb/db/queryengine/plan/planner/LocalExecutionPlanner.java
+./iotdb-core/tsfile/src/main/java/org/apache/iotdb/tsfile/read/common/block/*
