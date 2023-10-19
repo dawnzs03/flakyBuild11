@@ -16,6 +16,7 @@
 package software.amazon.awssdk.core.async;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,53 +41,19 @@ import software.amazon.awssdk.utils.StringUtils;
 
 class ChunkBufferTest {
 
-    @ParameterizedTest
-    @ValueSource(ints = {1, 6, 10, 23, 25})
-    void numberOfChunk_Not_MultipleOfTotalBytes_KnownLength(int totalBytes) {
-        int bufferSize = 5;
-
-        String inputString = RandomStringUtils.randomAscii(totalBytes);
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(bufferSize)
-                                             .totalBytes(inputString.getBytes(StandardCharsets.UTF_8).length)
-                                             .build();
-        Iterable<ByteBuffer> byteBuffers =
-            chunkBuffer.split(ByteBuffer.wrap(inputString.getBytes(StandardCharsets.UTF_8)));
-
-        AtomicInteger index = new AtomicInteger(0);
-        int count = (int) Math.ceil(totalBytes / (double) bufferSize);
-        int remainder = totalBytes % bufferSize;
-
-        byteBuffers.forEach(r -> {
-            int i = index.get();
-
-            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(inputString.getBytes(StandardCharsets.UTF_8))) {
-                byte[] expected;
-                if (i == count - 1 && remainder != 0) {
-                    expected = new byte[remainder];
-                } else {
-                    expected = new byte[bufferSize];
-                }
-                inputStream.skip(i * bufferSize);
-                inputStream.read(expected);
-                byte[] actualBytes = BinaryUtils.copyBytesFrom(r);
-                assertThat(actualBytes).isEqualTo(expected);
-                index.incrementAndGet();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    @Test
+    void builderWithNoTotalSize() {
+        assertThatThrownBy(() -> ChunkBuffer.builder().build()).isInstanceOf(NullPointerException.class);
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 6, 10, 23, 25})
-    void numberOfChunk_Not_MultipleOfTotalBytes_UnknownLength(int totalBytes) {
+    void numberOfChunk_Not_MultipleOfTotalBytes(int totalBytes) {
         int bufferSize = 5;
 
         String inputString = RandomStringUtils.randomAscii(totalBytes);
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(bufferSize)
-                                             .build();
+        ChunkBuffer chunkBuffer =
+            ChunkBuffer.builder().bufferSize(bufferSize).totalBytes(inputString.getBytes(StandardCharsets.UTF_8).length).build();
         Iterable<ByteBuffer> byteBuffers =
             chunkBuffer.split(ByteBuffer.wrap(inputString.getBytes(StandardCharsets.UTF_8)));
 
@@ -117,12 +83,10 @@ class ChunkBufferTest {
     }
 
     @Test
-    void zeroTotalBytesAsInput_returnsZeroByte_KnownLength() {
+    void zeroTotalBytesAsInput_returnsZeroByte() {
         byte[] zeroByte = new byte[0];
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(5)
-                                             .totalBytes(zeroByte.length)
-                                             .build();
+        ChunkBuffer chunkBuffer =
+            ChunkBuffer.builder().bufferSize(5).totalBytes(zeroByte.length).build();
         Iterable<ByteBuffer> byteBuffers =
             chunkBuffer.split(ByteBuffer.wrap(zeroByte));
 
@@ -134,30 +98,13 @@ class ChunkBufferTest {
     }
 
     @Test
-    void zeroTotalBytesAsInput_returnsZeroByte_UnknownLength() {
-        byte[] zeroByte = new byte[0];
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(5)
-                                             .build();
-        Iterable<ByteBuffer> byteBuffers =
-            chunkBuffer.split(ByteBuffer.wrap(zeroByte));
+    void emptyAllocatedBytes_returnSameNumberOfEmptyBytes() {
 
-        AtomicInteger iteratedCounts = new AtomicInteger();
-        byteBuffers.forEach(r -> {
-            iteratedCounts.getAndIncrement();
-        });
-        assertThat(iteratedCounts.get()).isEqualTo(1);
-    }
-
-    @Test
-    void emptyAllocatedBytes_returnSameNumberOfEmptyBytes_knownLength() {
         int totalBytes = 17;
         int bufferSize = 5;
         ByteBuffer wrap = ByteBuffer.allocate(totalBytes);
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(bufferSize)
-                                             .totalBytes(wrap.remaining())
-                                             .build();
+        ChunkBuffer chunkBuffer =
+            ChunkBuffer.builder().bufferSize(bufferSize).totalBytes(wrap.remaining()).build();
         Iterable<ByteBuffer> byteBuffers =
             chunkBuffer.split(wrap);
 
@@ -172,34 +119,6 @@ class ChunkBufferTest {
             }
         });
         assertThat(iteratedCounts.get()).isEqualTo(4);
-    }
-
-    @Test
-    void emptyAllocatedBytes_returnSameNumberOfEmptyBytes_unknownLength() {
-        int totalBytes = 17;
-        int bufferSize = 5;
-        ByteBuffer wrap = ByteBuffer.allocate(totalBytes);
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(bufferSize)
-                                             .build();
-        Iterable<ByteBuffer> byteBuffers =
-            chunkBuffer.split(wrap);
-
-        AtomicInteger iteratedCounts = new AtomicInteger();
-        byteBuffers.forEach(r -> {
-            iteratedCounts.getAndIncrement();
-            if (iteratedCounts.get() * bufferSize < totalBytes) {
-                // array of empty bytes
-                assertThat(BinaryUtils.copyBytesFrom(r)).isEqualTo(ByteBuffer.allocate(bufferSize).array());
-            } else {
-                assertThat(BinaryUtils.copyBytesFrom(r)).isEqualTo(ByteBuffer.allocate(totalBytes % bufferSize).array());
-            }
-        });
-        assertThat(iteratedCounts.get()).isEqualTo(3);
-
-        Optional<ByteBuffer> lastBuffer = chunkBuffer.getBufferedData();
-        assertThat(lastBuffer).isPresent();
-        assertThat(lastBuffer.get().remaining()).isEqualTo(2);
     }
 
 
@@ -233,16 +152,14 @@ class ChunkBufferTest {
      * 111 is given as output since we consumed all the total bytes*
      */
     @Test
-    void concurrentTreads_calling_bufferAndCreateChunks_knownLength() throws ExecutionException, InterruptedException {
+    void concurrentTreads_calling_bufferAndCreateChunks() throws ExecutionException, InterruptedException {
         int totalBytes = 17;
         int bufferSize = 5;
         int threads = 8;
 
         ByteBuffer wrap = ByteBuffer.allocate(totalBytes);
-        ChunkBuffer chunkBuffer = ChunkBuffer.builder()
-                                             .bufferSize(bufferSize)
-                                             .totalBytes(wrap.remaining() * threads)
-                                             .build();
+        ChunkBuffer chunkBuffer =
+            ChunkBuffer.builder().bufferSize(bufferSize).totalBytes(wrap.remaining() * threads).build();
 
         ExecutorService service = Executors.newFixedThreadPool(threads);
 
@@ -281,4 +198,7 @@ class ChunkBufferTest {
         assertThat(remainderBytesBuffers.get()).isOne();
         assertThat(otherSizeBuffers.get()).isZero();
     }
+
 }
+
+
