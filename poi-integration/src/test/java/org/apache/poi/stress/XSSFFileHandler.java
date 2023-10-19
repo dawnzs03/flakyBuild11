@@ -217,8 +217,6 @@ public class XSSFFileHandler extends SpreadsheetHandler {
         }
 
         handleExtracting(file);
-
-        handleAdditional(file);
     }
 
     @Test
