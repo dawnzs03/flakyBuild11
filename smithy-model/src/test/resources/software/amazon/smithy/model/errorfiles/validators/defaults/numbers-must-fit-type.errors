@@ -1,1 +1,0 @@
-[ERROR] smithy.example#Foo$badByte: Error validating @default trait: byte value must be < 127, but found 1024 | DefaultTrait

@@ -1,8 +1,0 @@
-{
-    "smithy": "2.0",
-    "shapes": {
-        "com.foo#String": {
-            "type": "string"
-        }
-    }
-}

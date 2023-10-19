@@ -1,80 +1,41 @@
-# Contributing Guidelines
+## Contributing to the Plugin
 
-Thank you for your interest in contributing to our project. Whether it's a bug report, new feature, correction, or additional
-documentation, we greatly value feedback and contributions from our community.
+Plugin source code is hosted on [GitHub](https://github.com/jenkinsci/gitlab-plugin).
+New feature proposals and bug fix proposals should be submitted as
+[GitHub pull requests](https://help.github.com/articles/creating-a-pull-request).
+Fork the repository on GitHub, prepare your change on your forked
+copy, and submit a pull request (see [here](https://github.com/jenkinsci/gitlab-plugin/pulls) for open pull requests). Your pull request will be evaluated by the [plugin's CI job](https://ci.jenkins.io/blue/organizations/jenkins/Plugins%2Fgitlab-plugin/).
 
-Please read through this document before submitting any issues or pull requests to ensure we have all the necessary
-information to effectively respond to your bug report or contribution.
-
-
-## Reporting Bugs/Feature Requests
-
-We welcome you to use the GitHub issue tracker to report bugs or suggest features.
-
-When filing an issue, please check [existing open](https://github.com/smithy-lang/smithy/issues), or [recently closed](https://github.com/smithy-lang/smithy/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already
-reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
-
-* A reproducible test case or series of steps
-* Any details of your application environment that may be relevant. At
-  minimum, this should include the __Smithy version__, __JRE version__,
-  and __operating system__.
-* Any modifications you've made relevant to the bug
+If you are adding new features please make sure that they support Jenkins Pipeline jobs.
+See [here](https://github.com/jenkinsci/workflow-plugin/blob/master/COMPATIBILITY.md) for some information.
 
 
-## Contributing via Pull Requests
+Before submitting your change make sure that:
+* your changes work with the oldest and latest supported GitLab version
+* new features are provided with tests
+* refactored code is provided with regression tests
+* the code formatting follows the plugin standard
+* imports are organised
+* you updated the help docs
+* you updated the README
+* you have used spotbugs to see if you haven't introduced any new warnings
+* you can run `mvn spotless:apply` to confirm that the code formatting is as expected
 
-Contributions via pull requests are much appreciated. Before sending us a pull request, please ensure that:
+## Testing With Docker
 
-1. You are working against the latest source on the *main* branch.
-2. You check existing open, and recently merged, pull requests to make sure someone else hasn't addressed the problem already.
-3. You open an issue to discuss any significant work - we would hate for your time to be wasted.
+See https://github.com/jenkinsci/gitlab-plugin/tree/master/src/docker/README.md
 
-To send us a pull request, please:
+## Using IntelliJ's Debugger
 
-1. Fork the repository.
-2. Modify the source; please focus on the specific change you are contributing and
-   refrain from modifying unrelated code or reformatting code.
-3. Follow the same coding style as the rest of the project.
-4. Add new test cases that exercise the change and covers all non-trivial branches.
-5. Ensure that running `./gradlew clean build` completes successfully.
-6. Commit to your fork using clear commit messages by following the guidance at
-   [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
-7. Send us a pull request, answering any default questions in the pull request interface.
-8. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
+When testing with a Docker Jenkins instance, the debugger can be setup in the following way:
+* From the main menu, select Run -> Edit Configurations.
+* In the Run/Debug Configurations dialog, click the Add New Configuration button `+` and select Remote JVM Debug.
+* Enter any relevant name, the Host (the address of the machine where the host app will run. If running it on the same machine, it needs to be localhost. If the program is running on another machine, specify its address here) and the Port (by default use 50000). The Command Line argument will be automatically setup.
+* Enter Apply.
 
-GitHub provides additional documentation on [forking a repository](https://help.github.com/articles/fork-a-repo/)
-and [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
+Now start your Jenkins instance and debugger and you should get something like this - `Connected to the target VM, address: 'localhost:50000', transport: 'socket'`.
+Breakpoints can now be set up to halt the debugger at the required break point to understand the flow of the program.  
 
+## Release Workflow
 
-## Finding contributions to work on
-
-Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'](https://github.com/smithy-lang/smithy/labels/help%20wanted) issues is a great place to start.
-
-
-## Testing with AWS SDK code generators
-
-> In the past, Smithy changes have been released without integration testing with Smithy-based SDK code generators.
-> In addition, SDK code generators often fall behind in Smithy versions. As a result, we don’t have visibility on code generators’ failures
-> until they are upgraded to the latest smithy version.
-
-The GitHub action `sdk-codegen-ci.yml` builds and test Smithy-based AWS SDKs using the latest Smithy implementation.
-
-The GitHub action can be triggered manually via `Run workflow` in the `Actions` tab of the Smithy repo.
-(See [Manually running a workflow](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow) for step-by-step instructions)
-
-
-## Code of Conduct
-
-This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).
-For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact
-opensource-codeofconduct@amazon.com with any additional questions or comments.
-
-
-## Security issue notifications
-
-If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public github issue.
-
-
-## Licensing
-
-See the [LICENSE](https://github.com/smithy-lang/smithy/blob/main/LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
+To perform a full plugin release, maintainers can run ``mvn release:prepare release:perform`` To release a snapshot, e.g. with a bug fix for users to test, just run ``mvn deploy``

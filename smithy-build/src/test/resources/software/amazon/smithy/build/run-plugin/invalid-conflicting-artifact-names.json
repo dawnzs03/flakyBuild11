@@ -1,7 +1,0 @@
-{
-    "version": "1.0",
-    "plugins": {
-        "test2::foo": {},
-        "test1::foo": {}
-    }
-}

@@ -1,8 +1,0 @@
-{
-    "smithy": "2",
-    "shapes": {
-        "smithy.example#MyString": {
-            "type": "string"
-        }
-    }
-}

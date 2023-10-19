@@ -1,2 +1,0 @@
-[WARNING] ns.foo#MissingBindings1: One or more operations in the `ns.foo#MyService` service define the `http` trait, but this operation is missing the `http` trait. | HttpBindingsMissing
-[WARNING] ns.foo#MissingBindings2: One or more operations in the `ns.foo#MyService` service define the `http` trait, but this operation is missing the `http` trait. | HttpBindingsMissing

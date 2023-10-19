@@ -1,1 +1,0 @@
-[ERROR] smithy.example#Foo$headers: Trait `httpPrefixHeaders` cannot be applied to `smithy.example#Foo$headers`. | TraitTarget

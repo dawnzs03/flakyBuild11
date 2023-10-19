@@ -1,6 +1,3 @@
-*Issue #, if available:*
+### Before submitting a pull request, please make sure you read the instructions in the ["Contribution to the Plugin"](https://github.com/jenkinsci/gitlab-plugin/tree/master#contributing-to-the-plugin) section in the README.
 
-*Description of changes:*
-
-
-By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
+*(if you read the above instructions, remove the paragraph and start describing the pull request)*

@@ -1,1 +1,0 @@
-[ERROR] ns.foo#Invalid: Error creating trait `externalDocumentation`: Each externalDocumentation value must be a valid URL. Found "invalid!" for name "Homepage" | Model

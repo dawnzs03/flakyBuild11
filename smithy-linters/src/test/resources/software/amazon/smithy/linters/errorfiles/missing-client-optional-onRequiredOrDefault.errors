@@ -1,2 +1,0 @@
-[DANGER] smithy.example#Foo$bar: @default members must also be marked with the @clientOptional trait | MissingClientOptionalTrait
-[DANGER] smithy.example#Foo$baz: @required members must also be marked with the @clientOptional trait | MissingClientOptionalTrait

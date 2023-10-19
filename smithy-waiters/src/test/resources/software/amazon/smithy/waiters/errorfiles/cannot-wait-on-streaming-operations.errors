@@ -1,2 +1,0 @@
-[ERROR] smithy.example#StreamingInput: Trait `smithy.waiters#waitable` cannot be applied to `smithy.example#StreamingInput` | TraitTarget
-[ERROR] smithy.example#StreamingOutput: Trait `smithy.waiters#waitable` cannot be applied to `smithy.example#StreamingOutput` | TraitTarget

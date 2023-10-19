@@ -1,1 +1,0 @@
-[WARNING] smithy.example#Hi: Expected an object with possible properties of `key`, `mixins`, `traits`, `type`, `value`, but found additional properties: `foo` | Model

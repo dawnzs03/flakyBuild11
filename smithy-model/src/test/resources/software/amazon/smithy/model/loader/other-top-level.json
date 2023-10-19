@@ -1,8 +1,0 @@
-{
-    "smithy": "1.0",
-    "shapes": {
-        "example.namespace#String": {
-            "smithy.api#documentation": "Docs!"
-        }
-    }
-}

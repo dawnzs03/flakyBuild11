@@ -1,9 +1,0 @@
-{
-    "smithy": "2.0",
-    "shapes": {
-        "smithy.example#Hi": {
-            "type": "structure",
-            "foo": true
-        }
-    }
-}
