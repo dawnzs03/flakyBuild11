@@ -1,8 +1,0 @@
-locators:
-  - .refs .x .Δ δ=01
-  - .refs .x .π >bool
-  - .refs .y .ε
-eo: |
-  [] > refs
-    TRUE > x
-    x > y

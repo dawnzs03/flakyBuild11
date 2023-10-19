@@ -1,9 +1,0 @@
-line: 3
-eo: |
-  +meta smth
-  
-  +meta other
-  
-  [] > main
-    [] > @
-      hello > test

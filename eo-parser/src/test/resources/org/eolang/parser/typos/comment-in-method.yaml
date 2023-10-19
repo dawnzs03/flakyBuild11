@@ -1,7 +1,0 @@
-line: 3
-eo: |
-  [args] > app
-    stdout > @
-      # a comment here is prohibited
-      sprintf
-        "hello"

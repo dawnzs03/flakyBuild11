@@ -1,225 +1,517 @@
-<img alt="logo" src="https://www.objectionary.com/cactus.svg" height="100px" />
 
-[![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![DevOps By Rultor.com](http://www.rultor.com/b/objectionary/eo)](http://www.rultor.com/p/objectionary/eo)
-[![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
+# Data Faker
 
-[![mvn-linux](https://github.com/objectionary/eo/actions/workflows/mvn.yml/badge.svg)](https://github.com/objectionary/eo/actions/workflows/mvn.yml)
-[![PDD status](http://www.0pdd.com/svg?name=objectionary/eo)](http://www.0pdd.com/p?name=objectionary/eo)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b8b59692f3c8c973ac54/maintainability)](https://codeclimate.com/github/cqfn/eo/maintainability)
-[![Maven Central](https://img.shields.io/maven-central/v/org.eolang/eo-parent.svg)](https://maven-badges.herokuapp.com/maven-central/org.eolang/eo-parent)
-[![codecov](https://codecov.io/gh/objectionary/eo/branch/master/graph/badge.svg)](https://codecov.io/gh/objectionary/eo)
-[![Hits-of-Code](https://hitsofcode.com/github/objectionary/eo)](https://hitsofcode.com/view/github/objectionary/eo)
-![Lines of code](https://img.shields.io/tokei/lines/github/objectionary/eo)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/objectionary/eo/blob/master/LICENSE.txt)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcqfn%2Feo.svg?type=shield)](https://app.fossa.com/reports/0ebb3149-4934-4565-bf6f-6fa41aed3b49)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/22dac7549c384692b79e02107de1d3c3)](https://www.codacy.com/gh/objectionary/eo/dashboard)
-[![Known Vulnerabilities](https://snyk.io/test/github/objectionary/eo/badge.svg)](https://snyk.io/test/github/objectionary/eo)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.objectionary%3Aeo&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=com.objectionary%3Aeo)
+[![Maven Status](https://maven-badges.herokuapp.com/maven-central/net.datafaker/datafaker/badge.svg?style=flat)](http://mvnrepository.com/artifact/net.datafaker/datafaker)
+[![License](http://img.shields.io/:license-apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![codecov](https://codecov.io/gh/datafaker-net/datafaker/branch/main/graph/badge.svg?token=FJ6EXMUTFD)](https://codecov.io/gh/datafaker-net/datafaker)
+[![Qodana](https://github.com/datafaker-net/datafaker/actions/workflows/qodana.yml/badge.svg)](https://qodana.cloud/projects/AbQnV)
 
-**EO** (stands for [Elegant Objects](http://www.yegor256.com/elegant-objects.html) or
-ISO 639-1 code of [Esperanto](https://en.wikipedia.org/wiki/Esperanto))
-is an object-oriented programming language based on
-[𝜑-calculus](https://arxiv.org/abs/2111.13384).
-We're aware of popular semi-OOP languages and we don't think
-they are good enough, including:
-[Java](https://en.wikipedia.org/wiki/Java_%28programming_language%29),
-[Ruby](https://en.wikipedia.org/wiki/Ruby_%28programming_language%29),
-[C++](https://en.wikipedia.org/wiki/C%2B%2B),
-[Smalltalk](https://en.wikipedia.org/wiki/Smalltalk),
-[Python](https://en.wikipedia.org/wiki/Python_%28programming_language%29),
-[PHP](https://en.wikipedia.org/wiki/PHP),
-[C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
-All of them have something **we don't tolerate**:
+This library is a modern fork of [java-faker](https://github.com/DiUS/java-faker) with up to date libraries and several newly added Fake Generators. 
 
-  * types ([why?](https://www.yegor256.com/2020/11/10/typing-without-types.html))
-  * static/class methods or attributes ([why?](http://www.yegor256.com/2014/05/05/oop-alternative-to-utility-classes.html))
-  * classes ([why?](http://www.yegor256.com/2016/09/20/oop-without-classes.html))
-  * implementation inheritance ([why?](http://www.yegor256.com/2016/09/13/inheritance-is-procedural.html))
-  * mutability ([why?](http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html))
-  * NULL ([why?](http://www.yegor256.com/2014/05/13/why-null-is-bad.html))
-  * global scope ([why?](https://www.yegor256.com/2018/07/03/global-variables.html))
-  * type casting ([why?](http://www.yegor256.com/2015/04/02/class-casting-is-anti-pattern.html))
-  * reflection ([why?](https://www.yegor256.com/2022/06/05/reflection-means-hidden-coupling.html))
-  * scalar types and data primitives
-  * annotations ([why?](http://www.yegor256.com/2016/04/12/java-annotations-are-evil.html))
-  * operators
-  * traits and mixins ([why?](https://www.yegor256.com/2017/03/07/traits-and-mixins.html))
-  * flow control statements (`for`, `while`, `if`, etc)
-  * [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) ([why?](https://github.com/objectionary/eo/issues/51))
+Datafaker 2.x has Java 17 as the minimum requirement. 
 
-## Quick Start
+*If Java 17 is not an option for you, you can choose to use Datafaker 1.x. Datafaker 1.x is built on Java 8, but this version is no longer maintained. We recommend all users to upgrade to Datafaker 2.x.*
 
-First, install [Java SE](https://www.oracle.com/java/technologies/downloads/),
-[npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), 
-[Rust with Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
-and [eoc](https://github.com/objectionary/eoc).
+This library generates fake data, similar to other fake data generators, such as:
 
-Then, start with a simple EO program in `app.eo` file:
+* Ruby's [faker](https://github.com/stympy/faker) gem
+* Perl's [Data::Faker](https://metacpan.org/pod/Data::Faker) library
+* Python [faker](https://faker.readthedocs.io/en/master/) package
+* PHP [faker](https://fakerphp.github.io/) library
+* Javascript [Faker.js](https://github.com/faker-js/faker) library
 
-```
-[args...] > app
-  QQ.io.stdout > @
-    "Hello, world!\n"
+It's useful when you're developing a new project and need some pretty data for showcase.
+
+## Usage
+
+In the pom.xml, add the following fragment to the `dependencies` section:
+
+```xml
+<dependency>
+    <groupId>net.datafaker</groupId>
+    <artifactId>datafaker</artifactId>
+    <version>2.0.1</version>
+</dependency>
 ```
 
-Compile it like this (may take a minute or so):
+For Gradle users, add the following to your build.gradle file.
+
+```groovy
+dependencies {
+    implementation 'net.datafaker:datafaker:2.0.1'
+}
 
 ```
-$ eoc link
+
+You can also use the snapshot version (`2.1.0-SNAPSHOT`), which automatically gets published
+after every push to the main branch of this repository. Binary repository URL for snapshots download is
+https://s01.oss.sonatype.org/content/repositories/snapshots/.
+
+### Get started
+
+In your Java code:
+
+```java
+Faker faker = new Faker();
+
+String name = faker.name().fullName(); // Miss Samanta Schmidt
+String firstName = faker.name().firstName(); // Emory
+String lastName = faker.name().lastName(); // Barton
+
+String streetAddress = faker.address().streetAddress(); // 60018 Sawayn Brooks Suite 449
 ```
 
-Then, run it:
+Or in your Kotlin code:
 
-```
-$ eoc --alone dataize app
-```
+```kotlin
+val faker = Faker()
 
-You should see "Hello, world!" printed.
+val name = faker.name().fullName() // Miss Samanta Schmidt
+val firstName = faker.name().firstName() // Emory
+val lastName = faker.name().lastName() // Barton
 
-## Simple Tutorial
-
-In the example above, we create a new [abstract object](https://www.yegor256.com/2020/12/01/abstract-objects.html)
-named `app`, which has got a single attribute named `@`. The object attached to the attribute
-`@` is a copy of the object `stdout` with a single argument `"Hello, world!"`. The object
-`stdout` is also [abstract](https://www.yegor256.com/2020/12/01/abstract-objects.html).
-It can't be used directly, a copy of it has to be created, with a few requirement arguments provided.
-This is how a copy of the object `stdout` is made:
-
-```
-QQ.io.stdout
-  "Hello, world!"
+val streetAddress = faker.address().streetAddress() // 60018 Sawayn Brooks Suite 449
 ```
 
-The indentation in EO is important, just like in Python. There have to be two spaces
-in front of the line in order to go to the deeper level of nesting. This code can also be written
-in a "horizontal" notation:
-
+JShell
 ```
-QQ.io.stdout "Hello, world!"
-```
+# from project root folder
+jshell --class-path $(ls -d target/*.jar | tr '\n' ':')
+|  Welcome to JShell -- Version 17.0.4
+|  For an introduction type: /help intro
 
-Moreover, it's possible to use brackets in order to group arguments and avoid
-ambiguity. For example, instead of using a plain string `"Hello, world!"`
-we may want to create a copy of the object `stdout` with a more complex
-argument: a copy of the object `sprintf`:
+jshell> import net.datafaker.Faker;
 
-```
-[] > app
-  QQ.io.stdout > @
-    QQ.txt.sprintf
-      "Hello, %s!"
-      "Jeffrey"
+jshell> var faker = new Faker();
+faker ==> net.datafaker.Faker@c4437c4
+
+jshell> faker.address().city();
+$3 ==> "Brittneymouth"
+
+jshell> faker.name().fullName();
+$5 ==> "Vernie Schmidt"
 ```
 
-Here, the object `sprintf` is also [abstract](https://www.yegor256.com/2020/12/01/abstract-objects.html).
-It is being copied with two arguments: `"Hello, %s!"` and `"Jeffrey"`. This program
-can be written using horizontal notation:
+### Expressions
 
+```java
+Faker faker = new Faker();
+faker.expression("#{letterify 'test????test'}"); // testqwastest
+faker.expression("#{numerify '#test#'}"); // 3test5
+faker.expression("#{templatify 'test','t','q','@'}"); // @esq
+faker.expression("#{examplify 'test'}"); // ghjk
+faker.expression("#{regexify '[a-z]{4,10}'}"); // wbevoa
+faker.expression("#{options.option '23','2','5','$','%','*'}"); // *
+faker.expression("#{date.birthday 'yy DDD hh:mm:ss'}"); // 61 327 08:11:45
+faker.expression("#{csv '1','name_column','#{Name.first_name}','last_name_column','#{Name.last_name}'}");
+// "name_column","last_name_column"
+// "Sabrina","Kihn"
+faker.expression("#{json 'person','#{json ''first_name'',''#{Name.first_name}'',''last_name'',''#{Name.last_name}''}','address','#{json ''country'',''#{Address.country}'',''city'',''#{Address.city}''}'}");
+// {"person": {"first_name": "Barbie", "last_name": "Durgan"}, "address": {"country": "Albania", "city": "East Catarinahaven"}}
 ```
-+alias org.eolang.io.stdout
-+alias org.eolang.txt.sprintf
+also more examples at https://www.datafaker.net/documentation/expressions/
 
-[] > app
-  (stdout (sprintf "Hello, %s!" "Jeffrey")) > @
+### Collections
+```java
+Faker faker = new Faker();
+List<String> names = faker.collection(
+                              () -> faker.name().firstName(),
+                              () -> faker.name().lastName())
+                         .len(3, 5)
+                         .generate();
+System.out.println(names);
+// [Skiles, O'Connell, Lorenzo, West]
 ```
+more examples about that at https://www.datafaker.net/documentation/sequences/
 
-The special attribute `@` denotes an object that is being
-[decorated](https://www.yegor256.com/2015/02/26/composable-decorators.html).
-In this example, the object `app` decorates the copy of the
-object `stdout` and through this starts to behave like
-the object `stdout`: all attributes of `stdout` become the
-attributes of the `app`. The object `app` may have its own
-attributes. For example, it's possible to define a new abstract object
-inside `app` and use it to build the output string:
-
-```
-[] > app
-  QQ.io.stdout (msg "Jeffrey") > @
-  [name] > msg
-    QQ.txt.sprintf "Hello, %s!" name > @
-```
-
-Now, the object `app` has two "bound" attributes: `@` and `msg`. The attribute
-`msg` has an abstract object attached to it, with a single "free" attribute
-`name`.
-
-This is how you iterate:
-
-```
-[args...] > app
-  memory 0 > x
-  seq > @
-    x.write 2
-    while.
-      x.lt 6
-      [i]
-        seq > @
-          QQ.io.stdout
-            QQ.txt.sprintf
-              "%d x %d = %d\n"
-              x
-              x
-              x.times x
-          x.write
-            x.plus 1
-    TRUE
+### Streams
+```java
+Faker faker = new Faker();
+// generate an infinite stream
+Stream<String> names = faker.stream(
+                              () -> faker.name().firstName(),
+                              () -> faker.name().lastName())
+                         .generate();
 ```
 
-This code will print this:
+### Formats
 
-```
-2 x 2 = 4
-3 x 3 = 9
-4 x 4 = 16
-5 x 5 = 25
-```
+#### Schema
+There are 2 ways of data generation in specific formats
+1. Generate it from scratch
+2. There is already a sequence of objects and we could extract from them some values and return it in specific format
 
-Got the idea?
+For both cases we need a `Schema` which could describe fields and a way of data generation.
+In case of generation from scratch `Suppliers` are enough, in case of transformation `Functions` are required
+#### CSV
 
-## Backus-Naur Form
-
-This is our [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form):
-
-<img alt="ENBF of EO" src="https://www.eolang.org/ebnf.png" width="100%" />
-
-The image was [auto-generated](https://github.com/objectionary/eo/actions/workflows/ebnf.yml). 
-It's better to use [ebnf.svg](https://www.eolang.org/ebnf.svg).
-
-## What's Next?
-
-Join [our Telegram group](https://t.me/polystat_org).
-
-Watch [video](https://www.youtube.com/watch?v=QaKIw1Bh3Oc) about EOLANG basics.
-
-Read [our blog](https://news.eolang.org), especially the section with
-[recently published papers](https://news.eolang.org/papers.html).
-
-See the full collection of canonical objects: [objectionary](https://github.com/objectionary/home).
-
-Take a look how we use EO as an Intermediary Representation (IR) in
-[Polystat](https://www.polystat.org), a polyglot static analyzer.
-
-Play with more examples [here](https://github.com/objectionary/sandbox).
-
-Read about integration with Maven,
-[here](https://github.com/objectionary/eo/tree/master/eo-maven-plugin).
-
-## How to Contribute
-
-Fork repository, make changes, then send us a [pull request](https://www.yegor256.com/2014/04/15/github-guidelines.html).
-We will review your changes and apply them to the `master` branch shortly,
-provided they don't violate our quality standards. To avoid frustration,
-before sending us your pull request please run full Maven build:
-
-```bash
-$ mvn clean install -Pqulice
+```java
+// transformer could be the same for both
+CsvTransformer<Name> transformer =
+        CsvTransformer.<Name>builder().header(true).separator(",").build();
+// Schema for from scratch
+Schema<Name, String> fromScratch =
+    Schema.of(field("firstName", () -> faker.name().firstName()),
+        field("lastname", () -> faker.name().lastName()));
+System.out.println(transformer.generate(fromScratch, 2));
+// POSSIBLE OUTPUT
+// "first_name" ; "last_name"
+// "Kimberely" ; "Considine"
+// "Mariela" ; "Krajcik"
+// ----------------------
+// Schema for transformations
+Schema<Name, String> schemaForTransformations =
+    Schema.of(field("firstName", Name::firstName),
+        field("lastname", Name::lastName));
+// Here we pass a collection of Name objects and extract first and lastnames from each element
+System.out.println(
+    transformer.generate(
+        faker.collection(faker::name).maxLen(2).generate(), schemaForTransformations));
+// POSSIBLE OUTPUT
+// "first_name" ; "last_name"
+// "Kimberely" ; "Considine"
+// "Mariela" ; "Krajcik"
 ```
 
-You will need [Maven 3.3+](https://maven.apache.org) and Java 8+ installed.
+#### JShell
 
-## Special thanks
-We are using the [YourKit Java Profiler](https://www.yourkit.com/java/profiler)
-to enhance the performance of EO components:
+```
+# from project root folder
+jshell --class-path $(ls -d target/*.jar | tr '\n' ':')
+|  Welcome to JShell -- Version 17.0.4
+|  For an introduction type: /help intro
 
-[![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com)
+jshell> import net.datafaker.Faker;
+
+jshell> import net.datafaker.providers.base.Name;
+
+jshell> import net.datafaker.transformations.Schema;
+
+jshell> import net.datafaker.transformations.CsvTransformer;
+
+jshell> import static net.datafaker.transformations.Field.field;
+
+jshell> var faker = new Faker();
+faker ==> net.datafaker.Faker@c4437c4
+
+jshell> Schema fromScratch =
+   ...>     Schema.of(field("firstName", () -> faker.name().firstName()),
+   ...>         field("lastname", () -> faker.name().lastName()));
+fromScratch ==> net.datafaker.transformations.Schema@306a30c7
+
+jshell> CsvTransformer<Name> transformer =
+   ...>     CsvTransformer.<Name>builder().header(false).separator(",").build();
+transformer ==> net.datafaker.transformations.CsvTransformer@506c589e
+
+jshell> System.out.println(transformer.generate(fromScratch, 2));
+"firstName","lastname"
+"Darcel","Schuppe"
+"Noelle","Smitham"
+```
+
+#### JSON
+
+```java
+Schema<Object, ?> schema = Schema.of(
+    field("firstName", () -> faker.name().firstName()),
+    field("lastName", () -> faker.name().lastName())
+    );
+
+JsonTransformer<Object> transformer = JsonTransformer.builder().build();
+String json = transformer.generate(schema, 2);
+// [{"firstName": "Oleta", "lastName": "Toy"},
+// {"firstName": "Gerard", "lastName": "Windler"}]
+```
+More complex examples and other formats like YAML, XML could be found at https://www.datafaker.net/documentation/formats/
+
+### Unique Values
+
+```java
+Faker faker = new Faker();
+
+// The values returned in the following lines will never be the same.
+String firstUniqueInstrument = faker.unique().fetchFromYaml("music.instruments"); // "Flute"
+String secondUniqueInstrument = faker.unique().fetchFromYaml("music.instruments"); // "Clarinet"
+```
+More examples can be found in https://www.datafaker.net/documentation/unique-values
+
+### Custom provider
+
+Add your own custom provider in your app following steps from https://www.datafaker.net/documentation/custom-providers/
+
+Documentation
+-----
+[Getting started](https://www.datafaker.net/documentation/getting-started/).
+
+
+Contributions
+-------------
+See [CONTRIBUTING.md](https://github.com/datafaker-net/datafaker/blob/main/CONTRIBUTING.md)
+
+If this is your first time contributing then you may find it helpful to read [FIRST_TIME_CONTRIBUTOR.md](https://github.com/datafaker-net/datafaker/blob/main/FIRST_TIME_CONTRIBUTOR.md)
+
+Providers
+-----
+The list below is not complete and shows only a part of available providers. To view the full list of providers, please follow the link: [Full list of providers](https://www.datafaker.net/documentation/providers/).
+
+
+* Address
+* Ancient
+* Animal
+* App
+* Appliance
+* Aqua Teen Hunger Force
+* Artist
+* Australia
+* Avatar
+* Aviation
+* AWS
+* Azure
+* Babylon 5
+* Back To The Future
+* Barcode
+* Baseball
+* Basketball
+* Battlefield 1  
+* Beer
+* Big Bang Theory
+* Blood Type
+* Bojack Horseman
+* Book
+* Bool
+* Bossa Nova
+* Brand
+* Breaking Bad
+* Brooklyn Nine-Nine
+* Buffy
+* Business
+* CNPJ ([Brazilian National Registry of Legal Entities](https://en.wikipedia.org/wiki/CNPJ))
+* CPF ([Brazilian individual taxpayer registry identification](https://en.wikipedia.org/wiki/CPF_number))
+* Camera
+* Cat
+* Chuck Norris
+* Clash of Clans
+* Code
+* Coin
+* Color
+* Commerce
+* Community
+* Company
+* Compass
+* Computer
+* Control
+* Country
+* Credit Card Type
+* Cricket
+* Crypto
+* Currency
+* Date and Time
+* DC Comics
+* Demographic
+* Departed
+* Dessert
+* Device
+* Disease
+* Doctor Who
+* Dog
+* Domain
+* Doraemon
+* Dragon Ball
+* Driving License
+* Dumb and Dumber
+* Dune
+* Durations
+* Educator
+* Elden Ring
+* Elder Scrolls
+* Electrical Components
+* Emoji
+* England Football
+* Esports
+* Fallout
+* Family Guy
+* Famous Last Words
+* File
+* Final Space
+* Finance
+* Food
+* Formula 1 (:racing_car:)
+* Friends
+* Fullmetal Alchemist: Brotherhood
+* Funny Name
+* Futurama
+* Game Of Thrones
+* Garment Size
+* Gender
+* Ghostbusters
+* Grateful Dead
+* Greek Philosopher
+* Hacker
+* Harry Potter
+* Hashing
+* Hearthstone
+* Heroes of the Storm
+* Hey Arnold
+* Hipster
+* Hitchhiker's Guide To The Galaxy
+* Hobbit
+* Hobby
+* Horse
+* House
+* How I Met Your Mother
+* IdNumber
+* Industry Segments
+* Internet
+* Job
+* K-pop (Korean popular music)
+* Kaamelott
+* League Of Legends
+* Lebowski
+* Locality
+* Lord Of The Rings
+* Lorem
+* Marketing
+* Marvel Snap
+* Mass Effect
+* Matz
+* MBTI
+* Measurement
+* Medical
+* Military
+* Minecraft
+* Money
+* Money Heist
+* Mood
+* Mountaineering
+* Mountains
+* Movie
+* Music
+* Name
+* Naruto
+* Nation
+* Nato Phonetic Alphabet
+* Nigeria
+* Number
+* One Piece
+* Options
+* Oscar Movie
+* Overwatch
+* Passport
+* Password
+* Phone Number
+* Photography
+* Pokemon
+* Princess Bride
+* Programming Language
+* Red Dead Redemption 2
+* Relationship Terms
+* Resident Evil
+* Restaurant
+* Rick and Morty
+* Robin
+* Rock Band
+* RuPaul's Drag Race
+* Science
+* Seinfeld
+* Shakespeare
+* Silicon Valley
+* Simpsons
+* Sip
+* Size
+* Slack Emoji
+* Soul Knight
+* Space
+* StarCraft
+* StarTrek
+* Stock
+* Studio Ghibli
+* Subscription
+* Super Mario
+* Superhero
+* Tea
+* Team
+* The IT Crowd
+* Time
+* Touhou
+* Tron
+* Twin Peaks
+* Twitter
+* University
+* Vehicle
+* Verb
+* Volleyball
+* Weather
+* Witcher
+* Yoda
+* Zelda
+
+Usage with Locales
+-----
+
+```java
+Faker faker = new Faker(new Locale("YOUR_LOCALE"));
+```
+
+For example:
+
+```java
+new Faker(new Locale("en", "US")).address().zipCodeByState("CA"));
+```
+
+Supported Locales
+-----
+* ar
+* bg
+* ca
+* ca-CAT
+* cs
+* da-DK
+* de
+* de-AT
+* de-CH
+* en
+* en-AU
+* en-au-ocker
+* en-BORK
+* en-CA
+* en-GB
+* en-IND
+* en-MS
+* en-NEP
+* en-NG
+* en-NZ
+* en-PAK
+* en-SG
+* en-UG
+* en-US
+* en-ZA
+* en-PH
+* es
+* es-MX
+* fa
+* fi-FI
+* fr
+* he
+* hu
+* in-ID
+* it
+* ja
+* ko
+* nb-NO
+* nl
+* pl
+* pt
+* pt-BR
+* ru
+* sk
+* sv
+* sv-SE
+* tr
+* uk
+* vi
+* zh-CN
+* zh-TW
+
+LICENSE
+-------
+Copyright (c) 2023 Datafaker.net See the LICENSE file for license rights and limitations.

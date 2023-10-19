@@ -1,6 +1,0 @@
-line: 4
-eo: |
-  [args] > app
-    stdout
-        sprintf
-          "Hello, world!"
