@@ -55,7 +55,7 @@ public class ApplyEntryIterator implements Iterator<ApplyEntry> {
     public boolean hasNext() {
         while (inner.hasNext()) {
             ApplyEntry applyEntry = inner.next();
-            if (applyEntry != null && filter.test(applyEntry.getEntry())) {
+            if (filter.test(applyEntry.getEntry())) {
                 nextTask = applyEntry;
                 return true;
             }
