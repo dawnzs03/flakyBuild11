@@ -1,25 +1,45 @@
-/build/
-/dist/
+# Gradle
+#    Ignore the generated local settings file.
+/gradle.properties
+.gradle/
+build/
+
+# IntelliJ IDEA
 /.idea/
-/.vscode/
-/nbproject/
-nbproject/private/
-/webrev
-/.src-rev
-/.jib/
+.run
+**/*.iml
+**/*.ipr
+**/*.iws
+out/
+#    IntelliJ creates this folder, ignore.
+/dev-tools/missing-doclet/out/
+
+# Eclipse
+**/.project
+**/.classpath
+**/.settings/
+/.metadata
+#    Eclipse Gradle oddity
+**/bin/default/
+
+.editorconfig
+
+# syncthing
+.stignore
+
+# macOS
 .DS_Store
-.metadata/
-.recommenders/
-test/nashorn/script/external
-test/nashorn/lib
-NashornProfile.txt
-**/JTreport/**
-**/JTwork/**
-/src/utils/LogCompilation/target/
-/.project/
-/.settings/
-/.project
-/.classpath
-/.cproject
-/compile_commands.json
-/.cache
+
+# Python
+.pydevproject
+__pycache__
+
+# Emacs backup
+*~
+
+# Ignore lucene included build
+/lucene
+
+# Ignore gradle wrapper
+gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
