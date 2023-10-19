@@ -343,10 +343,10 @@ public class ResourceAccess {
             directoryNames.add(directoryName +"/");
         }
         
-        this.injectWebshell(pathShellFixed, urlProtocol, directoryNames);
+        this.injectWebshell(pathShellFixed, urlShellFixed, urlProtocol, urlWithoutFileName, directoryNames);
     }
 
-    private void injectWebshell(String pathShellFixed, String urlProtocol, List<String> directoryNames) throws InterruptedException {
+    private void injectWebshell(String pathShellFixed, String urlShellFixed, String urlProtocol, String urlWithoutFileName, List<String> directoryNames) throws InterruptedException {
         
         ExecutorService taskExecutor = this.injectionModel.getMediatorUtils().getThreadUtil().getExecutor("CallableCreateWebShell");
         
@@ -367,7 +367,7 @@ public class ResourceAccess {
         }
 
         int submittedTasks = directoryNames.size();
-        String urlSuccess = this.injectShell(taskCompletionService, submittedTasks);
+        String urlSuccess = this.injectShell(urlShellFixed, urlProtocol, urlWithoutFileName, taskCompletionService, submittedTasks);
 
         taskExecutor.shutdown();
         taskExecutor.awaitTermination(5, TimeUnit.SECONDS);
@@ -385,7 +385,10 @@ public class ResourceAccess {
         }
     }
 
-    private String injectShell(CompletionService<CallableHttpHead> taskCompletionService, int submittedTasks) {
+    private String injectShell(
+        String urlShellFixed, String urlProtocol, String urlWithoutFileName,
+        CompletionService<CallableHttpHead> taskCompletionService, int submittedTasks
+    ) {
         
         String urlSuccess = null;
         
@@ -588,10 +591,13 @@ public class ResourceAccess {
             directoryNames.add(directoryName +"/");
         }
         
-        this.injectShell(username, password, pathShellFixed, urlProtocol, directoryNames);
+        this.injectShell(username, password, pathShellFixed, urlShellFixed, urlProtocol, urlWithoutFileName, directoryNames);
     }
 
-    private void injectShell(String username, String password, String pathShellFixed, String urlProtocol, List<String> directoryNames) throws InterruptedException {
+    private void injectShell(
+        String username, String password, String pathShellFixed, String urlShellFixed,
+        String urlProtocol, String urlWithoutFileName, List<String> directoryNames
+    ) throws InterruptedException {
 
         ExecutorService taskExecutor = this.injectionModel.getMediatorUtils().getThreadUtil().getExecutor("CallableCreateSqlShell");
         

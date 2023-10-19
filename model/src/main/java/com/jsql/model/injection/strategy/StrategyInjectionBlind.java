@@ -16,7 +16,6 @@ import com.jsql.model.bean.util.Request;
 import com.jsql.model.exception.StoppedByUserSlidingException;
 import com.jsql.model.injection.strategy.blind.AbstractInjectionBoolean.BooleanMode;
 import com.jsql.model.injection.strategy.blind.InjectionBlind;
-import com.jsql.model.injection.vendor.model.VendorYaml;
 import com.jsql.model.suspendable.AbstractSuspendable;
 import com.jsql.util.I18nUtil;
 import com.jsql.util.LogLevelUtil;
@@ -129,7 +128,7 @@ public class StrategyInjectionBlind extends AbstractStrategy {
 
         } else {
             
-            LOGGER.log(LogLevelUtil.CONSOLE_INFORM, "Using {} statement", this.injectionBlind.getBooleanMode().name());
+            LOGGER.log(LogLevelUtil.CONSOLE_INFORM, "Using "+ this.injectionBlind.getBooleanMode().name() +" statement");
         }
         
         LOGGER.log(
@@ -147,7 +146,7 @@ public class StrategyInjectionBlind extends AbstractStrategy {
     
     @Override
     public String getPerformanceLength() {
-        return VendorYaml.DEFAULT_CAPACITY;
+        return "65565";
     }
     
     @Override

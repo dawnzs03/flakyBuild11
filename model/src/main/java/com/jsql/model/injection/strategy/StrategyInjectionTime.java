@@ -16,7 +16,6 @@ import com.jsql.model.bean.util.Request;
 import com.jsql.model.exception.StoppedByUserSlidingException;
 import com.jsql.model.injection.strategy.blind.AbstractInjectionBoolean.BooleanMode;
 import com.jsql.model.injection.strategy.blind.InjectionTime;
-import com.jsql.model.injection.vendor.model.VendorYaml;
 import com.jsql.model.suspendable.AbstractSuspendable;
 import com.jsql.util.I18nUtil;
 import com.jsql.util.LogLevelUtil;
@@ -148,7 +147,7 @@ public class StrategyInjectionTime extends AbstractStrategy {
     
     @Override
     public String getPerformanceLength() {
-        return VendorYaml.DEFAULT_CAPACITY;
+        return "65565";
     }
     
     @Override

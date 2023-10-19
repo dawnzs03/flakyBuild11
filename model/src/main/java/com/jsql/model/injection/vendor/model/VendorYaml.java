@@ -49,7 +49,6 @@ public class VendorYaml implements AbstractVendor {
     public static final String WINDOW = "${window}";
 
     public static final String CAPACITY = "${capacity}";
-    public static final String DEFAULT_CAPACITY = "65565";
 
     private static final String SLEEP_TIME = "${sleep_time}";
 
@@ -422,7 +421,7 @@ public class VendorYaml implements AbstractVendor {
             .getSlidingWindow()
             .replace(INJECTION, sqlQuery)
             .replace(WINDOW_CHAR, startPosition)
-            .replace(CAPACITY, DEFAULT_CAPACITY)
+            .replace(CAPACITY, "65565")
         );
     }
 
@@ -434,7 +433,7 @@ public class VendorYaml implements AbstractVendor {
             .getSlidingWindow()
             .replace(INJECTION, sqlQuery)
             .replace(WINDOW_CHAR, startPosition)
-            .replace(CAPACITY, DEFAULT_CAPACITY)
+            .replace(CAPACITY, "65565")
         );
     }
 
@@ -497,7 +496,7 @@ public class VendorYaml implements AbstractVendor {
             .getSlidingWindow()
             .replace(INJECTION, sqlQuery)
             .replace(WINDOW_CHAR, startPosition)
-            .replace(CAPACITY, DEFAULT_CAPACITY)
+            .replace(CAPACITY, "65565")
         );
     }
 

@@ -83,7 +83,7 @@ mysql -. create .-> shell
 mysql -. read .-> passwd
 junit -.-> gui
 junit --> model
-model & gui -.-> admin
+model -.-> admin
 model --> apis
 apis --> Docker & Docker2 & Memory
 ```
