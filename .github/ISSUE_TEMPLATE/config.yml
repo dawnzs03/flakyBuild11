@@ -1,6 +1,4 @@
----
-blank_issues_enabled: false
 contact_links:
-  - name: 💬 General Question
-    url: https://github.com/aws/aws-sdk-java-v2/discussions/categories/q-a
-    about: Please ask and answer questions as a discussion thread
+  - name: Google Cloud Support
+    url: https://cloud.google.com/support/
+    about: If you have a support contract with Google, please use the Google Cloud Support portal.

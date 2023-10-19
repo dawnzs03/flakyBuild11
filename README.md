@@ -1,326 +1,543 @@
-# AWS SDK for Java 2.0
-![Build Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiTFJSRXBBN1hkU1ZEQzZ4M1hoaWlFUExuNER3WjNpVllSQ09Qam1YdFlTSDNTd3RpZzNia3F0VkJRUTBwZlQwR1BEelpSV2dWVnp4YTBCOFZKRzRUR004PSIsIml2UGFyYW1ldGVyU3BlYyI6ImdHdEp1UHhKckpDRmhmQU4iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
-[![Maven](https://img.shields.io/maven-central/v/software.amazon.awssdk/s3.svg?label=Maven)](https://search.maven.org/search?q=g:%22software.amazon.awssdk%22%20AND%20a:%22s3%22)
-[![Gitter](https://badges.gitter.im/aws/aws-sdk-java-v2.svg)](https://gitter.im/aws/aws-sdk-java-v2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) 
-[![codecov](https://codecov.io/gh/aws/aws-sdk-java-v2/branch/master/graph/badge.svg)](https://codecov.io/gh/aws/aws-sdk-java-v2)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-96-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+# Google Cloud Java Client Libraries
 
-The **AWS SDK for Java 2.0** is a rewrite of 1.0 with some great new features. As with version 1.0,
-it enables you to easily work with [Amazon Web Services][aws] but also includes features like
-non-blocking IO and pluggable HTTP implementation to further customize your applications. You can
-get started in minutes using ***Maven*** or any build system that supports MavenCentral as an
-artifact source.
+> Java idiomatic client for [Google Cloud Platform][cloud-platform] services.
 
-* [SDK Homepage][sdk-website]
-* [1.11 to 2.0 Changelog](docs/LaunchChangelog.md)
-* [Best Practices](docs/BestPractices.md)
-* [Sample Code](#sample-code)
-* [API Docs][docs-api]
-* [Developer Guide][docs-guide] ([source][docs-guide-source])
-* [Maven Archetypes](archetypes/README.md)
-* [Issues][sdk-issues]
-* [SDK Blog][blog]
-* [Giving Feedback](#giving-feedback)
+* [Java on Google Cloud][cloud-java]
 
-## Getting Started
+## Supported APIs
 
-#### Sign up for AWS ####
+Libraries are available on GitHub and Maven Central for developing Java applications that interact with individual Google Cloud services:
 
-Before you begin, you need an AWS account. Please see the [Sign Up for AWS][docs-signup] section of
-the developer guide for information about how to create an AWS account and retrieve your AWS
-credentials.
+[//]: # (API_TABLE_START)
 
-#### Minimum requirements ####
+| Client | Release Level | Version |
+| ------ | ------------- | ------- |
+| [AI Platform Notebooks](https://github.com/googleapis/google-cloud-java/tree/main/java-notebooks) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-notebooks.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-notebooks&core=gav) |
+| [API Gateway](https://github.com/googleapis/google-cloud-java/tree/main/java-api-gateway) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-api-gateway.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-api-gateway&core=gav) |
+| [Access Approval](https://github.com/googleapis/google-cloud-java/tree/main/java-accessapproval) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-accessapproval.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-accessapproval&core=gav) |
+| [Apigee Connect](https://github.com/googleapis/google-cloud-java/tree/main/java-apigee-connect) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-apigee-connect.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-apigee-connect&core=gav) |
+| [App Engine Admin API](https://github.com/googleapis/google-cloud-java/tree/main/java-appengine-admin) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-appengine-admin.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-appengine-admin&core=gav) |
+| [Artifact Registry](https://github.com/googleapis/google-cloud-java/tree/main/java-artifact-registry) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-artifact-registry.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-artifact-registry&core=gav) |
+| [Asset Inventory](https://github.com/googleapis/google-cloud-java/tree/main/java-asset) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-asset.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-asset&core=gav) |
+| [Assured Workloads for Government](https://github.com/googleapis/google-cloud-java/tree/main/java-assured-workloads) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-assured-workloads.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-assured-workloads&core=gav) |
+| [Auto ML](https://github.com/googleapis/google-cloud-java/tree/main/java-automl) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-automl.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-automl&core=gav) |
+| [BigQuery](https://github.com/googleapis/java-bigquery) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquery.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquery&core=gav) |
+| [BigQuery Connection](https://github.com/googleapis/google-cloud-java/tree/main/java-bigqueryconnection) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigqueryconnection.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigqueryconnection&core=gav) |
+| [BigQuery Data Transfer Service](https://github.com/googleapis/google-cloud-java/tree/main/java-bigquerydatatransfer) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquerydatatransfer.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquerydatatransfer&core=gav) |
+| [BigQuery Reservation](https://github.com/googleapis/google-cloud-java/tree/main/java-bigqueryreservation) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigqueryreservation.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigqueryreservation&core=gav) |
+| [BigQuery Storage](https://github.com/googleapis/java-bigquerystorage) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquerystorage.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquerystorage&core=gav) |
+| [Bigtable](https://github.com/googleapis/java-bigtable) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigtable.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigtable&core=gav) |
+| [Bigtable Hbase Client](https://github.com/googleapis/java-bigtable-hbase) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud.bigtable/bigtable-client-parent.svg)](https://search.maven.org/search?q=g:com.google.cloud.bigtable%20AND%20a:bigtable-client-parent&core=gav) |
+| [Billing](https://github.com/googleapis/google-cloud-java/tree/main/java-billing) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-billing.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-billing&core=gav) |
+| [Billing Budgets](https://github.com/googleapis/google-cloud-java/tree/main/java-billingbudgets) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-billingbudgets.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-billingbudgets&core=gav) |
+| [Binary Authorization](https://github.com/googleapis/google-cloud-java/tree/main/java-binary-authorization) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-binary-authorization.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-binary-authorization&core=gav) |
+| [Build](https://github.com/googleapis/google-cloud-java/tree/main/java-cloudbuild) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-build.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-build&core=gav) |
+| [CCAI Insights](https://github.com/googleapis/google-cloud-java/tree/main/java-contact-center-insights) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-contact-center-insights.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-contact-center-insights&core=gav) |
+| [Certificate Authority Service](https://github.com/googleapis/google-cloud-java/tree/main/java-security-private-ca) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-security-private-ca.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-security-private-ca&core=gav) |
+| [Channel Services](https://github.com/googleapis/google-cloud-java/tree/main/java-channel) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-channel.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-channel&core=gav) |
+| [Composer](https://github.com/googleapis/google-cloud-java/tree/main/java-orchestration-airflow) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-orchestration-airflow.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-orchestration-airflow&core=gav) |
+| [Compute Engine](https://github.com/googleapis/google-cloud-java/tree/main/java-compute) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-compute.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-compute&core=gav) |
+| [Container Analysis](https://github.com/googleapis/google-cloud-java/tree/main/java-containeranalysis) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-containeranalysis.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-containeranalysis&core=gav) |
+| [DNS](https://github.com/googleapis/google-cloud-java/tree/main/java-dns) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dns.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dns&core=gav) |
+| [Data Catalog](https://github.com/googleapis/google-cloud-java/tree/main/java-datacatalog) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datacatalog.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-datacatalog&core=gav) |
+| [Data Fusion](https://github.com/googleapis/google-cloud-java/tree/main/java-data-fusion) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-data-fusion.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-data-fusion&core=gav) |
+| [Data Loss Prevention](https://github.com/googleapis/google-cloud-java/tree/main/java-dlp) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dlp.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dlp&core=gav) |
+| [Database Migration Service](https://github.com/googleapis/google-cloud-java/tree/main/java-dms) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dms.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dms&core=gav) |
+| [Dataplex](https://github.com/googleapis/google-cloud-java/tree/main/java-dataplex) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dataplex.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dataplex&core=gav) |
+| [Dataproc](https://github.com/googleapis/google-cloud-java/tree/main/java-dataproc) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dataproc.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dataproc&core=gav) |
+| [Dataproc Metastore](https://github.com/googleapis/google-cloud-java/tree/main/java-dataproc-metastore) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dataproc-metastore.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dataproc-metastore&core=gav) |
+| [Datastore](https://github.com/googleapis/java-datastore) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-datastore&core=gav) |
+| [Datastream](https://github.com/googleapis/google-cloud-java/tree/main/java-datastream) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastream.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-datastream&core=gav) |
+| [Debugger](https://github.com/googleapis/google-cloud-java/tree/main/java-debugger-client) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-debugger-client.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-debugger-client&core=gav) |
+| [Deploy](https://github.com/googleapis/google-cloud-java/tree/main/java-deploy) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-deploy.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-deploy&core=gav) |
+| [Dialogflow API](https://github.com/googleapis/google-cloud-java/tree/main/java-dialogflow) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dialogflow.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dialogflow&core=gav) |
+| [Document AI](https://github.com/googleapis/google-cloud-java/tree/main/java-document-ai) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-document-ai.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-document-ai&core=gav) |
+| [Domains](https://github.com/googleapis/google-cloud-java/tree/main/java-domains) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-domains.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-domains&core=gav) |
+| [Essential Contacts API](https://github.com/googleapis/google-cloud-java/tree/main/java-essential-contacts) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-essential-contacts.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-essential-contacts&core=gav) |
+| [Eventarc](https://github.com/googleapis/google-cloud-java/tree/main/java-eventarc) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-eventarc.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-eventarc&core=gav) |
+| [Filestore API](https://github.com/googleapis/google-cloud-java/tree/main/java-filestore) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-filestore.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-filestore&core=gav) |
+| [Firestore](https://github.com/googleapis/java-firestore) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-firestore.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-firestore&core=gav) |
+| [Fleet Routing](https://github.com/googleapis/google-cloud-java/tree/main/java-optimization) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-optimization.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-optimization&core=gav) |
+| [Functions](https://github.com/googleapis/google-cloud-java/tree/main/java-functions) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-functions.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-functions&core=gav) |
+| [GKE Hub API](https://github.com/googleapis/google-cloud-java/tree/main/java-gkehub) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-gkehub.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-gkehub&core=gav) |
+| [Gaming](https://github.com/googleapis/google-cloud-java/tree/main/java-game-servers) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-game-servers.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-game-servers&core=gav) |
+| [IAM](https://github.com/googleapis/google-cloud-java/tree/main/java-iam) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-iam-policy.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-iam-policy&core=gav) |
+| [IAM Admin API](https://github.com/googleapis/google-cloud-java/tree/main/java-iam-admin) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-iam-admin.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-iam-admin&core=gav) |
+| [IAM Policy Troubleshooter API](https://github.com/googleapis/google-cloud-java/tree/main/java-policy-troubleshooter) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-policy-troubleshooter.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-policy-troubleshooter&core=gav) |
+| [IAM Service Account Credentials API](https://github.com/googleapis/google-cloud-java/tree/main/java-iamcredentials) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-iamcredentials.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-iamcredentials&core=gav) |
+| [Identity Access Context Manager](https://github.com/googleapis/google-cloud-java/tree/main/java-accesscontextmanager) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-identity-accesscontextmanager.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-identity-accesscontextmanager&core=gav) |
+| [Internet of Things (IoT) Core](https://github.com/googleapis/google-cloud-java/tree/main/java-iot) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-iot.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-iot&core=gav) |
+| [Intrusion Detection System](https://github.com/googleapis/google-cloud-java/tree/main/java-ids) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-ids.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-ids&core=gav) |
+| [Key Management Service](https://github.com/googleapis/google-cloud-java/tree/main/java-kms) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-kms.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-kms&core=gav) |
+| [Kubernetes Engine](https://github.com/googleapis/google-cloud-java/tree/main/java-container) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-container.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-container&core=gav) |
+| [Logging](https://github.com/googleapis/java-logging) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-logging.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-logging&core=gav) |
+| [Managed Service for Microsoft Active Directory](https://github.com/googleapis/google-cloud-java/tree/main/java-managed-identities) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-managed-identities.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-managed-identities&core=gav) |
+| [Memcache](https://github.com/googleapis/google-cloud-java/tree/main/java-memcache) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-memcache.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-memcache&core=gav) |
+| [Monitoring Dashboards](https://github.com/googleapis/google-cloud-java/tree/main/java-monitoring-dashboards) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-monitoring-dashboard.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-monitoring-dashboard&core=gav) |
+| [Natural Language](https://github.com/googleapis/google-cloud-java/tree/main/java-language) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-language.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-language&core=gav) |
+| [Network Connectivity Center](https://github.com/googleapis/google-cloud-java/tree/main/java-networkconnectivity) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-networkconnectivity.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-networkconnectivity&core=gav) |
+| [Network Management API](https://github.com/googleapis/google-cloud-java/tree/main/java-network-management) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-network-management.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-network-management&core=gav) |
+| [OS Config API](https://github.com/googleapis/google-cloud-java/tree/main/java-os-config) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-os-config.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-os-config&core=gav) |
+| [OS Login](https://github.com/googleapis/google-cloud-java/tree/main/java-os-login) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-os-login.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-os-login&core=gav) |
+| [Organization Policy](https://github.com/googleapis/google-cloud-java/tree/main/java-orgpolicy) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-orgpolicy.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-orgpolicy&core=gav) |
+| [Profiler](https://github.com/googleapis/google-cloud-java/tree/main/java-profiler) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-profiler.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-profiler&core=gav) |
+| [Pub/Sub](https://github.com/googleapis/java-pubsub) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-pubsub.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-pubsub&core=gav) |
+| [Pub/Sub Group Kafka Connector](https://github.com/googleapis/java-pubsub-group-kafka-connector) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/pubsub-group-kafka-connector.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:pubsub-group-kafka-connector&core=gav) |
+| [Pub/Sub Lite](https://github.com/googleapis/java-pubsublite) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-pubsublite.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-pubsublite&core=gav) |
+| [Pub/Sub Lite Kafka Shim](https://github.com/googleapis/java-pubsublite-kafka) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/pubsublite-kafka.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:pubsublite-kafka&core=gav) |
+| [Pub/Sub Lite Spark Connector](https://github.com/googleapis/java-pubsublite-spark) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/pubsublite-spark-sql-streaming.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:pubsublite-spark-sql-streaming&core=gav) |
+| [Recommender](https://github.com/googleapis/google-cloud-java/tree/main/java-recommender) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-recommender.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-recommender&core=gav) |
+| [Redis](https://github.com/googleapis/google-cloud-java/tree/main/java-redis) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-redis.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-redis&core=gav) |
+| [Resource Manager API](https://github.com/googleapis/google-cloud-java/tree/main/java-resourcemanager) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-resourcemanager.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-resourcemanager&core=gav) |
+| [Resource Settings API](https://github.com/googleapis/google-cloud-java/tree/main/java-resource-settings) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-resource-settings.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-resource-settings&core=gav) |
+| [Retail](https://github.com/googleapis/google-cloud-java/tree/main/java-retail) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-retail.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-retail&core=gav) |
+| [Routes API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-routing) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.maps/google-maps-routing.svg)](https://search.maven.org/search?q=g:com.google.maps%20AND%20a:google-maps-routing&core=gav) |
+| [Scheduler](https://github.com/googleapis/google-cloud-java/tree/main/java-scheduler) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-scheduler.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-scheduler&core=gav) |
+| [Secret Management](https://github.com/googleapis/google-cloud-java/tree/main/java-secretmanager) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-secretmanager.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-secretmanager&core=gav) |
+| [Security Command Center](https://github.com/googleapis/google-cloud-java/tree/main/java-securitycenter) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-securitycenter.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-securitycenter&core=gav) |
+| [Security Scanner](https://github.com/googleapis/google-cloud-java/tree/main/java-websecurityscanner) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-websecurityscanner.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-websecurityscanner&core=gav) |
+| [Serverless VPC Access](https://github.com/googleapis/google-cloud-java/tree/main/java-vpcaccess) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-vpcaccess.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-vpcaccess&core=gav) |
+| [Service Control API](https://github.com/googleapis/google-cloud-java/tree/main/java-service-control) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-service-control.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-service-control&core=gav) |
+| [Service Directory](https://github.com/googleapis/google-cloud-java/tree/main/java-servicedirectory) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-servicedirectory.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-servicedirectory&core=gav) |
+| [Service Management API](https://github.com/googleapis/google-cloud-java/tree/main/java-service-management) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-service-management.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-service-management&core=gav) |
+| [Service Usage](https://github.com/googleapis/google-cloud-java/tree/main/java-service-usage) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-service-usage.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-service-usage&core=gav) |
+| [Shell](https://github.com/googleapis/google-cloud-java/tree/main/java-shell) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-shell.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-shell&core=gav) |
+| [Spanner](https://github.com/googleapis/java-spanner) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-spanner.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-spanner&core=gav) |
+| [Spanner JDBC](https://github.com/googleapis/java-spanner-jdbc) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-spanner-jdbc.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-spanner-jdbc&core=gav) |
+| [Speech](https://github.com/googleapis/google-cloud-java/tree/main/java-speech) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-speech.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-speech&core=gav) |
+| [Stackdriver Monitoring](https://github.com/googleapis/google-cloud-java/tree/main/java-monitoring) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-monitoring.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-monitoring&core=gav) |
+| [Stackdriver Trace](https://github.com/googleapis/google-cloud-java/tree/main/java-trace) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-trace.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-trace&core=gav) |
+| [Storage](https://github.com/googleapis/java-storage) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-storage.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-storage&core=gav) |
+| [Storage Transfer Service](https://github.com/googleapis/google-cloud-java/tree/main/java-storage-transfer) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-storage-transfer.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-storage-transfer&core=gav) |
+| [TPU](https://github.com/googleapis/google-cloud-java/tree/main/java-tpu) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-tpu.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-tpu&core=gav) |
+| [Talent Solution](https://github.com/googleapis/google-cloud-java/tree/main/java-talent) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-talent.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-talent&core=gav) |
+| [Tasks](https://github.com/googleapis/google-cloud-java/tree/main/java-tasks) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-tasks.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-tasks&core=gav) |
+| [Text-to-Speech](https://github.com/googleapis/google-cloud-java/tree/main/java-texttospeech) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-texttospeech.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-texttospeech&core=gav) |
+| [Translation](https://github.com/googleapis/google-cloud-java/tree/main/java-translate) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-translate.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-translate&core=gav) |
+| [VM Migration](https://github.com/googleapis/google-cloud-java/tree/main/java-vmmigration) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-vmmigration.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-vmmigration&core=gav) |
+| [Vertex AI](https://github.com/googleapis/google-cloud-java/tree/main/java-aiplatform) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-aiplatform.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-aiplatform&core=gav) |
+| [Video Intelligence](https://github.com/googleapis/google-cloud-java/tree/main/java-video-intelligence) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-video-intelligence.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-video-intelligence&core=gav) |
+| [Video Transcoder](https://github.com/googleapis/google-cloud-java/tree/main/java-video-transcoder) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-video-transcoder.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-video-transcoder&core=gav) |
+| [Vision](https://github.com/googleapis/google-cloud-java/tree/main/java-vision) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-vision.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-vision&core=gav) |
+| [Web Risk](https://github.com/googleapis/google-cloud-java/tree/main/java-webrisk) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-webrisk.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-webrisk&core=gav) |
+| [Workflow Executions](https://github.com/googleapis/google-cloud-java/tree/main/java-workflow-executions) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-workflow-executions.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-workflow-executions&core=gav) |
+| [Workflows](https://github.com/googleapis/google-cloud-java/tree/main/java-workflows) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-workflows.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-workflows&core=gav) |
+| [Workspace Add-ons API](https://github.com/googleapis/google-cloud-java/tree/main/java-gsuite-addons) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-gsuite-addons.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-gsuite-addons&core=gav) |
+| [reCAPTCHA Enterprise](https://github.com/googleapis/google-cloud-java/tree/main/java-recaptchaenterprise) | [![stable][stable-stability]][stable-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-recaptchaenterprise.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-recaptchaenterprise&core=gav) |
+| [API Keys API](https://github.com/googleapis/google-cloud-java/tree/main/java-apikeys) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-apikeys.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-apikeys&core=gav) |
+| [Address Validation API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-addressvalidation) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.maps/google-maps-addressvalidation.svg)](https://search.maven.org/search?q=g:com.google.maps%20AND%20a:google-maps-addressvalidation&core=gav) |
+| [Advisory Notifications API](https://github.com/googleapis/google-cloud-java/tree/main/java-advisorynotifications) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-advisorynotifications.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-advisorynotifications&core=gav) |
+| [AlloyDB](https://github.com/googleapis/google-cloud-java/tree/main/java-alloydb) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-alloydb.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-alloydb&core=gav) |
+| [Analytics Admin](https://github.com/googleapis/google-cloud-java/tree/main/java-analytics-admin) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.analytics/google-analytics-admin.svg)](https://search.maven.org/search?q=g:com.google.analytics%20AND%20a:google-analytics-admin&core=gav) |
+| [Analytics Data](https://github.com/googleapis/google-cloud-java/tree/main/java-analytics-data) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.analytics/google-analytics-data.svg)](https://search.maven.org/search?q=g:com.google.analytics%20AND%20a:google-analytics-data&core=gav) |
+| [Analytics Hub](https://github.com/googleapis/google-cloud-java/tree/main/java-bigquery-data-exchange) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquery-data-exchange.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquery-data-exchange&core=gav) |
+| [Analytics Hub API](https://github.com/googleapis/google-cloud-java/tree/main/java-analyticshub) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-analyticshub.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-analyticshub&core=gav) |
+| [Anthos Multicloud](https://github.com/googleapis/google-cloud-java/tree/main/java-gke-multi-cloud) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-gke-multi-cloud.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-gke-multi-cloud&core=gav) |
+| [Area 120 Tables](https://github.com/googleapis/google-cloud-java/tree/main/java-area120-tables) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.area120/google-area120-tables.svg)](https://search.maven.org/search?q=g:com.google.area120%20AND%20a:google-area120-tables&core=gav) |
+| [Backup for GKE](https://github.com/googleapis/google-cloud-java/tree/main/java-gke-backup) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-gke-backup.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-gke-backup&core=gav) |
+| [Bare Metal Solution](https://github.com/googleapis/google-cloud-java/tree/main/java-bare-metal-solution) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bare-metal-solution.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bare-metal-solution&core=gav) |
+| [Batch](https://github.com/googleapis/google-cloud-java/tree/main/java-batch) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-batch.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-batch&core=gav) |
+| [BeyondCorp AppConnections](https://github.com/googleapis/google-cloud-java/tree/main/java-beyondcorp-appconnections) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-beyondcorp-appconnections.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-beyondcorp-appconnections&core=gav) |
+| [BeyondCorp AppConnectors](https://github.com/googleapis/google-cloud-java/tree/main/java-beyondcorp-appconnectors) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-beyondcorp-appconnectors.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-beyondcorp-appconnectors&core=gav) |
+| [BeyondCorp AppGateways](https://github.com/googleapis/google-cloud-java/tree/main/java-beyondcorp-appgateways) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-beyondcorp-appgateways.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-beyondcorp-appgateways&core=gav) |
+| [BeyondCorp ClientConnectorServices](https://github.com/googleapis/google-cloud-java/tree/main/java-beyondcorp-clientconnectorservices) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-beyondcorp-clientconnectorservices.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-beyondcorp-clientconnectorservices&core=gav) |
+| [BeyondCorp ClientGateways](https://github.com/googleapis/google-cloud-java/tree/main/java-beyondcorp-clientgateways) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-beyondcorp-clientgateways.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-beyondcorp-clientgateways&core=gav) |
+| [BigLake](https://github.com/googleapis/google-cloud-java/tree/main/java-biglake) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-biglake.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-biglake&core=gav) |
+| [BigQuery DataPolicy API](https://github.com/googleapis/google-cloud-java/tree/main/java-bigquerydatapolicy) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquerydatapolicy.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquerydatapolicy&core=gav) |
+| [BigQuery Migration](https://github.com/googleapis/google-cloud-java/tree/main/java-bigquerymigration) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-bigquerymigration.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-bigquerymigration&core=gav) |
+| [Certificate Manager](https://github.com/googleapis/google-cloud-java/tree/main/java-certificate-manager) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-certificate-manager.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-certificate-manager&core=gav) |
+| [Commerce Consumer Procurement](https://github.com/googleapis/google-cloud-java/tree/main/java-cloudcommerceconsumerprocurement) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-cloudcommerceconsumerprocurement.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-cloudcommerceconsumerprocurement&core=gav) |
+| [Confidential Computing API](https://github.com/googleapis/google-cloud-java/tree/main/java-confidentialcomputing) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-confidentialcomputing.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-confidentialcomputing&core=gav) |
+| [Connect Gateway API](https://github.com/googleapis/google-cloud-java/tree/main/java-gke-connect-gateway) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-gke-connect-gateway.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-gke-connect-gateway&core=gav) |
+| [Data Labeling](https://github.com/googleapis/google-cloud-java/tree/main/java-datalabeling) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datalabeling.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-datalabeling&core=gav) |
+| [Data Lineage](https://github.com/googleapis/google-cloud-java/tree/main/java-datalineage) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datalineage.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-datalineage&core=gav) |
+| [Dataflow](https://github.com/googleapis/google-cloud-java/tree/main/java-dataflow) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dataflow.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dataflow&core=gav) |
+| [Dataform](https://github.com/googleapis/google-cloud-java/tree/main/java-dataform) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dataform.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dataform&core=gav) |
+| [Dialogflow CX](https://github.com/googleapis/google-cloud-java/tree/main/java-dialogflow-cx) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-dialogflow-cx.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-dialogflow-cx&core=gav) |
+| [Discovery Engine API](https://github.com/googleapis/google-cloud-java/tree/main/java-discoveryengine) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-discoveryengine.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-discoveryengine&core=gav) |
+| [Distributed Edge](https://github.com/googleapis/google-cloud-java/tree/main/java-distributedcloudedge) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-distributedcloudedge.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-distributedcloudedge&core=gav) |
+| [Document AI Warehouse](https://github.com/googleapis/google-cloud-java/tree/main/java-contentwarehouse) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-contentwarehouse.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-contentwarehouse&core=gav) |
+| [Enterprise Knowledge Graph](https://github.com/googleapis/google-cloud-java/tree/main/java-enterpriseknowledgegraph) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-enterpriseknowledgegraph.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-enterpriseknowledgegraph&core=gav) |
+| [Error Reporting](https://github.com/googleapis/google-cloud-java/tree/main/java-errorreporting) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-errorreporting.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-errorreporting&core=gav) |
+| [Eventarc Publishing](https://github.com/googleapis/google-cloud-java/tree/main/java-eventarc-publishing) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-eventarc-publishing.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-eventarc-publishing&core=gav) |
+| [KMS Inventory API](https://github.com/googleapis/google-cloud-java/tree/main/java-kmsinventory) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-kmsinventory.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-kmsinventory&core=gav) |
+| [Life Sciences](https://github.com/googleapis/google-cloud-java/tree/main/java-life-sciences) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-life-sciences.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-life-sciences&core=gav) |
+| [Live Stream API](https://github.com/googleapis/google-cloud-java/tree/main/java-video-live-stream) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-live-stream.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-live-stream&core=gav) |
+| [Logging Logback Appender](https://github.com/googleapis/java-logging-logback) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-logging-logback.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-logging-logback&core=gav) |
+| [Logging Servlet Initializer](https://github.com/googleapis/java-logging-servlet-initializer) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-logging-servlet-initializer.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-logging-servlet-initializer&core=gav) |
+| [Maps Platform Datasets API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-mapsplatformdatasets) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.maps/google-maps-mapsplatformdatasets.svg)](https://search.maven.org/search?q=g:com.google.maps%20AND%20a:google-maps-mapsplatformdatasets&core=gav) |
+| [Media Translation API](https://github.com/googleapis/google-cloud-java/tree/main/java-mediatranslation) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-mediatranslation.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-mediatranslation&core=gav) |
+| [Migration Center API](https://github.com/googleapis/google-cloud-java/tree/main/java-migrationcenter) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-migrationcenter.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-migrationcenter&core=gav) |
+| [Monitoring Metrics Scopes](https://github.com/googleapis/google-cloud-java/tree/main/java-monitoring-metricsscope) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-monitoring-metricsscope.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-monitoring-metricsscope&core=gav) |
+| [NIO Filesystem Provider for Storage](https://github.com/googleapis/java-storage-nio) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-nio.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-nio&core=gav) |
+| [Network Security API](https://github.com/googleapis/google-cloud-java/tree/main/java-network-security) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-network-security.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-network-security&core=gav) |
+| [Phishing Protection](https://github.com/googleapis/google-cloud-java/tree/main/java-phishingprotection) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-phishingprotection.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-phishingprotection&core=gav) |
+| [Private Catalog](https://github.com/googleapis/google-cloud-java/tree/main/java-private-catalog) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-private-catalog.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-private-catalog&core=gav) |
+| [Pub/Sub Lite Flink Connector](https://github.com/googleapis/java-pubsublite-flink) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-pubsublite-flink.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-pubsublite-flink&core=gav) |
+| [Public Certificate Authority](https://github.com/googleapis/google-cloud-java/tree/main/java-publicca) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-publicca.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-publicca&core=gav) |
+| [Rapid Migration Assessment API](https://github.com/googleapis/google-cloud-java/tree/main/java-rapidmigrationassessment) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-rapidmigrationassessment.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-rapidmigrationassessment&core=gav) |
+| [Recommendations AI](https://github.com/googleapis/google-cloud-java/tree/main/java-recommendations-ai) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-recommendations-ai.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-recommendations-ai&core=gav) |
+| [Registry API](https://github.com/googleapis/google-cloud-java/tree/main/java-apigee-registry) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-apigee-registry.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-apigee-registry&core=gav) |
+| [Run](https://github.com/googleapis/google-cloud-java/tree/main/java-run) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-run.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-run&core=gav) |
+| [Security Command Center Settings API](https://github.com/googleapis/google-cloud-java/tree/main/java-securitycenter-settings) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-securitycenter-settings.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-securitycenter-settings&core=gav) |
+| [Storage Insights API](https://github.com/googleapis/google-cloud-java/tree/main/java-storageinsights) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-storageinsights.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-storageinsights&core=gav) |
+| [Support API](https://github.com/googleapis/google-cloud-java/tree/main/java-cloudsupport) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-cloudsupport.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-cloudsupport&core=gav) |
+| [VMware Engine](https://github.com/googleapis/google-cloud-java/tree/main/java-vmwareengine) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-vmwareengine.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-vmwareengine&core=gav) |
+| [Video Stitcher API](https://github.com/googleapis/google-cloud-java/tree/main/java-video-stitcher) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-video-stitcher.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-video-stitcher&core=gav) |
+| [Workstations](https://github.com/googleapis/google-cloud-java/tree/main/java-workstations) | [![preview][preview-stability]][preview-description] | [![Maven](https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-workstations.svg)](https://search.maven.org/search?q=g:com.google.cloud%20AND%20a:google-cloud-workstations&core=gav) |
 
-To run the SDK you will need **Java 1.8+**. For more information about the requirements and optimum
-settings for the SDK, please see the [Installing a Java Development Environment][docs-java-env]
-section of the developer guide.
+[//]: # (API_TABLE_END)
 
-## Using the SDK
+If the service is not listed, [google-api-java-client][google-api-java-client-services] interfaces with additional Google Cloud APIs using a legacy REST interface.
 
-The recommended way to use the AWS SDK for Java in your project is to consume it from Maven Central. 
+*When building Java applications, preference should be given to the libraries listed in the table.*
 
-#### Importing the BOM ####
 
-To automatically manage module versions (currently all modules have the same version, but this may not always be the case) we recommend you use the [Bill of Materials][bom] import as follows:
 
-```xml
-<dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>bom</artifactId>
-      <version>2.20.140</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
+## Specifying a Project ID
+
+Most `google-cloud` libraries require a project ID.  There are multiple ways to specify this project ID.
+
+1. When using `google-cloud` libraries from within Compute/App Engine, there's no need to specify a project ID.  It is automatically inferred from the production environment.
+2. When using `google-cloud` elsewhere, you can do one of the following:
+* Supply the project ID when building the service options.  For example, to use Datastore from a project with ID "PROJECT_ID", you can write:
+
+  ```java
+  Datastore datastore = DatastoreOptions.newBuilder().setProjectId("PROJECT_ID").build().getService();
+  ```
+* Specify the environment variable `GOOGLE_CLOUD_PROJECT` to be your desired project ID.
+* Set the project ID using the [Google Cloud SDK](https://cloud.google.com/sdk/?hl=en).  To use the SDK, [download the SDK](https://cloud.google.com/sdk/?hl=en) if you haven't already, and set the project ID from the command line.  For example:
+
+  ```
+  gcloud config set project PROJECT_ID
+  ```
+
+`google-cloud` determines the project ID from the following sources in the listed order, stopping once it finds a value:
+
+1. The project ID supplied when building the service options
+2. Project ID specified by the environment variable `GOOGLE_CLOUD_PROJECT`
+3. The App Engine / Compute Engine project ID
+4. The project ID specified in the JSON credentials file pointed by the `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+5. The Google Cloud SDK project ID
+
+In cases where the library may expect a project ID explicitly, we provide a helper that can provide the inferred project ID:
+   ```java
+     import com.google.cloud.ServiceOptions;
+     ...
+     String projectId = ServiceOptions.getDefaultProjectId();
+   ```
+
+## Authentication
+
+`google-cloud-java` uses
+[https://github.com/googleapis/google-auth-library-java](https://github.com/googleapis/google-auth-library-java)
+to authenticate requests. `google-auth-library-java` supports a wide range of authentication types;
+see the project's [README](https://github.com/google/google-auth-library-java/blob/main/README.md)
+and [javadoc](https://cloud.google.com/java/docs/reference/google-auth-library/latest/overview) for more
+details.
+
+### Google Cloud Platform environment
+
+When using Google Cloud libraries from a Google Cloud Platform environment such as Compute Engine,
+Kubernetes Engine, or App Engine, no additional authentication steps are necessary.
+
+For example:
+
+```java
+Storage storage = StorageOptions.getDefaultInstance().getService();
 ```
 
-Then individual modules may omit the `version` from their dependency statement:
+or:
 
-```xml
-<dependencies>
-  <dependency>
-    <groupId>software.amazon.awssdk</groupId>
-    <artifactId>ec2</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>software.amazon.awssdk</groupId>
-    <artifactId>s3</artifactId>
-  </dependency>
-  <dependency>
-    <groupId>software.amazon.awssdk</groupId>
-    <artifactId>dynamodb</artifactId>
-  </dependency>
-</dependencies>
-```
-#### Individual Services ####
-
-Alternatively you can add dependencies for the specific services you use only:
-
-```xml
-<dependency>
-  <groupId>software.amazon.awssdk</groupId>
-  <artifactId>ec2</artifactId>
-  <version>2.20.140</version>
-</dependency>
-<dependency>
-  <groupId>software.amazon.awssdk</groupId>
-  <artifactId>s3</artifactId>
-  <version>2.20.140</version>
-</dependency>
+```java
+CloudTasksClient cloudTasksClient = CloudTasksClient.create();
 ```
 
-#### Whole SDK ####
+### Other environments
 
-You can import the whole SDK into your project (includes *ALL* services). Please note that it is recommended to only import the modules you need.
+#### Using a service account (recommended)
 
-```xml
-<dependency>
-  <groupId>software.amazon.awssdk</groupId>
-  <artifactId>aws-sdk-java</artifactId>
-  <version>2.20.140</version>
-</dependency>
+1. [Generate a JSON service account key](https://cloud.google.com/storage/docs/authentication?hl=en#service_accounts).
+
+2. After downloading that key, you must do one of the following:
+    * Define the environment variable GOOGLE_APPLICATION_CREDENTIALS to be the location of the key.
+      For example:
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS=/path/to/my/key.json
+    ```
+    * Supply the JSON credentials file when building the service options. For example, this Storage
+      object has the necessary permissions to interact with your Google Cloud Storage data:
+    ```java
+    Storage storage = StorageOptions.newBuilder()
+        .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/path/to/my/key.json")))
+        .build()
+        .getService();
+    ```
+
+#### Local development/testing
+
+If running locally for development/testing, you can use the [Google Cloud SDK](https://cloud.google.com/sdk/).
+Create Application Default Credentials with `gcloud auth application-default login`, and then
+`google-cloud` will automatically detect such credentials.
+
+#### Existing OAuth2 access token
+
+If you already have an OAuth2 access token, you can use it to authenticate (notice that in this case, the
+access token will not be automatically refreshed):
+
+```java
+Credentials credentials = GoogleCredentials.create(new AccessToken(accessToken, expirationTime));
+Storage storage = StorageOptions.newBuilder()
+    .setCredentials(credentials)
+    .build()
+    .getService();
 ```
 
-See the [Set up the AWS SDK for Java][docs-setup] section of the developer guide for more usage information.
+or:
 
-## New Features for 2.0
-
-* Provides a way to plug in your own HTTP implementation.
-
-* Provides first class support for non-blocking IO in Async clients.
-
-## Building From Source
-
-Once you check out the code from GitHub, you can build it using the following commands.
-
-Linux:
-
-```sh
-./mvnw clean install
-
-# Skip tests, checkstyles, findbugs, etc for quick build
-./mvnw clean install -P quick
-
-# Build a specific service module
-./mvnw clean install -pl :s3 -P quick --am
+```java
+Credentials credentials = GoogleCredentials.create(new AccessToken(accessToken, expirationTime));
+CloudTasksSettings cloudTasksSettings = CloudTasksSettings.newBuilder()
+    .setCredentialProvider(FixedCredentialsProvider.create(credentials))
+    .build();
+CloudTasksClient cloudTasksClient = CloudTasksClient.create(cloudTasksSettings);
 ```
 
-Windows:
-```sh
-./mvnw.cmd clean install
+### Application Default Credentials
+
+If no credentials are provided, `google-cloud` will attempt to detect them from the environment
+using `GoogleCredentials.getApplicationDefault()` which will search for Application Default
+Credentials in the following locations (in order):
+
+1. The credentials file pointed to by the `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+2. Credentials provided by the Google Cloud SDK `gcloud auth application-default login` command
+3. Google App Engine built-in credentials
+4. Google Cloud Shell built-in credentials
+5. Google Compute Engine built-in credentials
+
+## Troubleshooting
+
+To get help, follow the instructions in the [Troubleshooting document](https://github.com/googleapis/google-cloud-java/blob/main/TROUBLESHOOTING.md).
+
+## Configuring a Proxy
+
+Google Cloud client libraries use HTTPS and gRPC in underlying communication
+with the services.
+In both protocols, you can configure a proxy using `https.proxyHost`
+and (optional) `https.proxyPort` properties.
+
+### gRPC Custom Proxy Configuration
+
+For a more custom proxy with gRPC, you will need supply a `ProxyDetector` to
+the `ManagedChannelBuilder`:
+
+```java
+import com.google.api.core.ApiFunction;
+import com.google.api.gax.rpc.TransportChannelProvider;
+import com.google.cloud.tasks.v2.CloudTasksClient;
+import com.google.cloud.tasks.v2.CloudTasksSettings;
+import com.google.cloud.tasks.v2.stub.CloudTasksStubSettings;
+import io.grpc.HttpConnectProxiedSocketAddress;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.ProxiedSocketAddress;
+import io.grpc.ProxyDetector;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+
+public CloudTasksClient getService() throws IOException {
+  TransportChannelProvider transportChannelProvider =
+      CloudTasksStubSettings.defaultGrpcTransportProviderBuilder()
+          .setChannelConfigurator(
+              new ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder>() {
+                @Override
+                public ManagedChannelBuilder apply(ManagedChannelBuilder managedChannelBuilder) {
+                  return managedChannelBuilder.proxyDetector(
+                      new ProxyDetector() {
+                        @Nullable
+                        @Override
+                        public ProxiedSocketAddress proxyFor(SocketAddress socketAddress)
+                            throws IOException {
+                          return HttpConnectProxiedSocketAddress.newBuilder()
+                              .setUsername(PROXY_USERNAME)
+                              .setPassword(PROXY_PASSWORD)
+                              .setProxyAddress(new InetSocketAddress(PROXY_HOST, PROXY_PORT))
+                              .setTargetAddress((InetSocketAddress) socketAddress)
+                              .build();
+                        }
+                      });
+                }
+              })
+          .build();
+  CloudTasksSettings cloudTasksSettings =
+      CloudTasksSettings.newBuilder()
+          .setTransportChannelProvider(transportChannelProvider)
+          .build();
+  return CloudTasksClient.create(cloudTasksSettings);
+}
 ```
 
-## Sample Code
-You can find sample code for v2 in the following places:
+## Long Running Operations
 
-* [aws-doc-sdk-examples] repo.
-* Integration tests in this repo. They are located in the `it` directory under each service module, eg: [s3-integration-tests]
+Long running operations (LROs) are often used for API calls that are expected to
+take a long time to complete (e.g. provisioning a GCE instance or a Dataflow pipeline).
+The initial API call creates an "operation" on the server and returns an operation ID
+to track its progress.
 
-## Maintenance and Support for SDK Major Versions
-For information about maintenance and support for SDK major versions and their underlying dependencies, see the following in the AWS SDKs and Tools Reference Guide:
+Our generated gRPC clients provide a nice interface for starting the operation and
+then waiting for the operation to complete. This is accomplished by returning an
+[`OperationFuture`](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.longrunning.OperationFuture).
+When you call `get()` on the `OperationFuture` we poll the operation endpoint to
+check on the operation. These polling operations have a default timeout that
+varies from service to service and will throw a `java.util.concurrent.CancellationException`
+with the message: `Task was cancelled.` after that timeout has been reached.
 
-* [AWS SDKs and Tools Maintenance Policy][maintenance-policy]
-* [AWS SDKs and Tools Version Support Matrix][version-matrix]
+### Configuring LRO Timeouts
 
-## Maintenance and Support for Java Versions
+```java
+ClusterControllerSettings.Builder settingsBuilder = ClusterControllerSettings.newBuilder();
+TimedRetryAlgorithm timedRetryAlgorithm = OperationTimedPollAlgorithm.create(
+		RetrySettings.newBuilder()
+				.setInitialRetryDelay(Duration.ofMillis(500L))
+				.setRetryDelayMultiplier(1.5)
+				.setMaxRetryDelay(Duration.ofMillis(5000L))
+				.setInitialRpcTimeout(Duration.ZERO) // ignored
+				.setRpcTimeoutMultiplier(1.0) // ignored
+				.setMaxRpcTimeout(Duration.ZERO) // ignored
+				.setTotalTimeout(Duration.ofHours(24L))	// set polling timeout to 24 hours
+				.build());
+settingsBuilder.createClusterOperationSettings()
+		.setPollingAlgorithm(timedRetryAlgorithm);
+ClusterControllerClient clusterControllerClient = ClusterControllerClient.create(settingsBuilder.build());
+```
 
-We maintain full support on Long-Term Support(LTS) releases: Java 8, Java 11, and Java 17.
+## Managing Dependencies
 
-## Giving Feedback
-We need your help in making this SDK great. Please participate in the community and contribute to this effort by submitting issues, participating in discussion forums and submitting pull requests through the following channels:
+If you are using more than one Google Cloud client library, we recommend you use one of
+our Bill of Material (BOM) artifacts to help manage dependency versions. For more information,
+see [Using the Cloud Client Libraries](https://cloud.google.com/java/docs/bom).
 
-* Submit [issues][sdk-issues] - this is the **preferred** channel to interact with our team
-* Articulate your feature request or upvote existing ones on our [Issues][features] page
+## Java Versions
 
-[aws-iam-credentials]: http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/java-dg-roles.html
-[aws]: http://aws.amazon.com/
-[blog]: https://aws.amazon.com/blogs/developer/category/java/
-[docs-api]: https://sdk.amazonaws.com/java/api/latest/overview-summary.html
-[docs-guide]: http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/welcome.html
-[docs-guide-source]: https://github.com/awsdocs/aws-java-developer-guide-v2
-[docs-java-env]: http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/setup-install.html##java-dg-java-env
-[docs-signup]: http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/signup-create-iam-user.html
-[docs-setup]: http://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/setup-install.html
-[sdk-issues]: https://github.com/aws/aws-sdk-java-v2/issues
-[sdk-license]: http://aws.amazon.com/apache2.0/
-[sdk-website]: http://aws.amazon.com/sdkforjava
-[aws-java-sdk-bom]: https://github.com/aws/aws-sdk-java-v2/tree/master/bom
-[stack-overflow]: http://stackoverflow.com/questions/tagged/aws-java-sdk
-[gitter]: https://gitter.im/aws/aws-sdk-java-v2
-[features]: https://github.com/aws/aws-sdk-java-v2/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature-request%22
-[support-center]: https://console.aws.amazon.com/support/
-[console]: https://console.aws.amazon.com
-[bom]: http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22software.amazon.awssdk%22%20AND%20a%3A%22bom%22
-[aws-doc-sdk-examples]: https://github.com/awsdocs/aws-doc-sdk-examples/tree/master/javav2
-[s3-integration-tests]: https://github.com/aws/aws-sdk-java-v2/tree/master/services/s3/src/it/java/software/amazon/awssdk/services/s3
-[maintenance-policy]: https://docs.aws.amazon.com/credref/latest/refdocs/maint-policy.html
-[version-matrix]: https://docs.aws.amazon.com/credref/latest/refdocs/version-support-matrix.html
+Java 8 or above is required for using the clients in this repository.
 
-## Contributors ✨
+## Supported Platforms
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Clients in this repository use either HTTP or gRPC for the transport layer. All
+HTTP-based clients should work in all environments.
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sullis"><img src="https://avatars.githubusercontent.com/u/30938?v=4?s=100" width="100px;" alt="sullis"/><br /><sub><b>sullis</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=sullis" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abrooksv"><img src="https://avatars.githubusercontent.com/u/8992246?v=4?s=100" width="100px;" alt="Austin Brooks"/><br /><sub><b>Austin Brooks</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=abrooksv" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ktoso"><img src="https://avatars.githubusercontent.com/u/120979?v=4?s=100" width="100px;" alt="Konrad `ktoso` Malawski"/><br /><sub><b>Konrad `ktoso` Malawski</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ktoso" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/andrewhop"><img src="https://avatars.githubusercontent.com/u/41167468?v=4?s=100" width="100px;" alt="Andrew Hopkins"/><br /><sub><b>Andrew Hopkins</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=andrewhop" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/adamthom-amzn"><img src="https://avatars.githubusercontent.com/u/61852529?v=4?s=100" width="100px;" alt="Adam Thomas"/><br /><sub><b>Adam Thomas</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=adamthom-amzn" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sworisbreathing"><img src="https://avatars.githubusercontent.com/u/1486524?v=4?s=100" width="100px;" alt="Steven Swor"/><br /><sub><b>Steven Swor</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=sworisbreathing" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Carey-AWS"><img src="https://avatars.githubusercontent.com/u/61763083?v=4?s=100" width="100px;" alt="Carey Burgess"/><br /><sub><b>Carey Burgess</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Carey-AWS" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anuraaga"><img src="https://avatars.githubusercontent.com/u/198344?v=4?s=100" width="100px;" alt="Anuraag Agrawal"/><br /><sub><b>Anuraag Agrawal</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=anuraaga" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jeffalder"><img src="https://avatars.githubusercontent.com/u/49817386?v=4?s=100" width="100px;" alt="jeffalder"/><br /><sub><b>jeffalder</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=jeffalder" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dotbg"><img src="https://avatars.githubusercontent.com/u/367403?v=4?s=100" width="100px;" alt="Boris"/><br /><sub><b>Boris</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=dotbg" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/notdryft"><img src="https://avatars.githubusercontent.com/u/2608594?v=4?s=100" width="100px;" alt="Guillaume Corré"/><br /><sub><b>Guillaume Corré</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=notdryft" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hyandell"><img src="https://avatars.githubusercontent.com/u/477715?v=4?s=100" width="100px;" alt="Henri Yandell"/><br /><sub><b>Henri Yandell</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=hyandell" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rschmitt"><img src="https://avatars.githubusercontent.com/u/3725049?v=4?s=100" width="100px;" alt="Ryan Schmitt"/><br /><sub><b>Ryan Schmitt</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=rschmitt" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/SomayaB"><img src="https://avatars.githubusercontent.com/u/23043132?v=4?s=100" width="100px;" alt="Somaya"/><br /><sub><b>Somaya</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=SomayaB" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/steven-aerts"><img src="https://avatars.githubusercontent.com/u/1381633?v=4?s=100" width="100px;" alt="Steven Aerts"/><br /><sub><b>Steven Aerts</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=steven-aerts" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/skwslide"><img src="https://avatars.githubusercontent.com/u/1427510?v=4?s=100" width="100px;" alt="Steven Wong"/><br /><sub><b>Steven Wong</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=skwslide" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/telendt"><img src="https://avatars.githubusercontent.com/u/85191?v=4?s=100" width="100px;" alt="Tomasz Elendt"/><br /><sub><b>Tomasz Elendt</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=telendt" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sarev0k"><img src="https://avatars.githubusercontent.com/u/8388574?v=4?s=100" width="100px;" alt="Will Erickson"/><br /><sub><b>Will Erickson</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Sarev0k" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/madgnome"><img src="https://avatars.githubusercontent.com/u/279528?v=4?s=100" width="100px;" alt="Julien Hoarau"/><br /><sub><b>Julien Hoarau</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=madgnome" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/SEOKHYOENCHOI"><img src="https://avatars.githubusercontent.com/u/42906668?v=4?s=100" width="100px;" alt="SEOKHYOENCHOI"/><br /><sub><b>SEOKHYOENCHOI</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=SEOKHYOENCHOI" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/adriannistor"><img src="https://avatars.githubusercontent.com/u/3051958?v=4?s=100" width="100px;" alt="adriannistor"/><br /><sub><b>adriannistor</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=adriannistor" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alicesun16"><img src="https://avatars.githubusercontent.com/u/56938110?v=4?s=100" width="100px;" alt="Xian Sun "/><br /><sub><b>Xian Sun </b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=alicesun16" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ascheja"><img src="https://avatars.githubusercontent.com/u/3932118?v=4?s=100" width="100px;" alt="Andreas Scheja"/><br /><sub><b>Andreas Scheja</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ascheja" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/antegocanva"><img src="https://avatars.githubusercontent.com/u/43571020?v=4?s=100" width="100px;" alt="Anton Egorov"/><br /><sub><b>Anton Egorov</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=antegocanva" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/roexber"><img src="https://avatars.githubusercontent.com/u/7964627?v=4?s=100" width="100px;" alt="roexber"/><br /><sub><b>roexber</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=roexber" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/brharrington"><img src="https://avatars.githubusercontent.com/u/1289028?v=4?s=100" width="100px;" alt="brharrington"/><br /><sub><b>brharrington</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=brharrington" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/chrisradek"><img src="https://avatars.githubusercontent.com/u/14189820?v=4?s=100" width="100px;" alt="Christopher Radek"/><br /><sub><b>Christopher Radek</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=chrisradek" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/zakkak"><img src="https://avatars.githubusercontent.com/u/1435395?v=4?s=100" width="100px;" alt="Foivos"/><br /><sub><b>Foivos</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=zakkak" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/superwese"><img src="https://avatars.githubusercontent.com/u/954116?v=4?s=100" width="100px;" alt="Frank Wesemann"/><br /><sub><b>Frank Wesemann</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=superwese" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sperka"><img src="https://avatars.githubusercontent.com/u/157324?v=4?s=100" width="100px;" alt="Gergely Varga"/><br /><sub><b>Gergely Varga</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=sperka" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/GuillermoBlasco"><img src="https://avatars.githubusercontent.com/u/1889971?v=4?s=100" width="100px;" alt="Guillermo"/><br /><sub><b>Guillermo</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=GuillermoBlasco" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rce"><img src="https://avatars.githubusercontent.com/u/4427896?v=4?s=100" width="100px;" alt="Henry Heikkinen"/><br /><sub><b>Henry Heikkinen</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=rce" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/joschi"><img src="https://avatars.githubusercontent.com/u/43951?v=4?s=100" width="100px;" alt="Jochen Schalanda"/><br /><sub><b>Jochen Schalanda</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=joschi" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/josephlbarnett"><img src="https://avatars.githubusercontent.com/u/13838924?v=4?s=100" width="100px;" alt="Joe Barnett"/><br /><sub><b>Joe Barnett</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=josephlbarnett" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/seratch"><img src="https://avatars.githubusercontent.com/u/19658?v=4?s=100" width="100px;" alt="Kazuhiro Sera"/><br /><sub><b>Kazuhiro Sera</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=seratch" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChaithanyaGK"><img src="https://avatars.githubusercontent.com/u/28896513?v=4?s=100" width="100px;" alt="Krishna Chaithanya Ganta"/><br /><sub><b>Krishna Chaithanya Ganta</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ChaithanyaGK" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/leepa"><img src="https://avatars.githubusercontent.com/u/9469?v=4?s=100" width="100px;" alt="Lee Packham"/><br /><sub><b>Lee Packham</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=leepa" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MatteCarra"><img src="https://avatars.githubusercontent.com/u/11074527?v=4?s=100" width="100px;" alt="Matteo Carrara"/><br /><sub><b>Matteo Carrara</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=MatteCarra" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mscharp"><img src="https://avatars.githubusercontent.com/u/1426929?v=4?s=100" width="100px;" alt="Michael Scharp"/><br /><sub><b>Michael Scharp</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=mscharp" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/miguelrjim"><img src="https://avatars.githubusercontent.com/u/1420241?v=4?s=100" width="100px;" alt="Miguel Jimenez"/><br /><sub><b>Miguel Jimenez</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=miguelrjim" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Helmsdown"><img src="https://avatars.githubusercontent.com/u/1689115?v=4?s=100" width="100px;" alt="Russell Bolles"/><br /><sub><b>Russell Bolles</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Helmsdown" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/scheerer"><img src="https://avatars.githubusercontent.com/u/4659?v=4?s=100" width="100px;" alt="Russell Scheerer"/><br /><sub><b>Russell Scheerer</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=scheerer" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/scotty-g"><img src="https://avatars.githubusercontent.com/u/7861050?v=4?s=100" width="100px;" alt="Scott"/><br /><sub><b>Scott</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=scotty-g" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ueokande"><img src="https://avatars.githubusercontent.com/u/534166?v=4?s=100" width="100px;" alt="Shin'ya Ueoka"/><br /><sub><b>Shin'ya Ueoka</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ueokande" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sushilamazon"><img src="https://avatars.githubusercontent.com/u/42008398?v=4?s=100" width="100px;" alt="sushilamazon"/><br /><sub><b>sushilamazon</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=sushilamazon" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tomliu4uber"><img src="https://avatars.githubusercontent.com/u/22459891?v=4?s=100" width="100px;" alt="tomliu4uber"/><br /><sub><b>tomliu4uber</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=tomliu4uber" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/musketyr"><img src="https://avatars.githubusercontent.com/u/660405?v=4?s=100" width="100px;" alt="Vladimir Orany"/><br /><sub><b>Vladimir Orany</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=musketyr" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Xinyu-Hu"><img src="https://avatars.githubusercontent.com/u/31017838?v=4?s=100" width="100px;" alt="Xinyu Hu"/><br /><sub><b>Xinyu Hu</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Xinyu-Hu" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/frosforever"><img src="https://avatars.githubusercontent.com/u/1630422?v=4?s=100" width="100px;" alt="Yosef Fertel"/><br /><sub><b>Yosef Fertel</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=frosforever" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/denyskonakhevych"><img src="https://avatars.githubusercontent.com/u/5894907?v=4?s=100" width="100px;" alt="Denys Konakhevych"/><br /><sub><b>Denys Konakhevych</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=denyskonakhevych" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alexw91"><img src="https://avatars.githubusercontent.com/u/3596374?v=4?s=100" width="100px;" alt="Alex Weibel"/><br /><sub><b>Alex Weibel</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=alexw91" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rccarper"><img src="https://avatars.githubusercontent.com/u/51676630?v=4?s=100" width="100px;" alt="Ryan Carper"/><br /><sub><b>Ryan Carper</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=rccarper" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/JonathanHenson"><img src="https://avatars.githubusercontent.com/u/3926469?v=4?s=100" width="100px;" alt="Jonathan M. Henson"/><br /><sub><b>Jonathan M. Henson</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=JonathanHenson" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/debora-ito"><img src="https://avatars.githubusercontent.com/u/476307?v=4?s=100" width="100px;" alt="Debora N. Ito"/><br /><sub><b>Debora N. Ito</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=debora-ito" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bretambrose"><img src="https://avatars.githubusercontent.com/u/341314?v=4?s=100" width="100px;" alt="Bret Ambrose"/><br /><sub><b>Bret Ambrose</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=bretambrose" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/cenedhryn"><img src="https://avatars.githubusercontent.com/u/26603446?v=4?s=100" width="100px;" alt="Anna-Karin Salander"/><br /><sub><b>Anna-Karin Salander</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=cenedhryn" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/joviegas"><img src="https://avatars.githubusercontent.com/u/70235430?v=4?s=100" width="100px;" alt="John Viegas"/><br /><sub><b>John Viegas</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=joviegas" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dagnir"><img src="https://avatars.githubusercontent.com/u/261310?v=4?s=100" width="100px;" alt="Dongie Agnir"/><br /><sub><b>Dongie Agnir</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=dagnir" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/millems"><img src="https://avatars.githubusercontent.com/u/24903526?v=4?s=100" width="100px;" alt="Matthew Miller"/><br /><sub><b>Matthew Miller</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=millems" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bmaizels"><img src="https://avatars.githubusercontent.com/u/36682168?v=4?s=100" width="100px;" alt="Benjamin Maizels"/><br /><sub><b>Benjamin Maizels</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=bmaizels" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Quanzzzz"><img src="https://avatars.githubusercontent.com/u/51490885?v=4?s=100" width="100px;" alt="Quan Zhou"/><br /><sub><b>Quan Zhou</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Quanzzzz" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/zoewangg"><img src="https://avatars.githubusercontent.com/u/33073555?v=4?s=100" width="100px;" alt="Zoe Wang"/><br /><sub><b>Zoe Wang</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=zoewangg" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/varunnvs92"><img src="https://avatars.githubusercontent.com/u/17261531?v=4?s=100" width="100px;" alt="Varun Nandi"/><br /><sub><b>Varun Nandi</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=varunnvs92" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shorea"><img src="https://avatars.githubusercontent.com/u/11096681?v=4?s=100" width="100px;" alt="Andrew Shore"/><br /><sub><b>Andrew Shore</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=shorea" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/kiiadi"><img src="https://avatars.githubusercontent.com/u/4661536?v=4?s=100" width="100px;" alt="Kyle Thomson"/><br /><sub><b>Kyle Thomson</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=kiiadi" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/spfink"><img src="https://avatars.githubusercontent.com/u/20525381?v=4?s=100" width="100px;" alt="Sam Fink"/><br /><sub><b>Sam Fink</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=spfink" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bondj"><img src="https://avatars.githubusercontent.com/u/4749778?v=4?s=100" width="100px;" alt="Jonathan Bond"/><br /><sub><b>Jonathan Bond</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=bondj" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ajs139"><img src="https://avatars.githubusercontent.com/u/9387176?v=4?s=100" width="100px;" alt="ajs139"/><br /><sub><b>ajs139</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ajs139" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://imdewey.com"><img src="https://avatars.githubusercontent.com/u/44629464?v=4?s=100" width="100px;" alt="Dewey Nguyen"/><br /><sub><b>Dewey Nguyen</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=duy3101" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dleen"><img src="https://avatars.githubusercontent.com/u/1297964?v=4?s=100" width="100px;" alt="David Leen"/><br /><sub><b>David Leen</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=dleen" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://16lim21.github.io"><img src="https://avatars.githubusercontent.com/u/53011962?v=4?s=100" width="100px;" alt="Michael Li"/><br /><sub><b>Michael Li</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=16lim21" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Bennett-Lynch"><img src="https://avatars.githubusercontent.com/u/11811448?v=4?s=100" width="100px;" alt="Bennett Lynch"/><br /><sub><b>Bennett Lynch</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=Bennett-Lynch" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt="Ikko Ashimine"/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=eltociear" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://jamieliu.me"><img src="https://avatars.githubusercontent.com/u/35614552?v=4?s=100" width="100px;" alt="Jamie Liu"/><br /><sub><b>Jamie Liu</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=jamieliu386" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/guillepb10"><img src="https://avatars.githubusercontent.com/u/28654665?v=4?s=100" width="100px;" alt="guillepb10"/><br /><sub><b>guillepb10</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=guillepb10" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/lorenznickel/"><img src="https://avatars.githubusercontent.com/u/29959150?v=4?s=100" width="100px;" alt="Lorenz Nickel"/><br /><sub><b>Lorenz Nickel</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=LorenzNickel" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/erin889"><img src="https://avatars.githubusercontent.com/u/38885911?v=4?s=100" width="100px;" alt="Erin Yang"/><br /><sub><b>Erin Yang</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=erin889" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.theguardian.com/profile/roberto-tyley"><img src="https://avatars.githubusercontent.com/u/52038?v=4?s=100" width="100px;" alt="Roberto Tyley"/><br /><sub><b>Roberto Tyley</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=rtyley" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://alvinsee.com/"><img src="https://avatars.githubusercontent.com/u/1531158?v=4?s=100" width="100px;" alt="Alvin See"/><br /><sub><b>Alvin See</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=alvinsee" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ron1"><img src="https://avatars.githubusercontent.com/u/1318509?v=4?s=100" width="100px;" alt="ron1"/><br /><sub><b>ron1</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ron1" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/srsaikumarreddy"><img src="https://avatars.githubusercontent.com/u/24988810?v=4?s=100" width="100px;" alt="Sai Kumar Reddy Chandupatla"/><br /><sub><b>Sai Kumar Reddy Chandupatla</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=srsaikumarreddy" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/davidh44"><img src="https://avatars.githubusercontent.com/u/70000000?v=4?s=100" width="100px;" alt="David Ho"/><br /><sub><b>David Ho</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=davidh44" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.berrycloud.co.uk"><img src="https://avatars.githubusercontent.com/u/1552612?v=4?s=100" width="100px;" alt="Thomas Turrell-Croft"/><br /><sub><b>Thomas Turrell-Croft</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=thomasturrell" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/stevenshan"><img src="https://avatars.githubusercontent.com/u/3723174?v=4?s=100" width="100px;" alt="Steven Shan"/><br /><sub><b>Steven Shan</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=stevenshan" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/barryoneill"><img src="https://avatars.githubusercontent.com/u/885049?v=4?s=100" width="100px;" alt="Barry O'Neill"/><br /><sub><b>Barry O'Neill</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=barryoneill" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/akiesler"><img src="https://avatars.githubusercontent.com/u/4186292?v=4?s=100" width="100px;" alt="Andy Kiesler"/><br /><sub><b>Andy Kiesler</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=akiesler" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.youtube.com/CodigoMorsa"><img src="https://avatars.githubusercontent.com/u/21063181?v=4?s=100" width="100px;" alt="Martin"/><br /><sub><b>Martin</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=martinKindall" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/paulolieuthier"><img src="https://avatars.githubusercontent.com/u/1238157?v=4?s=100" width="100px;" alt="Paulo Lieuthier"/><br /><sub><b>Paulo Lieuthier</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=paulolieuthier" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.inulogic.fr"><img src="https://avatars.githubusercontent.com/u/88554524?v=4?s=100" width="100px;" alt="Sébastien Crocquesel"/><br /><sub><b>Sébastien Crocquesel</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=scrocquesel" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dave-fn"><img src="https://avatars.githubusercontent.com/u/21349334?v=4?s=100" width="100px;" alt="David Negrete"/><br /><sub><b>David Negrete</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=dave-fn" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/StephenFlavin"><img src="https://avatars.githubusercontent.com/u/14975957?v=4?s=100" width="100px;" alt="Stephen Flavin"/><br /><sub><b>Stephen Flavin</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=StephenFlavin" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://applin.ca"><img src="https://avatars.githubusercontent.com/u/16511950?v=4?s=100" width="100px;" alt="Olivier L Applin"/><br /><sub><b>Olivier L Applin</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=L-Applin" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/breader124"><img src="https://avatars.githubusercontent.com/u/36669019?v=4?s=100" width="100px;" alt="Adrian Chlebosz"/><br /><sub><b>Adrian Chlebosz</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=breader124" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://www.buymeacoffee.com/chadwilson"><img src="https://avatars.githubusercontent.com/u/29788154?v=4?s=100" width="100px;" alt="Chad Wilson"/><br /><sub><b>Chad Wilson</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=chadlwilson" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ManishDait"><img src="https://avatars.githubusercontent.com/u/90558243?v=4?s=100" width="100px;" alt="Manish Dait"/><br /><sub><b>Manish Dait</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=ManishDait" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.dekies.de"><img src="https://avatars.githubusercontent.com/u/858827?v=4?s=100" width="100px;" alt="Dennis Kieselhorst"/><br /><sub><b>Dennis Kieselhorst</b></sub></a><br /><a href="https://github.com/aws/aws-sdk-java-v2/commits?author=deki" title="Code">💻</a></td>
-    </tr>
-  </tbody>
-</table>
+For clients that use gRPC, the supported platforms are constrained by the platforms
+that [Forked Tomcat Native](http://netty.io/wiki/forked-tomcat-native.html) supports,
+which for architectures means only x86_64, and for operating systems means Mac OS X,
+Windows, and Linux. Additionally, gRPC constrains the use of platforms with
+threading restrictions.
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+Thus, the following are not supported:
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+- Android
+    - Consider [Firebase](https://firebase.google.com), which includes many of these APIs.
+    - It is possible to use these libraries in many cases, although it is unsupported.
+      You can find examples, such as [this one](https://github.com/GoogleCloudPlatform/android-docs-samples/tree/main/speech/SpeechRecognitionClient),
+      in this [example repository](https://github.com/GoogleCloudPlatform/android-docs-samples) but consider the risks carefully before using these libraries in an application.
+- Raspberry Pi (since it runs on the ARM architecture)
+- Google App Engine Standard Java 7
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+The following environments should work (among others):
+
+- standalone Windows on x86_64
+- standalone Mac OS X on x86_64
+- standalone Linux on x86_64
+- Google Compute Engine (GCE)
+- Google Container Engine (GKE)
+- Google App Engine Standard Java 8 (GAE Std J8)
+- Google App Engine Flex (GAE Flex)
+- Alpine Linux (Java 11+)
+
+## Testing
+
+This library provides tools to help write tests for code that uses google-cloud services.
+
+See [TESTING] to read more about using our testing helpers.
+
+## Versioning
+
+This library follows [Semantic Versioning](http://semver.org/), with some
+additional qualifications:
+
+1. Components marked with `@BetaApi` or `@Experimental` are considered to be "0.x"
+   features inside a "1.x" library. This means they can change between minor and
+   patch releases in incompatible ways. These features should not be used by any
+   library "B" that itself has consumers, unless the components of library B that
+   use `@BetaApi` features are also marked with `@BetaApi`. Features marked as
+   `@BetaApi` are on a path to eventually become "1.x" features with the marker
+   removed.
+
+   **Special exception for google-cloud-java**: google-cloud-java is
+   allowed to depend on `@BetaApi` features in gax-java without declaring the consuming
+   code `@BetaApi`, because gax-java and google-cloud-java move in step
+   with each other. For this reason, gax-java should not be used
+   independently of google-cloud-java.
+
+1. Components marked with `@InternalApi` are technically public, but only
+   because of the limitations of Java's access
+   modifiers. For the purposes of semver, they should be considered private.
+
+1. Interfaces marked with `@InternalExtensionOnly` are public, but should only be
+   implemented by internal classes. For the purposes of semver, we reserve the right
+   to add to these interfaces without default implementations (for Java 7).
+
+Please note these clients are currently under active development. Any release versioned 0.x.y is
+subject to backwards incompatible changes at any time.
+
+### Stable
+
+Libraries defined at a Stable quality level are expected to be stable and all updates in the
+libraries are guaranteed to be backwards-compatible. Any backwards-incompatible changes will lead
+to the major version increment (1.x.y -> 2.0.0).
+
+### Preview
+
+Libraries defined at a Preview quality level are still a work-in-progress and
+are more likely to get backwards-incompatible updates. Additionally, it's possible for Preview
+libraries to get deprecated and deleted before ever being promoted to Preview or Stable.
+
+## IDE Plugins
+
+If you're using IntelliJ or Eclipse, you can add client libraries to your project using these IDE plugins:
+* [Cloud Tools for IntelliJ](https://cloud.google.com/tools/intellij/docs/client-libraries?utm_source=github&utm_medium=google-cloud-java&utm_campaign=ToolsforIntelliJ)
+* [Cloud Tools for Eclipse](https://cloud.google.com/eclipse/docs/libraries?utm_source=github&utm_medium=google-cloud-java&utm_campaign=ToolsforEclipse)
+
+Besides adding client libraries, the plugins provide additional functionality, such as service account
+key management. Refer to the documentation for each plugin for more details.
+
+These client libraries can be used on App Engine standard for Java 8 runtime and App Engine flexible
+(including the Compat runtime).  Most of the libraries do not work on the App Engine standard for Java 7
+runtime. However, Datastore, Storage, and Bigquery should work.
+
+## Contributing
+
+Contributions to this library are always welcome and highly encouraged.
+
+See `google-cloud`'s [CONTRIBUTING] documentation and the [shared documentation](https://github.com/googleapis/google-cloud-common/blob/main/contributing/readme.md#how-to-contribute-to-gcloud) for more information on how to get started.
+
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms. See [Code of Conduct][code-of-conduct] for more information.
+
+## License
+
+Apache 2.0 - See [LICENSE] for more information.
+
+[cloud-java]: https://cloud.google.com/java
+[stable-stability]: https://img.shields.io/badge/stability-stable-green
+[stable-description]: #stable
+[preview-stability]: https://img.shields.io/badge/stability-preview-yellow
+[preview-description]: #preview
+[google-api-java-client-services]: https://github.com/googleapis/google-api-java-client-services#supported-google-apis
+[CONTRIBUTING]:https://github.com/googleapis/google-cloud-java/blob/main/CONTRIBUTING.md
+[code-of-conduct]:https://github.com/googleapis/google-cloud-java/blob/main/CODE_OF_CONDUCT.md#contributor-code-of-conduct
+[LICENSE]: https://github.com/googleapis/google-cloud-java/blob/main/LICENSE
+[TESTING]: https://github.com/googleapis/google-cloud-java/blob/main/TESTING.md
+[cloud-platform]: https://cloud.google.com/
+[cloud-platform-docs]: https://cloud.google.com/docs/
+[client-lib-docs]: https://cloud.google.com/java/docs/reference
