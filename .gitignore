@@ -1,30 +1,18 @@
-.DS_Store
-.gradle
-.idea
-.classpath
-.project
-.settings
-.yardoc
-.yardopts
-build
-target
-out
-*.iml
-*.ipr
-*.iws
-test-output
-Scratch.java
-ScratchTest.java
-test-results
-test-tmp
-*.class
-src/gen
-src/main/resources/vertx-js/*.js
-src/test/resources/vertx-js/*.js
-.vertx
-file-uploads
-*.pyc
-.metadata/*
-.recommenders/*
-.vscode
-vertx-template-engines/vertx-web-templ-jte/jte-classes
+# Maven build files
+**/bin/**/*
+**/dependency-reduced-pom.xml
+**/target/**/*
+
+# IntelliJ files
+**/.idea/**/*
+**/*.iml
+**/*.ipr
+**/*.iws
+**/out/**/*
+
+# MacOSX Files
+**/.DS_Store/**/*
+**/.DS_Store
+
+# vscode setting files
+.vscode/
