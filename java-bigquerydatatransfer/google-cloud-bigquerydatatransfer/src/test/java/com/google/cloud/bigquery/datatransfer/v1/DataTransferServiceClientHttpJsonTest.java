@@ -587,8 +587,7 @@ public class DataTransferServiceClientHttpJsonTest {
     TransferConfig transferConfig =
         TransferConfig.newBuilder()
             .setName(
-                TransferConfigName.ofProjectLocationTransferConfigName(
-                        "[PROJECT]", "[LOCATION]", "[TRANSFER_CONFIG]")
+                TransferConfigName.ofProjectTransferConfigName("[PROJECT]", "[TRANSFER_CONFIG]")
                     .toString())
             .setDisplayName("displayName1714148973")
             .setDataSourceId("dataSourceId-1221402528")
@@ -637,8 +636,7 @@ public class DataTransferServiceClientHttpJsonTest {
       TransferConfig transferConfig =
           TransferConfig.newBuilder()
               .setName(
-                  TransferConfigName.ofProjectLocationTransferConfigName(
-                          "[PROJECT]", "[LOCATION]", "[TRANSFER_CONFIG]")
+                  TransferConfigName.ofProjectTransferConfigName("[PROJECT]", "[TRANSFER_CONFIG]")
                       .toString())
               .setDisplayName("displayName1714148973")
               .setDataSourceId("dataSourceId-1221402528")
