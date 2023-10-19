@@ -36,7 +36,7 @@
  * @test
  * @library /test/lib ../warnings
  * @compile Compatibility.java
- * @run main/othervm/timeout=600
+ * @run main/othervm/timeout=2500
  *  -Djava.security.properties=./java.security
  *  -Duser.language=en
  *  -Duser.country=US
@@ -46,8 +46,8 @@
  *  -DtestComprehensiveJarContents=true
  *  -DtestJarUpdate=true
  *  -Dstrict=true
- *  -DkeyAlgs=EC;0
- *  -DdigestAlgs=SHA-256
+ *  -DkeyAlgs=EC;#RSA;#DSA;
+ *  -DdigestAlgs=SHA-512
  *  SignTwice
  */
 public class SignTwice {
