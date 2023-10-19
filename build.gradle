@@ -1,0 +1,90 @@
+plugins {
+    id 'com.github.hierynomus.license'              version '0.16.2-37dde1f'        apply false
+    id 'com.github.johnrengelman.shadow'            version '8.1.0'                 apply false
+    id 'ch.kk7.spawn'                               version '1.0.20180924200750'    apply false
+    id 'de.thetaphi.forbiddenapis'                  version '3.4'                   apply false
+    id 'com.github.spotbugs'                        version '5.0.13'                 apply false
+    id 'nebula.info-dependencies'                   version '11.4.1'                 apply false
+    id 'com.google.protobuf'                        version '0.9.3'                apply false
+    id 'me.champeau.mrjar'                          version "0.1"                   apply false
+}
+
+description = 'Neo4j Graph Data Science :: OpenGDS'
+
+group = 'org.neo4j.gds'
+
+ext {
+    distributionDir = "$buildDir/distributions"
+    cliDistributionDir = "$buildDir/distributions/estimation-cli"
+    distributionLicenseFile = file('LICENSE.txt')
+    publicDir = "${project.rootDir}"
+
+    checkstyleReportsDir = "${buildDir}/reports/checkstyle/"
+
+    spotbugsReportsDir = "${buildDir}/reports/spotbugs/"
+    SpotBugsTask = com.github.spotbugs.snom.SpotBugsTask
+
+    compatibilityModules = [
+            'kernel-adapter': [
+                    project(':neo4j-kernel-adapter-4.4'),
+                    project(':neo4j-kernel-adapter-5.1'),
+                    project(':neo4j-kernel-adapter-5.2'),
+                    project(':neo4j-kernel-adapter-5.3'),
+                    project(':neo4j-kernel-adapter-5.4'),
+                    project(':neo4j-kernel-adapter-5.5'),
+                    project(':neo4j-kernel-adapter-5.6'),
+                    project(':neo4j-kernel-adapter-5.7'),
+                    project(':neo4j-kernel-adapter-5.8'),
+                    project(':neo4j-kernel-adapter-5.9'),
+                    project(':neo4j-kernel-adapter-5.10'),
+            ],
+            'storage-engine-adapter': [
+                    project(':storage-engine-adapter-4.4'),
+                    project(':storage-engine-adapter-5.1'),
+                    project(':storage-engine-adapter-5.2'),
+                    project(':storage-engine-adapter-5.3'),
+                    project(':storage-engine-adapter-5.4'),
+                    project(':storage-engine-adapter-5.5'),
+                    project(':storage-engine-adapter-5.6'),
+                    project(':storage-engine-adapter-5.7'),
+                    project(':storage-engine-adapter-5.8'),
+                    project(':storage-engine-adapter-5.9'),
+                    project(':storage-engine-adapter-5.10'),
+            ]
+    ]
+}
+
+apply from: 'gradle/version.gradle'
+
+allprojects {
+    apply plugin: 'base'
+
+    group = 'org.neo4j.gds'
+    version = gdsVersion
+
+    tasks.register("ci") {
+        dependsOn tasks.check
+    }
+
+    tasks.register("cipr") {
+        dependsOn tasks.check
+    }
+
+    tasks.register("checkstyle") {
+        group = "verification"
+        description = "Run all checkstyle related tasks"
+    }
+
+    tasks.register("spotbugs") {
+        group = "verification"
+        description = "Run all spotbugs related tasks"
+    }
+}
+
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/defaults-java.gradle'
+apply from: 'gradle/forbidden-apis.gradle'
+apply from: 'gradle/checkstyle.gradle'
+apply from: 'gradle/spotbugs.gradle'
+apply from: 'gradle/spotless.gradle'
+apply from: 'gradle/pregel-bootstrap.gradle'

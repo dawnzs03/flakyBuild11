@@ -1,0 +1,48 @@
+apply plugin: 'java-library'
+
+description = 'Neo4j Graph Data Science :: Procedures :: Test'
+
+group = 'org.neo4j.gds'
+
+dependencies {
+    annotationProcessor project(':config-generator')
+    annotationProcessor project(':procedure-collector')
+    annotationProcessor group: 'org.immutables', name: 'value', version: ver.'immutables'
+    compileOnly project(':annotations')
+    compileOnly group: 'org.immutables', name: 'value-annotations', version: ver.'immutables'
+    compileOnly group: 'org.immutables', name: 'builder', version: ver.'immutables'
+    compileOnly group: 'org.jetbrains',  name: 'annotations',       version: ver.'jetbrains-annotations'
+    compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: ver.'spotbugsToolVersion'
+    implementation group: 'org.reflections', name: 'reflections',  version: ver.doc.'reflections'
+
+    implementation project(':algo-common')
+    implementation project(':algo-test')
+    implementation project(':config-api')
+    implementation project(':core')
+    implementation project(':core-write')
+    implementation project(':executor')
+    implementation project(':graph-schema-api')
+    implementation project(':licensing')
+    implementation project(':memory-usage')
+    implementation project(':open-licensing')
+    implementation project(':pregel')
+    implementation project(':progress-tracking')
+    implementation project(':string-formatting')
+    implementation project(':transaction')
+
+    api project(':proc-catalog')
+    api project(':proc-common')
+    api project(':test-utils')
+
+    testCompileOnly project(':annotations')
+    testCompileOnly group: 'org.jetbrains', name: 'annotations', version: ver.'jetbrains-annotations'
+    testCompileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: ver.'spotbugsToolVersion'
+}
+
+afterEvaluate {
+    if (ver.'neo4j'.startsWith('5.')) {
+        dependencies {
+            implementation group: 'org.neo4j', name: 'neo4j-record-storage-engine', version: ver.'neo4j'
+        }
+    }
+}
