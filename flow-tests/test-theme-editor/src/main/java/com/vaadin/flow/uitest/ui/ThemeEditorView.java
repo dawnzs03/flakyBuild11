@@ -15,11 +15,9 @@
  */
 package com.vaadin.flow.uitest.ui;
 
-import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.Route;
@@ -39,11 +37,5 @@ public class ThemeEditorView extends Div {
         Checkbox checkbox = new Checkbox("The checkbox");
         checkbox.setId("checkbox");
         add(new Div(checkbox));
-
-        Accordion accordion = new Accordion();
-        accordion.setId("accordion");
-        accordion.add("A", new Span("Info for A"));
-        accordion.add("B", new Span("Info for B"));
-        add(new Div(accordion));
     }
 }
