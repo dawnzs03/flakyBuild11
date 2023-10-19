@@ -1,9 +1,0 @@
-.addstylesheetlater {
-  color: black;
-  background-color: darkgoldenrod;
-}
-
-/* This is the same rule that Lumo utilities define */
-.bg-contrast-10 {
-  background-color: darkgoldenrod;
-}

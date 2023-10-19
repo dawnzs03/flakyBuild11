@@ -1,1 +1,0 @@
-org.springframework.aot.hint.RuntimeHintsRegistrar=com.vaadin.flow.spring.springnative.VaadinHintsRegistrar, com.vaadin.flow.spring.springnative.AtmosphereHintsRegistrar

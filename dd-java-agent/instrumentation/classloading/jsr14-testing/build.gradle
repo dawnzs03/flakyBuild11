@@ -1,0 +1,6 @@
+apply from: "$rootDir/gradle/java.gradle"
+
+dependencies {
+  testImplementation project(':dd-java-agent:instrumentation:classloading')
+  testImplementation files('precompiled')
+}

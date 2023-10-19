@@ -1,0 +1,23 @@
+# loads and instantiates a class which may be inefficient depending on context
+java.lang.Class#forName(java.lang.String)
+
+# String methods which uses regexes for matching
+java.lang.String#split(java.lang.String)
+java.lang.String#split(java.lang.String,int)
+java.lang.String#replaceAll(java.lang.String,java.lang.String)
+java.lang.String#replaceFirst(java.lang.String,java.lang.String)
+
+# prefer the NameMatchers/HierarchyMatchers equivalent instead
+net.bytebuddy.matcher.ElementMatchers#named(java.lang.String)
+net.bytebuddy.matcher.ElementMatchers#namedOneOf(java.lang.String[])
+net.bytebuddy.matcher.ElementMatchers#hasSuperClass(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#hasSuperType(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#declaresField(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#declaresMethod(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#declaresAnnotation(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#isAnnotatedWith(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#inheritsAnnotation(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#hasAnnotation(net.bytebuddy.matcher.ElementMatcher)
+net.bytebuddy.matcher.ElementMatchers#isInterface()
+net.bytebuddy.matcher.ElementMatchers#isAbstract()
+

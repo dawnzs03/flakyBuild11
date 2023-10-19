@@ -1,0 +1,31 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "de.thetaphi:forbiddenapis:3.5.1"
+  }
+}
+
+apply plugin: "de.thetaphi.forbiddenapis"
+
+def mainFilterFile = files("$rootDir/gradle/forbiddenApiFilters/main.txt")
+
+forbiddenApis {
+  signaturesFiles = mainFilterFile
+  ignoreSignaturesOfMissingClasses = true
+  ignoreFailures = false
+}
+
+// disable forbiddenApis for all test tasks
+afterEvaluate {
+  tasks.matching({it.name.startsWith('forbiddenApis') && it.name.endsWith('Test')}).configureEach {
+    it.enabled = false
+  }
+}
+
+dependencies {
+  compileOnly group: 'de.thetaphi', name: 'forbiddenapis', version: '3.1'
+}

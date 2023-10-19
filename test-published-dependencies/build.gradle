@@ -1,0 +1,23 @@
+plugins {
+  id "com.diffplug.spotless" version "6.11.0"
+}
+
+def sharedConfigDirectory = "$rootDir/../gradle"
+rootProject.ext.sharedConfigDirectory = sharedConfigDirectory
+
+def isCI = System.getenv("CI") != null
+def versionFromFile = file("$rootDir/${isCI ? '../workspace' : '..'}/build/main.version").readLines().head()
+
+allprojects {
+  group = 'com.datadoghq'
+  version = versionFromFile
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+  }
+
+  apply from: "$sharedConfigDirectory/spotless.gradle"
+  apply from: "$sharedConfigDirectory/dependencies.gradle"
+}

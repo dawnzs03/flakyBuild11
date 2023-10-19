@@ -1,26 +1,36 @@
-<a target="_blank" href="https://discord.gg/MYFq5RTbBn"><img src="https://discord.com/assets/e4923594e694a21542a489471ecffa50.svg" width="100" alt="Join the discussion in Vaadin Flow Discord"></img></a>
+![Datadog logo](https://imgix.datadoghq.com/img/about/presskit/logo-h/dd_horizontal_white.png)
 
-Vaadin Flow
-======
-*[Vaadin Flow](https://vaadin.com/flow) is the Java framework of Vaadin Platform for building modern websites that look great, perform well and make you and your users happy.*
+# Datadog Java APM
 
-**For instructions about developing web applications with Vaadin Flow**, please refer to [the documentation](https://vaadin.com/docs/latest/flow/overview).
+[![GitHub latest release](https://img.shields.io/github/v/release/datadog/dd-trace-java)](https://github.com/DataDog/dd-trace-java/releases/latest/)
+[![GitHub all releases](https://img.shields.io/github/downloads/datadog/dd-trace-java/total)](https://github.com/DataDog/dd-trace-java/releases)
+[![GitHub](https://img.shields.io/github/license/datadog/dd-trace-java)](/LICENSE)
 
-**To contribute, first refer to [Contribution Guide](/CONTRIBUTING.md) for general instructions and requirements for contributing code to Flow.**
 
-**For issues related to [Hilla](https://hilla.dev/), please refer to the https://github.com/vaadin/hilla repository.**
+This repository contains `dd-trace-java`, Datadog's APM client Java library.
+`dd-trace-java` contains APIs to automatically or manually [trace](https://docs.datadoghq.com/tracing/visualization/#trace) and [profile](https://docs.datadoghq.com/tracing/profiler/) Java applications.
 
-Join Vaadin Flow community chat in https://discord.gg/MYFq5RTbBn
+These features power [Distributed Tracing](https://docs.datadoghq.com/tracing/) with [Automatic Instrumentation](https://docs.datadoghq.com/tracing/trace_collection/compatibility/java/#integrations),
+ [Continuous Profiling](https://docs.datadoghq.com/tracing/profiler/),
+ [Error Tracking](https://docs.datadoghq.com/tracing/error_tracking/),
+ [Continuous Integration Visibility](https://docs.datadoghq.com/continuous_integration/),
+ [Deployment Tracking](https://docs.datadoghq.com/tracing/deployment_tracking/),
+ [Code Hotspots](https://docs.datadoghq.com/tracing/profiler/connect_traces_and_profiles/) and more.
 
-Since [Vaadin platform 23.0](https://github.com/vaadin/platform), Flow major and minor versions are aligned with platform versions:
+## Getting Started
 
-| Branch | [Platform Version](https://github.com/vaadin/platform/releases) | [Flow Version](https://github.com/vaadin/flow/releases) |
-|--------|-----------------------------------------------------------------|---------------------------------------------------------|
-| 1.0    | 10 (LTS)                                                        | 1.0                                                     |
-| 2.9    | 14.10.x (LTS)                                                   | 2.9.x                                                   |
-| 2.10   | 14.11.x (pre-release, next LTS)                                 | 2.10.x                                                  |
-| 9.1    | 22.1.x (LATEST with Java 8+ support, **Commercial support**)    | 9.1.x                                                   |
-| 23.3   | 23.3 (LATEST with Java 11+ support and Servlet 3)               | 23.3                                                    |
-| 24.1   | 24.1 (LATEST release, Java 17+, Jakarta EE 10, Spring-boot 3.0) | 24.1                                                    |
-| 24.2   | 24.2 (Vaadin 24.2 pre-release)                                  | 24.2                                                    |
-| main   | 24.3 (Vaadin 24.3 preparations)                                 | 24.3                                                    |
+To use and configure, check out the [setup documentation][setup docs].
+
+For advanced usage, check out the [configuration reference][configuration reference] and [custom instrumentation API][api docs].
+
+Confused about the terminology of APM?
+Take a look at the [APM Glossary][visualization docs].
+
+[setup docs]: https://docs.datadoghq.com/tracing/languages/java
+[configuration reference]: https://docs.datadoghq.com/tracing/trace_collection/library_config/java
+[api docs]: https://docs.datadoghq.com/tracing/trace_collection/custom_instrumentation/java/
+[visualization docs]: https://docs.datadoghq.com/tracing/visualization/
+
+## Contributing
+
+Before contributing to the project, please take a moment to read our brief [Contribution Guidelines](CONTRIBUTING.md).

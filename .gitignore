@@ -1,79 +1,75 @@
+# Maven #
+#########
+target
+/target
+**/dependency-reduced-pom.xml
 
-# /
+# Gradle #
+#########
+!**/gradle/wrapper/*
+/.gradle
+*/.gradle
+**/build/
+examples/**/build/
+
+# Eclipse #
+###########
+*.launch
+.settings
+.project
 .classpath
-*.project
-*.settings
-/.cvsignore
-/.tomcatplugin
-/work
-/.gwt-cache
-/.externalToolBuilders
-/extras
-**/bin
-*~
+# Eclipse is odd in assuming in can use bin to put temp files into it
+# This assumes we do not have sub-projects that actually need bin files committed
+bin/
 
-*pom.xml.versionsBackup
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 
-**/target
-**/error-screenshots
-
-**/.sts4-cache/*
-.factorypath
-
-# Mac
-*.DS_Store
-
-# Python
-scripts/*.pyc
-
-# Intellij Idea files
-.idea
+# Intellij Idea #
+#################
+/.idea
+/.run
 *.iml
+*.ipr
+*.iws
+out/
 
-# VS Code
+# Visual Studio Code #
+######################
 .vscode
 
-# Selenium driver folders
-selenium_standalone_zips
-driver_zips
-driver
+# Others #
+##########
+/logs/*
+/bin
+/out
+/workspace
+dd-java-agent/benchmark-integration/perf-test-settings.rc
+derby.log
+.java-version
+hs_err_pid*
+replay_pid*
+.bsp/
+**/src/*/generated/*
+!dd-java-agent/benchmark/releases/*.jar
 
-bower_components
-node
-node_modules
-/frontend
-*/flow-*/frontend
-package-lock.json
-**/webpack.generated.js
+# Magic for local JMC built
+/vendor/jmc-libs
 
-flow-tests/**/package.json
-flow-tests/**/webpack*.js
-flow-tests/**/tsconfig.json
-flow-tests/**/pnpm-lock.yaml
-flow-tests/**/index.html
-yarn.lock
+# CircleCI #
+############
+_circle_ci_cache_*
+upstream.env
+/.circleci/config.continue.yml
 
-flow-client/src/main/frontend/FlowClient.js
-flow-tests/**/types.d.ts
-flow-tests/**/*.generated.js
-flow-tests/**/*.generated.ts
-flow-tests/**/vite.config.ts
-flow-tests/**/generated/**
-flow-tests/**/pnpmfile.js
-flow-tests/**/.pnpmfile.cjs
-flow-tests/**/*.npmrc
-
-*.xml.versionsBackup
-
-flow-polymer2lit/**/frontend/generated
-flow-tests/test-express-build/test-dev-bundle-frontend-add-on/src/main/dev-bundle
-flow-tests/test-express-build/frontend-add-on/src/main/dev-bundle
-flow-tests/test-express-build/test-dev-bundle/src/main/dev-bundle
-flow-tests/test-express-build/test-theme-dev-bundle/src/main/dev-bundle
-flow-tests/test-express-build/test-reusing-theme-express-build/src/main/dev-bundle
-flow-tests/test-express-build/test-parent-theme-express-build/src/main/dev-bundle
-flow-tests/test-express-build/test-embedding-express-build/src/main/dev-bundle
-
-# Exclude generated vaadin dev tools frontend
-vaadin-dev-server/src/main/resources/META-INF/frontend
-vaadin-dev-server/src/main/resources/META-INF/metadata
+# Benchmarks #
+benchmark/reports
+benchmark/tracer
