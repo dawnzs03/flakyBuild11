@@ -1,0 +1,16 @@
+[[transaction]]
+= List of procedures with its own transaction
+:description: This chapter describes the list of procedures that start their own transaction in the APOC Extended library.
+
+The list of procedures that start their own transaction:
+
+* apoc.bolt.load
+* apoc.cypher.runFiles
+* apoc.cypher.runSchemaFiles
+* apoc.import.graphml
+* apoc.load.csv
+* apoc.uuid.install
+* apoc.uuid.remove
+* apoc.uuid.removeAll
+
+

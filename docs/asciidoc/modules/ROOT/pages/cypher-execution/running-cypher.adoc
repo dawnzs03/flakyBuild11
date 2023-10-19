@@ -1,0 +1,62 @@
+[[running-cypher]]
+= Running Cypher fragments
+:description: This section describes procedures for running Cypher fragments.
+
+
+
+We can use Cypher as a safe, graph-aware, partially compiled scripting language within APOC.
+
+// include::overview.adoc[tags=cypher,labeloffset=-1]
+
+[[running-cypher-overview]]
+== Procedure Overview
+
+The supported procedures are described in the table below:
+
+[separator=¦,opts=header,cols="5,1m,1m"]
+|===
+¦Qualified Name¦Type¦Release
+include::example$generated-documentation/apoc.cypher.parallel.adoc[]
+include::example$generated-documentation/apoc.cypher.parallel2.adoc[]
+include::example$generated-documentation/apoc.cypher.mapParallel.adoc[]
+include::example$generated-documentation/apoc.cypher.mapParallel2.adoc[]
+|===
+
+
+
+[[cypher-fast-node-count-by-label]]
+== Example: Fast Node-Counts by Label
+
+We can quickly compute the number of nodes for a specific label using the `count` function, but only if that's the only single thing in the query.
+For example:
+
+[source,cypher]
+----
+MATCH (:Person) RETURN count(*);
+----
+
+We can also combine several with `UNION ALL`:
+
+.Works
+[source,cypher]
+----
+MATCH (:Person) RETURN count(*)
+UNION ALL
+MATCH (:Movie) RETURN count(*);
+----
+
+But we can't do the same thing using the `WITH` clause:
+
+.Doesn't work
+[source,cypher]
+----
+MATCH (:Person)
+WITH count(*) as people
+MATCH (:Movie) RETURN people, count(*) as movies;
+----
+
+This query will work out the count by iterating over all nodes, which is a very slow operation
+
+
+
+

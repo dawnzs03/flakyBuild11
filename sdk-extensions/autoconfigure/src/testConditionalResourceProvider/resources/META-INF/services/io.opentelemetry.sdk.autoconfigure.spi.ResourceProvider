@@ -1,2 +1,0 @@
-io.opentelemetry.sdk.autoconfigure.provider.SecondResourceProvider
-io.opentelemetry.sdk.autoconfigure.provider.FirstResourceProvider

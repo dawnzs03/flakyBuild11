@@ -1,0 +1,33 @@
+site:
+  title: Neo4j APOC Extended
+  url: https://neo4j.com/labs/
+  start_page: apoc:ROOT:index.adoc
+
+content:
+  sources:
+  - url: https://github.com/neo4j-contrib/neo4j-apoc-procedures
+    branches: ['5.11', '4.4', '4.3', '4.2', '4.1', '4.0']
+    start_path: docs/asciidoc
+    exclude:
+    - '!**/_includes/*'
+    - '!**/readme.adoc'
+    - '!**/README.adoc'
+ui:
+  bundle:
+    url: https://static-content.neo4j.com/build/ui-bundle.zip
+    snapshot: true
+
+urls:
+  html_extension_style: indexify
+
+asciidoc:
+  extensions:
+  - "@neo4j-antora/antora-add-notes"
+  - "@neo4j-documentation/remote-include"
+  - "@neo4j-documentation/macros"
+  attributes:
+    page-theme: labs
+    page-disabletracking: true
+    page-add-notes-module: notes@
+    page-add-notes-tags: core-warning@
+    page-add-notes-versions: ['5']

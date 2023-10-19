@@ -1,0 +1,86 @@
+* xref::index.adoc[Overview]
+* xref::introduction/index.adoc[]
+
+* xref::installation/index.adoc[]
+        ** xref::installation/index.adoc#neo4j-server[Neo4j Server]
+        ** xref::installation/index.adoc#docker[Docker]
+        ** xref::installation/index.adoc#restricted[Load and Unrestrict]
+        ** xref::installation/index.adoc#additional_dependencies[Additional Dependencies]
+
+* xref::security-guidelines/index.adoc[]
+
+* xref::usage/index.adoc[]
+* xref::overview/index.adoc[]
+
++
+--
+include::partial$generated-documentation/nav.adoc[]
+--
+
+* xref::config/index.adoc[]
+
+* xref::general-considerations/index.adoc[]
+
+* xref::import/index.adoc[]
+    ** xref::import/web-apis.adoc[]
+    ** xref::import/load-csv.adoc[]
+    ** xref::import/xls.adoc[]
+    ** xref::import/html.adoc[]
+
+* xref:export/index.adoc[]
+    ** xref::export/xls.adoc[]
+
+* xref:database-integration/index.adoc[]
+    ** xref::database-integration/load-jdbc.adoc[]
+    ** xref::database-integration/database-modeling.adoc[]
+    ** xref::database-integration/elasticsearch.adoc[]
+    ** xref::database-integration/couchbase.adoc[]
+    ** xref::database-integration/mongo.adoc[]
+    ** xref::database-integration/bolt-neo4j.adoc[]
+    ** xref::database-integration/load-ldap.adoc[]
+    ** xref::database-integration/redis.adoc[]
+
+* xref:graph-updates/index.adoc[]
+    ** xref::graph-updates/uuid.adoc[]
+    ** xref::graph-updates/ttl.adoc[]
+    ** xref::graph-updates/graph-generators.adoc[]
+
+
+* xref:cypher-execution/index.adoc[]
+    ** xref::cypher-execution/running-cypher.adoc[]
+    ** xref::cypher-execution/run-cypher-scripts.adoc[]
+    ** xref::cypher-execution/cypher-based-procedures-functions.adoc[]
+    ** xref::cypher-execution/parallel.adoc[]
+
+* xref:virtual-resource/index.adoc[]
+
+* xref:nlp/index.adoc[]
+    ** xref:nlp/gcp.adoc[]
+    ** xref:nlp/aws.adoc[]
+    ** xref:nlp/azure.adoc[]
+
+* xref:ml/index.adoc[]
+    ** xref:ml/vertexai.adoc[]
+    ** xref:ml/openai.adoc[]
+
+* xref:background-operations/index.adoc[]
+    ** xref::background-operations/apoc-load-directory-async.adoc[]
+
+* xref:database-introspection/index.adoc[]
+    ** xref::database-introspection/config.adoc[]
+    ** xref::database-introspection/monitoring.adoc[]
+    ** xref::database-introspection/systemdb.adoc[]
+
+* xref:operational/index.adoc[]
+    ** xref::operational/init-script.adoc[]
+    ** xref::operational/log.adoc[]
+    ** xref::operational/rebind.adoc[]
+
+* xref:misc/index.adoc[]
+    ** xref::misc/static-values.adoc[]
+
+* xref::transaction/index.adoc[]
+
+* xref::deprecations-and-additions/index.adoc[]
+
+* xref:appendix/index.adoc[]

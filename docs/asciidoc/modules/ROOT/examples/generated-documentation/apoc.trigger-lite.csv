@@ -1,0 +1,3 @@
+¦signature
+¦apoc.trigger.nodesByLabel(labelEntries :: ANY?, label :: STRING?) :: (LIST? OF ANY?)
+¦apoc.trigger.propertiesByKey(propertyEntries :: MAP?, key :: STRING?) :: (LIST? OF ANY?)

@@ -1,0 +1,12 @@
+We can log a message to `neo4j.log` using the following query:
+
+[source,cypher]
+----
+CALL apoc.log.warn('Hello %s', ['World']);
+----
+
+.neo4j.log
+[source,text]
+----
+2020-11-18 10:21:37.365+0000 WARN  hello_world
+----

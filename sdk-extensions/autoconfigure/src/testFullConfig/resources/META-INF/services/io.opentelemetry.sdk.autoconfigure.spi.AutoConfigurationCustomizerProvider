@@ -1,3 +1,0 @@
-io.opentelemetry.sdk.autoconfigure.provider.SpanExporterCustomizer
-io.opentelemetry.sdk.autoconfigure.provider.MetricCustomizer
-io.opentelemetry.sdk.autoconfigure.provider.LogRecordExporterCustomizer

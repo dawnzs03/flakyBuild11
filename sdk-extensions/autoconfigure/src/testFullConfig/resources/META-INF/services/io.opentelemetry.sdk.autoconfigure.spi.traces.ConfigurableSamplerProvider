@@ -1,2 +1,0 @@
-io.opentelemetry.sdk.autoconfigure.provider.TestConfigurableSamplerProvider
-io.opentelemetry.sdk.autoconfigure.provider.ThrowingConfigurableSamplerProvider

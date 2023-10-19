@@ -1,0 +1,9 @@
+¦signature
+¦apoc.cypher.mapParallel(fragment :: STRING?, params :: MAP?, list :: LIST? OF ANY?) :: (value :: MAP?)
+¦apoc.cypher.mapParallel2(fragment :: STRING?, params :: MAP?, list :: LIST? OF ANY?, partitions :: INTEGER?, timeout = 10 :: INTEGER?) :: (value :: MAP?)
+¦apoc.cypher.parallel(fragment :: STRING?, params :: MAP?, parallelizeOn :: STRING?) :: (value :: MAP?)
+¦apoc.cypher.parallel2(fragment :: STRING?, params :: MAP?, parallelizeOn :: STRING?) :: (value :: MAP?)
+¦apoc.cypher.runFile(file :: STRING?, config = {} :: MAP?) :: (row :: INTEGER?, result :: MAP?)
+¦apoc.cypher.runFiles(file :: LIST? OF STRING?, config = {} :: MAP?) :: (row :: INTEGER?, result :: MAP?)
+¦apoc.cypher.runSchemaFile(file :: STRING?, config = {} :: MAP?) :: (row :: INTEGER?, result :: MAP?)
+¦apoc.cypher.runSchemaFiles(file :: LIST? OF STRING?, config = {} :: MAP?) :: (row :: INTEGER?, result :: MAP?)

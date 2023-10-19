@@ -1,2 +1,0 @@
-io.opentelemetry.sdk.autoconfigure.provider.TestConfigurableLogRecordExporterProvider
-io.opentelemetry.sdk.autoconfigure.provider.ThrowingConfigurableLogRecordExporterProvider

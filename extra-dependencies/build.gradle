@@ -1,0 +1,32 @@
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repo.gradle.org/gradle/libs-releases"
+        }
+        mavenLocal()
+    }
+}
+
+configure(subprojects) {
+    apply plugin: 'java'
+}
+
+
+subprojects {
+    version = '5.13.0'
+    group = 'org.neo4j.contrib'
+}
+
+task copyJars(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar) }
+    into "$buildDir/allJars"
+}
+
+
+task buildDependencies {
+    subprojects.each { dependsOn("${it.name}:clean") }
+    subprojects.each { dependsOn("${it.name}:build") }
+    subprojects.each { dependsOn("${it.name}:shadowJar") }
+    dependsOn(copyJars)
+}

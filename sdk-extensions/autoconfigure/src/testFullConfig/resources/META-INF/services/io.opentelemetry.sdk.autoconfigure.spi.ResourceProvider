@@ -1,2 +1,0 @@
-io.opentelemetry.sdk.autoconfigure.provider.TestAnimalResourceProvider
-io.opentelemetry.sdk.autoconfigure.provider.TestColorResourceProvider

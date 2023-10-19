@@ -1,0 +1,9 @@
+¦Qualified Name¦Type
+|xref::overview/apoc.nlp.gcp.classify/apoc.nlp.gcp.classify.adoc[apoc.nlp.gcp.classify.graph icon:book[]]
+
+Classifies a document into categories.
+|label:procedure[]
+|xref::overview/apoc.nlp.gcp.classify/apoc.nlp.gcp.classify.adoc[apoc.nlp.gcp.classify.stream icon:book[]]
+
+Classifies a document into categories.
+|label:procedure[]

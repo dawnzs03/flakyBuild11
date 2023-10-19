@@ -1,0 +1,13 @@
+[[graph-updates]]
+= Graph Updates
+:description: This chapter describes procedures that can be used to perform graph updates.
+
+
+
+The APOC Extended library adds extra functionality for writing to the database.
+
+For more information on how to use these procedures, see:
+
+* xref::graph-updates/uuid.adoc[]
+* xref::graph-updates/ttl.adoc[]
+* xref::graph-updates/graph-generators.adoc[]

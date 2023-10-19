@@ -1,0 +1,51 @@
+[[installation]]
+= Installation
+:description: This section contains instructions for installing the APOC standard library.
+
+_APOC Extended_ can be downloaded using one of the methods described in the sections below.
+
+[[neo4j-server]]
+== Neo4j Server
+
+include::partial$neo4j-server.adoc[tags=install,leveloffset=2]
+
+If by mistake a jar not compatible with the neo4j version is inserted, a `log.warn` like this will appear in `neo4j.log`:
+```
+The apoc version (<APOC_VERSION>) and the Neo4j DBMS versions [NEO4J_VERSION] are incompatible. 
+See the compatibility matrix in https://neo4j.com/labs/apoc/4.4/installation/ to see the correct version
+```
+
+[[neo4j-desktop]]
+== Neo4j Desktop
+
+include::partial$neo4j-desktop.adoc[tags=install-desktop,leveloffset=2]
+
+[[docker]]
+== Docker
+
+include::partial$docker.adoc[tags=docker,leveloffset=1]
+
+
+[[mvnrepository]]
+== Maven Repository
+
+In a `pom.xml` of a maven project, you can add these two dependencies from https://mvnrepository.com/artifact/org.neo4j.procedure[Maven Repository]:
+
+[source,subs=attributes]
+----
+&lt;dependency&gt;
+    &lt;groupId&gt;org.neo4j.procedure&lt;/groupId&gt;
+    &lt;artifactId&gt;apoc-extended&lt;/artifactId&gt;
+    &lt;version&gt;{apoc-release}&lt;/version&gt;
+    &lt;classifier&gt;extended&lt;/classifier&gt;
+&lt;/dependency&gt;
+----
+
+Alternatively, you can download the jar https://repo1.maven.org/maven2/org/neo4j/procedure/apoc-extended/{apoc-release}/apoc-extended-{apoc-release}-extended.jar[from here]
+and put it into `plugin` folder.
+
+
+[[restricted]]
+== Load and Unrestrict
+
+include::partial$restricted.adoc[tags=restricted,leveloffset=1]
