@@ -614,8 +614,7 @@ public class IntegrationTest {
         assertTrue(artifacts.getSteps().containsKey(Steps.Submit.Activity));
         List<DomainArtifacts.Step> submitSteps = artifacts.getSteps().get(Steps.Submit.Activity);
         assertEquals(4, submitSteps.size()); // FooStep, BarStep, BazStep, HamStep
-        assertTrue(submitSteps.stream().anyMatch(step -> step.getTags().length > 0 &&
-            step.getTags()[0].equals(Steps.Submit.GoodsValidationGroup)));
+        assertEquals(Steps.Submit.GoodsValidationGroup, submitSteps.get(0).getTags()[0]);
 
         // extensions: IFooExt IMultiMatchExt IReviseStepsExt IDecideStepsExt IPartnerExt IPatternOnlyExt
         assertEquals(7, artifacts.getExtensions().size());
