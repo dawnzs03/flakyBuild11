@@ -1,121 +1,91 @@
+![Build Status](https://github.com/smallrye/smallrye-mutiny/actions/workflows/build-main.yml/badge.svg) 
+![Build status (1.x branch)](https://github.com/smallrye/smallrye-mutiny/actions/workflows/build-1.x.yml/badge.svg) 
+![License](https://img.shields.io/github/license/smallrye/smallrye-mutiny.svg) 
+![Maven Central](https://img.shields.io/maven-central/v/io.smallrye.reactive/mutiny?color=green) 
+![Javadoc](https://javadoc.io/badge2/io.smallrye.reactive/mutiny/javadoc.svg)
 
-## Introduction
-[![Build Status](https://www.travis-ci.org/openmessaging/dledger.svg?branch=master)](https://www.travis-ci.org/search/dledger) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.openmessaging.storage/dledger/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Copenmessaging-storage-dledger)  [![Coverage Status](https://coveralls.io/repos/github/openmessaging/openmessaging-storage-dledger/badge.svg?branch=master)](https://coveralls.io/github/openmessaging/openmessaging-storage-dledger?branch=master) [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+# ⚡️ Mutiny, an Intuitive Event-Driven Reactive Programming Library for Java
 
-A raft-based java library for building high-available, high-durable, strong-consistent commitlog, which could act as the persistent layer for distributed storage system, i.e. messaging, streaming, kv, db, etc.
+[Mutiny is a modern reactive programming library for Java](https://smallrye.io/smallrye-mutiny/).
 
-Dledger has added many new features that are not described in the [original paper](https://raft.github.io/raft.pdf). It has been proven to be a true production ready product. 
+Mutiny provides a simple but powerful asynchronous development model to build reactive applications.
 
+This project is sponsored by [Red Hat](https://www.redhat.com/).
 
-## Features
+## 🚀 Overview
 
-* Leader election
-* Preferred leader election
-* [Pre-vote protocol](https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf)
-* High performance, high reliable storage support
-* Parallel log replication between leader and followers
-* Asynchronous replication
-* State machine
-* Multi-Raft
-* High tolerance of symmetric network partition
-* High tolerance of asymmetric network partition
-* [Jepsen verification with fault injection](https://github.com/openmessaging/openmessaging-dledger-jepsen)
+Mutiny can be used in any Java application exhibiting asynchrony.
 
-### New features waiting to be added ###
-* Snapshot (working in progress)
-* Dynamic membership & configuration change
-* SSL/TLS support
+From reactive microservices, data streaming, event processing to API gateways and network utilities, Mutiny is a great fit.
 
-## Quick Start
+### Event-Driven
 
-### Prerequisite
+Mutiny places events at the core of its design. 
+With Mutiny, you observe events, react to them, and create elegant and readable processing pipelines.
 
-* 64bit JDK 1.8+
+**💡 A PhD in functional programming is not required.**
 
-* Maven 3.2.x
+### Navigable
 
-### How to Build
+Even with smart code completion, classes with hundred of methods are confusing.
 
-```
-mvn clean install -DskipTests
-```
+Mutiny provides a navigable and explicit API driving you towards the operator you need.
 
-### Run Command Line
+### Non-Blocking I/O
 
-#### Help
+Mutiny is the perfect companion to tame the asynchronous nature of applications with non-blocking I/O.
 
-> Print Help in Command Line
+Declaratively compose operations, transform data, enforce progress, recover from failures and more.
 
-```shell
-java -jar example/target/dledger-example.jar
-```
+### Quarkus and Vert.x native
 
-#### Appender
+Mutiny is integrated in [Quarkus](https://quarkus.io) where every reactive API uses Mutiny, and [Eclipse Vert.x](https://vertx.io) clients are made available using [Mutiny bindings](https://github.com/smallrye/smallrye-mutiny-vertx-bindings).
 
-**A high-available, high-durable, strong-consistent, append-only log store.**
+Mutiny is however an independent library that can ultimately be used in any Java application.
 
-> Start a Standalone Appender Server
+### Reactive Converters Built-In
+
+Mutiny is based on the [Reactive Streams protocol](https://www.reactive-streams.org/), and so it can be integrated with any other reactive programming library.
+
+In addition, Mutiny offers converters to interact with other popular libraries and [Kotlin](https://kotlinlang.org/).
+
+## 📦 Build instructions
+
+Mutiny is built with Apache Maven, so all you need is:
 
 ```shell
-java -jar example/target/dledger-example.jar appender
+./mvnw install
 ```
 
-> Append Data to Appender
+If you want to run a _quick_ build without running tests or generating API docs, then run:
 
 ```shell
-java -jar example/target/dledger-example.jar append -d "Hello World"
-```
-After this command, you have appended a log which contains "Hello World" to the appender.
-
-> Get Data from Appender
-
-```shell
-java -jar example/target/dledger-example.jar get -i 0
-```
-After this command, you have got the log which contains "Hello World" from the appender.
-
-#### RegisterModel
-
-**A simple multi-register model**
-
-> Start a Standalone RegisterModel Server
-
-```shell
-java -jar example/target/dledger-example.jar register
+./mvnw -Dquickly
 ```
 
-> Write Value for a Key
+| Git branch | Versions                       | Baseline                              | Compliance                 |
+|------------|--------------------------------|---------------------------------------|----------------------------|
+| `main`     | 2.x *(in development)*         | Java 11, `java.util.concurrent.Flow ` | Reactive Streams TCK 1.0.4 |
+| `1.x`      | 1.x.y *(backports, bug fixes)* | Java 8, Reactive Streams 1.0.4        | Reactive Streams TCK 1.0.4 |
 
-```shell
-java -jar example/target/dledger-example.jar write -k 13 -v 31
-```
+## ✨ Contributing
 
-After this command, you have written a key-value pair which is <13, 31> to the register model.
+See [the contributing guidelines](CONTRIBUTING.md)
 
-> Read Value for a Key
+Mutiny is an open project, feel-free to:
 
-```shell
-java -jar example/target/dledger-example.jar read -k 13
-```
+- [report issues](https://github.com/smallrye/smallrye-mutiny/issues), and
+- [propose enhancements via pull-requests](https://github.com/smallrye/smallrye-mutiny/pulls).
 
-After this command, you have read the value 31 for the key 13 from the register model.
+## 👋 Discussions and support
 
-## Contributing
-We always welcome new contributions, whether for trivial cleanups, big new features. We are always interested in adding new contributors. What we look for are series of contributions, good taste and ongoing interest in the project. If you are interested in becoming a committer, please let one of the existing committers know and they can help you walk through the process.
+For anything related to the usage of Mutiny in Quarkus, please refer to the [Quarkus support](https://quarkus.io/support/)
 
-## License
-[Apache License, Version 2.0](https://github.com/openmessaging/openmessaging-storage-dledger/blob/master/LICENSE) Copyright (C) Apache Software Foundation
- 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopenmessaging%2Fopenmessaging-storage-dledger.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopenmessaging%2Fopenmessaging-storage-dledger?ref=badge_large)
+For more general discussions about Mutiny, you can:
 
+- [start a new discussion thread in GitHub Discussions (preferred option)](https://github.com/smallrye/smallrye-mutiny/discussions), or
+- [use the `mutiny` tag on StackOverflow](https://stackoverflow.com/questions/tagged/mutiny).
 
+## 🧪 Publications
 
-
-
-
-
-
-
-
-
-
+Julien Ponge, Arthur Navarro, Clément Escoffier, and Frédéric Le Mouël. 2021. **[Analysing the Performance and Costs of Reactive Programming Libraries in Java](https://doi.org/10.1145/3486605.3486788).** *In Proceedings of the 8th ACM SIGPLAN International Workshop on Reactive and Event-Based Languages and Systems (REBLS ’21)*, October 18, 2021, Chicago, IL, USA. ACM, New York, NY, USA, 10 pages. [(PDF)](https://hal.inria.fr/hal-03409277/document)

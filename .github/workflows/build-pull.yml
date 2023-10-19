@@ -1,0 +1,50 @@
+---
+name: Check pull requests
+on:
+  push:
+    branches: [ smallrye-mutiny ]
+
+
+
+
+
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java: [
+          { 'version': '11', opts: '' },
+          { 'version': '17', 'opts': '' },
+          { 'version': '20', 'opts': '' }
+        ]
+    name: Build with Java ${{ matrix.java.version }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        name: set up jdk ${{matrix.java.version}}
+        with:
+          distribution: temurin
+          java-version: ${{matrix.java.version}}
+          cache: maven
+      - name: Build with Maven
+        env:
+          MAVEN_OPTS: ${{ matrix.java.opts }}
+        run: ./mvnw -s .build/maven-ci-settings.xml -B clean verify -Pcoverage
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.13
+  compatibility:
+    runs-on: ubuntu-20.04
+    name: Compatibility Check
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: temurin
+          cache: maven
+      - name: Compatibility Check
+        run: ./mvnw -s .build/maven-ci-settings.xml -pl '!bom' -B install revapi:check@check-compatibility -DskipTests -fae
