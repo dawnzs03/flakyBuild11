@@ -1,3 +1,0 @@
-org.kie.kogito.serverless.workflow.operationid.FileNameWorkflowOperationIdFactory
-org.kie.kogito.serverless.workflow.operationid.URIWorkflowOperationIdFactory
-org.kie.kogito.serverless.workflow.operationid.FunctionWorkflowOperationIdFactory
