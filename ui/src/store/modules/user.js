@@ -348,13 +348,9 @@ const user = {
       if (noticeIdx === -1) {
         noticeArray.push(noticeJson)
       } else {
-        const existingNotice = noticeArray[noticeIdx]
-        noticeJson.timestamp = existingNotice.timestamp
         noticeArray[noticeIdx] = noticeJson
       }
-      noticeArray.sort(function (a, b) {
-        return new Date(b.timestamp) - new Date(a.timestamp)
-      })
+
       commit('SET_HEADER_NOTICES', noticeArray)
     },
     ProjectView ({ commit }, projectid) {
