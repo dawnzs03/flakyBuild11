@@ -1,9 +1,0 @@
-¦Qualified Name¦Type
-|xref::overview/apoc.nlp.azure.entities/apoc.nlp.azure.entities.adoc[apoc.nlp.azure.entities.graph icon:book[]]
-
-Creates a (virtual) entity graph for provided text
-|label:procedure[]
-|xref::overview/apoc.nlp.azure.entities/apoc.nlp.azure.entities.adoc[apoc.nlp.azure.entities.stream icon:book[]]
-
-Provides a entity analysis for provided text
-|label:procedure[]

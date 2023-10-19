@@ -1,1 +1,0 @@
-CREATE (n:Person{id:1);

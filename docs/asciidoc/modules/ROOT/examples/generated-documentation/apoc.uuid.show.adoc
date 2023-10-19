@@ -1,5 +1,0 @@
-¦xref::overview/apoc.uuid/apoc.uuid.show.adoc[apoc.uuid.show icon:book[]] +
-
-`CALL apoc.uuid.show(databaseName) | it lists all eventually installed UUID handler for a database`
-¦label:procedure[]
-¦label:apoc-extended[]

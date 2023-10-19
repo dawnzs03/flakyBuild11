@@ -1,5 +1,0 @@
-¦signature
-¦apoc.log.debug(message :: STRING?, params = [] :: LIST? OF ANY?) :: VOID
-¦apoc.log.error(message :: STRING?, params = [] :: LIST? OF ANY?) :: VOID
-¦apoc.log.info(message :: STRING?, params = [] :: LIST? OF ANY?) :: VOID
-¦apoc.log.warn(message :: STRING?, params = [] :: LIST? OF ANY?) :: VOID

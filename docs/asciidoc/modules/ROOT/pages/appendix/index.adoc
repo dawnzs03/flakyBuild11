@@ -1,3 +1,0 @@
-= Appendix
-
-* xref::appendix/apoc-video-tutorial.adoc[]
