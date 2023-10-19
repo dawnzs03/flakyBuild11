@@ -1,0 +1,12 @@
+plugins {
+	id 'com.gradle.enterprise' version '3.13.4'
+	id 'io.spring.ge.conventions' version '0.0.13'
+}
+
+rootProject.name = 'spring-integration'
+
+rootDir.eachDir { dir ->
+	if (dir.name.startsWith('spring-integration-')) {
+		include ":${dir.name}"
+	}
+}

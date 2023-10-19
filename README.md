@@ -1,155 +1,133 @@
-# Apache CloudStack [![Build Status](https://github.com/apache/cloudstack/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/apache/cloudstack/actions/workflows/build.yml) [![UI Build](https://github.com/apache/cloudstack/actions/workflows/ui.yml/badge.svg)](https://github.com/apache/cloudstack/actions/workflows/ui.yml) [![License Check](https://github.com/apache/cloudstack/actions/workflows/rat.yml/badge.svg?branch=main)](https://github.com/apache/cloudstack/actions/workflows/rat.yml) [![Simulator CI](https://github.com/apache/cloudstack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/apache/cloudstack/actions/workflows/ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=apache_cloudstack&metric=alert_status)](https://sonarcloud.io/dashboard?id=apache_cloudstack) [![codecov](https://codecov.io/gh/apache/cloudstack/branch/main/graph/badge.svg)](https://codecov.io/gh/apache/cloudstack)
+<img align="right" width="250" height="250" src="https://spring.io/img/projects/spring-integration.svg?v=2">
 
-![Apache CloudStack](tools/logo/apache_cloudstack.png)
+# Spring Integration
 
-Apache CloudStack is open source software designed to deploy and manage large
-networks of virtual machines, as a highly available, highly scalable
-Infrastructure as a Service (IaaS) cloud computing platform. CloudStack is used
-by a number of service providers to offer public cloud services, and by many
-companies to provide an on-premises (private) cloud offering, or as part of a
-hybrid cloud solution.
+[<img src="https://build.spring.io/plugins/servlet/wittified/build-status/INT-MAIN">](https://build.spring.io/browse/INT-MAIN) [![Join the chat at https://gitter.im/spring-projects/spring-integration](https://badges.gitter.im/spring-projects/spring-integration.svg)](https://gitter.im/spring-projects/spring-integration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Revved up by Gradle Enterprise](https://img.shields.io/badge/Revved%20up%20by-Gradle%20Enterprise-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.spring.io/scans?search.rootProjectNames=spring-integration)
 
-CloudStack is a turnkey solution that includes the entire "stack" of features
-most organizations want with an IaaS cloud: compute orchestration,
-Network-as-a-Service, user and account management, a full and open native API,
-resource accounting, and a first-class User Interface (UI).
+Extends the Spring programming model to support the well-known Enterprise Integration Patterns. 
+Spring Integration enables lightweight messaging within Spring-based applications and supports integration with external systems via declarative adapters. 
+Those adapters provide a higher-level of abstraction over Spring’s support for remoting, messaging, and scheduling. 
+Spring Integration’s primary goal is to provide a simple model for building enterprise integration solutions while maintaining the separation of concerns that is essential for producing maintainable, testable code.
 
-CloudStack currently supports the most popular hypervisors:
-VMware vSphere, KVM, XenServer, XenProject and Hyper-V as well as
-OVM and LXC containers.
+Using the Spring Framework encourages developers to code using interfaces and use dependency injection (DI) to provide a Plain Old Java Object (POJO) with the dependencies it needs to perform its tasks. 
+Spring Integration takes this concept one step further, where POJOs are wired together using a messaging paradigm and individual components may not be aware of other components in the application. 
+Such an application is built by assembling fine-grained reusable components to form a higher level of functionality. 
+With careful design, these flows can be modularized and also reused at an even higher level.
 
-Users can manage their cloud with an easy to use Web interface, command line
-tools, and/or a full-featured query based API.
+In addition to wiring together fine-grained components, Spring Integration provides a wide selection of channel adapters and gateways to communicate with external systems. 
+Channel Adapters are used for one-way integration (send or receive); gateways are used for request/reply scenarios (inbound or outbound). 
 
-For more information on Apache CloudStack, please visit the [website](http://cloudstack.apache.org)
+# Installation and Getting Started
 
-## Who Uses CloudStack?
+First, you need dependencies in your POM/Gradle:
 
-* There are more than 150 known organizations using Apache CloudStack (or a commercial distribution of CloudStack). Our users include many major service providers running CloudStack to offer public cloud services, product vendors who incorporate or integrate with CloudStack in their own products, organizations who have used CloudStack to build their own private clouds, and systems integrators that offer CloudStack related services.
+```xml
+<dependency>
+    <groupId>org.springframework.integration</groupId>
+    <artifactId>spring-integration-core</artifactId>
+</dependency>
+```
 
-* See our [case studies](https://cwiki.apache.org/confluence/display/CLOUDSTACK/Case+Studies) highlighting successful deployments of Apache CloudStack.
+which is also pulled transitively if you deal with target protocol channel adapters.
+For example for Apache Kafka support you need just this:
 
-* See the up-to-date list of current [users](https://cloudstack.apache.org/users.html).
+```xml
+<dependency>
+    <groupId>org.springframework.integration</groupId>
+    <artifactId>spring-integration-kafka</artifactId>
+</dependency>
+```
 
-* If you are using CloudStack in your organization and your company is not listed above, please complete our brief adoption [survey](https://cloudstack.apache.org/survey.html). We're happy to keep your company name anonymous if you require.
+For annotations or Java DSL configuration you need to *enable* Spring Integration in the application context:
 
-## Demo
+```java
+@EnableIntegration
+@Configuration
+public class ExampleConfiguration {
+    
+}
+```
 
-![Screenshot](ui/docs/screenshot-dashboard.png)
+# Code of Conduct
 
-See the project user-interface QA website that runs CloudStack against simulator hypervisor:
-https://qa.cloudstack.cloud/simulator/ (admin:password)
+Please see our [Code of conduct](https://github.com/spring-projects/.github/blob/main/CODE_OF_CONDUCT.md).
 
-## Getting Started
+# Reporting Security Vulnerabilities
 
-* Download a released [version](https://cloudstack.apache.org/downloads.html)
-* Build from source with the instructions in the [INSTALL.md](INSTALL.md) file.
+Please see our [Security policy](https://github.com/spring-projects/spring-integration/security/policy).
 
-## Getting Source Repository
+# Documentation
 
-Apache CloudStack project uses Git. The official Git repository is at:
+The Spring Integration maintains reference documentation ([published](https://docs.spring.io/spring-integration/docs/current/reference/html/) and [source](src/reference/asciidoc)), GitHub [wiki pages](https://github.com/spring-projects/spring-integration/wiki), and an [API reference](https://docs.spring.io/spring-integration/docs/current/api/). 
+There are also [guides and tutorials](https://spring.io/guides) across Spring projects.
 
-    https://gitbox.apache.org/repos/asf/cloudstack.git
 
-And a mirror is hosted on GitHub:
+# Checking out and Building
 
-    https://github.com/apache/cloudstack
+To check out the project and build from the source, do the following:
 
-The GitHub mirror is strictly read only and provides convenience to users and
-developers to explore the code and for the community to accept contributions
-via GitHub pull requests.
+    git clone git://github.com/spring-projects/spring-integration.git
+    cd spring-integration
+    ./gradlew clean test
 
-## Documentation
+    or
 
-* [Project Documentation](https://docs.cloudstack.apache.org)
-* [Release notes](https://docs.cloudstack.apache.org/projects/cloudstack-release-notes)
-* Developer [wiki](https://cwiki.apache.org/confluence/display/CLOUDSTACK/Home)
-* Design [documents](https://cwiki.apache.org/confluence/display/CLOUDSTACK/Design)
-* API [documentation](https://cloudstack.apache.org/api.html)
-* How to [contribute](CONTRIBUTING.md)
+    ./gradlew clean testAll
 
-## News and Events
+The latter runs additional tests (those annotated with `@LongRunningIntegrationTest`); it is a more thorough test but takes quite a lot longer to run.
 
-* [Blog](https://blogs.apache.org/cloudstack)
-* [Twitter](https://twitter.com/cloudstack)
-* [Events and meetup](http://cloudstackcollab.org/)
-* [YouTube channel](https://www.youtube.com/ApacheCloudStack)
+The test results are captured in `build/reports/tests/test` (or `.../testAll`) under each module (in HTML format).
 
-## Getting Involved and Contributing
+Add `--continue` to the command to perform a complete build, even if there are failing tests in some modules; otherwise the build will stop after the current module(s) being built are completed.
 
-Interested in helping out with Apache CloudStack? Great! We welcome
-participation from anybody willing to work [The Apache Way](http://theapacheway.com) and make a
-contribution. Note that you do not have to be a developer in order to contribute
-to Apache CloudStack. We need folks to help with documentation, translation,
-promotion etc. See our contribution [page](http://cloudstack.apache.org/contribute.html).
+**NOTE:** While Spring Integration runs with Java SE 17 or higher, a Java 17 compiler is required to build the project.
 
-If you're interested in learning more or participating in the Apache CloudStack
-project, the mailing lists are the best way to do that. While the project has
-several communications channels, the [mailing lists](http://cloudstack.apache.org/mailing-lists.html) are the most active and the
-official channels for making decisions about the project itself.
+To build and install jars into your local Maven cache:
 
-Mailing lists:
-- [Development Mailing List](mailto:dev-subscribe@cloudstack.apache.org)
-- [Users Mailing List](mailto:users-subscribe@cloudstack.apache.org)
-- [Commits Mailing List](mailto:commits-subscribe@cloudstack.apache.org)
-- [Issues Mailing List](mailto:issues-subscribe@cloudstack.apache.org)
-- [Marketing Mailing List](mailto:marketing-subscribe@cloudstack.apache.org)
+    ./gradlew publishToMavenLocal
 
-Report and/or check bugs on [GitHub](https://github.com/apache/cloudstack/issues) and check our
-developer [page](https://cloudstack.apache.org/developers.html) for contributing code.
+To build api Javadoc (results will be in `build/api`):
 
-## Reporting Security Vulnerabilities
+    ./gradlew api
 
-If you've found an issue that you believe is a security vulnerability in a
-released version of CloudStack, please report it to `security@apache.org` with
-details about the vulnerability, how it might be exploited, and any additional
-information that might be useful.
+To build the reference documentation (results will be in `build/docs/asciidoc` and `build/docs/asciidocPdf`):
 
-For more details, please visit our security [page](http://cloudstack.apache.org/security.html).
+    ./gradlew reference
 
-## License
+To build complete distribution including `-dist`, `-docs`, and `-schema` zip files (results will be in `build/distributions`):
 
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
+    ./gradlew dist
 
-  http://www.apache.org/licenses/LICENSE-2.0
+# Using Eclipse or Spring Tool Suite (with BuildShip Plugin)
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
+If you have the BuildShip plugin installed,
 
-Please see the [LICENSE](LICENSE) file included in the root directory
-of the source tree for extended license details.
+*File -> Import -> Gradle -> Existing Gradle Project*
 
-## Notice of Cryptographic Software
+# Using Eclipse or Spring Tool Suite (when the BuildShip Plugin is not installed)
 
-This distribution includes cryptographic software. The country in which you currently
-reside may have restrictions on the import, possession, use, and/or re-export to another
-country, of encryption software. BEFORE using any encryption software, please check your
-country's laws, regulations and policies concerning the import, possession, or use, and
-re-export of encryption software, to see if this is permitted. See http://www.wassenaar.org/
-for more information.
+To generate Eclipse metadata (.classpath and .project files, etc), do the following:
 
-The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has
-classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which
-includes information security software using or performing cryptographic functions with
-asymmetric algorithms. The form and manner of this Apache Software Foundation distribution
-makes it eligible for export under the License Exception ENC Technology Software
-Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section
-740.13) for both object code and source code.
+    ./gradlew eclipse
 
-The following provides more details on the included cryptographic software:
+Once complete, you may then import the projects into Eclipse as usual:
 
-* CloudStack makes use of JaSypt cryptographic libraries.
-* CloudStack has a system requirement of MySQL, and uses native database encryption functionality.
-* CloudStack makes use of the Bouncy Castle general-purpose encryption library.
-* CloudStack can optionally interact with and control OpenSwan-based VPNs.
-* CloudStack has a dependency on and makes use of JSch - a java SSH2 implementation.
+ *File -> Import -> General -> Existing projects into workspace*
+
+Browse to the *'spring-integration'* root directory. All projects should import
+free of errors.
+
+# Using IntelliJ IDEA
+
+To import the project into IntelliJ IDEA:
+
+File -> Open... -> and select build.gradle from spring-integration project root directory
+
+# Guidelines
+
+See also [Contributor Guidelines](https://github.com/spring-projects/spring-integration/blob/main/CONTRIBUTING.adoc).
+
+# Resources
+
+For more information, please visit the Spring Integration website at:
+[https://spring.io/projects/spring-integration](https://spring.io/projects/spring-integration/)
