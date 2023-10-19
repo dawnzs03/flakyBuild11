@@ -1,12 +1,4 @@
-rootProject.name = 'selenide'
-include ':modules:core'
-include ':statics'
-include ':modules:appium'
-include ':modules:selenoid'
-include ':modules:proxy'
-include ':modules:grid'
-include ':modules:junit4'
-include ':modules:testng'
-include ':modules:clear-with-shortcut'
-include ':modules:full-screenshot'
-include ':modules:error-message-customizer'
+rootProject.name = 'poi'
+
+include 'poi', 'poi-ooxml-full', 'poi-ooxml-lite-agent', 'poi-scratchpad',
+        'poi-ooxml', 'poi-excelant', 'poi-examples', 'poi-integration' , 'poi-ooxml-lite'

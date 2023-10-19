@@ -1,5 +1,1 @@
-* text=auto eol=lf
-
-*.bat text eol=crlf
-
-*.jar binary
+test-data/hmef/quick-contents/quick.html text eol=lf

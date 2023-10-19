@@ -1,20 +1,42 @@
-build
-hs_err_pid*
-!.idea
-.idea/*
-!/.idea/icon.svg
-out
-*.ipr
-*.iws
-*.iml
-.gradle
-.project
-.classpath
-chromedriver.log
-.settings
-integration/ScreenshotTest/canTakeScreenshotOfElement/
 classes
+workbook.xls
+bak
+build.number
+*.el
+scripts
+untitled1.jpx
+*.log
 
-# Ignore all binary files
-modules/*/bin
-statics/bin
+forrest.properties
+compile-lib/
+ooxml-lib/
+ooxml-testlib/
+
+# Eclipse
+/bin
+.settings
+
+# Tests
+junit*.properties
+TEST-org.apache.poi*.xml
+
+# IntelliJ
+/out/
+/*/out/
+.idea
+*.iml
+*.iws
+*.ipr
+
+# Gradle
+.gradle
+
+# Ant
+.ant-targets-build.xml
+/build/
+/*/build/
+dist
+lib/
+
+# Compiled module-info class-files
+/poi*/src/*/java9/*.class
