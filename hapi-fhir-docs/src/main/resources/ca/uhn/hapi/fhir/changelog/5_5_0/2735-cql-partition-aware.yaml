@@ -1,5 +1,0 @@
----
-type: add
-backport: 5.4.2
-issue: 2735
-title: "The $evaluate-measure now works on a partitioned server."

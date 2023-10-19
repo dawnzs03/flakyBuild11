@@ -1,3 +1,0 @@
----
-type: change
-title: "All Spring Batch dependencies and services have been removed.  Async processing has fully migrated to Batch 2."

@@ -1,5 +1,0 @@
----
-type: add
-jira: SMILE-5921
-issue: 4432
-title: "Added resourceType as a parameter to $mdm-duplicate-golden-resources operation."

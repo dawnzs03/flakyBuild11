@@ -1,5 +1,0 @@
----
-type: add
-issue: 4057
-title: "The OpenApi generator now allows additional CSS customization for the Swagger UI page, as well as the
-   option to disable resource type pages."

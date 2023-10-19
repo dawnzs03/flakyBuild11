@@ -1,4 +1,0 @@
----
-type: add
-issue: 4651
-title: "Introduce configuration to enable the feature that stores the history of MdmLinks.  Introduce the $mdm-link-history operation."

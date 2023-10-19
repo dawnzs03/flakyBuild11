@@ -1,5 +1,0 @@
----
-type: add
-issue: 4266
-title: "The JPA server can now handle indexing search parameters of type `token` and `reference` where
-   the value is a CodeableReference (a new datatype added in R5)."

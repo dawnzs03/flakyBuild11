@@ -1,4 +1,0 @@
----
-type: add
-issue: 2905
-title: "Added displayLanguage support for CodeSystem $lookup operation to filter out designation by language."

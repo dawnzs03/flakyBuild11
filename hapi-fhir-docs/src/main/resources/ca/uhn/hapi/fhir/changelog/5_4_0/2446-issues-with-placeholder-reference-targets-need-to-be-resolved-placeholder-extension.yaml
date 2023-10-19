@@ -1,5 +1,0 @@
----
-type: add
-issue: 2446
-title: "Auto-created placeholder reference targets now have an extension with the URL
-   `http://hapifhir.io/fhir/StructureDefinition/resource-placeholder` and a value of `true`."

@@ -1,4 +1,0 @@
----
-type: add
-title: "New configuration option added to validate bundle resources concurrently.
-Also new configuration added to skip validation of contained resources."

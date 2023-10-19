@@ -1,4 +1,0 @@
----
-type: fix
-issue: 4647
-title: "Batch job state transitions are are now transitionally safe."

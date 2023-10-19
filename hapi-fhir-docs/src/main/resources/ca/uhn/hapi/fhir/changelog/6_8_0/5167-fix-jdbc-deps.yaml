@@ -1,4 +1,0 @@
----
-type: fix
-issue: 5167
-title: "Fixed a dependency in the HSQL JDBC driver referencing a non-bundled class (javax.ServletOutputStream)"

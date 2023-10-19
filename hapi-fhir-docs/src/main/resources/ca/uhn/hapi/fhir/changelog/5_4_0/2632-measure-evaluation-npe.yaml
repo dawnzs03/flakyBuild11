@@ -1,4 +1,0 @@
----
-type: fix
-issue: 2632
-title: "Certain calls to the $evaluate-measure operation could result in a NullPointerException.  This is now corrected."

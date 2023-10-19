@@ -1,4 +1,0 @@
-type: fix
-issue: 3530
-jira: SMILE-4109
-title: "TerserUtil.mergeAllFields() threw an exception when cloning contained resources.  This has been corrected."

@@ -1,5 +1,0 @@
----
-type: add
-issue: 3269
-title: "The SearchParameterMap query normalizer did not support `_include` and `_revinclude` parameters
-   with the `:recurse` qualifier. This has been corrected. Thanks to Augustas Vilčinskas for the PR!"

@@ -1,4 +1,0 @@
----
-type: fix
-issue: 3897
-title: "Providing a meaningful response message when deleting non-existing or already deleted resources."

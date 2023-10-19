@@ -1,3 +1,0 @@
----
-type: add
-title: "Upgrade net.java.dev.jna to run docker tests on Mac arm64 M1 machines"

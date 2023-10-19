@@ -1,4 +1,0 @@
----
-type: add
-issue: 3840
-title: "Add Sort parameter to IJobCoordinator pageable request for fetching all jobs."

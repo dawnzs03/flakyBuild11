@@ -1,4 +1,0 @@
----
-type: fix
-issue: 2808
-title: "Loading packages would fail when partitioning was enabled with unnamed partitions. This has been fixed."

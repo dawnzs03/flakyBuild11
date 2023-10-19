@@ -1,4 +1,0 @@
----
-type: add
-issue: 3243
-title: "Allow Rest Hook subscriptions to be configured to send delete requests."

@@ -1,4 +1,0 @@
----
-type: add
-issue: 5246
-title: "Combined the ExpandResources step and WriteBinary step in the new WriteBinary step v2 for bulk exports."

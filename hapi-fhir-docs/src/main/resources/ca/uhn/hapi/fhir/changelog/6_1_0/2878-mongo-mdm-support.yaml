@@ -1,4 +1,0 @@
----
-type: add
-issue: 2878
-title: "Refactored mdm classes to use ResourcePersistenceId rather than prematurely converting to longs"

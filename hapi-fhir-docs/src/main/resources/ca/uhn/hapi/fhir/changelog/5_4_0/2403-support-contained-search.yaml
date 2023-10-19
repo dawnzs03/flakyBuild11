@@ -1,4 +1,0 @@
----
-type: add
-issue: 2403
-title: "Optionally support '_contained' resource search by enabling the indexing on the contained resources in the ModelConfig."

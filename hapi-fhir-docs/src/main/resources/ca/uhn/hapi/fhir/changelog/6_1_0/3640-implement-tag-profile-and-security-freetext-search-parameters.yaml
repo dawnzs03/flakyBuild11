@@ -1,4 +1,0 @@
----
-type: add
-issue: 3640
-title: "Extended Lucene/Elasticsearch indexing of search parameters now supports _tag, _profile and _security."

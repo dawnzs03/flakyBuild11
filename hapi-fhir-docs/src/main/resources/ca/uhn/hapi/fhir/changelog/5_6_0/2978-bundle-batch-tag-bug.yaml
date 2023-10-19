@@ -1,3 +1,0 @@
----
-type: fix
-title: "Fixed a bug where two identical tags in parallel entries being created in a batch would fail."
