@@ -1,193 +1,220 @@
-# Contributing guide
+Apache Ozone Contribution guideline
+===
 
-**Want to contribute? Great!** 
-We try to make it easy, and all contributions, even the smaller ones, are more than welcome.
-This includes bug reports, fixes, documentation, examples... 
-But first, read this page (including the small print at the end).
+Ozone is an Apache project. The bug tracking system for Ozone is under the [Apache Jira project named HDDS](https://issues.apache.org/jira/projects/HDDS/).
 
-## Legal
+This document summarize the contribution process:
 
-All original contributions to SmallRye Mutiny are licensed under the
-[ASL - Apache License](https://www.apache.org/licenses/LICENSE-2.0),
-version 2.0 or later, or, if another license is specified as governing the file or directory being
-modified, such other license.
+## What can I contribute?
 
-All contributions are subject to the [Developer Certificate of Origin (DCO)](https://developercertificate.org/).
-The DCO text is also included verbatim in the [dco.txt](dco.txt) file in the root directory of the repository.
+We welcome contributions of:
 
-## Reporting an issue
-
-This project uses GitHub issues to manage the issues. 
-Open an issue directly in [GitHub](https://github.com/smallrye/smallrye-mutiny/issues).
-
-If you believe you found a bug, and it's likely possible, please indicate a way to reproduce it, what you are seeing and what you would expect to see.
-Don't forget to indicate your SmallRye Mutiny, Java, and Maven/Gradle version. 
-
-## Before you contribute
-
-To contribute, use GitHub Pull Requests, from your **own** fork.
-
-### Signing your Git commits
-
-We require Git commits to be *[verified on GitHub](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)*, so please:
-- [use a valid user name and email in your commits](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address), and
-- [sign your commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) with a GnuPG key that is tied to your GitHub account. 
-
-### Code reviews
-
-All non-trivial contributions, including contributions by project members, need to be reviewed before being merged.
-
-### Continuous Integration
-
-Because we are all humans, the project uses a continuous integration approach and each pull request triggers a full build.
-Please make sure to monitor the output of the build and act accordingly.
-
-Mutiny uses GitHub Actions as CI, so you can see the progress and results in the _checks_ tab of your pull request.
-Follow the results on https://github.com/smallrye/smallrye-mutiny/actions.
-
-### Tests and documentation are not optional
-
-Don't forget to include tests in your pull requests. 
-Also don't forget the documentation (reference documentation, javadoc...).
-
-We even accept pull requests just containing tests or documentation.
-
-## Setup
-
-If you have not done so on this machine, you need to:
+ * **Code**. File a bug and submit a patch, or pick up any one of the unassigned Jiras.
+   * [Newbie Ozone jiras](https://s.apache.org/OzoneNewbieJiras)
+   * [All open and unassigned Ozone jiras](https://s.apache.org/OzoneUnassignedJiras)
+ * **Documentation Improvements**: You can submit improvements to either:
+     * Ozone website. Instructions are here: [Modifying the Ozone Website](https://cwiki.apache.org/confluence/display/OZONE/Modifying+the+Ozone+Website)
+     * Developer docs. These are markdown files [checked into the Apache Ozone Source tree](https://github.com/apache/ozone/tree/master/hadoop-hdds/docs/content).
+ * The [wiki pages](https://cwiki.apache.org/confluence/display/OZONE/Contributing+to+Ozone): Please contact us at dev@ozone.apache.org and we can provide you write access to the wiki.
+ * **Testing**: We always need help to improve our testing
+      * Unit Tests (JUnit / Java)
+      * Acceptance Tests (docker + robot framework)
+      * Blockade tests (python + blockade) 
+      * Performance: We have multiple type of load generator / benchmark tools (`ozone freon`),
+        which can be used to test cluster and report problems.
+ * **Bug reports** pointing out broken functionality, docs, or suggestions for improvements are always welcome!
  
-* Install Git and configure your GitHub access
-* Install Java SDK (OpenJDK recommended, see https://adoptium.net/)
-* Install Apache Maven (or use the `mvnw` wrapper scripts instead of `mvn`)
+## Who To Contact
 
-## Build
+If you have any questions, please don't hesitate to contact
 
-* Clone the repository: `git clone https://github.com/smallrye/smallrye-mutiny.git`
-* Navigate to the directory: `cd smallrye-mutiny`
-* Invoke `mvn clean install` from the root directory
+ * **email**: use dev@ozone.apache.org.
+ * **chat**: You can find the #ozone channel at the ASF slack. Invite link is [here](http://s.apache.org/slack-invite)
+ * **GitHub Discussions**: You can also interact with the community using [GitHub Discussions](https://github.com/apache/ozone/discussions). 
+ * **meeting**: [We have weekly meetings](https://cwiki.apache.org/confluence/display/OZONE/Ozone+Community+Calls) which is open to anybody. Feel free to join and ask any questions
+    
+## Building from source
 
-```bash
-git clone https://github.com/smallrye/smallrye-mutiny.git
-cd smallrye-mutiny
-mvn clean install
-# Wait... success!
+### Requirements
+
+Requirements to compile the code:
+
+* Unix System
+* JDK 1.8 or higher
+* Maven 3.6 or later
+* Internet connection for first build (to fetch all Maven and Ozone dependencies)
+
+(Standard development tools such as make, gcc, etc. are required.)
+
+### Build the project
+
+After installing the requirements (especially Maven) build is as simple as:
+
+```
+mvn clean verify -DskipTests
 ```
 
-### Faster builds
+### Useful Maven build options
 
-Tests account for the majority of the build time.
+  * Use `-DskipShade` to skip shaded Ozone FS jar file creation. Saves time, but you can't test integration with other software that uses Ozone as a Hadoop-compatible file system.
+  * Use `-DskipRecon` to skip building Recon Web UI. It saves about 2 minutes.
+  * Use `-Pdist` to build the binary tarball, similar to the one that gets released
 
-There are 2 Maven profiles that you can activate to speed up the build of the Mutiny core library (in `implementation/`):
+## Running Ozone in Docker
 
-- `-Pskip-rs-tck` to avoid running the Reactive Streams TCK
-- `-Pparallel-tests` to run the JUnit5 tests in parallel
+Additional requirements for running Ozone in pseudo cluster (including acceptance tests):
 
-The 2 profiles can be activated at the same time if you want to benefit from parallel tests and skip the Reactive Streams TCK.
-This is mostly useful to have fast development feedback loops.
+* docker
+* docker-compose
+* [jq](https://stedolan.github.io/jq/) (utility used heavily by acceptance tests)
 
-Note that parallel tests are not activated by default (yet) because some tests may randomly fail if your system is under load, or if it has constrained resources.
-The Reactive Streams TCK is a good example as it uses some time-sensitive checks.
+After building Ozone locally, you can start your first pseudo cluster:
 
-## The small print
-
-This project is an open source project, please act responsibly, be nice, polite and enjoy!
-
-## Deployment and Release
-
-First you need an environment variable named `GITHUB_TOKEN` with a token allowing access to the GitHub API and having push permission.
-Also, you need to check that:
-
-* there are no build in progress of the `ref` branch (`main`)
-* the last build of the `ref` branch (`main`) has been successful
-
-Multiple steps compose the release process.
-
-### Release preparation
-
-The "prepare-release" workflow verifies that a release can be done. 
-Typically, it computes the target version if not set, and verifies that:
-
-1. a milestone with the release version as name exists and as no more open issues
-2. a tag with the release version as name does not already exist
-
-Then, it bumps the version, builds the project and pushed a tag.
-Finally, it clears the breaking change justifications.
-
-You can trigger a release using a _workflow dispatch_ events or directly from the Github Actions page.
-Parameters are the following:
-
-- `dry-run` - if `true` to not push anything to the remote git repository (default: `false`).
-- `release-version` - the target release version. If not set, it computes the release version by bumping the _minor_ version digit, or the _micro_ version digit is `micro` is set to `true`.
-The last version is the last pushed tag.
-- `micro` - when the `release-version` is not set, indicates that the version is a _micro_ (default: `false`).
-- `skip-tests` - if `true`, skips the tests during the project build (default: `false`)
-- `branch` - the branch from which the release must be cut (default: `main`)
-
-Check https://github.com/smallrye/smallrye-mutiny/actions to follow the progress.
-
-The workflow triggers the other steps automatically (upon the tag creation).
-
-### Web Site deployment
-
-When the "prepare-release" workflows pushes the tag, the "deploy-site" workflows starts (upon the tag creation event), and builds the website from the tag.
-It pushes the website, so once completed, the website is up to date.
-
-### Artifact deployment to Maven Central
-
-When the "prepare-release" workflows pushes the tag, the "deploy-release" workflows starts (upon the tag creation event), and builds the artifacts from the tag.
-It also deploys them to Maven Central.
-
-### Post-Release
-
-When the "prepare-release" workflows pushes the tag, the "post-release" workflows starts (upon the tag creation event), and creates the Github Release.
-It computes the changelog, collects the breaking changes and creates the release (if it does not exist).
-It also creates the next milestone (if it does not exist yet) and closes the previous one.
-
-The next milestone name is the current version with an increment to the minor version digit.
-
-The "post-release" workflow is idempotent.
-
-### Running the release process locally.
-
-It is possible to runs the release process locally using [https://github.com/nektos/act](https://github.com/nektos/act).
-In addition to `act`, you need a Github Token with push permission to the repository (stored in the `GITHUB_TOKEN` env variable), and the SmallRye GPG Key passphrase (stored in the `PASSPHRASE` env variable).
-
-Then, edit the `.build/mock-events/release-workflow-event.json` to adapt the execution:
-
-```json
-{
-  "inputs": {
-    "skip-tests": true,
-    "branch": "main",
-    "release-version": "0.12.5"
-  }
-}
-``` 
-
-Then, from the project root, runs:
-
-```bash
-act workflow_dispatch -e .build/mock-events/release-workflow-event.json \
-    -s GITHUB_API_TOKEN=${GITHUB_TOKEN} \ 
-    -s SECRET_FILES_PASSPHRASE=${PASSPHRASE} \
-    -P ubuntu-latest=nektos/act-environments-ubuntu:18.04 \
-    -r -a YOUR_GITHUB_NAME
 ```
- 
-This would execute the release preparation. 
-Once completed, because it creates the tag, the other steps will start.
-
-If you need to run the other steps manually, edit the `.build/mock-events/tag-creation-event.json` to adapt it with the target tag.
-Then, runs:
-
-```bash
-act push -e .build/mock-events/tag-creation-event.json \
-    -s GITHUB_API_TOKEN=${GITHUB_TOKEN} \ 
-    -s SECRET_FILES_PASSPHRASE=${PASSPHRASE} \
-    -P ubuntu-latest=nektos/act-environments-ubuntu:18.04 \
-    -r -a YOUR_GITHUB_NAME
+cd hadoop-ozone/dist/target/ozone-*-SNAPSHOT/compose/ozone
+OZONE_REPLICATION_FACTOR=3 ./run.sh -d
 ```
 
+See more details in the [README](https://github.com/apache/ozone/blob/master/hadoop-ozone/dist/src/main/compose/ozone/README.md) and in the [docs](https://ozone.apache.org/docs/current/start.html).
+
+## Contribute your modifications
+
+We use GitHub pull requests for contributing changes to the repository. The main workflow is as follows:
+
+  1. Fork [`apache/ozone`](https://github.com/apache/ozone) repository (first time) and clone it to your local machine
+  2. Enable the `build-branch` GitHub Actions workflow (defined in `.github/workflows/post-commit.yml`) in your fork
+  3. Ensure a Jira issue corresponding to the change exists in the [HDDS project](https://issues.apache.org/jira/projects/HDDS/) (eg. HDDS-1234)
+     * Please search Jira before creating a new issue, someone might have already reported the same.
+     * If this is your first issue, you might not be able to assign it to yourself.  If so, please make a comment in the issue, indicating that your are working on it.
+  4. Create a local branch for your contribution (eg. `git checkout -b HDDS-1234`)
+  5. Make your changes locally.
+     * For complex changes, committing each logical part is recommended.
+  6. Push your changes to your fork of Ozone
+  7. Wait for the `build-branch` workflow to complete successfully for your commit.
+  8. Create a pull request for your changes
+     * Please include the Jira link, problem description and testing instruction (follow the [template](https://github.com/apache/ozone/blob/master/.github/pull_request_template.md))
+  9. Set the Jira issue to "Patch Available" state
+  10. Address any review comments if applicable
+      * Create new, incremental commits in your branch.  This makes it easy for reviewers to only review the new changes. The committer will take care to squash all your commits when merging the pull request.
+      * Push your commits in a batch, when no more changes are expected.  This reduces the burden on automated CI checks.
+      * If you need to bring your PR up-to-date with the base branch (usually `master`), e.g. to resolve conflicts, please do so by merge, not rebase: `git merge --no-edit origin/master`.
+      * In general, please try to avoid force-push when updating the PR.  Here are some great articles that explain why:
+        * https://developers.mattermost.com/blog/submitting-great-prs/#4-avoid-force-pushing
+        * https://www.freecodecamp.org/news/optimize-pull-requests-for-reviewer-happiness#request-a-review
+    
+## Code convention and tests
+
+Basic code conventions followed by Ozone:
+
+ * 2 spaces indentation
+ * 80-char line length limit
+ * Apache license header required in most files
+ * no `@author` tags, authorship is indicated by Git history
+
+These are checked by tools like Checkstyle and RAT.
+
+For IntelliJ users, it is recommended to import and select the Code Style scheme located at:
+
+```
+./hadoop-ozone/dev-support/intellij/ozone-style.xml
+```
+
+See https://www.jetbrains.com/help/idea/configuring-code-style.html#import-code-style for detailed instructions.
+
+### Check your contribution
+
+The [`hadoop-ozone/dev-support/checks` directory](https://github.com/apache/ozone/tree/master/hadoop-ozone/dev-support/checks) contains scripts to build and check Ozone.  Most of these are executed by CI for every commit and pull request.  Running them before creating a pull request is strongly recommended.  This can be achieved by enabling the `build-branch` workflow in your fork and letting GitHub run all of the checks, but most of the checks can also be run locally.
+
+ 1. `build.sh`: compiles Ozone
+ 2. quick checks (less than 2 minutes)
+    * `author.sh`: checks for `@author` tags
+    * `bats.sh`: unit test for shell scripts
+    * `rat.sh`: checks for Apache license header
+    * `docs.sh`: sanity checks for [Ozone documentation](https://github.com/apache/ozone/tree/master/hadoop-hdds/docs)
+    * `dependency.sh`: compares list of jars in build output with known list
+    * `checkstyle.sh`: Checkstyle
+ 3. moderate (around 10 minutes)
+    * `findbugs.sh`: SpotBugs
+    * `kubernetes.sh`: very limited set of tests run in Kubernetes environment
+ 4. slow (around 1 hour or more)
+    * `unit.sh`: pure unit tests
+    * `integration.sh`: Java-based tests using single JVM "mini cluster"
+    * `acceptance.sh`: rather complete set of tests in Docker Compose-based environment
+
+The set of tests run by `integration` and `acceptance` may be limited via arguments, please see the scripts for details.  This is used by CI to run them in multiple splits to avoid taking too much time.
+
+Some scripts require third-party tools, but most of these are installed during the first run, if needed.
+
+Most scripts (except `build.sh`) output results in `target/<name>`, e.g. `target/docs`.
+
+### False positive findbugs violation
+
+If you have __very good__ reasons, you can ignore any Fingbugs warning. Your good reason can be persisted with the `@SuppressFBWarnings` annotation.
+
+```java
+@SuppressFBWarnings(value="AT_OPERATION_SEQUENCE_ON_CONCURRENT_ABSTRACTION",
+      justification="The method is synchronized and this is the only place "+
+          "dnsToUuidMap is modified")
+private synchronized void addEntryTodnsToUuidMap(
+...
+```
+
+## Using IDE
+
+As Ozone uses Apache Maven it can be developed from any IDE.  IntelliJ IDEA is a common choice, here are some suggestions to use it for Ozone development.
+
+### Run Ozone from IntelliJ
+
+Ozone components depends on maven classpath. We generate classpath descriptor from the maven pom.xml files to use exactly the same classpath at runtime.
+
+As a result, it's easy to start _all_ the components from IDE as the right classpath (without provided scope) has already been set.
+
+To start Ozone from IntelliJ:
+
+1. Stop your IDE
+2. Execute the `./hadoop-ozone/dev-support/intellij/install-runconfigs.sh` helper script.
+3. Start the IDE
+4. New runner definitions are available from the Run menu.
+
+You can use the installed Run configurations in the following order:
+
+1. StorageContainerManagerInit (to initialize the SCM dir)
+2. StorageContainerManger (to start SCM)
+3. OzoneManagerInit (to initialize OM, it requires SCM)
+4. OzoneManager
+5. Recon (required by datanode)
+6. Datanode1, Datanode2, Datanode3
+
+### Setting up Checkstyle
+
+Checkstyle plugin may help to detect violations directly from the IDE.
+
+1. Install `Checkstyle+IDEA` plugin from `File` -> `Settings` -> `Plugins`
+2. Open `File` -> `Settings` -> `Other settings` -> `Checkstyle` and Add (`+`) a new `Configuration File`
+  * Description: `Ozone`
+  * Use a local checkstyle `./hadoop-hdds/dev-support/checkstyle/checkstyle.xml`
+3. Check the `pom.xml` for the current version of the used checkstyle and use the same version with the plugin (`File` -> `Settings` -> `Other settings` -> `Checkstyle`)
+4. Open the _Checkstyle Tool Window_, select the `Ozone` rule and execute the check
+
+### Common problems
+
+#### Too large generated classes
+
+IntelliJ may not pick up protoc generated classes as they can be very huge. If the protoc files can't be compiled try the following:
+
+1. Open _Help_ -> _Edit custom properties_ menu.
+2. Add `idea.max.intellisense.filesize=10000` entry
+3. Restart your IDE
+
+#### Bad class file
+
+Sometimes during incremental build IDEA encounters the following error:
+
+`bad class file: hadoop-hdds/common/target/classes/org/apache/hadoop/ozone/common/ChunkBufferImplWithByteBufferList$1.class`
+
+Usually this can be fixed by removing the class file (outside of the IDE), but sometimes only by a full Rebuild.
 
 
+## CI
 
+The Ozone project uses Github Actions for its CI system.  The configuration is described in detail [here](.github/ci.md).

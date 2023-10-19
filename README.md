@@ -1,91 +1,99 @@
-![Build Status](https://github.com/smallrye/smallrye-mutiny/actions/workflows/build-main.yml/badge.svg) 
-![Build status (1.x branch)](https://github.com/smallrye/smallrye-mutiny/actions/workflows/build-1.x.yml/badge.svg) 
-![License](https://img.shields.io/github/license/smallrye/smallrye-mutiny.svg) 
-![Maven Central](https://img.shields.io/maven-central/v/io.smallrye.reactive/mutiny?color=green) 
-![Javadoc](https://javadoc.io/badge2/io.smallrye.reactive/mutiny/javadoc.svg)
+Apache Ozone
+===
 
-# ⚡️ Mutiny, an Intuitive Event-Driven Reactive Programming Library for Java
+Ozone is a scalable, redundant, and distributed object store for Hadoop and Cloud-native environments. Apart from scaling to billions of objects of varying sizes, Ozone can function effectively in containerized environments such as Kubernetes and YARN.
 
-[Mutiny is a modern reactive programming library for Java](https://smallrye.io/smallrye-mutiny/).
 
-Mutiny provides a simple but powerful asynchronous development model to build reactive applications.
+ * MULTI-PROTOCOL SUPPORT: Ozone supports different protocols like S3 and Hadoop File System APIs.
+ * SCALABLE: Ozone is designed to scale to tens of billions of files and blocks and, in the future, even more.
+ * CONSISTENT: Ozone is a strongly consistent object store. This consistency is achieved by using protocols like RAFT.
+ * CLOUD-NATIVE: Ozone is designed to work well in containerized environments like YARN and Kubernetes.
+ * SECURE: Ozone integrates with Kerberos infrastructure for authentication, supports native ACLs and integrates with Ranger for access control and supports TDE and on-wire encryption.
+ * HIGHLY AVAILABLE: Ozone is a fully replicated system that is designed to survive multiple failures.
 
-This project is sponsored by [Red Hat](https://www.redhat.com/).
+## Documentation
 
-## 🚀 Overview
+The latest documentation is generated together with the releases and hosted on the apache site.
 
-Mutiny can be used in any Java application exhibiting asynchrony.
+Please check [the documentation page](https://ozone.apache.org/docs/) for more information.
 
-From reactive microservices, data streaming, event processing to API gateways and network utilities, Mutiny is a great fit.
+## Contact
 
-### Event-Driven
+Ozone is a top level project under the [Apache Software Foundation](https://apache.org)
 
-Mutiny places events at the core of its design. 
-With Mutiny, you observe events, react to them, and create elegant and readable processing pipelines.
+ * Ozone [web page](https://ozone.apache.org)
+ * Mailing lists
+     * For any questions use: [dev@ozone.apache.org](https://lists.apache.org/list.html?dev@ozone.apache.org)
+ * Chat: There are a few ways to interact with the community
+     * You can find the #ozone channel on the official ASF Slack. Invite link is [here](http://s.apache.org/slack-invite).
+     * You can use [GitHub Discussions](https://github.com/apache/ozone/discussions) to post questions or follow community syncs. 
+ * There are Open [Weekly calls](https://cwiki.apache.org/confluence/display/OZONE/Ozone+Community+Calls) where you can ask anything about Ozone.
+    * Past meeting notes are also available from the wiki.
+ * Reporting security issues: Please consult with [SECURITY.md](./SECURITY.md) about reporting security vulnerabilities and issues.
 
-**💡 A PhD in functional programming is not required.**
+## Download
 
-### Navigable
+Latest release artifacts (source release and binary packages) are [available](https://ozone.apache.org/downloads/) from the Ozone web page.
 
-Even with smart code completion, classes with hundred of methods are confusing.
+## Quick start
 
-Mutiny provides a navigable and explicit API driving you towards the operator you need.
+### Run Ozone from published Docker image
 
-### Non-Blocking I/O
+The easiest way to start a cluster with docker is:
 
-Mutiny is the perfect companion to tame the asynchronous nature of applications with non-blocking I/O.
-
-Declaratively compose operations, transform data, enforce progress, recover from failures and more.
-
-### Quarkus and Vert.x native
-
-Mutiny is integrated in [Quarkus](https://quarkus.io) where every reactive API uses Mutiny, and [Eclipse Vert.x](https://vertx.io) clients are made available using [Mutiny bindings](https://github.com/smallrye/smallrye-mutiny-vertx-bindings).
-
-Mutiny is however an independent library that can ultimately be used in any Java application.
-
-### Reactive Converters Built-In
-
-Mutiny is based on the [Reactive Streams protocol](https://www.reactive-streams.org/), and so it can be integrated with any other reactive programming library.
-
-In addition, Mutiny offers converters to interact with other popular libraries and [Kotlin](https://kotlinlang.org/).
-
-## 📦 Build instructions
-
-Mutiny is built with Apache Maven, so all you need is:
-
-```shell
-./mvnw install
+```
+docker run -p 9878:9878 apache/ozone
 ```
 
-If you want to run a _quick_ build without running tests or generating API docs, then run:
+And you can use AWS S3 cli:
 
-```shell
-./mvnw -Dquickly
+```
+aws s3api --endpoint http://localhost:9878/ create-bucket --bucket=wordcount
+aws s3 --endpoint http://localhost:9878 cp --storage-class REDUCED_REDUNDANCY  /tmp/testfile  s3://wordcount/testfile
 ```
 
-| Git branch | Versions                       | Baseline                              | Compliance                 |
-|------------|--------------------------------|---------------------------------------|----------------------------|
-| `main`     | 2.x *(in development)*         | Java 11, `java.util.concurrent.Flow ` | Reactive Streams TCK 1.0.4 |
-| `1.x`      | 1.x.y *(backports, bug fixes)* | Java 8, Reactive Streams 1.0.4        | Reactive Streams TCK 1.0.4 |
+### Run Ozone from released artifact
 
-## ✨ Contributing
+If you need a more realistic cluster, you can [download](https://ozone.apache.org/downloads/) the latest (binary) release package, and start a cluster with the help of docker-compose:
 
-See [the contributing guidelines](CONTRIBUTING.md)
+After you untar the binary:
 
-Mutiny is an open project, feel-free to:
+```
+cd compose/ozone
+docker-compose up -d --scale datanode=3
+```
 
-- [report issues](https://github.com/smallrye/smallrye-mutiny/issues), and
-- [propose enhancements via pull-requests](https://github.com/smallrye/smallrye-mutiny/pulls).
+The `compose` folder contains different sets of configured clusters (secure, HA, mapreduce example), you can check the various subfolders for more examples.
 
-## 👋 Discussions and support
+### Run on Kubernetes
 
-For anything related to the usage of Mutiny in Quarkus, please refer to the [Quarkus support](https://quarkus.io/support/)
+Ozone is a first class citizen of the Cloud-Native environments. The binary package contains multiple sets of K8s resource files to show how it can be deployed.
 
-For more general discussions about Mutiny, you can:
+## Build from source
 
-- [start a new discussion thread in GitHub Discussions (preferred option)](https://github.com/smallrye/smallrye-mutiny/discussions), or
-- [use the `mutiny` tag on StackOverflow](https://stackoverflow.com/questions/tagged/mutiny).
+Ozone can be built with [Apache Maven](https://maven.apache.org):
 
-## 🧪 Publications
+```
+mvn clean install -DskipTests
+```
 
-Julien Ponge, Arthur Navarro, Clément Escoffier, and Frédéric Le Mouël. 2021. **[Analysing the Performance and Costs of Reactive Programming Libraries in Java](https://doi.org/10.1145/3486605.3486788).** *In Proceedings of the 8th ACM SIGPLAN International Workshop on Reactive and Event-Based Languages and Systems (REBLS ’21)*, October 18, 2021, Chicago, IL, USA. ACM, New York, NY, USA, 10 pages. [(PDF)](https://hal.inria.fr/hal-03409277/document)
+And can be started with the help of Docker:
+
+```
+cd hadoop-ozone/dist/target/ozone-*/compose/ozone
+docker-compose up -d --scale datanode=3
+```
+For more information, you can check the [Contribution guideline](./CONTRIBUTING.md)
+
+## Contribute
+
+All contributions are welcome.
+
+ 1. Please open a [Jira](https://issues.apache.org/jira/projects/HDDS/issues) issue
+ 2. And create a pull request
+
+For more information, you can check the [Contribution guideline](./CONTRIBUTING.md)
+
+## License
+
+The Apache Ozone project is licensed under the Apache 2.0 License. See the [LICENSE](./LICENSE.txt) file for details.
