@@ -1,3 +1,0 @@
-CREATE EXTENSION IF NOT EXISTS pgaudit WITH SCHEMA public;
-COMMENT ON EXTENSION pgaudit IS 'provides auditing functionality';
-SET default_with_oids = false;

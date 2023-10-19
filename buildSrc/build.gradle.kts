@@ -1,131 +1,72 @@
-// Copyright 2019 The Nomulus Authors. All Rights Reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-import java.io.PrintStream;
-
-val enableDependencyLocking: String by project
-val allowInsecureProtocol: String by project
-val allowInsecure = allowInsecureProtocol
-
-buildscript {
-  // We need to do this again within "buildscript" because setting it in the
-  // main script doesn't affect build dependencies.
-  val enableDependencyLocking: String by project
-  if (enableDependencyLocking.toBoolean()) {
-    // Lock application dependencies.
-    dependencyLocking {
-      lockAllConfigurations()
-    }
-  }
-}
-
 plugins {
-  // Java static analysis plugins. Keep versions consistent with ../build.gradle
+  `kotlin-dsl`
 
-  // We don't anticipate enabling the Gradle lint plugin because they will not support Kotlin
-  // See https://github.com/nebula-plugins/gradle-lint-plugin/issues/166
-  // id 'nebula.lint' version '16.0.2'
-  id("net.ltgt.errorprone") version "2.0.2"
-  checkstyle
-  id("com.diffplug.spotless") version "6.20.0"
+  // When updating, update below in dependencies too
+  id("com.diffplug.spotless") version "6.22.0"
 }
 
-checkstyle {
-    configDirectory.set(file("../config/checkstyle"))
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+  throw GradleException(
+    "JDK 17 or higher is required to build. " +
+      "One option is to download it from https://adoptium.net/. If you believe you already " +
+      "have it, please check that the JAVA_HOME environment variable is pointing at the " +
+      "JDK 17 installation.",
+  )
 }
 
-println("enableDependencyLocking is $enableDependencyLocking")
-if (enableDependencyLocking.toBoolean()) {
-  // Lock application dependencies.
-  dependencyLocking {
-    lockAllConfigurations()
+spotless {
+  kotlinGradle {
+    ktlint().editorConfigOverride(mapOf(
+      "indent_size" to "2",
+      "continuation_indent_size" to "2",
+      "max_line_length" to "160",
+      "insert_final_newline" to "true",
+      "ktlint_standard_no-wildcard-imports" to "disabled",
+      // ktlint does not break up long lines, it just fails on them
+      "ktlint_standard_max-line-length" to "disabled",
+      // ktlint makes it *very* hard to locate where this actually happened
+      "ktlint_standard_trailing-comma-on-call-site" to "disabled",
+      // depends on ktlint_standard_wrapping
+      "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
+      // also very hard to find out where this happens
+      "ktlint_standard_wrapping" to "disabled"
+    ))
+    target("**/*.gradle.kts")
   }
 }
 
 repositories {
-  val mavenUrl = (project.ext.properties.get("mavenUrl") ?: "") as String
-  if (mavenUrl.isEmpty()) {
-    println("Java dependencies: Using Maven central...")
-    mavenCentral()
-    google()
-  } else {
-    maven {
-      println("Java dependencies: Using repo ${mavenUrl}...")
-      url = uri(mavenUrl)
-      isAllowInsecureProtocol = allowInsecureProtocol == "true"
-    }
-  }
-}
-
-apply(from = "../dependencies.gradle")
-apply(from = "../dependency_lic.gradle")
-apply(from = "../java_common.gradle")
-
-// 'listenablefuture' is folded into guava since v32. This block is required
-// until all transitive dependencies have upgraded past guava v32.
-// TODO(periodically): remove this block and see if build succeeds.
-configurations.all {
-  resolutionStrategy
-      .capabilitiesResolution
-      .withCapability("com.google.guava:listenablefuture") {
-      select("com.google.guava:guava:0")
-  }
-}
-
-project.the<SourceSetContainer>()["main"].java {
-  srcDir("${project.buildDir}/generated/source/apt/main")
+  mavenCentral()
+  gradlePluginPortal()
+  mavenLocal()
 }
 
 dependencies {
-  val deps = project.ext["dependencyMap"] as Map<*, *>
-  val implementation by configurations
-  val testImplementation by configurations
-  val annotationProcessor by configurations
-  implementation(deps["com.google.auth:google-auth-library-credentials"]!!)
-  implementation(deps["com.google.auth:google-auth-library-oauth2-http"]!!)
-  implementation(deps["com.google.auto.value:auto-value-annotations"]!!)
-  // implementation(deps["com.google.common.html.types:types"]!!)
-  implementation(deps["com.google.cloud:google-cloud-core"]!!)
-  implementation(deps["com.google.cloud:google-cloud-storage"]!!)
-  implementation(deps["com.google.guava:guava"]!!)
-  implementation(deps["com.google.protobuf:protobuf-java"]!!)
-  implementation(deps["com.google.template:soy"]!!)
-  implementation(deps["org.apache.commons:commons-text"]!!)
-  annotationProcessor(deps["com.google.auto.value:auto-value"]!!)
-  testImplementation(deps["com.google.truth:truth"]!!)
-  testImplementation(
-      deps["com.google.truth.extensions:truth-java8-extension"]!!)
-  testImplementation(deps["org.junit.jupiter:junit-jupiter-api"]!!)
-  testImplementation(deps["org.junit.jupiter:junit-jupiter-engine"]!!)
-  testImplementation(deps["org.mockito:mockito-core"]!!)
+  implementation(enforcedPlatform("com.squareup.wire:wire-bom:4.9.1"))
+  implementation("com.google.auto.value:auto-value-annotations:1.10.4")
+  // When updating, update above in plugins too
+  implementation("com.diffplug.spotless:spotless-plugin-gradle:6.22.0")
+  // Needed for japicmp but not automatically brought in for some reason.
+  implementation("com.google.guava:guava:32.1.2-jre")
+  implementation("com.squareup:javapoet:1.13.0")
+  implementation("com.squareup.wire:wire-compiler")
+  implementation("com.squareup.wire:wire-gradle-plugin")
+  implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:0.8.18")
+  implementation("gradle.plugin.io.morethan.jmhreport:gradle-jmh-report:0.9.0")
+  implementation("me.champeau.gradle:japicmp-gradle-plugin:0.4.2")
+  implementation("me.champeau.jmh:jmh-gradle-plugin:0.7.1")
+  implementation("net.ltgt.gradle:gradle-errorprone-plugin:3.1.0")
+  implementation("net.ltgt.gradle:gradle-nullaway-plugin:1.6.0")
+  // at the moment 1.9.0 is the latest version supported by codeql
+  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
+  implementation("org.owasp:dependency-check-gradle:8.4.0")
+  implementation("ru.vyarus:gradle-animalsniffer-plugin:1.7.1")
 }
 
-gradle.projectsEvaluated {
-  tasks.withType<JavaCompile> {
-    options.compilerArgs.add("-Xlint:unchecked")
-  }
-}
-
-tasks.register("exportDependencies") {
-  doLast {
-    project.configurations.forEach {
-      println("dependency is $it")
-      // it.dependencies.findAll {
-      //   it.group != null
-      // }.each {
-      //   output.println("${it.group}:${it.name}")
-      // }
-    }
+// We can't apply conventions to this build so include important ones such as the Java compilation
+// target.
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
   }
 }

@@ -1,9 +1,0 @@
-python/
-node_modules/
-**/build/
-**/out/
-.*/
-repos/**
-**/.idea/
-*.jar
-!/gradle/wrapper/**/*.jar
