@@ -1,115 +1,167 @@
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one or more
-    contributor license agreements.  See the NOTICE file distributed with
-    this work for additional information regarding copyright ownership.
-    The ASF licenses this file to You under the Apache License, Version 2.0
-    the "License"); you may not use this file except in compliance with
-    the License.  You may obtain a copy of the License at
+# Contributing to the AWS SDK for Java
+Thank you for your interest in contributing the AWS SDK for Java! We work hard
+to provide a high quality and useful SDK for our customers, and we appreciate
+your interest in helping us and the rest of our community of users. We welcome
+bug reports, feature requests, and code contributions.
 
-        http://www.apache.org/licenses/LICENSE-2.0
+__Jump To:__
+* [Bug Reports](#bug-reports)
+* [Feature Requests](#feature-requests)
+* [Code Contributions](#code-contributions)
+* [Additional Resources](#additional-resources)
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
- -->
+## Bug Reports
+Bug reports are accepted through the [this][bug-report] page.
 
-# Contributing to Lucene Guide
+The following labels are used to track bug related issues: [Bug][label-bug],
+[Documentation Issue][label-doc-issue].
 
-## Working with Code
+### Before Submitting a Bug Report
+Before submitting a bug report, please do the following:
 
-### Getting the source code
+1. Do a search through the existing issues to make sure it has not already been
+   reported. If there's an existing one, be sure give a 👍 reaction which will
+   help us prioritize which issues to address first.
 
-First of all, you need the Lucene source code.
+2. If possible, upgrade to the latest release of the SDK. The SDK has a near
+   daily release cadence so it's possible the bug has already been fixed in the
+   latest version. We maintain a strong backwards compatibility guarantee
+   between patch version releases so you can be confident that your application
+   will continue to work as expected with the newer version.
 
-Get the source code using: `git clone https://github.com/apache/lucene`
+If, after doing the above steps, you determine that you need to submit a bug
+report, refer to the next section.
 
-### Notes for required Java version
+### Submitting a Bug Report
+So that we are able to assist you as effectively as possible with the issue, 
+please ensure that your bug report has the following:
 
-Be sure that you are using an appropriate version of the JDK. Please check [README](./README.md) for the required JDK version for current main branch.
+* A short, descriptive title. Ideally, other community members should be able
+  to get a good idea of the issue just from reading the title.
+* A succint, detailed description of the problem you're experiencing. This
+  should include:
+  * Expected behavior of the SDK and the actual behavior exhibited.
+  * Any details of your application environment that may be relevant. At
+    minimum, this should include the __SDK version__ and __JRE version__.
+  * If applicable, the exception stacktrace.
+  * If you are able to create one, include a [Minimal Working Example][mwe]
+    that reproduces the issue.
+* [Markdown][markdown] formatting as appropriate to make the report easier to
+  read; for example use code blocks when pasting a code snippet and exception
+  stacktraces.
 
-### Building with Gradle
+## Feature Requests
+Feature requests are submitted through the [this][feature-request] page.
 
-Lucene uses [Gradle](https://gradle.org/) for build control. Gradle is itself Java-based and may be incompatible with newer Java versions; you can still build and test Lucene with these Java releases, see [jvms.txt](./help/jvms.txt) for more information.
+As with Bug Reports, please do a search of the open requests first before
+submitting a new one to avoid duplicates. If you find an existing one, give it
+a +1.
 
-NOTE: DO NOT use the `gradle` command that is perhaps installed on your machine. This may result in using a different gradle version than the project requires and this is known to lead to very cryptic errors. The "gradle wrapper" (gradlew script) does everything required to build the project from scratch: it downloads the correct version of gradle, sets up sane local configurations and is tested on multiple environments.
+__NOTE:__ If this is a feature you intend to implement, please be sure to
+submit the feature request *before* working on any code changes. This will
+allow members on the SDK team to have a discussion with you to ensure that it's
+the right design and that it makes sense to include in the SDK. Keep in mind
+that other concerns like source and binary compatibility will also play a
+deciding factor.
 
-The first time you run gradlew, it will create a file "gradle.properties" that contains machine-specific settings. Normally you can use this file as-is, but it can be modified if necessary.
+Feature requests are labeled with [feature-request][label-feature-request].
 
-Type `./gradlew helpWorkflow` to show typical workflow tasks ([help/workflow.txt](./help/workflow.txt)).
+### Submitting a Feature Request
+Open an [issue][issues] with the following:
 
-Also run `./gradlew help`, this will print a list of help guides that introduce and explain
-various parts of the build system, including typical workflow tasks.
+* A short, descriptive title. Ideally, other community members should be able
+  to get a good idea of the feature just from reading the title.
+* A detailed description of the the proposed feature. Include justification for
+  why it should be added to the SDK, and possibly example code to illustrate
+  how it should work.
+* [Markdown][markdown] formatting as appropriate to make the request easier to
+  read.
+* If you intend to implement this feature, indicate that you'd like to the
+  issue to be assigned to you
 
-### Code formatting and checks
+## Code Contributions
+Code contributions to the SDK are done through [Pull Requests][pull-requests].
+Please keep the following in mind when considering a code contribution:
 
-If you've modified any sources, run `./gradlew tidy` to apply code formatting conventions automatically (see [help/formatting.txt](https://github.com/apache/lucene/blob/main/help/formatting.txt)).
+* The SDK is released under the [Apache 2.0 License][license].
 
-Please make sure that all unit tests and validations succeed before constructing your patch: `./gradlew check`. This will assemble Lucene and run all validation tasks (including tests). There are various commands to check the code; type `./gradlew helpTest` for more information ([help/tests.txt](./help/tests.txt)).
+   Any code you submit will be released under this license. If you are
+   contributing a large/substantial feature, you may be asked to sign a
+   Contributor License Agreement (CLA).
+* For anything but very small or quick changes, you should always start by
+  checking the [Issues][issues] page to see if the work is already being done
+  by another person.
 
-In case your contribution fixes a bug, please create a new test case that fails before your fix, to show the presence of the bug and ensure it never re-occurs. A test case showing the presence of a bug is also a good contribution by itself.
+  If you're working on a bug fix, check to see if the bug has already been
+  reported. If it has but no one is assigned to it, ask one of the maintainers
+  to assign it to you before beginning work.  If you're confident the bug
+  hasn't been reported yet, create a new [Bug Report](#bug-reports) then ask to
+  be assigned to it.
 
-### IDE support
+  If you are thinking about adding entirely new functionality, open a [Feature
+  Request](#feature-requests) or [ping][gitter] the maintainers to ask for
+  feedback first before beginning work; again this is to make sure that no one
+  else is already working on it, and also that it makes sense to be included in
+  the SDK.
+* All code contributions must be accompanied with new or modified tests that
+  verify that the code works as expected; i.e. that the issue has been fixed or
+  that the functionality works as intended.
 
-- *IntelliJ* - IntelliJ idea can import and build gradle-based projects out of the box.
-- *Eclipse*  - Basic support ([help/IDEs.txt](https://github.com/apache/lucene/blob/main/help/IDEs.txt#L7)).
-- *Netbeans* - Not tested.
+### Your First Code Change
+For detailed information on getting started building and making code changes to
+the SDK, refer to our [Working on the SDK](./docs/GettingStarted.md) doc
 
-## Benchmarking 
+### Pull Request Readiness
+Before submitting your pull request, refer to the pull request readiness
+checklist below:
 
-Use the tool suite at [luceneutil](https://github.com/mikemccand/luceneutil) to benchmark your code changes
-if you think that your change may have measurably changed the performance of a task. Apache Lucene also contains an off the shelf benchmark [module](https://github.com/apache/lucene/tree/main/lucene/benchmark).
+* [ ] Includes tests to exercise the new behavior
+* [ ] Code is documented, especially public and user-facing constructs
+* [ ] Local run of `./mvnw package`(Linux) or `./mvnw.cmd package`(Windows) succeeds
+* [ ] Git commit message is detailed and includes context behind the change
+* [ ] If the change is related to an existing Bug Report or Feature Request,
+  the issue number is referenced
+* [ ] A short description of the change added to
+  [CHANGELOG.md](./CHANGELOG.md). Adding a new entry must be accomplished by
+  running the `scripts/new-change` script and following the instructions.
+  Commit the new file created by the script in `.changes/next-release` with
+  your changes.
 
-This is the same suite that is run in the [nightly benchmarks](https://home.apache.org/~mikemccand/lucenebench/).
+__Note__: Some changes have additional requirements. Refer to the section below
+to see if your change will require additional work to be accepted.
 
-The instructions for running the benchmarks can be found in the luceneutil [README](https://github.com/mikemccand/luceneutil/blob/master/README.md).
+#### Additional Pull Request Requirements
+##### Reactive Streams
+If the change includes implementations of the [Reactive Streams
+interfaces](https://github.com/reactive-streams/reactive-streams-jvm), the
+change must also contain verification tests using the [Reactive Streams
+Technology Compatibility
+Kit](https://github.com/reactive-streams/reactive-streams-jvm/tree/master/tck)
+to ensure specificiation compliance.
 
-The Lucene community is also interested in other implementations of these benchmark tasks.
-Feel free to share your findings (especially if your implementation performs better!) through the [Lucene mailing lists](https://lucene.apache.org/core/discussion.html) or open [PRs](https://github.com/mikemccand/luceneutil/pulls), [issues](https://github.com/mikemccand/luceneutil/issues) on the luceneutil project directly.
+### Getting Your Pull Request Merged
+All Pull Requests must be approved by at least one member of the SDK team
+before it can be merged in. The members only have limited bandwitdth to review
+Pull Requests so it's not unusual for a Pull Request to go unreviewed for a few
+days, especially if it's a large or complex one. If, after a week, your Pull
+Request has not had any engagement from the SDK team, feel free to ping a
+member to ask for a review.
 
-## Contributing your work
+## Additional Resources
+We maintain [docs](docs/README.md) where information like design decisions, internal
+architecture, and style conventions are documented that you may find helpful
+when contributing to the SDK.
 
-You can open a pull request at https://github.com/apache/lucene.
 
-Please be patient. Committers are busy people too. If no one responds to your patch after a few days, please make friendly reminders. Please incorporate others' suggestions into your patch if you think they're reasonable. Finally, remember that even a patch that is not committed is useful to the community.
-
-### Opening a pull request
-
-Please refer to [GitHub's documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests) for an explanation of how to create a pull request.
-
-You should open a pull request against the `main` branch. Committers will backport it to the maintenance branches once the change is merged into `main` (as far as it is possible).
-
-### Creating a patch
-
-Note that you do not need to create a patch if you already opened a pull request.
-
-Patches should be attached to an issue. Since GitHub does not accept attachments with extension `.patch`, please rename your patch file `XXX.patch` to `XXX.patch.txt` or something like that.
-
-Please refer to [git diff documentation](https://git-scm.com/docs/git-diff) for information of how to create a patch.
-
-Before creating your patch, you may want to get 'main' up to date with the latest from upstream. This will help avoid the possibility of others finding merge conflicts when applying your patch. This can be done with git pull if main is the current branch.
-
-### Add a CHANGES entry
-
-You may want to add a CHANGES entry to [CHANGES.txt](./lucene/CHANGES.txt). A CHANGES entry should start with the issue or pull request number `GITHUB#XXX` that is followed by the description of the change and contributors' name. Please see the existing entries for reference.
-
-## Stay involved
-
-Contributors should join the [Lucene mailing lists](https://lucene.apache.org/core/discussion.html). In particular, the commit list (to see changes as they are made), the dev list (to join discussions of changes) and the user list (to help others).
-
-Please keep discussions about Lucene on list so that everyone benefits. Emailing individual committers with questions about specific Lucene issues is discouraged. See http://people.apache.org/~hossman/#private_q.
-
-## Getting your feet wet: where to begin?
-
-New to Lucene? Want to find issues that you can work on without taking on the whole world?
-
-The rough criteria for picking your first issues are:
-
-- Nobody has done any work on the issue yet.
-- The issue is likely not controversial.
-- The issue is likely self-contained with limited scope.
-
-## Developer tips
-
-For more contribution guidelines and tips, see [DeveloperTips](https://cwiki.apache.org/confluence/display/LUCENE/DeveloperTips).
+[license]: ./LICENSE.txt
+[mwe]: https://en.wikipedia.org/wiki/Minimal_Working_Example
+[markdown]: https://guides.github.com/features/mastering-markdown/
+[issues]: https://github.com/aws/aws-sdk-java-v2/issues
+[pull-requests]: https://github.com/aws/aws-sdk-java-v2/pulls
+[label-bug]: https://github.com/aws/aws-sdk-java-v2/labels/bug
+[label-doc-issue]: https://github.com/aws/aws-sdk-java-v2/labels/documentation
+[label-feature-request]: https://github.com/aws/aws-sdk-java-v2/labels/feature-request
+[git-rewriting-history]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+[gitter]: https://gitter.im/aws/aws-sdk-java-v2
+[bug-report]: https://github.com/aws/aws-sdk-java-v2/issues/new?assignees=&labels=bug%2Cneeds-triage&template=bug-report.yml&title=%28short+issue+description%29
+[feature-request]: https://github.com/aws/aws-sdk-java-v2/issues/new?assignees=&labels=feature-request%2Cneeds-triage&template=feature-request.yml&title=%28short+issue+description%29
