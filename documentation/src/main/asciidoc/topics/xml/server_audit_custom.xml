@@ -1,7 +1,0 @@
-<infinispan>
-   <cache-container>
-      <security>
-         <authorization audit-logger="my.package.CustomAuditLogger"/>
-      </security>
-   </cache-container>
-</infinispan>

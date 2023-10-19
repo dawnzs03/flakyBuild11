@@ -1,6 +1,0 @@
-distributedCache:
-  name: "customers"
-  backups:
-    LON:
-      backup:
-        strategy: "ASYNC"

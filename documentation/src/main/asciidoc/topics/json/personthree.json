@@ -1,7 +1,0 @@
-{
-  "_type":"org.infinispan.example.Person",
-  "id":3,
-  "name":"Person",
-  "surname":"Three",
-  "age":35
-}

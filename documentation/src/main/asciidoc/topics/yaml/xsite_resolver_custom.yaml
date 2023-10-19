@@ -1,6 +1,0 @@
-distributedCache:
-  backups:
-    mergePolicy: "org.mycompany.MyCustomXSiteEntryMergePolicy"
-    LON:
-      backup:
-        strategy: "ASYNC"

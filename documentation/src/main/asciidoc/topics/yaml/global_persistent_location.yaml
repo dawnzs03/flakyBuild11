@@ -1,5 +1,0 @@
-cacheContainer:
-  globalState:
-      persistentLocation:
-        path: "global/state"
-        relativeTo : "my.data"

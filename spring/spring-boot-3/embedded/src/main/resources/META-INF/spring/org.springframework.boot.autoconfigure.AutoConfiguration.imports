@@ -1,2 +1,0 @@
-org.infinispan.spring.starter.embedded.InfinispanEmbeddedAutoConfiguration
-org.infinispan.spring.starter.embedded.InfinispanEmbeddedCacheManagerAutoConfiguration

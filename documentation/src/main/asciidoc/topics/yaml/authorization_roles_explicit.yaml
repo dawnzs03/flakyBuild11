@@ -1,5 +1,0 @@
-distributedCache:
-  security:
-    authorization:
-      enabled: true
-      roles: ["admin","supervisor"]

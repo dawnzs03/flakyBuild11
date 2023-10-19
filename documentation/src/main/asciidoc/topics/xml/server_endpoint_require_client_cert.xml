@@ -1,8 +1,0 @@
-<server xmlns="urn:infinispan:server:{schemaversion}">
-  <endpoints socket-binding="default"
-             security-realm="default"
-             require-ssl-client-auth="true">
-    <hotrod-connector name="hotrod"/>
-    <rest-connector name="rest"/>
-  </endpoints>
-</server>

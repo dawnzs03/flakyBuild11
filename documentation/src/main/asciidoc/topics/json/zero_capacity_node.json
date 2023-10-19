@@ -1,7 +1,0 @@
-{
-  "infinispan" : {
-    "cache-container" : {
-      "zero-capacity-node" : "true"
-    }
-  }
-}

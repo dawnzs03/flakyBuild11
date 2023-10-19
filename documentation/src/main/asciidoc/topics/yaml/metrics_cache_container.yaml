@@ -1,6 +1,0 @@
-infinispan:
-  cacheContainer:
-    statistics: "true"
-    metrics:
-      gauges: "true"
-      histograms: "true"

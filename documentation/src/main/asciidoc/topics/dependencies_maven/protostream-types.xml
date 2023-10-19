@@ -1,4 +1,0 @@
-<dependency>
-  <groupId>org.infinispan.protostream</groupId>
-  <artifactId>protostream-types</artifactId>
-</dependency>

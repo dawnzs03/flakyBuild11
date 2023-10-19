@@ -1,8 +1,0 @@
-replicatedCache:
-  mode: "SYNC"
-  statistics: "true"
-  encoding:
-    mediaType: "application/x-protostream"
-  memory:
-    storage: "OBJECT"
-    maxCount: "1000000"

@@ -1,1 +1,0 @@
-PUT /rest/v2/security/roles/some_principal?action=deny&role=role1&role=role2

@@ -1,5 +1,0 @@
-<distributed-cache>
-   <backups merge-policy="ALWAYS_REMOVE">
-      <backup site="LON" strategy="ASYNC"/>
-   </backups>
-</distributed-cache>

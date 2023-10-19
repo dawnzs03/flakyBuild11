@@ -1,8 +1,0 @@
-//Reference user stories or topics.
-//Please review authoring guidelines in the Contributors Guide.
-
-include::{stories}/assembly_xsite_replication.adoc[leveloffset=+1]
-include::{stories}/assembly_xsite_configuring.adoc[leveloffset=+1]
-include::{stories}/assembly_xsite_cli.adoc[leveloffset=+1]
-include::{stories}/assembly_xsite_rest.adoc[leveloffset=+1]
-include::{stories}/assembly_xsite_jmx.adoc[leveloffset=+1]

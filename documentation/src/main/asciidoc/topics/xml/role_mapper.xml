@@ -1,7 +1,0 @@
-<cache-container>
-  <security>
-    <authorization>
-      <common-name-role-mapper />
-    </authorization>
-  </security>
-</cache-container>

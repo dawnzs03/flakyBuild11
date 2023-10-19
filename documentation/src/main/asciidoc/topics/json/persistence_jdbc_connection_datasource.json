@@ -1,9 +1,0 @@
-{
-  "distributed-cache": {
-    "persistence": {
-      "data-source": {
-        "jndi-url": "java:/StringStoreWithManagedConnectionTest/DS"
-      }
-    }
-  }
-}

@@ -1,6 +1,0 @@
-infinispan:
-  cacheContainer:
-    caches:
-      secondary-cache:
-        replicated-cache:
-          mode: "ASYNC"

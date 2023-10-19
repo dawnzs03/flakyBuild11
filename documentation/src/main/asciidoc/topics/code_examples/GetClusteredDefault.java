@@ -1,1 +1,0 @@
-GlobalConfigurationBuilder.getClusteredDefault().build()

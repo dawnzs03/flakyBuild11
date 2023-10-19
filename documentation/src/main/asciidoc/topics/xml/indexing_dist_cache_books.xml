@@ -1,7 +1,0 @@
-<distributed-cache name="books">
-  <indexing path="${user.home}/index">
-    <indexed-entities>
-      <indexed-entity>org.infinispan.sample.Book</indexed-entity>
-    </indexed-entities>
-  </indexing>
-</distributed-cache>

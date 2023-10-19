@@ -1,3 +1,0 @@
-<persistence-unit name="myPersistenceUnit">
-	<!-- Persistence configuration goes here. -->
-</persistence-unit>

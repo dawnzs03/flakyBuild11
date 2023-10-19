@@ -1,6 +1,0 @@
-infinispan:
-  cacheContainer:
-    caches:
-      overlay:
-        distributed-cache:
-          mode: "SYNC"

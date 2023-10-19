@@ -1,4 +1,0 @@
-server:
-  interfaces:
-    - name: "public"
-      nonLoopback: ~

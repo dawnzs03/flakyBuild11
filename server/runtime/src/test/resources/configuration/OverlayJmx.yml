@@ -1,4 +1,0 @@
-infinispan:
-  cacheContainer:
-    jmx:
-      enabled: true

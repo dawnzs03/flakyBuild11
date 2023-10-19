@@ -1,4 +1,0 @@
-distributedCache:
-  persistence:
-    store:
-      class: "org.infinispan.persistence.example.MyInMemoryStore"

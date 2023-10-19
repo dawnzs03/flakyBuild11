@@ -1,5 +1,0 @@
-infinispan:
-  cacheContainer:
-    security:
-      authorization:
-        commonNameRoleMapper: ~

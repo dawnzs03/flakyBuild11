@@ -1,7 +1,0 @@
-{
-    "strong-counter":{
-        "initial-value":3,
-        "storage":"PERSISTENT",
-        "upper-bound":5
-    }
-}

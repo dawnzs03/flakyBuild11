@@ -1,5 +1,0 @@
-{
- "query":"from Entity where name:\"user1\"",
- "max_results":20,
- "offset":10
-}

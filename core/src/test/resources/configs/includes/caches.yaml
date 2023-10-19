@@ -1,3 +1,0 @@
-caches:
-  - local-cache:
-      name: "yaml"

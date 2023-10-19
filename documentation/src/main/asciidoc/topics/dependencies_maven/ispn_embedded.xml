@@ -1,6 +1,0 @@
-<dependencies>
-  <dependency>
-    <groupId>org.infinispan</groupId>
-    <artifactId>infinispan-core</artifactId>
-  </dependency>
-</dependencies>

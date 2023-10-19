@@ -1,4 +1,0 @@
-<serialization>
-    <context-initializer class="org.infinispan.example.LibraryInitializerImpl"/>
-    <context-initializer class="org.infinispan.example.another.SCIImpl"/>
-</serialization>
