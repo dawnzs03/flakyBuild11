@@ -1,18 +1,26 @@
-# Maven build files
-**/bin/**/*
-**/dependency-reduced-pom.xml
-**/target/**/*
-
-# IntelliJ files
-**/.idea/**/*
-**/*.iml
-**/*.ipr
-**/*.iws
-**/out/**/*
-
-# MacOSX Files
-**/.DS_Store/**/*
-**/.DS_Store
-
-# vscode setting files
-.vscode/
+*.class
+target/
+*.swp
+*.swo
+*.swn
+*.iml
+*.ipr
+*.iws
+.DS_Store
+.idea/
+.classpath
+.ekstazi
+.project
+*.jar
+.settings
+.checkstyle
+*.log
+id_file
+*.epoch
+.factorypath
+.pmd
+.sonar/
+.deploy
+test.svg
+model.txt
+doc/model.db
