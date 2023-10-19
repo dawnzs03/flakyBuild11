@@ -43,11 +43,6 @@ on:
 
 
 
-
-
-
-
-
 jobs:
   prepare-job:
     runs-on: ubuntu-20.04
@@ -100,7 +95,6 @@ jobs:
     strategy:
       matrix:
         split: ${{fromJson(needs.prepare-job.outputs.matrix)}}  # Define  splits
-      fail-fast: ${{ fromJson(github.event.inputs.fail-fast) }}
     steps:
       - uses: actions/checkout@v3
         with:
