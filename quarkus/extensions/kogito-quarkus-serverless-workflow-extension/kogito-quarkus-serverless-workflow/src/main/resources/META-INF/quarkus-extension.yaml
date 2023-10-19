@@ -1,0 +1,18 @@
+---
+name: "Kogito - Serverless Workflow"
+metadata:
+  keywords:
+    - "kogito"
+    - "serverless workflow"
+    - "serverless"
+    - "workflow"
+    - "SW"
+  guide: "https://quarkus.io/version/2.13/guides/kogito"
+  categories:
+    - "business-automation"
+  status: "preview"
+  codestart:
+    name: "kogito-serverless-workflow-codestart"
+    languages:
+      - "java"
+    artifact: "org.kie.kogito:kogito-quarkus-serverless-workflow:codestarts:jar:${project.version}"

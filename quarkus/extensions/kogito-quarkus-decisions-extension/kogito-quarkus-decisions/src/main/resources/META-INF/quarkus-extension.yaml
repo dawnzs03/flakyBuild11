@@ -1,0 +1,16 @@
+---
+name: "Kogito - Decisions (DMN)"
+metadata:
+  keywords:
+  - "kogito"
+  - "drools"
+  - "decisions"
+  - "DMN"
+  guide: "https://quarkus.io/version/2.13/guides/kogito-dmn"
+  categories:
+  - "business-automation"
+  codestart:
+    name: "kogito-dmn-codestart"
+    languages:
+      - "java"
+    artifact: "org.kie.kogito:kogito-quarkus-decisions:codestarts:jar:${project.version}"

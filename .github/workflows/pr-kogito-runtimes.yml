@@ -1,0 +1,56 @@
+name: Kogito Runtimes
+
+on:
+  push:
+    branches: [ kogito-runtimes ]
+
+
+
+
+
+
+
+
+
+
+
+jobs:
+  runtime-build:
+    concurrency:
+      group: pr-kogito-runtimes_${{ matrix.os }}_${{ matrix.java-version }}_${{ matrix.maven-version }}_${{ github.head_ref }}
+      cancel-in-progress: true
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java-version: [11]
+        maven-version: ['3.8.7']
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Java-${{ matrix.java-version }} / Maven-${{ matrix.maven-version }}
+    steps:
+      - name: Clean Disk Space
+        uses: kiegroup/kie-ci/.ci/actions/ubuntu-disk-space@main
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - name: Support long paths
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: kiegroup/kie-ci/.ci/actions/long-paths@main
+      - name: Java and Maven Setup
+        uses: kiegroup/kie-ci/.ci/actions/maven@main
+        with:
+          java-version: ${{ matrix.java-version }}
+          maven-version: ${{ matrix.maven-version }}
+          cache-key-prefix: ${{ runner.os }}-${{ matrix.java-version }}-maven${{ matrix.maven-version }}
+      - name: Build Chain
+        uses: kiegroup/kie-ci/.ci/actions/build-chain@main
+        with:
+          annotations-prefix: ${{ runner.os }}-${{ matrix.java-version }}/${{ matrix.maven-version }}
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          definition-file: https://raw.githubusercontent.com/${GROUP:kiegroup}/kogito-pipelines/${BRANCH:main}/.ci/pull-request-config.yaml
+        env:
+          BUILD_MVN_OPTS_CURRENT: '-T 1.5C'
+      - name: Junit Report
+        uses: kiegroup/kogito-pipelines/.ci/actions/action-junit-report@main
+        if: ${{ always() }}
+        with:
+          report_paths: '**/*-reports/TEST-*.xml'
