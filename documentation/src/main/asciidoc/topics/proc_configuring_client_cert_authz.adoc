@@ -1,0 +1,36 @@
+[id='configuring-client-certificate-authorization_{context}']
+= Configuring authorization with client certificates
+Enabling client certificate authentication means you do not need to specify {brandname} user credentials in client configuration, which means you must associate roles with the Common Name (CN) field in the client certificate(s).
+
+.Prerequisites
+
+* Provide clients with a Java keystore that contains either their public certificates or part of the certificate chain, typically a public CA certificate.
+* Configure {brandname} Server to perform client certificate authentication.
+
+.Procedure
+
+. Open your {brandname} Server configuration for editing.
+. Enable the `common-name-role-mapper` in the security authorization configuration.
+. Assign the Common Name (`CN`) from the client certificate a role with the appropriate permissions.
+. Save the changes to your configuration.
+
+[discrete]
+== Client certificate authorization configuration
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/server_client_certificate_authz.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/server_client_certificate_authz.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/server_client_certificate_authz.yaml[]
+----

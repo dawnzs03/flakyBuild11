@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:infinispan:config:${infinispan.core.schema.version} https://infinispan.org/schemas/infinispan-config:${infinispan.core.schema.version}"
+      xmlns="urn:infinispan:config:${infinispan.core.schema.version}">
+
+   <cache-container name="QueryEnabledGrid-Local-NRTIndexing" default-cache="default" statistics="false">
+      <local-cache name="default" statistics="false">
+         <memory storage="OBJECT"/>
+         <expiration max-idle="-1"/>
+         <indexing enabled="false"/>
+      </local-cache>
+      <!-- *************************************** -->
+      <!--  Tested Cache: indexing enabled         -->
+      <!-- *************************************** -->
+      <local-cache name="Indexed">
+         <!--  For our test we don't want to keep all data in memory: throw some away -->
+         <memory storage="OBJECT"/>
+         <indexing storage="local-heap">
+            <key-transformers>
+               <key-transformer key="org.infinispan.query.test.CustomKey3" transformer="org.infinispan.query.test.CustomKey3Transformer"/>
+            </key-transformers>
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+               <indexed-entity>org.infinispan.query.test.AnotherGrassEater</indexed-entity>
+            </indexed-entities>
+            <!-- Enable sharding on writers -->
+            <index-sharding shards="6" />
+            <index-writer thread-pool-size="6" commit-interval="10000" queue-count="6" queue-size="4096" />
+         </indexing>
+      </local-cache>
+   </cache-container>
+</infinispan>

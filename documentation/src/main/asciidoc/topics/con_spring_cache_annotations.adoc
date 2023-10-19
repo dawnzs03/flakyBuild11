@@ -1,0 +1,39 @@
+[id='spring-cache-annotations_{context}']
+= Spring Cache annotations
+The `@Cacheable` and `@CacheEvict` annotations add cache capabilities to methods.
+
+`@Cacheable`:: Stores return values in a cache.
+`@CacheEvict`:: Controls cache size by removing old entries.
+
+[discrete]
+== `@Cacheable`
+
+Taking `Book` objects as an example, if you want to cache each instance after loading it from a database with a method such as `BookDao#findBook(Integer bookId)`, you could add the `@Cacheable` annotation as follows:
+
+[source,java,options=nowrap]
+----
+include::code_examples/SpringCachableExample.java[]
+----
+
+With the preceding example, when `findBook(Integer bookId)` returns a `Book` instance it gets stored in the cache named `books`.
+
+[discrete]
+== `@CacheEvict`
+
+With the `@CacheEvict` annotation, you can specify if you want to evict the entire `books` cache or only the entries that match a specific #bookId.
+
+.Entire cache eviction
+Annotate the `deleteAllBookEntries()` method with `@CacheEvict` and add the `allEntries` parameter as follows:
+
+[source,java,options=nowrap]
+----
+include::code_examples/SpringCacheEvictAllEntriesExample.java[]
+----
+
+.Entry based eviction
+Annotate the `deleteBook(Integer bookId)` method with `@CacheEvict` and specify the key associated to the entry as follows:
+
+[source,java,options=nowrap]
+----
+include::code_examples/SpringCacheEvictEntryExample.java[]
+----

@@ -1,0 +1,30 @@
+[id='adding-server-tasks_{context}']
+= Adding tasks to {brandname} Server deployments
+
+Add your custom server task classes to {brandname} Server.
+
+.Prerequisites
+
+* Stop {brandname} Server if it is running.
++
+{brandname} Server does not support runtime deployment of custom classes.
+
+.Procedure
+
+. Add a `META-INF/services/org.infinispan.tasks.ServerTask` file that contains
+the fully qualified names of server tasks, for example:
++
+[source]
+----
+example.HelloTask
+----
++
+. Package your server task implementation in a JAR file.
+. Copy the JAR file to the `{server_home}/server/lib` directory of your {brandname} Server installation.
+. Add your classes to the deserialization allow list in your {brandname}
+configuration. Alternatively set the allow list using system properties.
+
+.Reference
+
+* link:{encoding_docs}#adding-deserialization-allowlist_marshaller-implementations[Adding Java Classes to Deserialization Allow Lists]
+* link:{configdocroot}[{brandname} Configuration Schema]

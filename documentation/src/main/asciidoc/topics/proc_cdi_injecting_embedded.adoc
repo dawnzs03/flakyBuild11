@@ -1,0 +1,101 @@
+[id='cdi_inject_embed']
+= Injecting Embedded Caches
+Set up CDI beans to inject embedded caches.
+
+.Procedure
+
+. Create a cache qualifier annotation.
++
+[source,java]
+----
+...
+import jakarta.inject.Qualifier;
+
+@Qualifier
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface GreetingCache { <1>
+}
+----
++
+<1> Creates a `@GreetingCache` qualifier.
++
+. Add a producer method that defines the cache configuration.
++
+[source,java]
+----
+...
+import org.infinispan.configuration.cache.Configuration;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.cdi.ConfigureCache;
+import jakarta.transaction.inject.Produces;
+
+public class Config {
+
+    @ConfigureCache("mygreetingcache") <1>
+    @GreetingCache <2>
+    @Produces
+    public Configuration greetingCacheConfiguration() {
+        return new ConfigurationBuilder()
+                    .memory()
+                        .size(1000)
+                    .build();
+    }
+}
+----
++
+<1> Names the cache to inject.
+<2> Adds the cache qualifier.
++
+. Add a producer method that creates a clustered Cache Manager, if required
++
+[source,java]
+----
+...
+package org.infinispan.configuration.global.GlobalConfigurationBuilder;
+
+public class Config {
+
+    @GreetingCache <1>
+    @Produces
+    @ApplicationScoped <2>
+    public EmbeddedCacheManager defaultClusteredCacheManager() { <3>
+      return new DefaultCacheManager(
+        new GlobalConfigurationBuilder().transport().defaultTransport().build();
+   }
+}
+----
++
+<1> Adds the cache qualifier.
+<2> Creates the bean once for the application. Producers that create Cache Managers should always include the `@ApplicationScoped` annotation to avoid creating multiple Cache Managers.
+<3> Creates a new `DefaultCacheManager` instance that is bound to the `@GreetingCache` qualifier.
++
+[NOTE]
+====
+Cache managers are heavy weight objects. Having more than one Cache Manager
+running in your application can degrade performance. When injecting multiple
+caches, either add the qualifier of each cache to the Cache Manager producer
+method or do not add any qualifier.
+====
+. Add the `@GreetingCache` qualifier to your cache injection point.
++
+----
+...
+import jakarta.inject.Inject;
+
+public class GreetingService {
+
+    @Inject @GreetingCache
+    private Cache<String, String> cache;
+
+    public String greet(String user) {
+        String cachedValue = cache.get(user);
+        if (cachedValue == null) {
+            cachedValue = "Hello " + user;
+            cache.put(user, cachedValue);
+        }
+        return cachedValue;
+    }
+}
+----

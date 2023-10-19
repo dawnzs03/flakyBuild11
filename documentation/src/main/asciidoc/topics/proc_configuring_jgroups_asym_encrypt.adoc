@@ -1,0 +1,39 @@
+[id='configuring-jgroups-asym-encrypt_{context}']
+= Securing cluster transport with asymmetric encryption
+Configure {brandname} clusters to generate and distribute secret keys that encrypt JGroups messages.
+
+.Procedure
+
+. Create a keystore with certificate chains that enables {brandname} to verify node identity.
+. Place the keystore on the classpath for each node in the cluster.
++
+For {brandname} Server, you put the keystore in the {server_home} directory.
++
+. Add the `SSL_KEY_EXCHANGE` and `ASYM_ENCRYPT` protocols to a JGroups stack in your {brandname} configuration, as in the following example:
++
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/jgroups_asym_encrypt.xml[]
+----
+
+.Verification
+
+When you start your {brandname} cluster, the following log message indicates that the cluster is using the secure JGroups stack:
+
+[source,options="nowrap"]
+----
+[org.infinispan.CLUSTER] ISPN000078: Starting JGroups channel cluster with stack <encrypted_stack_name>
+----
+
+{brandname} nodes can join the cluster only if they use `ASYM_ENCRYPT` and can obtain the secret key from the coordinator node.
+Otherwise the following message is written to {brandname} logs:
+
+[source,options="nowrap"]
+----
+[org.jgroups.protocols.ASYM_ENCRYPT] <hostname>: received message without encrypt header from <hostname>; dropping it
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{jgroups_docs}[JGroups 4 Manual]
+* link:{jgroups_schema}[JGroups 4.2 Schema]

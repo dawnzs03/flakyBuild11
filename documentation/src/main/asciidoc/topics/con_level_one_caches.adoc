@@ -1,0 +1,61 @@
+[id='level-one-caches_{context}']
+= Level one (L1) caches
+
+{brandname} nodes create local replicas when they retrieve entries from another node in the cluster.
+L1 caches avoid repeatedly looking up entries on primary owner nodes and adds performance.
+
+The following diagram illustrates how L1 caches work:
+
+ifdef::community[]
+image::l1_cache_ispn.png[align="center", title="L1 cache"]
+endif::community[]
+ifdef::downstream[]
+image::l1_cache_rhdg.png[align="center", title="L1 cache"]
+endif::downstream[]
+
+In the "L1 cache" diagram:
+
+. A client invokes `cache.get()` to read an entry for which another node in the cluster is the primary owner.
+. The originator node forwards the read operation to the primary owner.
+. The primary owner returns the key/value entry.
+. The originator node creates a local copy.
+. Subsequent `cache.get()` invocations return the local entry instead of forwarding to the primary owner.
+
+[discrete]
+== L1 caching performance
+
+Enabling L1 improves performance for read operations but requires primary owner nodes to broadcast invalidation messages when entries are modified.
+This ensures that {brandname} removes any out of date replicas across the cluster.
+However this also decreases performance of write operations and increases memory usage, reducing overall capacity of caches.
+
+[NOTE]
+====
+{brandname} evicts and expires local replicas, or L1 entries, like any other cache entry.
+====
+
+[discrete]
+== L1 cache configuration
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/level_one_cache.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/level_one_cache.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/level_one_cache.yaml[]
+----
+
+.ConfigurationBuilder
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/LevelOneCache.java[]
+----

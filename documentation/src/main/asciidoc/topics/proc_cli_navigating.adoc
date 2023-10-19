@@ -1,0 +1,48 @@
+= Navigating CLI Resources
+The {brandname} CLI exposes a navigable tree that allows you to list, describe,
+and manipulate {brandname} cluster resources.
+
+[TIP]
+====
+Press the tab key to display available commands and options. Use the `-h`
+option to display help text.
+====
+
+When you connect to a {brandname} cluster, it opens in the context of the
+default cache container.
+
+[source,options="nowrap",subs=attributes+]
+----
+[//containers/default]>
+----
+
+* Use [command]`ls` to list resources.
++
+[source,options="nowrap",subs=attributes+]
+----
+[//containers/default]> ls
+caches
+counters
+configurations
+schemas
+tasks
+----
+
+* Use [command]`cd` to navigate the resource tree.
++
+[source,options="nowrap",subs=attributes+]
+----
+cd caches
+----
+
+* Use [command]`describe` to view information about resources.
++
+[source,options="nowrap",subs=attributes+]
+----
+describe
+----
++
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/cli_describe_resources.json[]
+----

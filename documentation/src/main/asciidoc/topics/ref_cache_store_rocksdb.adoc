@@ -1,0 +1,114 @@
+[id='rocksdb-cache-store_{context}']
+= RocksDB cache stores
+RocksDB provides key-value filesystem-based storage with high performance and
+reliability for highly concurrent environments.
+
+RocksDB cache stores, `RocksDBStore`, use two databases. One database provides
+a primary cache store for data in memory; the other database holds entries that
+{brandname} expires from memory.
+
+.Configuration parameters
+|===
+| Parameter | Description
+
+| `location`
+| Specifies the path to the RocksDB database that provides the primary cache
+store. If you do not set the location, it is automatically created. Note that
+the path must be relative to the global persistent location.
+
+| `expiredLocation`
+| Specifies the path to the RocksDB database that provides the cache store for
+expired data. If you do not set the location, it is automatically created. Note
+that the path must be relative to the global persistent location.
+
+| `expiryQueueSize`
+| Sets the size of the in-memory queue for expiring entries. When the queue
+reaches the size, {brandname} flushes the expired into the RocksDB cache store.
+
+| `clearThreshold`
+| Sets the maximum number of entries before deleting and re-initializing
+(**re-init**) the RocksDB database. For smaller size cache stores, iterating
+through all entries and removing each one individually can provide a faster
+method.
+
+|===
+
+.Tuning parameters
+
+You can also specify the following RocksDB tuning parameters:
+
+* `compressionType`
+* `blockSize`
+* `cacheSize`
+
+.Configuration properties
+
+Optionally set properties in the configuration as follows:
+
+* Prefix properties with `database` to adjust and tune RocksDB databases.
+* Prefix properties with `data` to configure the column families in which RocksDB stores your data.
+
+----
+<property name="database.max_background_compactions">2</property>
+<property name="data.write_buffer_size">64MB</property>
+<property name="data.compression_per_level">kNoCompression:kNoCompression:kNoCompression:kSnappyCompression:kZSTD:kZSTD</property>
+----
+
+.Segmentation
+
+`RocksDBStore` supports segmentation and creates a separate column family per
+segment. Segmented RocksDB cache stores improve lookup performance
+and iteration but slightly lower performance of write operations.
+
+[NOTE]
+====
+You should not configure more than a few hundred segments. RocksDB is not
+designed to have an unlimited number of column families. Too many segments also
+significantly increases cache store start time.
+====
+
+[discrete]
+== RocksDB cache store configuration
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/persistence_rocksdb_store.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/persistence_rocksdb_store.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/persistence_rocksdb_store.yaml[]
+----
+
+.ConfigurationBuilder
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/ConfigRocksDb.java[]
+----
+
+.ConfigurationBuilder with properties
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/ConfigRocksDbProperties.java[]
+----
+
+.Reference
+
+* link:{configdocroot}infinispan-cachestore-rocksdb-config-{schemaversion}.html[RocksDB cache store configuration schema]
+* link:{javadocroot}/org/infinispan/persistence/rocksdb/RocksDBStore.html[RocksDBStore]
+* link:{javadocroot}/org/infinispan/persistence/rocksdb/configuration/RocksDBStoreConfiguration.html[RocksDBStoreConfiguration]
+* link:http://rocksdb.org/[rocksdb.org]
+* link:https://github.com/facebook/rocksdb/wiki/RocksDB-Tuning-Guide[RocksDB Tuning Guide]
+//Community only
+ifdef::community[]
+* link:https://github.com/infinispan/infinispan/blob/main/persistence/rocksdb/src/test/java/org/infinispan/persistence/rocksdb/config/ConfigurationTest.java[RocksDB Cache Store test]
+* link:https://github.com/infinispan/infinispan/tree/main/persistence/rocksdb/src/test/resources/config/[RocksDB Cache Store test configuration]
+endif::community[]

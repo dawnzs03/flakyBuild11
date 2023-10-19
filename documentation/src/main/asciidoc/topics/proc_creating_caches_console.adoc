@@ -1,0 +1,14 @@
+[id='creating-caches-console_{context}']
+= Creating caches with {brandname} Console
+Use {brandname} Console to create remote caches in an intuitive visual interface from any web browser.
+
+.Prerequisites
+
+* Create a {brandname} user with `admin` permissions.
+* Start at least one {brandname} Server instance.
+* Have a {brandname} cache configuration.
+
+.Procedure
+
+. Open `127.0.0.1:11222/console/` in any browser.
+. Select *Create Cache* and follow the steps as {brandname} Console guides you through the process.

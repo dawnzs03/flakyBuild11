@@ -1,0 +1,20 @@
+[id='server-script-parameters_{context}']
+= Script parameters
+
+{brandname} lets you pass named parameters as bindings for running scripts.
+
+Parameters are `name,value` pairs, where `name` is a string and `value` is any
+value that the marshaller can interpret.
+
+The following example script has two parameters, `multiplicand` and
+`multiplier`. The script takes the value of `multiplicand` and multiplies it
+with the value of `multiplier`.
+
+[source,javascript]
+----
+// mode=local,language=javascript
+multiplicand * multiplier
+----
+
+When you run the preceding script, {brandname} responds with the result of the
+expression evaluation.

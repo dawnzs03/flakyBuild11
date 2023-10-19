@@ -1,0 +1,51 @@
+[id='using-jgroups-default-stacks_{context}']
+= Using the default JGroups stacks
+{brandname} uses JGroups protocol stacks so nodes can send each other messages on dedicated cluster channels.
+
+{brandname} provides preconfigured JGroups stacks for `UDP` and `TCP` protocols.
+You can use these default stacks as a starting point for building custom cluster transport configuration that is optimized for your network requirements.
+
+.Procedure
+
+Do one of the following to use one of the default JGroups stacks:
+
+* Use the `stack` attribute in your `infinispan.xml` file.
++
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/jgroups_cluster_transport.xml[]
+----
+
+ifdef::embedded_caches[]
+* Use the `addProperty()` method to set the JGroups stack file:
++
+[source,java]
+----
+include::code_examples/ConfigureTransportDefault.java[]
+----
+endif::embedded_caches[]
+
+ifdef::remote_caches[]
+* Use the `cluster-stack` argument to set the JGroups stack file when {brandname} Server starts:
++
+[source,options="nowrap",subs=attributes+]
+----
+bin/server.sh --cluster-stack=udp
+----
+endif::remote_caches[]
+
+.Verification
+
+{brandname} logs the following message to indicate which stack it uses:
+
+[source,options="nowrap",subs=attributes+]
+----
+[org.infinispan.CLUSTER] ISPN000078: Starting JGroups channel cluster with stack udp
+----
+
+//RH KCS article
+ifdef::downstream[]
+[role="_additional-resources"]
+.Additional resources
+* link:https://access.redhat.com/solutions/5608391[JGroups cluster transport configuration for {brandname} 8.x] ({RedHat} knowledgebase article)
+endif::downstream[]

@@ -1,0 +1,40 @@
+[id='adding-scripts_{context}']
+= Adding scripts to {brandname} Server deployments
+
+Use the command line interface to add scripts to {brandname} Server.
+
+.Prerequisites
+
+{brandname} Server stores scripts in the `\___script_cache` cache. If you enable cache authorization, users must have `CREATE` permissions to add to `___script_cache`.
+
+Assign users the `deployer` role at minimum if you use default authorization settings.
+
+.Procedure
+
+. Define scripts as required.
++
+For example, create a file named `multiplication.js` that runs on a single
+{brandname} server, has two parameters, and uses JavaScript to multiply a given
+value:
++
+[source,javascript,options="nowrap",subs=attributes+]
+----
+// mode=local,language=javascript
+multiplicand * multiplier
+----
++
+. Create a CLI connection to {brandname}.
+. Use the [command]`task` command to upload scripts, as in the following example:
++
+[source,options="nowrap",subs=attributes+]
+----
+task upload --file=multiplication.js multiplication
+----
++
+. Verify that your scripts are available.
++
+[source,options="nowrap",subs=attributes+]
+----
+ls tasks
+multiplication
+----

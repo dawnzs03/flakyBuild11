@@ -1,0 +1,59 @@
+[id='remote-cache-store_{context}']
+= Remote cache stores
+Remote cache stores, `RemoteStore`, use the Hot Rod protocol to store data on
+{brandname} clusters.
+
+[NOTE]
+====
+If you configure remote cache stores as shared you cannot preload data.
+In other words if `shared="true"` in your configuration then you must set `preload="false"`.
+====
+
+.Segmentation
+
+`RemoteStore` supports segmentation and can publish keys and entries by
+segment, which makes bulk operations more efficient. However, segmentation is
+available only with {brandname} Hot Rod protocol version 2.3 or later.
+
+[WARNING]
+====
+When you enable segmentation for `RemoteStore`, it uses the number of segments
+that you define in your {brandname} server configuration.
+
+If the source cache is segmented and uses a different number of segments than
+`RemoteStore`, then incorrect values are returned for bulk operations. In this
+case, you should disable segmentation for `RemoteStore`.
+====
+
+[discrete]
+== Remote cache store configuration
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/persistence_remote_store.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/persistence_remote_store.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/persistence_remote_store.yaml[]
+----
+
+.ConfigurationBuilder
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/ConfigRemoteStore.java[]
+----
+
+.Reference
+
+* link:{configdocroot}infinispan-cachestore-remote-config-{schemaversion}.html[Remote cache store configuration schema]
+* link:{javadocroot}/org/infinispan/persistence/remote/RemoteStore.html[RemoteStore]
+* link:{javadocroot}/org/infinispan/persistence/remote/configuration/RemoteStoreConfigurationBuilder.html[RemoteStoreConfigurationBuilder]

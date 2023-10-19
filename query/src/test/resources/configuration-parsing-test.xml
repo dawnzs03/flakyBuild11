@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:infinispan:config:${infinispan.core.schema.version} https://infinispan.org/schemas/infinispan-config:${infinispan.core.schema.version}"
+      xmlns="urn:infinispan:config:${infinispan.core.schema.version}">
+
+   <jgroups>
+      <stack-file name="test-tcp" path="stacks/tcp.xml"/>
+   </jgroups>
+
+   <cache-container default-cache="default" statistics="false">
+      <transport stack="test-tcp"/>
+      <local-cache name="default">
+         <indexing enabled="false"/>
+      </local-cache>
+      <local-cache name="simple" />
+      <local-cache name="memory-searchable">
+         <indexing storage="local-heap">
+            <key-transformers>
+               <key-transformer key="org.infinispan.query.test.CustomKey" transformer="org.infinispan.query.test.CustomTransformer"/>
+            </key-transformers>
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+            </indexed-entities>
+         </indexing>
+      </local-cache>
+      <local-cache name="disk-searchable">
+         <indexing storage="filesystem" path="target/">
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+            </indexed-entities>
+         </indexing>
+      </local-cache>
+      <replicated-cache name="repl-with-default">
+         <indexing>
+         <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+            </indexed-entities>
+         </indexing>
+      </replicated-cache>
+      <distributed-cache name="dist-with-default">
+         <indexing>
+         <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+            </indexed-entities>
+         </indexing>
+      </distributed-cache>
+   </cache-container>
+
+</infinispan>

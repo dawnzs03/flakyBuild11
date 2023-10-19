@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:infinispan:config:${infinispan.core.schema.version} https://infinispan.org/schemas/infinispan-config:${infinispan.core.schema.version}"
+      xmlns="urn:infinispan:config:${infinispan.core.schema.version}">
+
+   <cache-container name="QueryEnabledGrid-Local-NRTIndexing" default-cache="default" statistics="false">
+      <local-cache name="default" statistics="false">
+         <memory storage="OBJECT"/>
+         <expiration max-idle="-1"/>
+         <indexing enabled="false"/>
+      </local-cache>
+      <!-- *************************************** -->
+      <!--  Tested Cache: indexing enabled         -->
+      <!-- *************************************** -->
+      <local-cache name="Indexed">
+         <memory storage="OBJECT"/>
+         <indexing storage="filesystem" path="${java.io.tmpdir}/tunedConfDir">
+            <index-writer commit-interval="10000"/>
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+            </indexed-entities>
+            <!-- Enabled fastest writer: NRT backend -->
+            <!-- Default is to write on FSDirectory; to write in a dedicated cache uncomment: -->
+            <!-- Write indexes in Infinispan
+             N.B. In this case you will probably want to change the ​locking_strategy as well
+            <property name="default.directory_provider">infinispan</property>
+            <property name="default.chunk_size">128000</property>
+            <property name="default.metadata_cachename">LuceneIndexesMetadataOWR</property>
+            <property name="default.data_cachename">LuceneIndexesDataOWR</property>
+            -->
+
+            <!-- Enable sharding on writers -->
+            <index-sharding shards="6" />
+            <index-writer thread-pool-size="6" queue-count="6" queue-size="4096" />
+         </indexing>
+         <!--  For our test we don't want to keep all data in memory: throw some away -->
+      </local-cache>
+      <!-- *************************************** -->
+      <!--  Cache to store Lucene's file metadata  -->
+      <!-- *************************************** -->
+      <local-cache name="LuceneIndexesMetadataOWR" />
+      <!-- **************************** -->
+      <!--  Cache to store Lucene data  -->
+      <!-- **************************** -->
+      <local-cache name="LuceneIndexesDataOWR" />
+   </cache-container>
+
+</infinispan>

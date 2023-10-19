@@ -1,0 +1,31 @@
+[id='hr_remote_iterator']
+= Remote Iterator API
+{brandname} provides a remote iterator API to retrieve entries where memory
+resources are constrained or if you plan to do server-side filtering or
+conversion.
+
+[source,java]
+----
+// Retrieve all entries in batches of 1000
+int batchSize = 1000;
+try (CloseableIterator<Entry<Object, Object>> iterator = remoteCache.retrieveEntries(null, batchSize)) {
+     while(iterator.hasNext()) {
+        // Do something
+     }
+}
+
+// Filter by segment
+Set<Integer> segments = ...
+try (CloseableIterator<Entry<Object, Object>> iterator = remoteCache.retrieveEntries(null, segments, batchSize)) {
+     while(iterator.hasNext()) {
+        // Do something
+     }
+}
+
+// Filter by custom filter
+try (CloseableIterator<Entry<Object, Object>> iterator = remoteCache.retrieveEntries("myFilterConverterFactory", segments, batchSize)) {
+     while(iterator.hasNext()) {
+        // Do something
+     }
+}
+----

@@ -1,0 +1,28 @@
+[id='custom-cache-store-configuration_{context}']
+= Examples of custom cache store configuration
+
+The following are examples show how to configure {brandname} with custom cache store implementations:
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/persistence_store_class.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/persistence_store_class.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/persistence_store_class.yaml[]
+----
+
+.ConfigurationBuilder
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/PersistenceCustomStore.java[]
+----

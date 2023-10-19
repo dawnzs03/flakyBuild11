@@ -1,0 +1,158 @@
+[id='rest_v2_get_user_acl']
+= Retrieving the ACL of a user
+View information about the user's principals and access-control list.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_user_acl.adoc[]
+----
+
+{brandname} responds with information about the user who has performed the request.
+The list includes the principals of the user, and a list of resources and the permissions that user has when accessing them.
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_security_user_acl.json[]
+----
+
+[id='rest_v2_flush_acl_cache']
+= Flushing the security caches
+Flush the security caches across the cluster.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_cache_flush.adoc[]
+----
+
+[id='rest_v2_get_roles']
+= Retrieving the available roles
+View all the available roles defined in the server.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles.adoc[]
+----
+
+{brandname} responds with a list of available roles.
+If authorization is enabled, only a user with the `ADMIN` permission can call this API.
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_security_roles.json[]
+----
+
+[id='rest_v2_get_principal_roles']
+= Retrieving the roles for a principal
+View all the roles which map to a principal.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_principal.adoc[]
+----
+
+{brandname} responds with a list of available roles for the specified principal.
+The principal need not exist in the realm in use.
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_security_roles_principal.json[]
+----
+
+[id='rest_v2_grant_principal_roles']
+= Granting roles to a principal
+Grant one or more new roles to a principal.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_principal_grant.adoc[]
+----
+
+.Request Parameters
+
+|===
+|Parameter |Required or Optional |Value
+
+|`role`
+|REQUIRED
+|The name of a role
+|===
+
+[id='rest_v2_deny_principal_roles']
+= Denying roles to a principal
+Remove one or more roles that were previously granted to a principal.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_principal_deny.adoc[]
+----
+
+.Request Parameters
+
+|===
+|Parameter |Required or Optional |Value
+
+|`role`
+|REQUIRED
+|The name of a role
+|===
+
+[id='rest_v2_list_principals']
+= Listing principals
+List the principal names for all security realms that can enumerate users (`properties`, `ldap`)
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_list_principals.adoc[]
+----
+
+{brandname} responds with a list of principals keyed to each realm
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_security_principals.json[]
+----
+
+[id='rest_v2_create_role']
+= Creating roles
+Create a role by defining its permissions.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_create.adoc[]
+----
+
+.Request Parameters
+
+|===
+|Parameter |Required or Optional |Value
+
+|`permission`
+|REQUIRED
+|The name of a permission
+|===
+
+[id='rest_v2_create_role']
+= Deleting roles
+Delete an existing role.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_delete.adoc[]
+----
+
+[id='rest_v2_get_principal_roles']
+= Retrieving the permissions for a role
+View all the permissions of a role.
+
+[source,options="nowrap",subs=attributes+]
+----
+include::rest_examples/get_v2_security_roles_get.adoc[]
+----
+
+{brandname} responds with a list of available roles for the specified principal.
+The principal need not exist in the realm in use.
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_security_roles_permissions.json[]
+----

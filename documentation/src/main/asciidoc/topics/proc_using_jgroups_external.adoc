@@ -1,0 +1,42 @@
+[id='using-external-jgroups-stacks_{context}']
+= Using external JGroups stacks
+Reference external files that define custom JGroups stacks in `infinispan.xml` files.
+
+.Procedure
+
+ifdef::remote_caches[]
+. Add custom JGroups stack files to the `{server_home}/server/conf` directory.
+endif::remote_caches[]
+ifdef::embedded_caches[]
+. Put custom JGroups stack files on the application classpath.
+endif::embedded_caches[]
++
+Alternatively you can specify an absolute path when you declare the external stack file.
++
+. Reference the external stack file with the `stack-file` element.
++
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/jgroups_external_stack.xml[]
+----
+
+ifdef::embedded_caches[]
+You can also use the `addProperty()` method in the `TransportConfigurationBuilder` class to specify a custom JGroups stack file as follows:
+
+[source,java]
+----
+include::code_examples/ConfigureTransportCustom.java[]
+----
+
+In this example, `my-jgroups-udp.xml` references a UDP stack with custom properties such as the following:
+
+.Custom UDP stack example
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/jgroups_custom_udp.xml[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/configuration/global/TransportConfigurationBuilder.html[org.infinispan.configuration.global.TransportConfigurationBuilder]
+endif::embedded_caches[]

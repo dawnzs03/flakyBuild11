@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:infinispan:config:${infinispan.core.schema.version} https://infinispan.org/schemas/infinispan-config:${infinispan.core.schema.version}"
+      xmlns="urn:infinispan:config:${infinispan.core.schema.version}">
+
+   <cache-container name="MassIndexingWithStore" default-cache="default" statistics="false">
+      <serialization>
+         <context-initializer class="org.infinispan.query.test.QueryTestSCIImpl"/>
+      </serialization>
+      <transport cluster="Infinispan-Query-Cluster"/>
+       <!-- *************************************** -->
+       <!--  Default Cache, with indexing enabled.  -->
+       <!-- *************************************** -->
+      <replicated-cache name="default" mode="SYNC" remote-timeout="20000" statistics="true">
+         <locking acquire-timeout="20000" concurrency-level="500" striping="false" />
+         <memory storage="BINARY" max-count="1" when-full="REMOVE"/>
+         <expiration max-idle="-1" />
+         <indexing storage="local-heap">
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.queries.faceting.Car</indexed-entity>
+            </indexed-entities>
+         </indexing>
+         <persistence passivation="true">
+            <store class="org.infinispan.persistence.dummy.DummyInMemoryStore"/>
+         </persistence>
+         <state-transfer timeout="480000" enabled="true" />
+      </replicated-cache>
+   </cache-container>
+</infinispan>

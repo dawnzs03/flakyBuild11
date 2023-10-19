@@ -1,0 +1,85 @@
+// RESP 3.x protocol
+namespace resp3x;
+
+// Target class
+class org.infinispan.server.resp.RespDecoder extends BaseRespDecoder;
+
+// static final field values are literals
+constants org.infinispan.server.resp.RespConstants;
+
+// methods simpleString, bulkString, byteArray, byte...
+intrinsics org.infinispan.server.resp.Intrinsics;
+
+import java.nio.charset.StandardCharsets;
+import java.lang.UnsupportedOperationException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletionStage;
+
+import io.netty.handler.codec.ByteToMessageDecoder;
+
+import org.infinispan.commons.logging.LogFactory;
+import org.infinispan.commons.util.Util;
+import org.infinispan.server.resp.logging.Log;
+import org.infinispan.server.resp.Intrinsics.Resp2LongProcessor;
+import org.infinispan.util.concurrent.CompletionStages;
+
+init {
+   private final List<byte[]> reusedList = new ArrayList<>(16);
+
+   RespCommand getCommand() {
+      return resp3x_command;
+   }
+
+   List<byte[]> getArguments() {
+      return resp3x_arguments;
+   }
+}
+
+beforedecode {
+   // We cannot read more than one command at a time
+   if (!ctx.channel().config().isAutoRead()) {
+      log.tracef("Auto read was disabled, not reading next bytes yet");
+      return;
+   } else {
+      log.tracef("Auto read was enabled, reading next bytes");
+   }
+}
+
+// this is the root
+root request
+   : singleByte { if (singleByte != ARRAY) throw new UnsupportedOperationException("Only array types are supported, received: " + singleByte); reusedList.clear(); }
+     number
+     singleByte
+     command
+     arguments #readNumber ( singleByte array { arguments.add(array); } )
+     execute
+   ;
+
+command returns RespCommand switch singleByte
+   : { BULK_STRING }? bulkCommand[longProcessor]
+   | { SIMPLE_STRING }? simpleCommand
+   | { throw new UnsupportedOperationException("Type not supported: " + singleByte); }
+   ;
+number: readNumber[longProcessor] { readNumber -= 1; };
+array returns byte[] switch singleByte
+   : { BULK_STRING }? bulkArray[longProcessor] { bulkArray }
+   | { SIMPLE_STRING }? readTerminatedBytes
+   | { NUMERIC } ? readTerminatedBytes
+   | { throw new UnsupportedOperationException("Type not supported: " + singleByte); }
+   ;
+arguments returns List<byte[]>
+   : { readNumber > 16 }? { new ArrayList<>((int) readNumber); }
+   | { readNumber >= 1 }? { reusedList; }
+   | { Collections.emptyList(); }
+   ;
+execute
+   : { if (out.add(this)) {
+   // Due to passing our own state to avoid allocations, we can only decode one message before processing it
+   state = 0; return false;
+   } }
+   ;

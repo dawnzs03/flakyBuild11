@@ -1,0 +1,34 @@
+GET(1)
+=======
+:doctype: manpage
+
+
+NAME
+----
+get - retrieves entries from a cache.
+
+
+SYNOPSIS
+--------
+*get* ['OPTIONS'] `KEY`
+
+
+OPTIONS
+-------
+*-c, --cache*='NAME'::
+Specifies the cache from which to retrieve entries. Defaults to the currently
+selected cache.
+
+*-x, --extended*::
+Retrieves extended information about the entry (such as cluster ownership)
+
+
+EXAMPLE
+-------
+`get hello -c mycache` +
+Retrieves the value of the key named `hello` from `mycache`.
+
+
+SEE ALSO
+--------
+query(1), put(1)

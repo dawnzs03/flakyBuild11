@@ -1,0 +1,213 @@
+[id='rest_v2_server_info']
+= Retrieving Basic Server Information
+View basic information about {brandname} Servers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server
+----
+
+{brandname} responds with the server name, codename, and version in JSON format
+as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_server_response.json[]
+----
+
+
+[id='rest_v2_server_cm']
+= Getting Cache Managers
+Retrieve lists of Cache Managers for {brandname} Servers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/cache-managers
+----
+
+{brandname} responds with an array of the Cache Manager names configured for
+the server.
+
+[NOTE]
+====
+{brandname} currently supports one Cache Manager per server only.
+====
+
+
+[id='rest_v2_cache_ignore']
+= Adding Caches to Ignore Lists
+Configure {brandname} to temporarily exclude specific caches from client
+requests. Send empty `POST` requests that include the names of the Cache Manager
+name and the cache.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/server/ignored-caches/{cache-manager}/{cache}
+----
+
+{brandname} responds with `204 (No Content)` if the cache is successfully added to the ignore list or `404 (Not Found)` if the cache or Cache Manager are not found.
+
+[NOTE]
+====
+{brandname} currently supports one Cache Manager per server only. For future
+compatibility you must provide the Cache Manager name in the requests.
+====
+
+
+[id='rest_v2_cache_ignore_remove']
+= Removing Caches from Ignore Lists
+Remove caches from the ignore list with `DELETE` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+DELETE /rest/v2/server/ignored-caches/{cache-manager}/{cache}
+----
+
+{brandname} responds with `204 (No Content)` if the cache is successfully removed from ignore list or `404 (Not Found)` if the cache or Cache Manager are not found.
+
+[id='rest_v2_cache_ignore_confirm']
+= Confirming Ignored Caches
+Confirm that caches are ignored with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/ignored-caches/{cache-manager}
+----
+
+
+[id='rest_v2_server_config']
+= Obtaining Server Configuration
+Retrieve {brandname} Server configurations with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/config
+----
+
+{brandname} responds with the configuration in JSON format, as follows:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_server_config_response.json[]
+----
+
+
+[id='rest_v2_server_env']
+= Getting Environment Variables
+Retrieve all environment variables for {brandname} Servers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/env
+----
+
+
+[id='rest_v2_server_memory_statistics']
+= Getting JVM Memory Details
+Retrieve JVM memory usage information for {brandname} Servers with `GET`
+requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/memory
+----
+
+{brandname} responds with heap and non-heap memory statistics, direct memory
+usage, and information about memory pools and garbage collection in JSON
+format.
+
+
+[id='rest_v2_server_heap_dump']
+= Getting JVM Heap Dumps
+Generate JVM heap dumps for {brandname} Servers with `POST`
+requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/server/memory?action=heap-dump[&live=true|false]
+----
+
+{brandname} generates a heap dump file in HPROF format in the server data directory and responds
+with the full path of the file in JSON format.
+
+
+[id='rest_v2_server_threads']
+= Getting JVM Thread Dumps
+Retrieve the current thread dump for the JVM with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/threads
+----
+
+{brandname} responds with the current thread dump in `text/plain` format.
+
+[id='rest_v2_server_report']
+= Getting Diagnostic Reports for {brandname} Servers
+Retrieve aggregated reports for {brandname} Servers with `GET` requests.
+To retrieve the report for the requested server:
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/report
+----
+
+To retrieve the report of another server in the cluster, reference the node by name:
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/report/{nodeName}
+----
+
+{brandname} responds with a `tar.gz` archive that contains an aggregated report
+with diagnostic information about both the {brandname} Server and the host. The
+report provides details about CPU, memory, open files, network sockets and
+routing, threads, in addition to configuration and log files.
+
+[id='rest_v2_server_stop']
+= Stopping {brandname} Servers
+Stop {brandname} Servers with `POST` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/server?action=stop
+----
+
+{brandname} responds with `204 (No Content)` and then stops running.
+
+[id='rest_v2_server_connections']
+= Retrieving Client Connection Information
+List information about clients connected to {brandname} Servers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/server/connections
+----
+
+{brandname} responds with details about all active client connections in JSON format as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_server_connections_response.json[]
+----
+
+.Request Parameters
+
+|===
+|Parameter |Required or Optional |Value
+
+|`global`
+|OPTIONAL
+| `true`: will collect connections from all servers in the cluster
+|===
+
+[id='rest_v2_server_caches_defaults']
+= Retrieving Default values for Cache Configuration
+Retrieve default values for cache configuration with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/server/caches/defaults
+----
+
+{brandname} responds with the default values for cache configuration in JSON format.

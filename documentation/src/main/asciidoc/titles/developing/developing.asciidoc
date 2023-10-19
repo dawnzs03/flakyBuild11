@@ -1,0 +1,31 @@
+//Directory attributes
+:stories: ../../stories
+:topics: ../topics
+:imagesdir: ../{topics}/images
+
+//Community doc attributes
+include::../{topics}/attributes/community-attributes.adoc[]
+
+//Community title attributes
+:toc2:
+:icons: font
+:toclevels: 3
+:numbered:
+:sectanchors:
+:stem: asciimath
+:context: developer
+
+//
+// Conditional statements
+//
+:embedded_caches:
+:remote_caches:
+
+//Title
+= Infinispan Developer Guide
+
+This guide is no longer maintained.
+Please visit the link:../../index.html[Infinispan documentation index].
+
+//User stories
+//include::stories.adoc[]

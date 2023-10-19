@@ -1,0 +1,40 @@
+package org.infinispan.distribution.rehash;
+
+import java.util.concurrent.Callable;
+
+import jakarta.transaction.TransactionManager;
+
+import org.infinispan.commands.VisitableCommand;
+import org.infinispan.test.op.TestWriteOperation;
+import org.testng.annotations.Test;
+
+/**
+ * Test that ensures that state transfer values aren't overridden with a non tx without L1 enabled.
+ *
+ * @author William Burns
+ * @since 6.0
+ */
+@Test(groups = "functional", testName = "distribution.rehash.StateTransferOverwriteTest")
+public class StateTransferOverwriteTest extends BaseTxStateTransferOverwriteTest {
+   @Override
+   public Object[] factory() {
+      return new Object[] {
+         new StateTransferOverwriteTest().l1(false),
+         new StateTransferOverwriteTest().l1(true),
+      };
+   }
+
+   public StateTransferOverwriteTest() {
+      transactional = false;
+   }
+
+   @Override
+   protected Class<? extends VisitableCommand> getVisitableCommand(TestWriteOperation op) {
+      return op.getCommandClass();
+   }
+
+   @Override
+   protected Callable<?> runWithTx(final TransactionManager tm, final Callable<?> callable) {
+      return callable;
+   }
+}

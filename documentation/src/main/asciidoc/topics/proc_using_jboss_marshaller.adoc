@@ -1,0 +1,31 @@
+[id='using-jboss-marshaller_{context}']
+= Using JBoss Marshalling
+JBoss Marshalling is a serialization-based marshalling library and was the default marshaller in previous {brandname} versions but is now deprecated.
+
+[NOTE]
+====
+JBoss Marshalling is deprecated.
+You should use it only as a temporary measure while migrating your applications from an older version of {brandname}.
+====
+
+.Procedure
+
+. Add the `infinispan-jboss-marshalling` dependency to your classpath.
+. Configure {brandname} to use the `GenericJBossMarshaller`.
+. Add your Java classes to the deserialization allowlist.
+
+.Declarative
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/jboss_user_marshaller.xml[]
+----
+
+.Programmatic
+[source,java,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::code_examples/JBossUserMarshaller.java[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/commons/marshall/AdvancedExternalizer.html[AdvancedExternalizer]

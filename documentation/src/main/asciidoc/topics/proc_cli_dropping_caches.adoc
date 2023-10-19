@@ -1,0 +1,13 @@
+[id='cli_drop_caches']
+= Deleting Caches
+Drop caches to remove them and delete all data they contain.
+
+.Procedure
+
+. Create a CLI connection to {brandname}.
+. Remove caches with the [command]`drop` command.
++
+[source,options="nowrap",subs=attributes+]
+----
+drop cache mycache
+----

@@ -1,0 +1,21 @@
+[id='eviction_{context}']
+= Eviction with {brandname} caches
+
+Eviction lets you control the size of the data container by removing entries from memory in one of two ways:
+
+* Total number of entries (`max-count`).
+* Maximum amount of memory (`max-size`).
+
+Eviction drops one entry from the data container at a time and is local to the node on which it occurs.
+
+[IMPORTANT]
+====
+Eviction removes entries from memory but not from persistent cache stores.
+To ensure that entries remain available after {brandname} evicts them, and to prevent inconsistencies with your data, you should configure persistent storage.
+====
+
+When you configure `memory`, {brandname} approximates the current memory usage of the data container.
+When entries are added or modified, {brandname} compares the current memory usage of the data container to the maximum size.
+If the size exceeds the maximum, {brandname} performs eviction.
+
+Eviction happens immediately in the thread that adds an entry that exceeds the maximum size.

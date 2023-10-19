@@ -1,0 +1,122 @@
+CONFIG(1)
+========
+:doctype: manpage
+
+
+NAME
+----
+config - manages CLI configuration properties.
+
+
+SYNOPSIS
+--------
+*config*
+
+*config set* 'name' 'value'
+
+*config get* 'name'
+
+*config convert* --outputFormat=[xml|json|yaml] [-o outputFile] [inputFile]
+
+DESCRIPTION
+-----------
+Manage (list, set, get) CLI configuration properties and provide configuration conversion between the different formats (XML, JSON, YAML)
+
+
+COMMAND SYNOPSIS
+----------------
+
+*config*::
+Lists all configuration properties that are set.
+
+*config set* 'name' ['value']::
+Sets the value of a specific property. If you do not specify a value, the property is not set.
+
+*config get* 'name'::
+Retrieves the value of a specific property.
+
+*config reset*::
+Resets all properties to their default values.
+
+*config convert* --format=[xml|json|yaml] [-o outputFile] [inputFile]::
+Converts a configuration file to a different format.
+
+
+COMMON OPTIONS
+--------------
+
+These options apply to all commands:
+
+*-h, --help*::
+Displays a help page for the command or sub-command.
+
+
+CONVERT OPTIONS
+---------------
+
+The following options apply to the `convert` command:
+
+*-f, --format*='xml|json|yaml'::
+Specifies the format for the conversion.
+
+*-o, --output*='path'::
+Specifies the path to the output file. Uses standard output (`stdout`) if you do not specify a path.
+
+
+PROPERTIES
+----------
+
+*autoconnect-url*::
+Specifies the URL to which the CLI automatically connects on startup.
+
+*autoexec*::
+Specifies the path of a CLI batch file to execute on startup.
+
+*trustall*::
+Specifies whether to trust all server certificates. Values are `false` (default) and `true`.
+
+*truststore*::
+Defines the path to a keystore that contains a certificate chain that verifies server identity.
+
+*truststore-password*::
+Specifies a password to access the truststore.
+
+*keystore*::
+Defines a path to the keystore, which contains a certificate. The certificate identifies the client. Use the `keystore` property when the server requires client certificate authentication.
+
+*keystore-password*::
+Specifies a password to access the keystore.
+
+
+
+EXAMPLES
+--------
+
+`config set autoconnect-url http://192.0.2.0:11222` +
+Connects to a server at a custom IP address when you start the CLI.
+
+`config get autoconnect-url` +
+Returns the value for the `autoconnect-url` configuration property.
+
+`config set autoexec /path/to/mybatchfile` +
+Runs a batch file named "mybatchfile" when you start the CLI.
+
+`config set trustall true` +
+Trusts all server certificates.
+
+`config set truststore /home/user/my-trust-store.jks` +
+Specifies the path of a keystore named "my-trust-store.jks".
+
+`config set truststore-password secret` +
+Sets the keystore password, if required.
+
+`config convert -f yaml -o infinispan.yaml infinispan.xml` +
+Converts the `infinispan.xml` file to YAML and writes the output to the `infinispan.yaml` file.
+
+`config convert -f json` +
+Converts the configuration from standard input to JSON, and writes the output to standard output.
+
+
+SEE ALSO
+--------
+alias(1), unalias(1)

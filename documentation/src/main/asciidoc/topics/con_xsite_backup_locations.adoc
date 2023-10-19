@@ -1,0 +1,12 @@
+[id='cross-site-backups_{context}']
+= {brandname} cache backups
+
+{brandname} caches include a `backups` configuration that let you name remote sites as backup locations.
+
+For example, the following diagram shows three caches, "customers", "eu-orders", and "us-orders":
+
+image::xsite-caches.svg[]
+
+* In **LON**, "customers" names **NYC** as a backup location.
+* In **NYC**, "customers" names **LON** as a backup location.
+* "eu-orders" and "us-orders" do not have backups and are local to the respective cluster.

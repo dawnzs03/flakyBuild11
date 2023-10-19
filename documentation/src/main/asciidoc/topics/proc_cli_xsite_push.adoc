@@ -1,0 +1,24 @@
+[id='pushing-cross-site-state-transfer_{context}']
+= Pushing state to backup locations
+
+Transfer cache state to backup locations.
+
+.Prerequisites
+
+* Create a CLI connection to {brandname}.
+
+.Procedure
+
+* Use the [command]`site push-site-state` command to push state transfer, as in the following example:
++
+[source,options="nowrap",subs=attributes+]
+----
+site push-site-state --cache=cacheName --site=NYC
+----
+
+[TIP]
+====
+Use the `--all-caches` option to push state transfer for all caches.
+====
+
+For more information and examples, run the [command]`help site` command.

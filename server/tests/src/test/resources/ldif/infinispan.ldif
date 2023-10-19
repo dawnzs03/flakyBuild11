@@ -1,0 +1,160 @@
+dn: ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: People
+
+dn: ou=Roles,dc=infinispan,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: Roles
+
+dn: uid=admin,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: admin
+cn: ISPN Admin
+sn: admin
+userPassword: strongPassword
+
+dn: uid=deployer,ou=People,dc=infinispan,dc=org
+objectClass: top
+objectclass: uidObject
+objectClass: person
+uid: deployer
+cn: ISPN Deployer
+sn: deployer
+userPassword: lessStrongPassword
+
+dn: uid=application,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: application
+cn: ISPN Application
+sn: application
+userPassword: somePassword
+
+dn: uid=observer,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: observer
+cn: ISPN Reader
+sn: observer
+userPassword: password
+
+dn: uid=monitor,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: monitor
+cn: ISPN Monitor
+sn: monitor
+userPassword: weakPassword
+
+dn: uid=unprivileged,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: unprivileged
+cn: ISPN Unprivileged
+sn: unprivileged
+userPassword: weakPassword
+
+dn: uid=executor,ou=People,dc=infinispan,dc=org
+objectClass: top
+objectclass: uidObject
+objectClass: person
+uid: executor
+cn: ISPN Executor
+sn: executor
+userPassword: executorPassword
+
+dn: uid=reader,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: reader
+cn: ISPN Reader
+sn: reader
+userPassword: readerPassword
+
+dn: uid=writer,ou=People,dc=infinispan,dc=org
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: writer
+cn: ISPN Writer
+sn: writer
+userPassword: writerPassword
+
+dn: cn=admin,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+description: the Infinispan admin group
+member: uid=admin,ou=People,dc=infinispan,dc=org
+
+dn: cn=deployer,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: deployer
+description: the Infinispan deployer group
+member: uid=deployer,ou=People,dc=infinispan,dc=org
+
+dn: cn=observer,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: observer
+description: the Infinispan observer group
+member: uid=observer,ou=People,dc=infinispan,dc=org
+
+dn: cn=monitor,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: monitor
+description: the Infinispan monitor group
+member: uid=monitor,ou=People,dc=infinispan,dc=org
+
+dn: cn=executor,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: executor
+description: the Infinispan executor group
+member: uid=executor,ou=People,dc=infinispan,dc=org
+
+dn: cn=writer,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: writer
+description: a writer that cannot read
+member: uid=writer,ou=People,dc=infinispan,dc=org
+
+dn: cn=reader,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: reader
+description: a reader that cannot write
+member: uid=reader,ou=People,dc=infinispan,dc=org
+
+dn: cn=UnprivilegedRole,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: UnprivilegedRole
+description: the Infinispan unprivileged group
+member: uid=unprivileged,ou=People,dc=infinispan,dc=org
+
+dn: cn=___schema_manager,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: ___schema_manager
+description: the Infinispan schema managers
+member: uid=admin,ou=People,dc=infinispan,dc=org
+
+dn: cn=___script_manager,ou=Roles,dc=infinispan,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: ___script_manager
+description: the Infinispan script managers
+member: uid=admin,ou=People,dc=infinispan,dc=org

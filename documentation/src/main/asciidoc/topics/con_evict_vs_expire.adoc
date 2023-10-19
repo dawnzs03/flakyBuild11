@@ -1,0 +1,24 @@
+[id='eviction-and-expiration_{context}']
+= Eviction and expiration
+Eviction and expiration are two strategies for cleaning the data container by
+removing old, unused entries.
+Although eviction and expiration are similar, they have some important differences.
+
+* [*] Eviction lets {brandname} control the size of the data container by removing entries when the container becomes larger than a configured threshold.
+
+* [*] Expiration limits the amount of time entries can exist. {brandname} uses
+a scheduler to periodically remove expired entries. Entries that are expired
+but not yet removed are immediately removed on access; in this case `get()`
+calls for expired entries return "null" values.
+
+* [*] Eviction is local to {brandname} nodes.
+
+* [*] Expiration takes place across {brandname} clusters.
+
+* [*] You can use eviction and expiration together or independently of each other.
+
+* [*] You can configure eviction and expiration declaratively in `infinispan.xml` to apply cache-wide defaults for entries.
+
+* [*] You can explicitly define expiration settings for specific entries but you cannot define eviction on a per-entry basis.
+
+* [*] You can manually evict entries and manually trigger expiration.

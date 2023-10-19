@@ -1,0 +1,234 @@
+package org.infinispan.persistence;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
+import org.infinispan.Cache;
+import org.infinispan.configuration.cache.CacheMode;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.context.Flag;
+import org.infinispan.eviction.impl.ActivationManager;
+import org.infinispan.interceptors.AsyncInterceptorChain;
+import org.infinispan.interceptors.impl.CacheLoaderInterceptor;
+import org.infinispan.manager.EmbeddedCacheManager;
+import org.infinispan.marshall.persistence.impl.MarshalledEntryUtil;
+import org.infinispan.persistence.dummy.DummyInMemoryStore;
+import org.infinispan.persistence.dummy.DummyInMemoryStoreConfigurationBuilder;
+import org.infinispan.persistence.spi.MarshallableEntry;
+import org.infinispan.test.SingleCacheManagerTest;
+import org.infinispan.test.TestingUtil;
+import org.infinispan.test.fwk.TestCacheManagerFactory;
+import org.infinispan.util.concurrent.IsolationLevel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+
+/**
+ * Tests if the conditional commands correctly fetch the value from cache loader even with the skip cache load/store
+ * flags.
+ * <p/>
+ * The configuration used is a non-tx non-clustered cache without passivation.
+ *
+ * @author Pedro Ruivo
+ * @since 7.0
+ */
+@Test(groups = "functional", testName = "persistence.LocalConditionalCommandTest")
+public class LocalConditionalCommandTest extends SingleCacheManagerTest {
+
+   private static final String PRIVATE_STORE_CACHE_NAME = "private-store-cache";
+   private static final String SHARED_STORE_CACHE_NAME = "shared-store-cache";
+   private final String key = getClass().getSimpleName() + "-key";
+   private final String value1 = getClass().getSimpleName() + "-value1";
+   private final String value2 = getClass().getSimpleName() + "-value2";
+   private final boolean transactional;
+   private final boolean passivation;
+
+   public LocalConditionalCommandTest() {
+      this(false, false);
+   }
+
+   protected LocalConditionalCommandTest(boolean transactional, boolean passivation) {
+      this.transactional = transactional;
+      this.passivation = passivation;
+   }
+
+   private static ConfigurationBuilder createConfiguration(String storeName, boolean shared, boolean transactional, boolean passivation) {
+      ConfigurationBuilder builder = getDefaultClusteredCacheConfig(CacheMode.DIST_SYNC, transactional);
+      builder.statistics().enable();
+      builder.persistence()
+            .passivation(passivation)
+            .addStore(DummyInMemoryStoreConfigurationBuilder.class)
+            .storeName(storeName + (shared ? "-shared" : "-private"))
+            .fetchPersistentState(false)
+            .shared(shared);
+      builder.locking().isolationLevel(IsolationLevel.READ_COMMITTED);
+      return builder;
+   }
+
+   @AfterMethod
+   public void afterMethod() {
+      if (passivation) {
+         ActivationManager activationManager = TestingUtil.extractComponent(cache(PRIVATE_STORE_CACHE_NAME), ActivationManager.class);
+         // Make sure no passivations are pending, which could leak between tests
+         eventuallyEquals((long) 0, activationManager::getPendingActivationCount);
+      }
+   }
+
+   private static <K, V> void writeToStore(Cache<K, V> cache, K key, V value) {
+      MarshallableEntry entry = MarshalledEntryUtil.create(key, value, cache);
+      DummyInMemoryStore store = TestingUtil.getFirstStore(cache);
+      store.write(entry);
+   }
+
+   private static CacheLoaderInterceptor cacheLoaderInterceptor(Cache<?, ?> cache) {
+      AsyncInterceptorChain chain =
+            TestingUtil.extractComponent(cache, AsyncInterceptorChain.class);
+      return chain.findInterceptorExtending(
+            CacheLoaderInterceptor.class);
+   }
+
+   private void doTest(Cache<String, String> cache, ConditionalOperation operation, Flag flag) {
+      assertEmpty(cache);
+      initStore(cache);
+      final boolean skipLoad = flag == Flag.SKIP_CACHE_LOAD || flag == Flag.SKIP_CACHE_STORE;
+
+      try {
+         if (flag != null) {
+            operation.execute(cache.getAdvancedCache().withFlags(flag), key, value1, value2);
+         } else {
+            operation.execute(cache, key, value1, value2);
+         }
+      } catch (Exception e) {
+         //some operation are allowed to fail. e.g. putIfAbsent.
+         //we only check the final value
+         log.debug(e);
+      }
+
+      assertLoadAfterOperation(cache, skipLoad);
+
+      assertEquals(operation.finalValue(value1, value2, skipLoad), cache.get(key));
+   }
+
+   private void assertLoadAfterOperation(Cache<?, ?> cache, boolean skipLoad) {
+      assertEquals("cache load", skipLoad ? 0 : 1, cacheLoaderInterceptor(cache).getCacheLoaderLoads());
+   }
+
+   private void assertEmpty(Cache<?, ?> cache) {
+      assertTrue(cache + ".isEmpty()", cache.isEmpty());
+   }
+
+   private void initStore(Cache<String, String> cache) {
+      writeToStore(cache, key, value1);
+      DummyInMemoryStore store = TestingUtil.getFirstStore(cache);
+      assertTrue(store.contains(key));
+      cacheLoaderInterceptor(cache).resetStatistics();
+   }
+
+   public void testPutIfAbsentWithSkipCacheLoader() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.PUT_IF_ABSENT, Flag.SKIP_CACHE_LOAD);
+   }
+
+   public void testPutIfAbsentWithIgnoreReturnValues() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.PUT_IF_ABSENT, Flag.IGNORE_RETURN_VALUES);
+   }
+
+   public void testPutIfAbsent() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.PUT_IF_ABSENT, null);
+   }
+
+   public void testReplaceWithSkipCacheLoader() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE, Flag.SKIP_CACHE_LOAD);
+   }
+
+   public void testReplaceWithIgnoreReturnValues() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE, Flag.IGNORE_RETURN_VALUES);
+   }
+
+   public void testReplace() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE, null);
+   }
+
+   public void testReplaceIfWithSkipCacheLoader() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE_IF, Flag.SKIP_CACHE_LOAD);
+   }
+
+   public void testReplaceIfWithIgnoreReturnValues() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE_IF, Flag.IGNORE_RETURN_VALUES);
+   }
+
+   public void testReplaceIf() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REPLACE_IF, null);
+   }
+
+   public void testRemoveIfWithSkipCacheLoader() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REMOVE_IF, Flag.SKIP_CACHE_LOAD);
+   }
+
+   public void testRemoveIfWithIgnoreReturnValues() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REMOVE_IF, Flag.IGNORE_RETURN_VALUES);
+   }
+
+   public void testRemoveIf() {
+      doTest(this.cache(PRIVATE_STORE_CACHE_NAME), ConditionalOperation.REMOVE_IF, null);
+   }
+
+   @Override
+   protected EmbeddedCacheManager createCacheManager() throws Exception {
+      EmbeddedCacheManager embeddedCacheManager = TestCacheManagerFactory.createClusteredCacheManager();
+      embeddedCacheManager.defineConfiguration(PRIVATE_STORE_CACHE_NAME, createConfiguration(getClass().getSimpleName(), false, transactional, passivation).build());
+      if (!passivation) {
+         embeddedCacheManager.defineConfiguration(SHARED_STORE_CACHE_NAME, createConfiguration(getClass().getSimpleName(), true, transactional, false).build());
+      }
+      return embeddedCacheManager;
+   }
+
+   private enum ConditionalOperation {
+      PUT_IF_ABSENT {
+         @Override
+         public <K, V> void execute(Cache<K, V> cache, K key, V value1, V value2) {
+            cache.putIfAbsent(key, value2);
+         }
+
+         @Override
+         public <V> V finalValue(V value1, V value2, boolean skipLoad) {
+            return skipLoad ? value2 : value1;
+         }
+      },
+      REPLACE {
+         @Override
+         public <K, V> void execute(Cache<K, V> cache, K key, V value1, V value2) {
+            cache.replace(key, value2);
+         }
+
+         @Override
+         public <V> V finalValue(V value1, V value2, boolean skipLoad) {
+            return skipLoad ? value1 : value2;
+         }
+      },
+      REPLACE_IF {
+         @Override
+         public <K, V> void execute(Cache<K, V> cache, K key, V value1, V value2) {
+            cache.replace(key, value1, value2);
+         }
+
+         @Override
+         public <V> V finalValue(V value1, V value2, boolean skipLoad) {
+            return skipLoad ? value1 : value2;
+         }
+      },
+      REMOVE_IF {
+         @Override
+         public <K, V> void execute(Cache<K, V> cache, K key, V value1, V value2) {
+            cache.remove(key, value1);
+         }
+
+         @Override
+         public <V> V finalValue(V value1, V value2, boolean skipLoad) {
+            return skipLoad ? value1 : null;
+         }
+      };
+
+      public abstract <K, V> void execute(Cache<K, V> cache, K key, V value1, V value2);
+
+      public abstract <V> V finalValue(V value1, V value2, boolean skipLoad);
+   }
+}

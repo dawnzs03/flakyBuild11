@@ -1,0 +1,17 @@
+[id='rest_security']
+= REST Authentication
+Configure authentication to the REST endpoint with the {brandname} command line
+interface (CLI) and the **user** command.
+The CLI lets you create and manage
+users, passwords, and authorization roles for accessing the REST endpoint.
+
+//Community Only
+ifdef::community[]
+When running the Docker image, configure authentication with the `APP_USER` and
+`APP_PASS` command line arguments.
+endif::community[]
+
+.Reference
+
+* link:{server_docs}#creating-users_server-getting-started[Creating {brandname} users]
+* link:{server_docs}#authentication-mechanisms[Configuring Endpoint Authentication Mechanisms]

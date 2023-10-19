@@ -1,0 +1,44 @@
+[id='memcached-encoding_{context}']
+= Configuring cache encoding for Memcached clients
+{brandname} Server disables the Memcached endpoint by default.
+If you enable the Memcached endpoint, you should configure your Memcached cache with a suitable encoding.
+
+[IMPORTANT]
+====
+The Memcached endpoint does not support authentication. For security purposes
+you should use dedicated caches for Memcached clients. You should not use REST
+or Hot Rod clients to interact on the same data set as Memcached clients.
+====
+
+.Procedure
+
+. Configure cache encoding for keys and values as appropriate.
+. Specify any appropriate media type for values.
++
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/encoding_memcached.xml[]
+----
+
+.Encoding
+
+The Memcached endpoint includes a `client-encoding` attribute that converts the
+encoding of values.
+
+For example, as in the preceding configuration example, you store values
+encoded as Protobuf. If you want Memcached clients to read and write values as
+JSON, you can use the following configuration:
+
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/encoding_memcached_clients.xml[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+ifdef::community[]
+* link:{memcached_docs}[{brandname} Memcached Client Guide]
+endif::community[]
+ifdef::downstream[]
+* link:https://access.redhat.com/solutions/5163441[Red Hat Knowledge Base: Memcached Endpoint for {brandname}]
+endif::downstream[]

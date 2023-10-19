@@ -1,0 +1,12 @@
+[id='server_reference']
+:context: server-info
+= Reference
+
+//Downstream
+ifdef::downstream[]
+include::{server_readme}[leveloffset=+1]
+endif::downstream[]
+
+// Restore the parent context.
+ifdef::parent-context[:context: {parent-context}]
+ifndef::parent-context[:!context:]

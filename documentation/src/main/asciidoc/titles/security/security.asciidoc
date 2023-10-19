@@ -1,0 +1,31 @@
+//Directory attributes
+:stories: ../../stories
+:topics: ../topics
+:imagesdir: ../{topics}/images
+
+//Community doc attributes
+include::../{topics}/attributes/community-attributes.adoc[]
+
+//Community title attributes
+:toc2:
+:icons: font
+:toclevels: 3
+:numbered:
+:sectanchors:
+:stem: asciimath
+:context: security
+
+//
+// Conditional statements
+//
+:embedded_caches:
+:remote_caches:
+
+//Title
+= Infinispan Security Guide
+
+Securing the environment and restricting access to clusters is of critical importance for any deployment that stores sensitive data.
+This guide provides information and security best practices to help you protect Infinispan caches against network intrusion and unauthorized access.
+
+//User stories
+include::stories.adoc[]

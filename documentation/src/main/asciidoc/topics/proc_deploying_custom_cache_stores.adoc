@@ -1,0 +1,15 @@
+[id='deploying-custom-cache-stores_{context}']
+= Deploying custom cache stores
+
+To use your cache store implementation with {brandname} Server, you must provide it with a JAR file.
+
+.Prerequisites
+
+* Stop {brandname} Server if it is running.
++
+{brandname} loads JAR files at startup only.
+
+.Procedure
+
+. Package your custom cache store implementation in a JAR file.
+. Add your JAR file to the `server/lib` directory of your {brandname} Server installation.

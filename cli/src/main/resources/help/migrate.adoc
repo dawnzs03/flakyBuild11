@@ -1,0 +1,103 @@
+MIGRATE(1)
+==========
+:doctype: manpage
+
+
+NAME
+----
+migrate - migrates data from one version of ${infinispan.brand.name} to another.
+
+
+SYNOPSIS
+--------
+*migrate cluster connect*
+
+*migrate cluster synchronize*
+
+*migrate cluster disconnect*
+
+*migrate cluster source-connection*
+
+*migrate store*
+
+
+DESCRIPTION
+-----------
+Use the `migrate` command to migrate data from one version of ${infinispan.brand.name} to another.
+
+
+COMMAND SYNOPSIS
+----------------
+
+Migrate clusters
+
+*migrate cluster connect*::
+Connects the target cluster to the source cluster.
+
+*migrate cluster synchronize*::
+Synchronize data between the source cluster and the target cluster.
+
+*migrate cluster disconnect*::
+Disconnects the target cluster from the source cluster.
+
+*migrate cluster source-connection*::
+Gets connection configuration of the target cluster. The command will print "Not Found" if the connections hasn't been established.
+
+Migrate stores
+
+*migrate store*::
+Migrates store data.
+
+COMMON OPTIONS
+--------------
+
+These options apply to all commands:
+
+*-h, --help*::
+Displays a help page for the command or sub-command.
+
+CLUSTER CONNECT OPTIONS
+--------------------------
+
+*-c, --cache*='name'::
+The name of the cache to connect to the source.
+
+*-f, --file*='FILE'::
+Specifies a configuration file in JSON format, containing a single 'remote-store' element.
+
+CLUSTER SYNCHRONIZE OPTIONS
+---------------------------
+
+*-c, --cache*='name'::
+The name of the cache to synchronize.
+
+*-b, --read-batch*='num'::
+The amount of entries to process in a batch. Defaults to 10000.
+
+*-t, --threads*='num'::
+The number of threads to use. Defaults to the number of cores on the server.
+
+
+CLUSTER DISCONNECT OPTIONS
+--------------------------
+
+*-c, --cache*='name'::
+The name of the cache to disconnect from the source.
+
+CLUSTER CONNECTION OPTIONS
+--------------------------
+
+*-c, --cache*='name'::
+The name of the cache to obtain the connection configuration.
+
+
+STORE OPTIONS
+-------------
+
+*-P
+
+*-p, --properties*='FILE'::
+The path to a properties file containing the migration configuration.
+
+*-v, --verbose*::
+Displays verbose information about the migration process.

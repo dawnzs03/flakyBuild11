@@ -1,0 +1,52 @@
+[id='running-scripts-tasks_{context}']
+= Running scripts and tasks
+
+Use the command line interface to run tasks and scripts on {brandname} Server deployments.
+Alternatively you can execute scripts and tasks from Hot Rod clients.
+
+.Prerequisites
+
+* Add scripts or tasks to {brandname} Server.
+
+.Procedure
+
+. Create a CLI connection to {brandname}.
+. Use the [command]`task` command to run tasks and scripts, as in the following examples:
+
+* Execute a script named `multiplier.js` and specify two parameters:
++
+[source,options="nowrap",subs=attributes+]
+----
+task exec multiplier.js -Pmultiplicand=10 -Pmultiplier=20
+200.0
+----
+
+* Execute a task named `@@cache@names` to retrieve a list of all available caches:
++
+[source,options="nowrap",subs=attributes+]
+----
+task exec @@cache@names
+["___protobuf_metadata","mycache","___script_cache"]
+----
+
+[discrete]
+== Programmatic execution
+
+* Call the `execute()` method to run scripts with the Hot Rod `RemoteCache`
+interface, as in the following examples:
+
+.Script execution
+[source,java]
+----
+include::code_examples/ScriptExecute.java[]
+----
+
+.Task execution
+[source,java]
+----
+include::code_examples/TaskExecute.java[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/client/hotrod/RemoteCache.html[org.infinispan.client.hotrod.RemoteCache]

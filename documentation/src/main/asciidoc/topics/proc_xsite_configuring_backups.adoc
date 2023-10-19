@@ -1,0 +1,61 @@
+[id='adding-backup-locations-caches_{context}']
+= Adding backup locations to caches
+
+Specify the names of remote sites so {brandname} can replicate data to caches on those clusters.
+
+.Procedure
+
+. Open your {brandname} configuration for editing.
+. Add the `backups` element to your cache configuration.
+. Specify the name of the remote site as the backup location. +
+For example, in the **LON** configuration, specify **NYC** as the backup.
+. Repeat the preceding steps on each cluster so that each site is a backup for other sites. +
+For example, if you add **LON** as a backup for **NYC** you should also add **NYC** as a backup for **LON**.
+. Save and close your {brandname} configuration.
+
+[discrete]
+== Backup configuration
+
+The following example shows the "customers" cache configuration for the **LON** cluster:
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/xsite_backup_nyc.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/xsite_backup_nyc.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/xsite_backup_nyc.yaml[]
+----
+
+The following example shows the "customers" cache configuration for the **NYC** cluster:
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/xsite_backup_lon.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/xsite_backup_lon.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/xsite_backup_lon.yaml[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{configdocroot}[{brandname} configuration schema reference]

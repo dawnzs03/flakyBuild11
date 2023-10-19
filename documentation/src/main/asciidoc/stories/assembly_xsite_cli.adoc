@@ -1,0 +1,13 @@
+[id='cross-site-operations-cli']
+:context: cross-site-operations-cli
+= Performing cross-site operations with the CLI
+Use the {brandname} command line interface (CLI) to connect to {brandname}
+Server clusters, manage sites, and push state transfer to backup locations.
+
+include::{topics}/proc_cli_xsite_sites.adoc[leveloffset=+1]
+include::{topics}/proc_cli_xsite_state_transfer_mode.adoc[leveloffset=+1]
+include::{topics}/proc_cli_xsite_push.adoc[leveloffset=+1]
+
+// Restore the parent context.
+ifdef::parent-context[:context: {parent-context}]
+ifndef::parent-context[:!context:]

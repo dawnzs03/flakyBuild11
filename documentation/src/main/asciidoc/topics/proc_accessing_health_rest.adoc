@@ -1,0 +1,32 @@
+[id='accessing-health-rest_{context}']
+= Accessing cluster health via REST
+
+Get {brandname} cluster health via the REST API.
+
+.Procedure
+* Invoke a `GET` request to retrieve cluster health.
++
+[source]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/health
+----
+
+{brandname} responds with a `JSON` document such as the following:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_cache_health_response.json[]
+----
+
+[TIP]
+====
+Get Cache Manager status as follows:
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/health/status
+----
+====
+
+.Reference
+See the _REST v2 (version 2) API_ documentation for more information.

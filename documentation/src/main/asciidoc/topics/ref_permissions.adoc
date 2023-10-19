@@ -1,0 +1,96 @@
+[id='user-permissions_{context}']
+= Permissions
+
+User roles are sets of permissions with different access levels.
+
+.Cache Manager permissions
+[%autowidth,cols="1,1,1",stripes=even]
+|===
+|Permission
+|Function
+|Description
+
+|CONFIGURATION
+|`defineConfiguration`
+|Defines new cache configurations.
+
+|LISTEN
+|`addListener`
+|Registers listeners against a Cache Manager.
+
+|LIFECYCLE
+|`stop`
+|Stops the Cache Manager.
+
+|CREATE
+|`createCache`, `removeCache`
+|Create and remove container resources  such as caches, counters, schemas, and scripts.
+
+| MONITOR
+|`getStats`
+|Allows access to JMX statistics and the `metrics` endpoint.
+
+|ALL
+|-
+|Includes all Cache Manager permissions.
+|===
+
+.Cache permissions
+[%autowidth,cols="1,1,1",stripes=even]
+|===
+|Permission
+|Function
+|Description
+
+|READ
+|`get`, `contains`
+|Retrieves entries from a cache.
+
+|WRITE
+|`put`, `putIfAbsent`, `replace`, `remove`, `evict`
+|Writes, replaces, removes, evicts data in a cache.
+
+|EXEC
+|`distexec`, `streams`
+|Allows code execution against a cache.
+
+|LISTEN
+|`addListener`
+|Registers listeners against a cache.
+
+|BULK_READ
+|`keySet`, `values`, `entrySet`, `query`
+|Executes bulk retrieve operations.
+
+|BULK_WRITE
+|`clear`, `putAll`
+|Executes bulk write operations.
+
+|LIFECYCLE
+|`start`, `stop`
+|Starts and stops a cache.
+
+|ADMIN
+|`getVersion`, `addInterceptor*`, `removeInterceptor`, `getInterceptorChain`, `getEvictionManager`, `getComponentRegistry`, `getDistributionManager`, `getAuthorizationManager`, `evict`, `getRpcManager`, `getCacheConfiguration`, `getCacheManager`, `getInvocationContextContainer`, `setAvailability`, `getDataContainer`, `getStats`, `getXAResource`
+|Allows access to underlying components and internal structures.
+
+|MONITOR
+|`getStats`
+|Allows access to JMX statistics and the `metrics` endpoint.
+
+|ALL
+|-
+|Includes all cache permissions.
+
+|ALL_READ
+|-
+|Combines the READ and BULK_READ permissions.
+
+|ALL_WRITE
+|-
+|Combines the WRITE and BULK_WRITE permissions.
+|===
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/security/package-summary.html[{brandname} Security API]

@@ -1,0 +1,21 @@
+[id='log-pattern-formatters_{context}']
+= Log pattern formatters
+
+The `CONSOLE` and `FILE` appenders use a
+link:https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout[`PatternLayout`]
+to format the log messages according to a *pattern*.
+
+An example is the default pattern in the FILE appender: +
+`%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p (%t) [%c{1}] %m%throwable%n`
+
+* `%d{yyyy-MM-dd HH:mm:ss,SSS}` adds the current time and date.
+* `%-5p` specifies the log level, aligned to the right.
+* `%t` adds the name of the current thread.
+* `%c{1}` adds the short name of the logging category.
+* `%m` adds the log message.
+* `%throwable` adds the exception stack trace.
+* `%n` adds a new line.
+
+Patterns are fully described in
+link:https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout[the `PatternLayout` documentation]
+.

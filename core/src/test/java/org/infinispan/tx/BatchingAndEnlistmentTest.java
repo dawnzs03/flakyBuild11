@@ -1,0 +1,51 @@
+package org.infinispan.tx;
+
+import static org.testng.Assert.assertEquals;
+
+import jakarta.transaction.TransactionManager;
+
+import org.infinispan.batch.BatchContainer;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.manager.EmbeddedCacheManager;
+import org.infinispan.test.SingleCacheManagerTest;
+import org.infinispan.test.TestingUtil;
+import org.infinispan.test.fwk.TestCacheManagerFactory;
+import org.infinispan.transaction.impl.TransactionTable;
+import org.infinispan.transaction.tm.BatchModeTransactionManager;
+import org.infinispan.transaction.tm.EmbeddedTransaction;
+import org.testng.annotations.Test;
+
+/**
+ * @author Mircea Markus &lt;mircea.markus@jboss.com&gt; (C) 2011 Red Hat Inc.
+ * @since 5.1
+ */
+@Test (groups = "functional", testName = "tx.BatchingAndEnlistmentTest")
+public class BatchingAndEnlistmentTest extends SingleCacheManagerTest {
+
+   @Override
+   protected EmbeddedCacheManager createCacheManager() throws Exception {
+      ConfigurationBuilder cb = new ConfigurationBuilder();
+      cb.invocationBatching().enable();
+      cb.transaction().transactionManagerLookup(null);
+      return TestCacheManagerFactory.createCacheManager(cb);
+   }
+
+   public void testExpectedEnlistmentMode() {
+      TransactionManager tm = cache.getAdvancedCache().getTransactionManager();
+      assert tm instanceof BatchModeTransactionManager;
+      TransactionTable tt = TestingUtil.getTransactionTable(cache);
+      assertEquals(tt.getClass(), TransactionTable.class);
+      BatchContainer bc = TestingUtil.extractComponent(cache, BatchContainer.class);
+
+      cache.startBatch();
+      cache.put("k", "v");
+      assert getBatchTx(bc).getEnlistedSynchronization().size() == 1;
+      assert getBatchTx(bc).getEnlistedResources().size() == 0;
+      cache.endBatch(true);
+      assert getBatchTx(bc) == null;
+   }
+
+   private EmbeddedTransaction getBatchTx(BatchContainer bc) {
+      return (EmbeddedTransaction) bc.getBatchTransaction();
+   }
+}

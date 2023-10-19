@@ -1,0 +1,30 @@
+//Directory attributes
+:stories: ../../stories
+:topics: ../topics
+:imagesdir: ../{topics}/images
+
+//Community doc attributes
+include::../{topics}/attributes/community-attributes.adoc[]
+
+//Community title attributes
+:toc2:
+:icons: font
+:toclevels: 3
+:numbered:
+:sectanchors:
+:stem: asciimath
+:context: hot_rod
+
+//
+// Conditional statements
+//
+:remote_caches:
+
+//Title
+= Using Hot Rod Java clients
+
+Hot Rod is a binary TCP client/server protocol that gives fast access to data in remote Infinispan caches.
+The Hot Rod Java client provides automatic load balancing and failover along with intelligence capabilities that use consistent hash techniques to efficiently locate cache entries.
+
+//User stories
+include::stories.adoc[]

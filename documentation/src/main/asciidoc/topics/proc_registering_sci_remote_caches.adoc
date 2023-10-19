@@ -1,0 +1,62 @@
+[id='registering-sci-remote-caches_{context}']
+= Registering Protobuf schemas with {brandname} Server
+
+Register Protobuf schemas with {brandname} Server to perform Ickle queries or convert from `application/x-protostream` to other media types such as `application/json`.
+
+.Prerequisites
+
+* Generate Protobuf schema with the ProtoStream processor.
++
+You can find generated Protobuf schema in the `target/<schemaFilePath>/` directory.
+* Have a user with `CREATE` permissions.
++
+[NOTE]
+====
+Security authorization requires `CREATE` permissions to add schemas.
+With the default settings, you need the `deployer` role at minimum.
+====
+
+.Procedure
+
+Add Protobuf schema to {brandname} Server in one of the following ways:
+
+* Open the {brandname} Console in any browser, select the **Schema** tab and then **Add Protobuf schema**.
+
+* Use the [command]`schema` command with the `--upload=` argument from the {brandname} command line interface (CLI).
++
+[source,options="nowrap",subs=attributes+]
+----
+schema --upload=person.proto person
+----
+
+* Include the Protobuf schema in the payload of a `POST` request with the REST API.
++
+[source,options="nowrap",subs=attributes+]
+----
+POST/rest/v2/schemas/<schema_name>
+----
+
+* Use the generated `SerializationContextInitializer` implementation with a Hot Rod client to register the Protobuf schema, as in the following example:
++
+[source,java,options="nowrap",subs=attributes+]
+----
+include::code_examples/LibraryInitializerClientSchema.java[]
+----
+
+* Add a JAR file with the `SerializationContextInitializer` implementation and custom classes to the `{server_home}/server/lib` directory.
++
+When you do this, {brandname} Server registers your Protobuf schema at startup. However, you must add the archive to each server installation because the schema are not saved in the `___protobuf_metadata` cache or automatically distributed across the cluster.
++
+[NOTE]
+====
+You must do this if you require {brandname} Server to perform any `application/x-protostream` to `application/x-java-object` conversions, in which case you must also add any JAR files for your POJOs.
+====
+
+.Next steps
+
+Register the `SerializationContextInitializer` with your Hot Rod clients, as in the following example:
+
+[source,java,options="nowrap",subs=attributes+]
+----
+include::code_examples/LibraryInitializerClient.java[]
+----

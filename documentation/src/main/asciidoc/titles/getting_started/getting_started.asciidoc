@@ -1,0 +1,25 @@
+//Directory attributes
+:stories: ../../stories
+:topics: ../topics
+:imagesdir: ../{topics}/images
+
+//Community doc attributes
+include::../{topics}/attributes/community-attributes.adoc[]
+
+//Community title attributes
+:toc2:
+:icons: font
+:toclevels: 3
+:numbered:
+:sectanchors:
+:stem: asciimath
+:context: get_started
+
+//Title
+= Getting started with Infinispan
+
+It’s easy to get up and running with Infinispan.
+All you need is Java and a dependency management and build tool such as Maven.
+
+//User stories
+include::stories.adoc[]

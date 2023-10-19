@@ -1,0 +1,25 @@
+//Directory attributes
+:stories: ../../stories
+:topics: ../topics
+:imagesdir: ../{topics}/images
+
+//Community doc attributes
+include::../{topics}/attributes/community-attributes.adoc[]
+
+//Community title attributes
+:toc2:
+:icons: font
+:toclevels: 3
+:numbered:
+:sectanchors:
+:stem: asciimath
+:context: query
+
+//Title
+= Querying Infinispan caches
+
+Use the Ickle query language with Infinispan caches to efficiently and quickly gain real-time insights into your data.
+Learn how to configure indexing and perform queries on remote and embedded caches.
+
+//User stories
+include::stories.adoc[]

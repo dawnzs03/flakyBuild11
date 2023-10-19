@@ -1,0 +1,21 @@
+[id='expiration_{context}']
+= Expiration with lifespan and maximum idle
+
+Expiration configures {brandname} to remove entries from caches when they reach one of the following time limits:
+
+Lifespan::
+Sets the maximum amount of time that entries can exist.
+
+Maximum idle::
+Specifies how long entries can remain idle. If operations do not occur for
+entries, they become idle.
+
+[IMPORTANT]
+====
+Maximum idle expiration does not currently support caches with persistent storage.
+====
+
+[NOTE]
+====
+If you use expiration and eviction with the `EXCEPTION` eviction strategy, entries that are expired, but not yet removed from the cache, count towards the size of the data container.
+====

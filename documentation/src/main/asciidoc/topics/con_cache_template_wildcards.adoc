@@ -1,0 +1,33 @@
+[id='cache-wildcards-{context}']
+= Cache template wildcards
+
+You can add wildcards to cache configuration template names.
+If you then create caches where the name matches the wildcard, {brandname} applies the configuration template.
+
+[NOTE]
+====
+{brandname} throws exceptions if cache names match more than one wildcard.
+====
+
+[discrete]
+== Template wildcard example
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/cache_template_wildcard.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/cache_template_wildcard.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/cache_template_wildcard.yaml[]
+----
+
+Using the preceding example, if you create a cache named "async-dist-cache-prod" then {brandname} uses the configuration from the `async-dist-cache-*` template.

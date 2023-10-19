@@ -1,0 +1,143 @@
+//
+// This file contains attributes for building community documentation.
+// Global community attributes are defined in the pom.xml.
+//
+
+//
+// Conditional statements
+//
+:community:
+
+//
+// Infinispan version
+//
+:ispn_version: 15.0.0.Dev01
+
+//
+// Special characters
+//
+:plusplus: ++
+:hash: #
+:underscores: ___
+
+//
+// Server
+//
+:server_home: $ISPN_HOME
+:server_root: ${infinispan.server.root}
+:server_config: ${infinispan.server.configuration}
+
+//
+// Hot Rod clients
+//
+:hr_dotnet:
+:hr_cpp: C{plusplus}
+
+//
+// Operator
+//
+:ispn_operator: Infinispan Operator
+:k8s: Kubernetes
+:okd: OKD
+
+:datagridservice: Data Grid service
+:cacheservice: Cache service
+
+//
+// OpenShift
+//
+:openshift: Red Hat OpenShift
+:openshiftshort: OpenShift
+:openshiftplatform: Red Hat OpenShift Container Platform
+:ocp: OpenShift Container Platform
+:osweb: OpenShift Web Console
+
+//
+// Projects
+//
+
+:keycloak: KeyCloak
+:wildflybrandname: WildFly
+:tomcatbrandname: Apache Tomcat
+:quarkusbrandname: Quarkus
+
+//
+// Path to CLI Help
+//
+:cli_help: ../../../../../cli/src/main/resources/help/
+
+//
+// Simple tutorial root
+//
+:code_tutorials_root: https://github.com/infinispan/infinispan-simple-tutorials/tree/main
+
+//
+// Titles
+//
+
+//Doc Home
+:doc_home: https://infinispan.org/documentation/
+
+//Migration Guide
+:migration_docs: ../upgrading/upgrading.html
+
+//Query
+:query_docs: ../query/query.html
+
+//Marshalling and encoding
+:encoding_docs: ../encoding/encoding.html
+
+//Server
+:server_docs: ../server/server.html
+
+//REST
+:rest_docs: ../rest/rest.html
+
+//Query
+:query_docs: ../query/query.html
+
+//HotRod Java client
+:hotrod_docs: ../hotrod_java/hotrod_java.html
+
+//Operator Getting Started
+:k8s_start: https://infinispan.org/infinispan-operator/main/operator.html#start_operator
+
+//Operator
+:k8s_docs: https://infinispan.org/infinispan-operator/main/operator.html
+
+//Library
+:library_docs: ../embedding/embedding.html
+
+//Configuration Guide
+:config_docs: ../configuring/configuring.html
+
+//REST
+:rest_docs: ../rest/rest.html
+
+//CLI
+:cli_docs: ../cli/cli.html
+
+//Cross-Site REPL
+:xsite_docs: ../xsite/xsite.html
+
+//Memcached
+:memcached_docs: ../memcached/memcached.html
+
+//SB Starter
+:sb_starter: ../spring_boot/starter.html
+
+//JGroups
+:jgroups_docs: http://www.jgroups.org/manual4/index.html
+:jgroups_schema: http://www.jgroups.org/schema/jgroups-5.2.xsd
+:jgroups_extras: https://github.com/jgroups-extras
+
+//Code tutorials
+:code_tutorials: https://infinispan.org/tutorials/simple/simple_tutorials.html
+
+//Titles & Headings
+:sizing_title: {brandname} performance considerations and tuning guidelines
+
+//
+// Include topic-specific attributes
+//
+include::transaction-attributes.adoc[]

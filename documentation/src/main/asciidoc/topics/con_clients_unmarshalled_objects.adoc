@@ -1,0 +1,19 @@
+[id='clients-unmarshalled-objects_{context}']
+= Clients and POJOs
+Even though {brandname} does not recommend doing so, clients can operate on caches that store unmarshalled POJOs with the `application/x-java-object` media type.
+
+[discrete]
+== Hot Rod clients
+
+Hot Rod client marshallers must be available to {brandname} Server so it can deserialize your Java objects.
+By default, the ProtoStream and Java Serialization marshallers are available on the server.
+
+[discrete]
+== REST clients
+
+REST clients must use either JSON or XML for keys and values so {brandname} can convert to and from POJOs.
+
+[NOTE]
+====
+{brandname} requires you to add Java classes to the deserialization allowlist to convert XML to and from POJOs.
+====

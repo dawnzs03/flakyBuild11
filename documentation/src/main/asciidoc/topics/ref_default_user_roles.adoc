@@ -1,0 +1,35 @@
+[id='default-user-roles_{context}']
+= {brandname} user roles and permissions
+
+{brandname} includes several roles that provide users with permissions to access caches and {brandname} resources.
+
+[cols="1,1,1"]
+|===
+|Role |Permissions |Description
+
+|`admin`
+|ALL
+|Superuser with all permissions including control of the Cache Manager lifecycle.
+
+|`deployer`
+|ALL_READ, ALL_WRITE, LISTEN, EXEC, MONITOR, CREATE
+|Can create and delete {brandname} resources in addition to `application` permissions.
+
+|`application`
+|ALL_READ, ALL_WRITE, LISTEN, EXEC, MONITOR
+|Has read and write access to {brandname} resources in addition to `observer` permissions. Can also listen to events and execute server tasks and scripts.
+
+|`observer`
+|ALL_READ, MONITOR
+|Has read access to {brandname} resources in addition to `monitor` permissions.
+
+|`monitor`
+|MONITOR
+|Can view statistics via JMX and the `metrics` endpoint.
+
+|===
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/security/AuthorizationPermission.html[org.infinispan.security.AuthorizationPermission Enum]
+* link:{configdocroot}[{brandname} configuration schema reference]

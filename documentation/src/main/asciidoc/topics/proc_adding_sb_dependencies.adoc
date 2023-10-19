@@ -1,0 +1,19 @@
+[id='adding-sb-dependencies_{context}']
+= Adding Dependencies for Usage Modes
+{brandname} provides different dependencies for embedded caches and remote caches.
+
+.Procedure
+
+* Add one of the following to your `pom.xml` file:
+
+.Embedded caches
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::dependencies_maven/sb_embedded.xml[]
+----
+
+.Remote caches
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::dependencies_maven/sb_remote.xml[]
+----

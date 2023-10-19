@@ -1,0 +1,192 @@
+[id='indexing-configuration_{context}']
+= Index configuration
+{brandname} configuration controls how indexes are stored and constructed.
+
+[discrete]
+== Index storage
+
+You can configure how {brandname} stores indexes:
+
+* On the host file system, which is the default and persists indexes between restarts.
+* In JVM heap memory, which means that indexes do not survive restarts. +
+You should store indexes in JVM heap memory only for small datasets.
+
+.File system
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_file_system.xml[]
+----
+
+.JVM heap memory
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_jvm_heap.xml[]
+----
+
+[discrete]
+=== Index path
+
+Specifies a filesystem path for the index when storage is 'filesystem'.
+The value can be a relative or absolute path. Relative paths are created
+relative to the configured global persistent location, or to the current
+working directory when global state is disabled.
+
+By default, the cache name is used as a relative path for index path.
+
+[IMPORTANT]
+====
+When setting a custom value, ensure that there are no conflicts between caches using the same indexed entities.
+====
+
+[discrete]
+== Index startup mode
+
+When {brandname} starts caches it can perform operations to ensure the index is consistent with data in the cache.
+By default no indexing operation takes place when a cache starts but you can configure {brandname} to:
+
+* Clear the index when the cache starts.
+** {brandname} performs the clear (purge) operation synchronously. The cache becomes available only when the purge completes.
+* Reindex the cache when it starts.
+** {brandname} performs the reindex operation asynchronously. The reindex operation might take a longer time to complete, depending on the size of the cache.
+* Automatically clear or reindex the cache.
+** If data is volatile and the index is persistent then {brandname} clears the cache when it starts.
+** If data is persistent and the index is volatile then {brandname} reindex the cache when it starts.
+
+.Clear the index when the cache starts
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_startup_purge.xml[]
+----
+
+.Rebuild the index when the cache starts
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_startup_reindex.xml[]
+----
+
+
+[discrete]
+== Indexing mode
+
+`indexing-mode` controls how cache operations are propagated to the indexes.
+
+`auto`:: {brandname} immediately applies any changes to the cache to the indexes. This is the default mode.
+
+`manual`:: {brandname} updates indexes only when the reindex operation is explicitly invoked. Configure `manual` mode, for example, when you want to perform batch updates to the indexes.
+
+Set the `indexing-mode` to `manual`:
+
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_manual.xml[]
+----
+
+[discrete]
+== Index reader
+
+The index reader is an internal component that provides access to the indexes to perform queries. As the index content changes, {brandname} needs to refresh the reader so that search results are up to date.
+You can configure the refresh interval for the index reader.
+By default {brandname} reads the index before each query if the index changed since the last refresh.
+
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_index_reader.xml[]
+----
+
+[discrete]
+== Index writer
+
+The index writer is an internal component that constructs an index composed of one or more segments (sub-indexes) that can be merged over time to improve performance.
+Fewer segments usually means less overhead during a query because index reader operations need to take into account all segments.
+
+{brandname} uses Apache Lucene internally and indexes entries in two tiers: memory and storage.
+New entries go to the memory index first and then, when a flush happens, to the configured index storage.
+Periodic commit operations occur that create segments from the previously flushed data and make all the index changes permanent.
+
+[NOTE]
+====
+The `index-writer` configuration is optional.
+The defaults should work for most cases and custom configurations should only be used to tune performance.
+====
+
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_index_writer.xml[]
+----
+
+.Index writer configuration attributes
+[%header,cols=2*]
+|===
+|Attribute
+|Description
+
+|`commit-interval`
+|Amount of time, in milliseconds, that index changes that are buffered in memory are flushed to the index storage and a commit is performed. Because operation is costly, small values should be avoided. The default is 1000 ms (1 second).
+
+|`max-buffered-entries`
+|Maximum number of entries that can be buffered in-memory before they are flushed to the index storage. Large values result in faster indexing but use more memory. When used in combination with the `ram-buffer-size` attribute, a flush occurs for whichever event happens first.
+
+|`ram-buffer-size`
+|Maximum amount of memory that can be used for buffering added entries and deletions before they are flushed to the index storage. Large values result in faster indexing but use more memory. For faster indexing performance you should set this attribute instead of `max-buffered-entries`. When used in combination with the `max-buffered-entries` attribute, a flush occurs for whichever event happens first.
+
+|`thread-pool-size`
+|Number of threads that execute write operations to the index.
+
+|`queue-count`
+|Number of internal queues to use for each indexed type. Each queue holds a batch of modifications that is applied to the index and queues are processed in parallel. Increasing the number of queues will lead to an increase of indexing throughput, but only if the bottleneck is CPU. For optimum results, do not set a value for `queue-count` that is larger than the value for `thread-pool-size`.
+
+|`queue-size`
+|Maximum number of elements each queue can hold. Increasing the `queue-size` value increases the amount of memory that is used during indexing operations. Setting a value that is too small can block indexing operations.
+
+|`low-level-trace`
+|Enables low-level trace information for indexing operations. Enabling this attribute substantially degrades performance. You should use this low-level tracing only as a last resource for troubleshooting.
+
+|===
+
+To configure how {brandname} merges index segments, you use the `index-merge` sub-element.
+
+.Index merge configuration attributes
+[%header,cols=2*]
+|===
+|Attribute
+|Description
+
+|`max-entries`
+|Maximum number of entries that an index segment can have before merging. Segments with more than this number of entries are not merged. Smaller values perform better on frequently changing indexes, larger values provide better search performance if the index does not change often.
+
+|`factor`
+|Number of segments that are merged at once. With smaller values, merging happens more often, which uses more resources, but the total number of segments will be lower on average, increasing search performance. Larger values (greater than 10) are best for heavy writing scenarios.
+
+|`min-size`
+|Minimum target size of segments, in MB, for background merges. Segments smaller than this size are merged more aggressively. Setting a value that is too large might result in expensive merge operations, even though they are less frequent.
+
+|`max-size`
+|Maximum size of segments, in MB, for background merges. Segments larger than this size are never merged in the background. Settings this to a lower value helps reduce memory requirements and avoids some merging operations at the cost of optimal search speed. This attribute is ignored when forcefully merging an index and `max-forced-size` applies instead.
+
+|`max-forced-size`
+|Maximum size of segments, in MB, for forced merges and overrides the `max-size` attribute. Set this to the same value as `max-size` or lower. However setting the value too low degrades search performance because documents are deleted.
+
+|`calibrate-by-deletes`
+|Whether the number of deleted entries in an index should be taken into account when counting the entries in the segment. Setting `false` will lead to more frequent merges caused by `max-entries`, but will more aggressively merge segments with many deleted documents, improving query performance.
+
+|===
+
+[role="_additional-resources"]
+.Additional resources
+* link:{configdocroot}[{brandname} configuration schema reference]
+
+
+[discrete]
+== Index sharding
+
+When you have a large amount of data, you can configure {brandname} to split index data into multiple indexes called shards.
+Enabling data distribution among shards improves performance.
+By default, sharding is disabled.
+
+Use the `shards` attribute to configure the number of indexes.
+The number of shards must be greater then `1`.
+
+[source,xml,options="nowrap",subs=attributes+]
+----
+include::xml/indexing_sharding.xml[]
+----

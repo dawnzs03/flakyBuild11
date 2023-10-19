@@ -1,0 +1,34 @@
+[id='request-balancing_{context}']
+= Request Balancing
+Hot Rod Java clients balance requests to {brandname} Server clusters so that read and write operations are spread across nodes.
+
+Clients that use `BASIC` or `TOPOLOGY_AWARE` intelligence use request balancing for all requests.
+Clients that use `HASH_DISTRIBUTION_AWARE` intelligence send requests directly to the node that stores the desired key.
+If the node does not respond, the clients then fall back to request balancing.
+
+The default balancing strategy is round-robin, so Hot Rod clients perform request balancing as in the following example where `s1`, `s2`, `s3` are nodes in a {brandname} cluster:
+
+[source,java,options="nowrap",subs=attributes+]
+----
+include::code_examples/RequestBalancing.java[]
+----
+
+.Custom balancing policies
+
+You can use custom `FailoverRequestBalancingStrategy` implementations if you add your class in the Hot Rod client configuration.
+
+.ConfigurationBuilder
+[source,java,options="nowrap",subs=attributes+,role="primary"]
+----
+include::code_examples/HotRodCustomRequestBalancing.java[]
+----
+
+.hotrod-client.properties
+[source,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::properties/hotrod-custom-balancing.properties[]
+----
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/client/hotrod/FailoverRequestBalancingStrategy.html[org.infinispan.client.hotrod.FailoverRequestBalancingStrategy]

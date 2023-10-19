@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:infinispan:config:${infinispan.core.schema.version} https://infinispan.org/schemas/infinispan-config:${infinispan.core.schema.version}"
+      xmlns="urn:infinispan:config:${infinispan.core.schema.version}">
+
+   <cache-container name="MassIndexingWithSecurity" default-cache="default" statistics="false">
+      <serialization>
+         <context-initializer class="org.infinispan.query.test.QueryTestSCIImpl"/>
+      </serialization>
+      <security>
+         <authorization>
+            <identity-role-mapper/>
+            <role name="admin" permissions="ALL" />
+         </authorization>
+      </security>
+      <transport cluster="Infinispan-Query-Cluster"/>
+      <distributed-cache name="default" mode="SYNC" remote-timeout="20000" statistics="true">
+         <locking acquire-timeout="20000" concurrency-level="500" striping="false" />
+         <memory storage="OBJECT"/>
+         <expiration max-idle="-1" />
+         <indexing storage="local-heap">
+            <indexed-entities>
+               <indexed-entity>org.infinispan.query.test.Person</indexed-entity>
+               <indexed-entity>org.infinispan.query.queries.faceting.Car</indexed-entity>
+            </indexed-entities>
+         </indexing>
+         <security>
+            <authorization enabled="true" roles="admin"/>
+         </security>
+         <state-transfer timeout="480000" enabled="true" />
+      </distributed-cache>
+
+      <replicated-cache name="LuceneIndexesMetadata" mode="SYNC" remote-timeout="25000">
+         <indexing enabled="false" />
+         <state-transfer enabled="true" />
+      </replicated-cache>
+
+      <distributed-cache name="LuceneIndexesData" mode="SYNC" remote-timeout="25000">
+         <indexing enabled="false" />
+         <state-transfer enabled="true" />
+      </distributed-cache>
+
+      <replicated-cache name="LuceneIndexesLocking" mode="SYNC" remote-timeout="25000">
+         <indexing enabled="false" />
+         <state-transfer enabled="true" />
+      </replicated-cache>
+   </cache-container>
+</infinispan>

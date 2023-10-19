@@ -1,0 +1,22 @@
+[id='cli_clear_caches']
+= Clearing Caches and Deleting Entries
+Remove data from caches with the {brandname} CLI.
+
+.Procedure
+
+. Create a CLI connection to {brandname}.
+. Do one of the following:
++
+* Delete all entries with the [command]`clearcache` command.
++
+[source,options="nowrap",subs=attributes+]
+----
+clearcache mycache
+----
++
+* Remove specific entries with the [command]`remove` command.
++
+[source,options="nowrap",subs=attributes+]
+----
+remove --cache=mycache hello
+----

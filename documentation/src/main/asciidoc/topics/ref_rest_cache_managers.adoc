@@ -1,0 +1,608 @@
+[id='rest_v2_cache_manager_info']
+= Getting Basic Cache Manager Information
+Retrieving information about Cache Managers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}
+----
+
+{brandname} responds with information in JSON format, as in the following example:
+
+NOTE: Information about caches with security authorization is available only to users with the specific roles and permissions assigned to them.
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_cache_manager_response.json[]
+----
+
+* `version` contains the {brandname} version
+* `name` contains the name of the Cache Manager as defined in the configuration
+* `coordinator` is true if the Cache Manager is the coordinator of the cluster
+* `cache_configuration_names` contains an array of all caches configurations defined in the Cache Manager that are accessible to the current user
+* `cluster_name` contains the name of the cluster as defined in the configuration
+* `physical_addresses` contains the physical network addresses associated with the Cache Manager
+* `coordinator_address` contains the physical network addresses of the coordinator of the cluster
+* `cache_manager_status` the lifecycle status of the Cache Manager.
+For possible values, check the https://docs.jboss.org/infinispan/9.4/apidocs/org/infinispan/lifecycle/ComponentStatus.html[`org.infinispan.lifecycle.ComponentStatus`] documentation
+* `created_cache_count` number of created caches, excludes all internal and private caches
+* `running_cache_count` number of created caches that are running
+* `node_address` contains the logical address of the Cache Manager
+* `cluster_members` and `cluster_members_physical_addresses` an array of logical and physical addresses of the members of the cluster
+* `cluster_size` number of members in the cluster
+* `defined_caches` A list of all caches defined in the Cache Manager, excluding private caches but including internal caches that are accessible
+* `local_site` The name of the local site. +
+If cross-site replication is not configured, {brandname} returns "local".
+* `relay_node` is true if the node handles RELAY messages between clusters.
+* `relay_nodes_address` is an array of logical addresses for relay nodes.
+* `sites_view` The list of sites that participate in cross-site replication. +
+If cross-site replication is not configured, {brandname} returns an empty list.
+* `rebalancing_enabled` is true if rebalancing is enabled. Fetching this property might fail on the server. In that case the property won't be present in the payload.
+
+
+[id='rest_v2_cache_manager_health']
+= Getting Cluster Health
+Retrieve health information for {brandname} clusters with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/health
+----
+
+{brandname} responds with cluster health information in JSON format, as in the
+following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_cache_health_response.json[]
+----
+
+* `cluster_health` contains the health of the cluster
+** `cluster_name` specifies the name of the cluster as defined in the configuration.
+** `health_status` provides one of the following:
+*** `DEGRADED` indicates at least one of the caches is in degraded mode.
+*** `HEALTHY_REBALANCING` indicates at least one cache is in the rebalancing state.
+*** `HEALTHY` indicates all cache instances in the cluster are operating as expected.
+*** `FAILED` indicates the cache failed to start with the provided configuration.
+** `number_of_nodes` displays the total number of cluster members.
+Returns a value of `0` for non-clustered (standalone) servers.
+** `node_names` is an array of all cluster members.
+Empty for standalone servers.
+* `cache_health` contains health information per-cache
+** `status`  HEALTHY, DEGRADED, HEALTHY_REBALANCING or FAILED
+** `cache_name` the name of the cache as defined in the configuration.
+
+
+[id='rest_v2_cache_manager_health_status']
+= Getting Cache Manager Health Status
+Retrieve the health status of Cache Managers with `GET` requests that do not require authentication.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/health/status
+----
+
+{brandname} responds with one of the following in `text/plain` format:
+
+* `HEALTHY`
+* `HEALTHY_REBALANCING`
+* `DEGRADED`
+* `FAILED`
+
+
+[id='rest_v2_cache_manager_availability']
+= Checking REST Endpoint Availability
+Verify {brandname} server REST endpoint availability with `HEAD` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+HEAD /rest/v2/cache-managers/{cacheManagerName}/health
+----
+
+If you receive a successful response code then the {brandname} REST server is
+running and serving requests.
+
+
+[id='rest_v2_cache_manager_config']
+= Obtaining Global Configuration for Cache Managers
+Retrieve global configuration for Cache Managers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/config
+----
+
+.Headers
+
+|===
+|Header |Required or Optional |Parameter
+
+|`link:#rest_accept[Accept]`
+|OPTIONAL
+|The required format to return the content. Supported formats are _application/json_ and _application/xml_. JSON is assumed if no header is provided.
+|===
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===
+
+.Reference
+
+link:{javadocroot}/org/infinispan/configuration/global/GlobalConfiguration.html[GlobalConfiguration]
+
+
+[id='rest_v2_cache_manager_caches_config']
+= Obtaining Configuration for All Caches
+Retrieve the configuration for all caches with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/cache-configs
+----
+
+{brandname} responds with `JSON` arrays that contain each cache and cache
+configuration, as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_cache_config_response.json[]
+----
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===
+
+[id='rest_v2_cache_manager_cache_templates']
+= Listing Available Cache Templates
+Retrieve all available {brandname} cache templates with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/cache-configs/templates
+----
+
+[TIP]
+====
+See link:#rest_v2_create_cache_template[Creating Caches with Templates].
+====
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===
+
+[id='rest_v2_cache_manager_cache_list']
+= Obtaining Cache Status and Information
+Retrieve a list of all available caches for a Cache Manager, along with cache statuses and details, with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/caches
+----
+
+{brandname} responds with JSON arrays that lists and describes each available
+cache, as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_caches_info_response.json[]
+----
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===
+
+
+[id='rest_v2_cache_manager_stats']
+= Getting Cache Manager Statistics
+Retrieve the statistics for Cache Managers with `GET` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/stats
+----
+
+{brandname} responds with Cache Manager statistics in JSON format, as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_cache_stats_response.json[]
+----
+
+* `statistics_enabled` is `true` if statistics collection is enabled for the Cache Manager.
+* `read_write_ratio` displays the read/write ratio across all caches.
+* `time_since_start` shows the time, in seconds, since the Cache Manager started.
+* `time_since_reset` shows the number of seconds since the Cache Manager statistics were last reset.
+* `number_of_entries` shows the total number of entries currently in all caches from the Cache Manager. This statistic returns entries in the local cache instances only.
+* `off_heap_memory_used` shows the amount, in `bytes[]`, of off-heap memory used by this cache container.
+* `data_memory_used` shows the amount, in `bytes[]`, that the current eviction algorithm estimates is in use for data across all caches. Returns `0` if eviction is not enabled.
+* `misses` shows the number of `get()` misses across all caches.
+* `remove_hits` shows the number of removal hits across all caches.
+* `remove_misses` shows the number of removal misses across all caches.
+* `evictions` shows the number of evictions across all caches.
+* `average_read_time` shows the average number of milliseconds taken for `get()` operations across all caches.
+* `average_read_time_nanos` same as `average_read_time` but in nanoseconds.
+* `average_remove_time` shows the average number of milliseconds for `remove()` operations across all caches.
+* `average_remove_time_nanos` same as `average_remove_time` but in nanoseconds.
+* `required_minimum_number_of_nodes` shows the required minimum number of nodes to guarantee data consistency.
+* `hits` provides the number of `get()` hits across all caches.
+* `stores` provides the number of `put()` operations across all caches.
+* `current_number_of_entries_in_memory` shows the total number of entries currently in all caches, excluding passivated entries.
+* `hit_ratio` provides the total percentage hit/(hit+miss) ratio for all caches.
+* `retrievals` shows the total number of `get()` operations.
+
+[id='rest_v2_cache_manager_stats_reset']
+= Resetting Cache Manager Statistics
+Reset the statistics for Cache Managers with `POST` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/cache-managers/{cacheManagerName}/stats?action=reset
+----
+
+[id='rest_v2_cache_manager_shutdown']
+= Shutdown all container caches
+Shut down the {brandname} container on the server with `POST` requests.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/container?action=shutdown
+----
+
+{brandname} responds with `204 (No Content)` and then shutdowns all caches in the container. The servers remain running with active endpoints
+and clustering, however REST calls to container resources will result in a 503 Service Unavailable response.
+
+[NOTE]
+====
+This method is primarily intended for use by the {brandname} Operator. The expectation is that the Server processes will
+be manually terminated shortly after this endpoint is invoked. Once this method has been called, it's not possible to
+restart the container state.
+====
+
+[id='rest_v2_cache_manager_enable_rebalancing']
+= Enabling rebalancing for all caches
+Turn on automatic rebalancing for all caches.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/cache-managers/{cacheManagerName}?action=enable-rebalancing
+----
+
+[id='rest_v2_cache_manager_disable_rebalancing']
+= Disabling rebalancing for all caches
+Turn off automatic rebalancing for all caches.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/cache-managers/{cacheManagerName}?action=disable-rebalancing
+----
+
+[id='rest_v2_backup_manager_create']
+= Backing Up {brandname} Cache Managers
+Create backup archives, `application/zip`, that contain resources (caches, cache
+templates, counters, Protobuf schemas, server tasks, and so on) currently
+stored in the Cache Manager.
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/cache-managers/{cacheManagerName}/backups/{backupName}
+----
+
+If a backup with the same name already exists, the service responds with `409 (Conflict)`.
+If the `directory` parameter is not valid, the service returns `400 (Bad Request)`.
+A `202` response indicates that the backup request is accepted for processing.
+
+Optionally include a JSON payload with your request that contains parameters
+for the backup operation, as follows:
+
+.JSON Parameters
+|===
+|Key |Required or Optional |Value
+
+|`directory`
+|OPTIONAL
+|Specifies a location on the server to create and store the backup archive.
+
+|`resources`
+|OPTIONAL
+|Specifies the resources to back up, in JSON format. The default is to back up all resources. If you specify one or more resources, then {brandname} backs up only those resources. See the _Resource Parameters_ table for more information.
+
+|===
+
+include::backup_resources.adoc[]
+
+The following example creates a backup archive with all counters and caches
+named `[cache1,cache2]` in a specified directory:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_backup_create_request_body.json[]
+----
+
+[id='rest_v2_backup_manager_list']
+= Listing Backups
+Retrieve the names of all backup operations that are in progress, completed, or
+failed.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/backups
+----
+
+{brandname} responds with an Array of all backup names as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+["backup1", "backup2"]
+----
+
+[id='rest_v2_backup_manager_head']
+= Checking Backup Availability
+Verify that a backup operation is complete.
+
+[source,options="nowrap",subs=attributes+]
+----
+HEAD /rest/v2/cache-managers/{cacheManagerName}/backups/{backupName}
+----
+
+A `200` response indicates the backup archive is available.
+A `202` response indicates the backup operation is in progress.
+
+[id='rest_v2_backup_manager_get']
+= Downloading Backup Archives
+Download backup archives from the server.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/backups/{backupName}
+----
+
+A `200` response indicates the backup archive is available.
+A `202` response indicates the backup operation is in progress.
+
+[id='rest_v2_backup_manager_delete']
+= Deleting Backup Archives
+Remove backup archives from the server.
+
+[source,options="nowrap",subs=attributes+]
+----
+DELETE /rest/v2/cache-managers/{cacheManagerName}/backups/{backupName}
+----
+
+A `204` response indicates that the backup archive is deleted. A `202` response
+indicates that the backup operation is in progress but will be deleted when the
+operation completes.
+
+
+[id='rest_v2_restore_manager']
+= Restoring {brandname} Resources from Backup Archives
+Restore {brandname} resources from backup archives. The provided
+`{restoreName}` is for tracking restore progress, and is independent of the name of
+backup file being restored.
+
+[IMPORTANT]
+====
+You can restore resources only if the container name in the backup archive
+matches `{cacheManagerName}`.
+====
+
+[source,options="nowrap",subs=attributes+]
+----
+POST /rest/v2/cache-managers/{cacheManagerName}/restores/{restoreName}
+----
+
+A `202` response indicates
+that the restore request has been accepted for processing.
+
+== Restoring from Backup Archives on {brandname} Server
+Use the `application/json` content type with your POST request to back up from
+an archive that is available on the server.
+
+.JSON Parameters
+
+|===
+|Key |Required or Optional |Value
+
+|`location`
+|REQUIRED
+|Specifies the path of the backup archive to restore.
+
+|`resources`
+|OPTIONAL
+|Specifies the resources to restore, in JSON format. The default is to restore all resources. If you specify one or more resources, then {brandname} restores only those resources. See the _Resource Parameters_ table for more information.
+
+|===
+
+include::backup_resources.adoc[]
+
+The following example restores all counters from a backup archive on the server:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+include::json/rest_backup_restore_request_body.json[]
+----
+
+== Restoring from Local Backup Archives
+Use the `multipart/form-data` content type with your POST request to upload a
+local backup archive to the server.
+
+.Form Data
+|===
+|Parameter |Content-Type |Required or Optional |Value
+
+|`backup`
+|`application/zip`
+|REQUIRED
+|Specifies the bytes of the backup archive to restore.
+
+|`resources`
+|`application/json`, `text/plain`
+|OPTIONAL
+|Defines a JSON object of request parameters.
+
+|===
+
+.Example Request
+----
+Content-Type: multipart/form-data; boundary=5ec9bc07-f069-4662-a535-46069afeda32
+Content-Length: 7721
+
+--5ec9bc07-f069-4662-a535-46069afeda32
+Content-Disposition: form-data; name="resources"
+Content-Length: 23
+
+{"scripts":["test.js"]}
+--5ec9bc07-f069-4662-a535-46069afeda32
+Content-Disposition: form-data; name="backup"; filename="testManagerRestoreParameters.zip"
+Content-Type: application/zip
+Content-Length: 7353
+
+<zip-bytes>
+--5ec9bc07-f069-4662-a535-46069afeda32--
+----
+
+[id='rest_v2_restore_manager_list']
+= Listing Restores
+Retrieve the names of all restore requests that are in progress, completed, or
+failed.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/cache-managers/{cacheManagerName}/restores
+----
+
+{brandname} responds with an Array of all restore names as in the following example:
+
+[source,json,options="nowrap",subs=attributes+]
+----
+["restore1", "restore2"]
+----
+
+[id='rest_v2_restore_manager_head']
+= Checking Restore Progress
+Verify that a restore operation is complete.
+
+[source,options="nowrap",subs=attributes+]
+----
+HEAD /rest/v2/cache-managers/{cacheManagerName}/restores/{restoreName}
+----
+
+A `201 (Created)` response indicates the restore operation is completed.
+A `202 (Accepted)` response indicates the backup operation is in progress.
+
+[id='rest_v2_restore_manager_delete']
+= Deleting Restore Metadata
+Remove metadata for restore requests from the server. This action removes all metadata
+associated with restore requests but does not delete any restored content. If you delete
+the request metadata, you can use the request name to perform subsequent restore operations.
+
+[source,options="nowrap",subs=attributes+]
+----
+DELETE /rest/v2/cache-managers/{cacheManagerName}/restores/{restoreName}
+----
+
+A `204 (No Content)` response indicates that the restore metadata is deleted.
+A `202 (Accepted)` response indicates that the restore operation is in progress and will be deleted when the operation
+completes.
+
+[id='rest_v2_container_configuration_listen']
+= Listening to container configuration events
+Receive events about configuration changes using https://html.spec.whatwg.org/multipage/server-sent-events.html[Server-Sent Events].
+The `event` value will be one of `create-cache`, `remove-cache`, `update-cache`, `create-template`, `remove-template` or `update-template`.
+The `data` value will contain the declarative configuration of the entity that has been created. Remove events will only contain the name of the removed entity.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/container/config?action=listen
+----
+
+.Headers
+
+|===
+|Header |Required or Optional |Parameter
+
+|`Accept`
+|OPTIONAL
+|Sets the required format to return content. Supported formats are `application/yaml`, `application/json` and `application/xml`. The default is `application/yaml`. See link:#rest_accept[Accept] for more information.
+|===
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`includeCurrentState`
+|OPTIONAL
+|If `true`, the results include the state of the existing configuration in addition to the changes. If set to `false`, the request returns only the changes. The default value is `false`.
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===
+
+[id='rest_v2_container_listen']
+= Listening to container events
+
+Receive events from the container using https://html.spec.whatwg.org/multipage/server-sent-events.html[Server-Sent Events].
+The emitted events come from logged information, so each event contains an identifier associated with the message.
+The `event` value will be `lifecycle-event`. The `data` has the logged information, which includes the `message`,
+`category`, `level`, `timestamp`, `owner`, `context`, and `scope`, some of which may be empty.
+Currently, we expose only `LIFECYCLE` events.
+
+[source,options="nowrap",subs=attributes+]
+----
+GET /rest/v2/container?action=listen
+----
+
+.Headers
+
+|===
+|Header |Required or Optional |Parameter
+
+|`Accept`
+|OPTIONAL
+|Sets the required format to return content. Supported formats are `application/yaml`, `application/json` and `application/xml`. The default is `application/yaml`. See link:#rest_accept[Accept] for more information.
+|===
+
+.Request parameters
+
+|===
+|Parameter |Required or Optional |Description
+
+|`includeCurrentState`
+|OPTIONAL
+|If `true`, the results include the state of the existing configuration in addition to the changes. If set to `false`, the request returns only the changes. The default value is `false`.
+
+|`pretty`
+|OPTIONAL
+|If `true` returns formatted content, including additional spacing and line separators which improve readability but increase payload size. The default is `false`.
+
+|===

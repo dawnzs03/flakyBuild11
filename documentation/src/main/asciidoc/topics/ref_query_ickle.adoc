@@ -1,0 +1,134 @@
+[id='ickle-queries_{context}']
+= Ickle queries
+
+To use the API, call the cache `.query()` method and provide the query string.
+
+For instance:
+
+[source,java,tile="Using Ickle"]
+----
+// Remote Query using protobuf
+Query<Transaction> q = remoteCache.create("from sample_bank_account.Transaction where amount > 20");
+
+// Embedded Query using Java Objects
+Query<Transaction> q = cache.create("from org.infinispan.sample.Book where price > 20");
+
+// Execute the query
+QueryResult<Book> queryResult = q.execute();
+----
+
+[NOTE]
+====
+A query will always target a single entity type and is evaluated over the contents of a single cache. Running a query over multiple caches or creating queries that target several entity types (joins) is not supported.
+====
+
+Executing the query and fetching the results is as simple as invoking the `execute()` method of the `Query` object. Once
+executed, calling `execute()` on the same instance will re-execute the query.
+
+== Pagination
+
+You can limit the number of returned results by using  the `Query.maxResults(int maxResults)`. This can be used in
+conjunction with `Query.startOffset(long startOffset)` to achieve pagination of the result set.
+
+[source,java]
+----
+// sorted by year and match all books that have "clustering" in their title
+// and return the third page of 10 results
+Query<Book> query = cache.query("FROM org.infinispan.sample.Book WHERE title like '%clustering%' ORDER BY year").startOffset(20).maxResults(10)
+----
+
+[NOTE]
+====
+If you don't explicitly set the `maxResults` for a query instance, {brandname} limits the number of results returned by the query to `100`.
+You can change the default limit by setting the `query.default-max-results` cache property.
+====
+
+== Number of hits
+
+The `QueryResult` object includes the `.hitCount()` method, which returns a hit count value that represents the total number of results from a query, regardless of any pagination parameter.
+
+Additionally, `QueryResult` object contains a boolean value returned by the `.isExact()` method which indicates whether the hit count number is exact or a lower bound.
+The hit count is only available for indexed queries for performance reasons.
+
+=== Hit count accuracy
+You can limit the required accuracy of hit counts by setting `hit-count-accuracy` attribute.
+When dealing with large data sets, precise hit counts can impact performance.
+Setting a limit to the hit count accuracy, lets you achieve faster query responses while ensuring that the provided hit counts remain sufficiently accurate for your application's needs.
+
+The default accuracy of the `hit-count-accuracy` attribute is limited to `10000`.
+This means that for any query, {brandname} provides exact hit count up to maximum of 10,000.
+If the effective hit count is higher than 10,000, {brandname} returns a lower bound estimate of the count.
+You can change the default limit by setting the `query.hit-count-accuracy` cache property.
+Alternatively, it can be set on each query instance.
+
+When the actual hit count exceeds the limit set by the `hit-count-accuracy`, the `.isExact()` method or the `hit_count_exact` JSON field will be `false`, indicating that the returned hit count is an estimation.
+Setting this value to `Integer.MAX` would return accurate results for any query, but this can severely impact query performance.
+
+For optimal performance set the property value slightly above the expected hit count. If you do not require accurate hit counts, set it to a low value.
+
+== Iteration
+
+The `Query` object has the `.iterator()` method to obtain the results lazily. It returns an instance of `CloseableIterator` that must be closed after usage.
+
+[NOTE]
+====
+The iteration support for Remote Queries is currently limited, as it will first fetch all entries to the client
+before iterating.
+====
+
+== Named query parameters
+
+Instead of building a new Query object for every execution it is possible to include named parameters in the query which
+can be substituted with actual values before execution. This allows a query to be defined once and be efficiently
+executed many times. Parameters can only be used on the right-hand side of an operator and are defined when the query is
+created by supplying an object produced by the `org.infinispan.query.dsl.Expression.param(String paramName)` method to
+the operator instead of the usual constant value. Once the parameters have been defined they can be set by invoking either
+`Query.setParameter(parameterName, value)` or `Query.setParameters(parameterMap)` as shown in the examples below.
+⁠
+[source,java,tile="Using Named Parameters"]
+----
+// Defining a query to search for various authors and publication years
+Query<Book> query = cache.query("SELECT title FROM org.infinispan.sample.Book WHERE author = :authorName AND publicationYear = :publicationYear").build();
+
+// Set actual parameter values
+query.setParameter("authorName", "Doe");
+query.setParameter("publicationYear", 2010);
+
+// Execute the query
+List<Book> found = query.execute().list();
+----
+
+Alternatively, you can supply a map of actual parameter values to set multiple parameters at once:
+⁠
+[source,java,title="Setting multiple named parameters at once"]
+----
+Map<String, Object> parameterMap = new HashMap<>();
+parameterMap.put("authorName", "Doe");
+parameterMap.put("publicationYear", 2010);
+
+query.setParameters(parameterMap);
+----
+
+[NOTE]
+====
+A significant portion of the query parsing, validation and execution planning effort is performed during the first
+execution of a query with parameters. This effort is not repeated during subsequent executions leading to better
+performance compared to a similar query using constant values instead of query parameters.
+====
+
+== Query execution
+
+The `Query` API provides two methods for executing Ickle queries on a cache:
+
+* `Query.execute()` runs a SELECT statement and returns a result.
+* `Query.executeStatement()` runs a DELETE statement and modifies data.
+
+[NOTE]
+====
+You should always invoke `executeStatement()` to modify data and invoke `execute()` to get the result of a query.
+====
+
+[role="_additional-resources"]
+.Additional resources
+* link:{javadocroot}/org/infinispan/query/dsl/Query.html#execute()[org.infinispan.query.dsl.Query.execute()]
+* link:{javadocroot}/org/infinispan/query/dsl/Query.html#executeStatement()[org.infinispan.query.dsl.Query.executeStatement()]

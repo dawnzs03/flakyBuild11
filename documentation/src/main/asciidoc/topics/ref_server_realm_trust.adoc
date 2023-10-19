@@ -1,0 +1,32 @@
+[id='trust-store-security-realms_{context}']
+= Trust store realms
+
+Trust store realms use certificates, or certificates chains, that verify {brandname} Server and client identities when they negotiate connections.
+
+Keystores:: Contain server certificates that provide a {brandname} Server identity to clients. If you configure a keystore with server certificates, {brandname} Server encrypts traffic using industry standard SSL/TLS protocols.
+Trust stores:: Contain client certificates, or certificate chains, that clients present to {brandname} Server. Client trust stores are optional and allow {brandname} Server to perform client certificate authentication.
+
+.Client certificate authentication
+
+You must add the `require-ssl-client-auth="true"` attribute to the endpoint configuration if you want {brandname} Server to validate or authenticate client certificates.
+
+[discrete]
+== Trust store realm configuration
+
+.XML
+[source,xml,options="nowrap",subs=attributes+,role="primary"]
+----
+include::xml/server_truststore_realm.xml[]
+----
+
+.JSON
+[source,json,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::json/server_truststore_realm.json[]
+----
+
+.YAML
+[source,yaml,options="nowrap",subs=attributes+,role="secondary"]
+----
+include::yaml/server_truststore_realm.yaml[]
+----

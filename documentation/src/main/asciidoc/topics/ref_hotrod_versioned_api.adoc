@@ -1,0 +1,22 @@
+[id='hr_versioned_api']
+= MetadataValue API
+Use the `MetadataValue` interface for versioned operations.
+
+The following example shows a remove operation that occurs only if the version
+of the value for the entry is unchanged:
+
+[source,java]
+----
+RemoteCacheManager remoteCacheManager = new RemoteCacheManager();
+      RemoteCache<String, String> remoteCache = remoteCacheManager.getCache();
+
+      remoteCache.put("car", "ferrari");
+      VersionedValue valueBinary = remoteCache.getWithMetadata("car");
+
+      assert remoteCache.remove("car", valueBinary.getVersion());
+      assert !remoteCache.containsKey("car");
+----
+
+.Reference
+
+* link:{javadocroot}/org/infinispan/client/hotrod/MetadataValue.html[org.infinispan.client.hotrod.MetadataValue]

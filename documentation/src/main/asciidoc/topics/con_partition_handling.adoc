@@ -1,0 +1,35 @@
+[id="partition-handling_{context}"]
+= Split clusters and network partitions
+
+Network partitions are the result of error conditions in the running environment, such as when a network router crashes.
+When a cluster splits into partitions, nodes create a JGroups cluster view that includes only the nodes in that partition.
+This condition means that nodes in one partition can operate independently of nodes in the other partition.
+
+.Detecting a split
+
+To automatically detect network partitions, {brandname} uses the `FD_ALL` protocol in the default JGroups stack to determine when nodes leave the cluster abruptly.
+
+[NOTE]
+====
+{brandname} cannot detect what causes nodes to leave abruptly.
+This can happen not only when there is a network failure but also for other reasons, such as when Garbage Collection (GC) pauses the JVM.
+====
+
+{brandname} suspects that nodes have crashed after the following number of milliseconds:
+
+[source]
+----
+FD_ALL[2|3].timeout + FD_ALL[2|3].interval + VERIFY_SUSPECT[2].timeout + GMS.view_ack_collection_timeout
+----
+
+When it detects that the cluster is split into network partitions, {brandname} uses a strategy for handling cache operations.
+Depending on your application requirements {brandname} can:
+
+* Allow read and/or write operations for availability
+* Deny read and write operations for consistency
+
+.Merging partitions together
+
+To fix a split cluster, {brandname} merges the partitions back together.
+During the merge, {brandname} uses the `.equals()` method for values of cache entries to determine if any conflicts exist.
+To resolve any conflicts between replicas it finds on partitions, {brandname} uses a merge policy that you can configure.

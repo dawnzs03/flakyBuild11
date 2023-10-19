@@ -1,0 +1,18 @@
+[id='cache-modes_{context}']
+= Cache modes
+
+[TIP]
+====
+{brandname} Cache Managers can create and control multiple caches that use
+different modes. For example, you can use the same Cache Manager for local
+caches, distributed caches, and caches with invalidation mode.
+====
+
+Local:: {brandname} runs as a single node and never replicates read or write operations on cache entries.
+
+Replicated:: {brandname} replicates all cache entries on all nodes in a cluster and performs local read operations only.
+
+Distributed:: {brandname} replicates cache entries on a subset of nodes in a cluster and assigns entries to fixed owner nodes. +
+{brandname} requests read operations from owner nodes to ensure it returns the correct value.
+
+Invalidation:: {brandname} evicts stale data from all nodes whenever operations modify entries in the cache. {brandname} performs local read operations only.

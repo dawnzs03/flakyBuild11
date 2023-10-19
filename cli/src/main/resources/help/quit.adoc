@@ -1,0 +1,32 @@
+QUIT(1)
+=======
+:doctype: manpage
+
+
+NAME
+----
+quit - exits the command line interface.
+
+
+SYNOPSIS
+--------
+*quit*
+
+*exit* and *bye* are command aliases.
+
+
+EXAMPLE
+-------
+`quit` +
+Ends the CLI session.
+
+`exit` +
+Ends the CLI session.
+
+`bye` +
+Ends the CLI session.
+
+
+SEE ALSO
+--------
+disconnect(1), shutdown(1)

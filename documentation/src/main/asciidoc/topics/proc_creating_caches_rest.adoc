@@ -1,0 +1,17 @@
+[id='creating-caches-rest_{context}']
+= Creating remote caches with the REST API
+Use the {brandname} REST API to create remote caches on {brandname} Server from any suitable HTTP client.
+
+.Prerequisites
+
+* Create a {brandname} user with `admin` permissions.
+* Start at least one {brandname} Server instance.
+* Have a {brandname} cache configuration.
+
+.Procedure
+
+* Invoke `POST` requests to `/rest/v2/caches/<cache_name>` with cache configuration in the payload.
+
+[role="_additional-resources"]
+.Additional resources
+* link:{rest_docs}#rest_v2_cache_operations[Creating and Managing Caches with the REST API]

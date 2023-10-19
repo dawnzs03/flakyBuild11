@@ -1,0 +1,30 @@
+[id='update-index-schema_{context}']
+= Updating index schema
+The update index schema operation lets you add schema changes with a minimal downtime.
+Instead of removing previously indexed data and recreating the index schema, {brandname} adds new fields to the existing schema.
+Updating index schema is much faster than rebuilding the index but you can update schema only when your changes do not affect fields that were already indexed.
+
+
+[IMPORTANT]
+====
+You can update index schema only when your changes does not affect previously indexed fields.
+When you change index field definitions or when you delete fields, you must rebuild the index.
+====
+
+.Procedure
+
+* Update index schema for a given cache:
+** Call the `updateIndexSchema()` method to programmatically update the index schema from a Hot Rod Java client:
++
+[source,java]
+----
+remoteCacheManager.administration().updateIndexSchema("MyCache");
+----
++
+[TIP]
+====
+For remote caches, you can update index schema from the {brandname} Console or using the link:{rest_docs}#rest_v2_query_updateIndexSchema[REST API].
+====
+
+.Additional resources
+* link:{query_docs}#rebuilding-indexes_{context}[Rebuilding indexes]
