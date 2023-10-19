@@ -1,5 +1,8 @@
-# Ignore all differences in line endings for the lock file.
-versions.lock text eol=lf
+# Check out all text files in UNIX format, with LF as end of line
+# Don't change this file. If you have any ideas about it, please
+# submit a separate issue about it and we'll discuss.
 
-# Gradle files are always in LF.
-*.gradle          text eol=lf
+* text=auto eol=lf
+*.java ident
+*.xml ident
+*.png binary

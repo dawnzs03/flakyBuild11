@@ -1,0 +1,28 @@
+xsls:
+  - /org/eolang/parser/errors/many-free-attributes.xsl
+tests:
+  - /program/errors[count(error[@severity='error'])=1]
+eo: |
+  [a b c d e f] > with-many
+    something > @
+
+  [x y z] > main
+    [v] > zz /int
+    [v] > yy /int
+    [v] > uu /int
+    [v] > ff /int
+    [v] > oo /int
+    [v] > pp /int
+
+  [] > not-many-free-attributes
+    [] > empty1
+      TRUE > @
+    [] > empty2
+      TRUE > @
+    [] > empty3
+      TRUE > @
+    [] > empty4
+      TRUE > @
+    [] > empty5
+      TRUE > @
+    TRUE > @

@@ -1,0 +1,5 @@
+line: 2
+eo: |
+  [] > t
+  # This is a comment with a space at the end of the line 
+  [] > x
