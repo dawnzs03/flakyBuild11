@@ -18,7 +18,6 @@ import com.datadog.debugger.el.expressions.BooleanExpression;
 import com.datadog.debugger.probe.SpanDecorationProbe;
 import datadog.trace.bootstrap.debugger.EvaluationError;
 import datadog.trace.test.agent.decoder.DecodedSpan;
-import datadog.trace.test.util.Flaky;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@Flaky
 public class SpanDecorationProbesIntegrationTests extends ServerAppDebuggerIntegrationTest {
 
   @Override
