@@ -1,40 +1,121 @@
-Dataverse&#174;  
-===============
 
-Dataverse is an [open source][] software platform for sharing, finding, citing, and preserving research data (developed by the [Data Science and Products team](http://www.iq.harvard.edu/people/people/data-science-products) at the [Institute for Quantitative Social Science](http://iq.harvard.edu/) and the [Dataverse community][]).
+## Introduction
+[![Build Status](https://www.travis-ci.org/openmessaging/dledger.svg?branch=master)](https://www.travis-ci.org/search/dledger) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.openmessaging.storage/dledger/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Copenmessaging-storage-dledger)  [![Coverage Status](https://coveralls.io/repos/github/openmessaging/openmessaging-storage-dledger/badge.svg?branch=master)](https://coveralls.io/github/openmessaging/openmessaging-storage-dledger?branch=master) [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-[dataverse.org][] is our home on the web and shows a map of Dataverse installations around the world, a list of [features][], [integrations][] that have been made possible through [REST APIs][], our development [roadmap][], and more.
+A raft-based java library for building high-available, high-durable, strong-consistent commitlog, which could act as the persistent layer for distributed storage system, i.e. messaging, streaming, kv, db, etc.
 
-We maintain a demo site at [demo.dataverse.org][] which you are welcome to use for testing and evaluating Dataverse.
+Dledger has added many new features that are not described in the [original paper](https://raft.github.io/raft.pdf). It has been proven to be a true production ready product. 
 
-To install Dataverse, please see our [Installation Guide][] which will prompt you to download our [latest release][].
 
-To discuss Dataverse with the community, please join our [mailing list][], participate in a [community call][], chat with us at [chat.dataverse.org][], or attend our annual [Dataverse Community Meeting][].
+## Features
 
-We love contributors! Please see our [Contributing Guide][] for ways you can help.
+* Leader election
+* Preferred leader election
+* [Pre-vote protocol](https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf)
+* High performance, high reliable storage support
+* Parallel log replication between leader and followers
+* Asynchronous replication
+* State machine
+* Multi-Raft
+* High tolerance of symmetric network partition
+* High tolerance of asymmetric network partition
+* [Jepsen verification with fault injection](https://github.com/openmessaging/openmessaging-dledger-jepsen)
 
-Dataverse is a trademark of President and Fellows of Harvard College and is registered in the United States.
+### New features waiting to be added ###
+* Snapshot (working in progress)
+* Dynamic membership & configuration change
+* SSL/TLS support
 
-[![Dataverse Project logo](src/main/webapp/resources/images/dataverseproject_logo.jpg?raw=true "Dataverse Project")](http://dataverse.org)
+## Quick Start
 
-[![API Test Status](https://jenkins.dataverse.org/buildStatus/icon?job=IQSS-dataverse-develop&subject=API%20Test%20Status)](https://jenkins.dataverse.org/job/IQSS-dataverse-develop/)
-[![API Test Coverage](https://img.shields.io/jenkins/coverage/jacoco?jobUrl=https%3A%2F%2Fjenkins.dataverse.org%2Fjob%2FIQSS-dataverse-develop&label=API%20Test%20Coverage)](https://jenkins.dataverse.org/job/IQSS-dataverse-develop/ws/target/coverage-it/index.html)
-[![Unit Test Status](https://github.com/IQSS/dataverse/actions/workflows/maven_unit_test.yml/badge.svg?branch=develop)](https://github.com/IQSS/dataverse/actions/workflows/maven_unit_test.yml)
-[![Unit Test Coverage](https://img.shields.io/coveralls/github/IQSS/dataverse?label=Unit%20Test%20Coverage)](https://coveralls.io/github/IQSS/dataverse?branch=develop)
-[![Guides Build Status](https://github.com/IQSS/dataverse/actions/workflows/guides_build_sphinx.yml/badge.svg)](https://github.com/IQSS/dataverse/actions/workflows/guides_build_sphinx.yml)
+### Prerequisite
 
-[dataverse.org]: https://dataverse.org
-[demo.dataverse.org]: https://demo.dataverse.org
-[Dataverse community]: https://dataverse.org/developers
-[Installation Guide]: http://guides.dataverse.org/en/latest/installation/index.html
-[latest release]: https://github.com/IQSS/dataverse/releases
-[features]: https://dataverse.org/software-features
-[roadmap]: https://www.iq.harvard.edu/roadmap-dataverse-project
-[integrations]: https://dataverse.org/integrations
-[REST APIs]: http://guides.dataverse.org/en/latest/api/index.html
-[Contributing Guide]: CONTRIBUTING.md
-[mailing list]: https://groups.google.com/group/dataverse-community
-[community call]: https://dataverse.org/community-calls
-[chat.dataverse.org]: http://chat.dataverse.org
-[Dataverse Community Meeting]: https://dataverse.org/events
-[open source]: LICENSE.md
+* 64bit JDK 1.8+
+
+* Maven 3.2.x
+
+### How to Build
+
+```
+mvn clean install -DskipTests
+```
+
+### Run Command Line
+
+#### Help
+
+> Print Help in Command Line
+
+```shell
+java -jar example/target/dledger-example.jar
+```
+
+#### Appender
+
+**A high-available, high-durable, strong-consistent, append-only log store.**
+
+> Start a Standalone Appender Server
+
+```shell
+java -jar example/target/dledger-example.jar appender
+```
+
+> Append Data to Appender
+
+```shell
+java -jar example/target/dledger-example.jar append -d "Hello World"
+```
+After this command, you have appended a log which contains "Hello World" to the appender.
+
+> Get Data from Appender
+
+```shell
+java -jar example/target/dledger-example.jar get -i 0
+```
+After this command, you have got the log which contains "Hello World" from the appender.
+
+#### RegisterModel
+
+**A simple multi-register model**
+
+> Start a Standalone RegisterModel Server
+
+```shell
+java -jar example/target/dledger-example.jar register
+```
+
+> Write Value for a Key
+
+```shell
+java -jar example/target/dledger-example.jar write -k 13 -v 31
+```
+
+After this command, you have written a key-value pair which is <13, 31> to the register model.
+
+> Read Value for a Key
+
+```shell
+java -jar example/target/dledger-example.jar read -k 13
+```
+
+After this command, you have read the value 31 for the key 13 from the register model.
+
+## Contributing
+We always welcome new contributions, whether for trivial cleanups, big new features. We are always interested in adding new contributors. What we look for are series of contributions, good taste and ongoing interest in the project. If you are interested in becoming a committer, please let one of the existing committers know and they can help you walk through the process.
+
+## License
+[Apache License, Version 2.0](https://github.com/openmessaging/openmessaging-storage-dledger/blob/master/LICENSE) Copyright (C) Apache Software Foundation
+ 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopenmessaging%2Fopenmessaging-storage-dledger.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopenmessaging%2Fopenmessaging-storage-dledger?ref=badge_large)
+
+
+
+
+
+
+
+
+
+
+
+

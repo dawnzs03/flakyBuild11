@@ -1,2 +1,0 @@
-valid-hash  data/valid-file.txt
-invalid
