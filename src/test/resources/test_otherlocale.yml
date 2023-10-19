@@ -1,7 +1,0 @@
-test_otherlocale:
-  faker:
-    unique:
-      first-same-locale-value:
-      - "theSameValue"
-      second-same-locale-value:
-      - "theSameValue"

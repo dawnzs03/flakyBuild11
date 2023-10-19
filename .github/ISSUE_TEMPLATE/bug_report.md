@@ -1,25 +1,55 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Did you encounter something unexpected or incorrect in the Dataverse software?
+  We'd like to hear about it!
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+<!--
+Thank you for contributing to the Dataverse Project through the creation of a bug report!
 
-**To Reproduce**
-Code to reproduce
+WARNING: If this is a security issue it should be reported privately to security@dataverse.org
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+More information on bug issues and contributions can be found in the "Contributing to Dataverse" page:
+https://github.com/IQSS/dataverse/blob/develop/CONTRIBUTING.md#bug-reportsissues
 
-**Versions:**
- - OS: [e.g. OSX]
- - JDK
- - Faker Version [e.g. 22]
+Please fill out as much of the template as you can.
+Start below this comment section.
+-->
+**What steps does it take to reproduce the issue?**
 
-**Additional context**
-Add any other context about the problem here.
+* When does this issue occur?
+
+
+* Which page(s) does it occurs on?
+
+
+* What happens?
+
+
+* To whom does it occur (all users, curators, superusers)?
+
+
+* What did you expect to happen?
+
+
+
+**Which version of Dataverse are you using?**
+
+
+
+**Any related open or closed issues to this bug report?**
+
+
+
+**Screenshots:**
+
+No matter the issue, screenshots are always welcome.
+
+To add a screenshot, please use one of the following formats and/or methods described here:
+
+* https://help.github.com/en/articles/file-attachments-on-issues-and-pull-requests
+*
