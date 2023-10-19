@@ -1,21 +1,24 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Request for a new feature to Flow
 title: ''
-labels: feature request
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-<!-- A clear and concise description of what the problem is. For example, I am trying to find the biggest component in the graph. [...] -->
+### Describe your motivation
 
-**Describe the solution you would like**
-<!-- A clear and concise description of what you want to happen.
-For example, which algorithm solves your problem? -->
+A concise description of why you are proposing a change. For example, you would like a new feature to solve a use-case, or you want an existing feature changed because it is difficult to use.
 
-**Describe alternatives you have considered**
-<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+### Describe the solution you'd like
 
-**Additional context**
-<!-- Add any other context, papers, links, previous posts in the community forum or screenshots about the feature request here. -->
+Provide a clear and concise description of what you want to happen.
+
+### Describe alternatives you've considered
+
+Provide information about other solutions you've tried or researched.
+
+### Additional context
+
+Is there anything else you can add about the proposal?

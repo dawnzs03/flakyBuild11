@@ -1,6 +1,0 @@
-
-include::partial$/machine-learning/training-methods/gradient-descent-common-config.adoc[]
-
-include::partial$/machine-learning/training-methods/penalty-common-config.adoc[]
-
-include::partial$/machine-learning/training-methods/focus-weight-common-config.adoc[]

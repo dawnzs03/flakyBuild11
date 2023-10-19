@@ -1,4 +1,0 @@
-[.beta-symbol]
-[.tier-note]
-This feature is in the beta tier.
-For more information on feature tiers, see xref:introduction.adoc#introduction-tiers[API Tiers].

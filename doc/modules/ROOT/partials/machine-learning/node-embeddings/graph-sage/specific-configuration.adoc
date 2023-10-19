@@ -1,1 +1,0 @@
-| batchSize            | Integer       | 100       | yes      | The number of nodes per batch.
