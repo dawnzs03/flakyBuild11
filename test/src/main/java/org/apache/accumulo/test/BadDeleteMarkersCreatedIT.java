@@ -20,6 +20,7 @@ package org.apache.accumulo.test;
 
 import static org.apache.accumulo.core.util.UtilWaitThread.sleepUninterruptibly;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Duration;
@@ -47,7 +48,6 @@ import org.apache.accumulo.core.security.Authorizations;
 import org.apache.accumulo.harness.AccumuloClusterHarness;
 import org.apache.accumulo.minicluster.ServerType;
 import org.apache.accumulo.miniclusterImpl.MiniAccumuloConfigImpl;
-import org.apache.accumulo.test.util.Wait;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.junit.jupiter.api.AfterEach;
@@ -76,7 +76,13 @@ public class BadDeleteMarkersCreatedIT extends AccumuloClusterHarness {
 
   @BeforeEach
   public void getTimeoutFactor() {
-    timeoutFactor = Wait.getTimeoutFactor(e -> 1);
+    try {
+      timeoutFactor = Integer.parseInt(System.getProperty("timeout.factor"));
+    } catch (NumberFormatException e) {
+      log.warn("Could not parse integer from timeout.factor");
+    }
+
+    assertTrue(timeoutFactor >= 1, "timeout.factor must be greater than or equal to 1");
   }
 
   private String gcCycleDelay, gcCycleStart;
