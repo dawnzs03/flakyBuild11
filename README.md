@@ -1,115 +1,61 @@
-<!--
+# Signal Android 
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+Signal is a simple, powerful, and secure messenger.
 
-      https://www.apache.org/licenses/LICENSE-2.0
+Signal uses your phone's data connection (WiFi/3G/4G/5G) to communicate securely. Millions of people use Signal every day for free and instantaneous communication anywhere in the world. Send and receive high-fidelity messages, participate in HD voice/video calls, and explore a growing set of new features that help you stay connected. Signal’s advanced privacy-preserving technology is always enabled, so you can focus on sharing the moments that matter with the people who matter to you.
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+Currently available on the Play Store and [signal.org](https://signal.org/android/apk/).
 
--->
+<a href='https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
 
-[![Apache Accumulo][logo]][accumulo]
---
-[![Build Status][ti]][tl] [![Maven Central][mi]][ml] [![Javadoc][ji]][jl] [![Apache License][li]][ll]
+## Contributing Bug reports
+We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
-[Apache Accumulo][accumulo] is a sorted, distributed key/value store that provides robust,
-scalable data storage and retrieval. With Apache Accumulo, users can store and manage large
-data sets across a cluster. Accumulo uses [Apache Hadoop]'s HDFS to store its data and
-[Apache Zookeeper] for consensus.
+https://github.com/signalapp/Signal-Android/issues
 
-Download the latest version of Apache Accumulo on the [project website][dl].
+## Joining the Beta
+Want to live life on the bleeding edge and help out with testing?
 
-## Getting Started
+You can subscribe to Signal Android Beta releases here:
+https://play.google.com/apps/testing/org.thoughtcrime.securesms
 
-* Follow the [quick start] to install and run Accumulo
-* Read the [Accumulo documentation][docs]
-* Run the [Accumulo examples][examples] to learn how to write Accumulo clients
-* View the [Javadocs][javadocs] to learn the [Accumulo API][api]
+If you're interested in a life of peace and tranquility, stick with the standard releases.
 
-More resources can be found on the [project website][accumulo].
+## Contributing Code
 
-## Building
+If you're new to the Signal codebase, we recommend going through our issues and picking out a simple bug to fix (check the "easy" label in our issues) in order to get yourself familiar. Also please have a look at the [CONTRIBUTING.md](https://github.com/signalapp/Signal-Android/blob/main/CONTRIBUTING.md), that might answer some of your questions.
 
-Accumulo uses [Maven] to compile, [test], and package its source. The following
-command will build the binary tar.gz from source. Add `-DskipTests` to build without
-waiting for the tests to run.
+For larger changes and feature ideas, we ask that you propose it on the [unofficial Community Forum](https://community.signalusers.org) for a high-level discussion with the wider community before implementation.
 
-    mvn package
+## Contributing Ideas
+Have something you want to say about Signal projects or want to be part of the conversation? Get involved in the [community forum](https://community.signalusers.org).
 
-This command produces `assemble/target/accumulo-<version>-bin.tar.gz`
+Help
+====
+## Support
+For troubleshooting and questions, please visit our support center!
 
-## Contributing
+https://support.signal.org/
 
-Contributions are welcome to all Apache Accumulo repositories.
+## Documentation
+Looking for documentation? Check out the wiki!
 
-If you want to contribute, read [our guide on our website][contribute].
+https://github.com/signalapp/Signal-Android/wiki
 
-## Export Control
+# Legal things
+## Cryptography Notice
 
-<details>
-<summary>Click here to show/hide details</summary>
+This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
+BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted.
+See <http://www.wassenaar.org/> for more information.
 
----
+The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms.
+The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.
 
-This distribution includes cryptographic software. The country in which you
-currently reside may have restrictions on the import, possession, use, and/or
-re-export to another country, of encryption software. BEFORE using any
-encryption software, please check your country's laws, regulations and
-policies concerning the import, possession, or use, and re-export of encryption
-software, to see if this is permitted. See <https://www.wassenaar.org/> for more
-information.
+## License
 
-The U.S. Government Department of Commerce, Bureau of Industry and Security
-(BIS), has classified this software as Export Commodity Control Number (ECCN)
-5D002.C.1, which includes information security software using or performing
-cryptographic functions with asymmetric algorithms. The form and manner of this
-Apache Software Foundation distribution makes it eligible for export under the
-License Exception ENC Technology Software Unrestricted (TSU) exception (see the
-BIS Export Administration Regulations, Section 740.13) for both object code and
-source code.
+Copyright 2013-2023 Signal
 
-The following provides more details on the included cryptographic software:
+Licensed under the GNU AGPLv3: https://www.gnu.org/licenses/agpl-3.0.html
 
-Apache Accumulo uses the built-in java cryptography libraries in its RFile
-encryption implementation. See [oracle's export-regulations doc][java-export]
-for more details for on Java's cryptography features. Apache Accumulo also uses
-the bouncycastle library for some cryptographic technology as well. See
-[the BouncyCastle site][bouncy-site] for
-more details on bouncycastle's cryptography features.
-
-</details>
-
-[api]: https://accumulo.apache.org/api
-[accumulo]: https://accumulo.apache.org
-[logo]: contrib/accumulo-logo.png
-[quick start]: https://accumulo.apache.org/docs/2.x/getting-started/quickstart
-[test]: TESTING.md
-[Apache Hadoop]: https://hadoop.apache.org
-[Apache Zookeeper]: https://zookeeper.apache.org
-[Maven]: https://maven.apache.org
-[docs]: https://accumulo.apache.org/latest/accumulo_user_manual
-[examples]: https://github.com/apache/accumulo-examples
-[javadocs]: https://accumulo.apache.org/latest/apidocs
-[li]: https://img.shields.io/badge/license-ASL-blue.svg
-[ll]: https://www.apache.org/licenses/LICENSE-2.0
-[mi]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-core/badge.svg
-[ml]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-core/
-[ji]: https://www.javadoc.io/badge/org.apache.accumulo/accumulo-core.svg
-[jl]: https://www.javadoc.io/doc/org.apache.accumulo/accumulo-core
-[ti]: https://github.com/apache/accumulo/workflows/QA/badge.svg
-[tl]: https://github.com/apache/accumulo/actions
-[java-export]: https://www.oracle.com/us/products/export/export-regulations-345813.html
-[bouncy-site]: https://bouncycastle.org
-[dl]: https://accumulo.apache.org/downloads
-[contribute]: https://accumulo.apache.org/how-to-contribute
+Google Play and the Google Play logo are trademarks of Google LLC.
