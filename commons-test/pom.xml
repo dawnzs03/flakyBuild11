@@ -24,13 +24,11 @@
          <artifactId>jboss-logging</artifactId>
          <scope>provided</scope>
       </dependency>
-
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
          <scope>provided</scope>
       </dependency>
-
       <dependency>
          <groupId>org.testng</groupId>
          <artifactId>testng</artifactId>

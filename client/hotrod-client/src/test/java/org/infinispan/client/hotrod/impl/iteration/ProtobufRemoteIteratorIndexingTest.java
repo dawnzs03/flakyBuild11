@@ -1,9 +1,5 @@
 package org.infinispan.client.hotrod.impl.iteration;
 
-import static org.infinispan.client.hotrod.impl.iteration.Util.assertForAll;
-import static org.infinispan.client.hotrod.impl.iteration.Util.extractEntries;
-import static org.infinispan.client.hotrod.impl.iteration.Util.extractKeys;
-import static org.infinispan.client.hotrod.impl.iteration.Util.populateCache;
 import static org.infinispan.configuration.cache.IndexStorage.LOCAL_HEAP;
 import static org.infinispan.server.hotrod.test.HotRodTestingUtil.hotRodCacheConfiguration;
 import static org.testng.Assert.assertEquals;
@@ -30,7 +26,7 @@ import org.testng.annotations.Test;
  * @since 9.1
  */
 @Test(groups = "functional", testName = "client.hotrod.iteration.ProtobufRemoteIteratorIndexingTest")
-public class ProtobufRemoteIteratorIndexingTest extends MultiHotRodServersTest {
+public class ProtobufRemoteIteratorIndexingTest extends MultiHotRodServersTest implements AbstractRemoteIteratorTest {
 
    private static final int NUM_NODES = 2;
    private static final int CACHE_SIZE = 10;
@@ -53,7 +49,7 @@ public class ProtobufRemoteIteratorIndexingTest extends MultiHotRodServersTest {
    public void testSimpleIteration() {
       RemoteCache<Integer, AccountPB> cache = clients.get(0).getCache();
 
-      populateCache(CACHE_SIZE, Util::newAccountPB, cache);
+      populateCache(CACHE_SIZE, this::newAccountPB, cache);
 
       List<AccountPB> results = new ArrayList<>();
       cache.retrieveEntries(null, null, CACHE_SIZE).forEachRemaining(e -> results.add((AccountPB) e.getValue()));
@@ -63,7 +59,7 @@ public class ProtobufRemoteIteratorIndexingTest extends MultiHotRodServersTest {
 
    public void testFilteredIterationWithQuery() {
       RemoteCache<Integer, AccountPB> remoteCache = clients.get(0).getCache();
-      populateCache(CACHE_SIZE, Util::newAccountPB, remoteCache);
+      populateCache(CACHE_SIZE, this::newAccountPB, remoteCache);
       QueryFactory queryFactory = Search.getQueryFactory(remoteCache);
 
       int lowerId = 5;
