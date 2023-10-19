@@ -1,0 +1,19 @@
+name: Reusable - Markdown lint check
+
+on:
+  push:
+    branches: [ opentelemetry-java-instrumentation ]
+
+
+jobs:
+  markdown-lint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mardkdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Run markdownlint
+        run: |
+          markdownlint -c .markdownlint.yml -p .gitignore **/*.md -i licenses/licenses.md

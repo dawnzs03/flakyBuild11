@@ -1,1 +1,0 @@
-'longStrings' if len(payload) > 5 else 'shortStrings'

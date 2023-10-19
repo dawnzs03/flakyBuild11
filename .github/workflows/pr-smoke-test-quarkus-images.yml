@@ -1,0 +1,18 @@
+name: PR build Quarkus images for smoke tests
+
+on:
+  push:
+    branches: [ opentelemetry-java-instrumentation ]
+
+
+
+
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-smoke-test-images.yml
+    with:
+      project: ":smoke-tests:images:quarkus"
+      cache-read-only: true
+      # Quarkus 2.0+ does not support Java 8
+      skip-java-8: true

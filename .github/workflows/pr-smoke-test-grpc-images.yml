@@ -1,0 +1,16 @@
+name: PR build gRPC images for smoke tests
+
+on:
+  push:
+    branches: [ opentelemetry-java-instrumentation ]
+
+
+
+
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-smoke-test-images.yml
+    with:
+      project: ":smoke-tests:images:grpc"
+      cache-read-only: true

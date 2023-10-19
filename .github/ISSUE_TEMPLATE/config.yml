@@ -1,5 +1,10 @@
-blank_issues_enabled: false
 contact_links:
-  - name: Community Support
-    url: https://stackoverflow.com/questions/tagged/spring-integration
-    about: Please ask and answer questions on StackOverflow with the tag spring-integration
+  - name: GitHib Discussions
+    url: https://github.com/open-telemetry/opentelemetry-java-instrumentation/discussions/new/choose
+    about: Please ask questions here.
+  - name: StackOverflow
+    url: https://stackoverflow.com/questions/ask?tags=open-telemetry+java
+    about: Or on StackOverflow.
+  - name: Slack
+    url: https://cloud-native.slack.com/archives/C014L2KCTE3
+    about: Or the `#otel-java` channel in the CNCF Slack instance.

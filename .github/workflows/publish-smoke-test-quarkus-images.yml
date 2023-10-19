@@ -1,0 +1,29 @@
+name: Publish Quarkus images for smoke tests
+
+on:
+  push:
+    branches: [ opentelemetry-java-instrumentation ]
+
+
+
+
+
+
+
+
+jobs:
+  publish:
+    uses: ./.github/workflows/reusable-smoke-test-images.yml
+    with:
+      project: ":smoke-tests:images:quarkus"
+      publish: true
+      # Quarkus 2.0+ does not support Java 8
+      skip-java-8: true
+
+  workflow-notification:
+    needs:
+      - publish
+    if: always()
+    uses: ./.github/workflows/reusable-workflow-notification.yml
+    with:
+      success: ${{ needs.publish.result == 'success' }}
