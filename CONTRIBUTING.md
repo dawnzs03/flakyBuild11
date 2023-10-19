@@ -1,230 +1,115 @@
-Azure SDK for Java Contributing Guide
--------------------------------------
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
 
-Thank you for your interest in contributing to Azure SDK for Java.
+        http://www.apache.org/licenses/LICENSE-2.0
 
-- For reporting bugs, requesting features, or asking for support, please file an issue in the [issues](https://github.com/Azure/azure-sdk-for-java/issues) section of the project.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ -->
 
-- If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](https://opensource.microsoft.com/collaborate).
+# Contributing to Lucene Guide
 
-- To make code changes, or contribute something new, please follow the [GitHub Forks / Pull requests model](https://help.github.com/articles/fork-a-repo/): Fork the repo, make the change and propose it back by submitting a pull request.
+## Working with Code
 
-- Refer to the [wiki](https://github.com/Azure/azure-sdk-for-java/wiki/Building#testing-for-spotbugs-and-checkstyle-issues) to learn about how Azure SDK for java generates CheckStyle, SpotBugs, Jacoco, and JavaDoc reports.
+### Getting the source code
 
-- There are two Maven projects in the repo. Refer to the [wiki](https://github.com/Azure/azure-sdk-for-java/wiki/Building#pomclientxml-vs-pomdataxml) to learn about project structure for each.
+First of all, you need the Lucene source code.
 
-Pull Requests
--------------
+Get the source code using: `git clone https://github.com/apache/lucene`
 
-* **DO** submit all code changes via pull requests (PRs) rather than through a direct commit. PRs will be reviewed and potentially merged by the repo maintainers after a peer review that includes at least one maintainer.
-* **DO NOT** submit "work in progress" PRs.  A PR should only be submitted when it is considered ready for review and subsequent merging by the contributor.
-* **DO** give PRs short-but-descriptive names (e.g. "Improve code coverage for Azure.Core by 10%", not "Fix #1234")
-* **DO** refer to any relevant issues, and include [keywords](https://help.github.com/articles/closing-issues-via-commit-messages/) that automatically close issues when the PR is merged.
-* **DO** tag any users that should know about and/or review the change.
-* **DO** ensure each commit successfully builds.  The entire PR must pass all tests in the Continuous Integration (CI) system before it'll be merged.
-* **DO** address PR feedback in an additional commit(s) rather than amending the existing commits, and only rebase/squash them when necessary.  This makes it easier for reviewers to track changes.
-* **DO** assume that ["Squash and Merge"](https://github.com/blog/2141-squash-your-commits) will be used to merge your commit unless you request otherwise in the PR.
-* **DO NOT** fix merge conflicts using a merge commit. Prefer `git rebase`.
-* **DO NOT** mix independent, unrelated changes in one PR. Separate real product/test code changes from larger code formatting/dead code removal changes. Separate unrelated fixes into separate PRs, especially if they are in different assemblies.
+### Notes for required Java version
 
-Merging Pull Requests (for project contributors with write access)
-----------------------------------------------------------
+Be sure that you are using an appropriate version of the JDK. Please check [README](./README.md) for the required JDK version for current main branch.
 
-* **DO** use ["Squash and Merge"](https://github.com/blog/2141-squash-your-commits) by default for individual contributions unless requested by the PR author.
-  Do so, even if the PR contains only one commit. It creates a simpler history than "Create a Merge Commit".
-  Reasons that PR authors may request "Merge and Commit" may include (but are not limited to):
+### Building with Gradle
 
-  - The change is easier to understand as a series of focused commits. Each commit in the series must be buildable so as not to break `git bisect`.
-  - Contributor is using an e-mail address other than the primary GitHub address and wants that preserved in the history. Contributor must be willing to squash
-    the commits manually before acceptance.
+Lucene uses [Gradle](https://gradle.org/) for build control. Gradle is itself Java-based and may be incompatible with newer Java versions; you can still build and test Lucene with these Java releases, see [jvms.txt](./help/jvms.txt) for more information.
 
+NOTE: DO NOT use the `gradle` command that is perhaps installed on your machine. This may result in using a different gradle version than the project requires and this is known to lead to very cryptic errors. The "gradle wrapper" (gradlew script) does everything required to build the project from scratch: it downloads the correct version of gradle, sets up sane local configurations and is tested on multiple environments.
 
+The first time you run gradlew, it will create a file "gradle.properties" that contains machine-specific settings. Normally you can use this file as-is, but it can be modified if necessary.
 
-## Developer Guide
+Type `./gradlew helpWorkflow` to show typical workflow tasks ([help/workflow.txt](./help/workflow.txt)).
 
-### Pre-requisites
+Also run `./gradlew help`, this will print a list of help guides that introduce and explain
+various parts of the build system, including typical workflow tasks.
 
-- Install Java Development Kit 8 or 11
-  - add `JAVA_HOME` to environment variables
-- Install [Maven](https://maven.apache.org/download.cgi)
-  - add `MAVEN_HOME` to environment variables
+### Code formatting and checks
 
->**Note:** If you ran into "long path" issue on `Windows`, enable paths longer than 260 characters by: <br><br>
-1.- Run this as Administrator on a command prompt:<br> 
-`REG ADD HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1`<br>*(might need to type `yes` to override key if it already exists)*<br><br>
-2.- Set up `git` by running:<br> `git config --system core.longpaths true`
+If you've modified any sources, run `./gradlew tidy` to apply code formatting conventions automatically (see [help/formatting.txt](https://github.com/apache/lucene/blob/main/help/formatting.txt)).
 
-### Building and Unit Testing
+Please make sure that all unit tests and validations succeed before constructing your patch: `./gradlew check`. This will assemble Lucene and run all validation tasks (including tests). There are various commands to check the code; type `./gradlew helpTest` for more information ([help/tests.txt](./help/tests.txt)).
 
-Refer to the [build wiki](https://github.com/Azure/azure-sdk-for-java/wiki/Building) for learning how to build Java SDKs
-and the [unit testing wiki](https://github.com/Azure/azure-sdk-for-java/wiki/Unit-Testing) for guidelines on unit 
-testing.
+In case your contribution fixes a bug, please create a new test case that fails before your fix, to show the presence of the bug and ensure it never re-occurs. A test case showing the presence of a bug is also a good contribution by itself.
 
-### Live testing
+### IDE support
 
-Live tests assume a live resource has been created and appropriate environment
-variables have been set for the test process. To automate setting up live
-resources we use created a script called `New-TestResources.ps1` that deploys
-resources for a given service.
+- *IntelliJ* - IntelliJ idea can import and build gradle-based projects out of the box.
+- *Eclipse*  - Basic support ([help/IDEs.txt](https://github.com/apache/lucene/blob/main/help/IDEs.txt#L7)).
+- *Netbeans* - Not tested.
 
-To see what resources will be deployed for a live service, check the
-`test-resources.json` ARM template files in the service you wish to deploy for
-testing, for example `sdk\keyvault\test-resources.json`.
+## Benchmarking 
 
-To deploy live resources for testing use the steps documented in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/common/TestResources/New-TestResources.ps1.md#example-1)
-to set up a service principal and deploy live testing resources.
+Use the tool suite at [luceneutil](https://github.com/mikemccand/luceneutil) to benchmark your code changes
+if you think that your change may have measurably changed the performance of a task. Apache Lucene also contains an off the shelf benchmark [module](https://github.com/apache/lucene/tree/main/lucene/benchmark).
 
-The script will provide instructions for setting environment variables before
-running live tests.
+This is the same suite that is run in the [nightly benchmarks](https://home.apache.org/~mikemccand/lucenebench/).
 
-To run live tests against a service after deploying live resources:
+The instructions for running the benchmarks can be found in the luceneutil [README](https://github.com/mikemccand/luceneutil/blob/master/README.md).
 
-```
-mvn -f sdk/keyvault/pom.xml -Dmaven.wagon.http.pool=false --batch-mode --fail-at-end --settings eng/settings.xml test
-```
+The Lucene community is also interested in other implementations of these benchmark tasks.
+Feel free to share your findings (especially if your implementation performs better!) through the [Lucene mailing lists](https://lucene.apache.org/core/discussion.html) or open [PRs](https://github.com/mikemccand/luceneutil/pulls), [issues](https://github.com/mikemccand/luceneutil/issues) on the luceneutil project directly.
 
-Some live tests may have additional steps for setting up live testing resources.
-See the CONTRIBUTING.md file for the service you wish to test for additional
-information or instructions.
+## Contributing your work
 
-### Workaround for Checkstyle error
+You can open a pull request at https://github.com/apache/lucene.
 
-When building locally you might run into a Checkstyle such as the following:
+Please be patient. Committers are busy people too. If no one responds to your patch after a few days, please make friendly reminders. Please incorporate others' suggestions into your patch if you think they're reasonable. Finally, remember that even a patch that is not committed is useful to the community.
 
-```
-Execution default of goal org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:check failed:
-Plugin org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0 or one of its dependencies could not be resolved: 
-Could not find artifact com.azure:sdk-build-tools:jar:1.0.0 in ossrh (https://oss.sonatype.org/content/repositories/snapshots/)
-```
+### Opening a pull request
 
-This is because the `sdk-build-tools` project isn't released to Maven. To resolve this issue you'll need to copy the `eng` folder locally then install `sdk-build-tools`.
+Please refer to [GitHub's documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests) for an explanation of how to create a pull request.
 
-`mvn clean install -f eng/code-quality-reports/pom.xml`
+You should open a pull request against the `main` branch. Committers will backport it to the maintenance branches once the change is merged into `main` (as far as it is possible).
 
-All code in the Azure SDKs for Java repository must pass Checkstyle before being merged. The `sdk-build-tools` is updated periodically, so if a new branch fails Checkstyle you'll need to reinstall.
+### Creating a patch
 
-## Versions and versioning
+Note that you do not need to create a patch if you already opened a pull request.
 
-Tooling has been introduced to centralize versioning and help ease the pain of updating artifact versions in POM and README files. Under the eng\versioning directory there exists version text files, one for client ([version_client.txt](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/version_client.txt)) and one for data ([version_data.txt](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/version_data.txt)). The format of the version files is as follows:
+Patches should be attached to an issue. Since GitHub does not accept attachments with extension `.patch`, please rename your patch file `XXX.patch` to `XXX.patch.txt` or something like that.
 
-`groupId:artifactId;dependency-version;current-version`
+Please refer to [git diff documentation](https://git-scm.com/docs/git-diff) for information of how to create a patch.
 
-The dependency-version should be set to the most recent released version and the current-version is set to the next version to be released. For example:
+Before creating your patch, you may want to get 'main' up to date with the latest from upstream. This will help avoid the possibility of others finding merge conflicts when applying your patch. This can be done with git pull if main is the current branch.
 
-`com.azure:azure-identity;1.0.0-beta.4;1.0.0-beta.5`
+### Add a CHANGES entry
 
-Note: In the case of a new artifact both versions will be the same. In the case of a released artifact, the dependecny version should be the latest released version.
+You may want to add a CHANGES entry to [CHANGES.txt](./lucene/CHANGES.txt). A CHANGES entry should start with the issue or pull request number `GITHUB#XXX` that is followed by the description of the change and contributors' name. Please see the existing entries for reference.
 
-### Libraries vs External Dependencies
+## Stay involved
 
-Libraries refer to things that are built and released as part of the Azure SDK. Libraries have a current version and a dependency version.
+Contributors should join the [Lucene mailing lists](https://lucene.apache.org/core/discussion.html). In particular, the commit list (to see changes as they are made), the dev list (to join discussions of changes) and the user list (to help others).
 
-External Dependencies refer to dependencies for things that are not built and released as part of the Azure SDK regardless of the source. External Dependencies will only ever have a dependency version.
+Please keep discussions about Lucene on list so that everyone benefits. Emailing individual committers with questions about specific Lucene issues is discouraged. See http://people.apache.org/~hossman/#private_q.
 
-### Current version, Dependency version, Unreleased Dependency version and Released Beta Dependency version
+## Getting your feet wet: where to begin?
 
-**Current version** - This is the version we should be using when defining a component in its POM file and also when dependent components are built within the same pipeline. The current version is the version currently in development.
+New to Lucene? Want to find issues that you can work on without taking on the whole world?
 
-**Dependency version** - This is the version we should be using when a given library is a dependency outside of a particular area. This should be the latest released version of the package whenever possible.
+The rough criteria for picking your first issues are:
 
-**Unreleased Dependency version** – Whenever possible, libraries should be using the latest released version for dependencies but there is the case where active development in one library is going to be needed by another library or libraries that are built in separate pipelines. These types of changes are specifically additive and not breaking. Once a library has GA’d, nothing short of breaking changes should ever force the dependency versions across the repo to an unreleased version. The reason for this is that it would prevent other libraries, that don’t need this change, from releasing. Unreleased dependcies of scope test will not prevent a library from being released.
+- Nobody has done any work on the issue yet.
+- The issue is likely not controversial.
+- The issue is likely self-contained with limited scope.
 
-**Released Beta Dependency version** – This is for when a library, which has already GA'd, is being released as a Beta version and we need to keep the dependency version to the latest GA. This particular tag will be used to allow other libraries to depend on the released Beta version. Libraries with released Beta dependencies can only be released as Beta, themselves, as a library cannot GA with Beta dependencies. An exception to the previous rule would be if the Beta dependency has a scope of test as this will not prevent a library from being released as GA.
+## Developer tips
 
-**An example of Current vs Dependency versions:** `com.azure:azure-storage-blob-batch` has dependencies on `com.azure:azure-core`, `com.azure:azure-core-http-netty` and `com.azure:azure-storage-blob`. Because `com.azure:azure-core` and `com.azure:azure-core-http-netty` are both built outside of azure-storage pipeline we should be using the released or *Dependency* versions of these when they're dependencies of another library. Similarly, libraries built as part of the same pipeline, that have interdependencies, should be using the Current version. Since `com.azure:azure-storage-blob-batch` and `com.azure:azure-storage-blob` are both built part of the azure-batch pipeline when `com.azure:azure-storage-blob` is declared as a dependency of `com.azure:azure-storage-blob-batch` it should be the *Current* version.
-
-**An example of an Unreleased Dependency version:** Additive, not breaking, API changes have been made to `com.azure:azure-core`. `com.azure:azure-storage-blob` has a dependency on `com.azure:azure-core` and requires the additive API change that has not yet been released. An unreleased entry needs to be created in [version_client.txt](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/version_client.txt), under the unreleased section, with the following format: `unreleased_<groupId>:<artifactId>;dependency-version`, in this example that would be `unreleased_com.azure:azure-core;1.2.0` (this should match the 'current' version of core). The dependency update tags in the pom files that required this dependency would now reference `{x-version-update;unreleased_com.azure:azure-core;dependency}`. Once the updated library has been released the unreleased dependency version should be removed and the POM file update tags should be referencing the released version.
-
-### Tooling, version files and marker tags
-
-All of the tooling lives under the **eng\versioning** directory.
-
-- version_client.txt - Contains the Client library and versions
-- version_data.txt - Contains Data library and versions
-- external_dependencies.txt - Contains the external dependency versions
-- update_versions.py - This is just a basic python script that will climb through the source tree and update POM and README files. The script utilizes tags within the files to do replacements and the tags are slightly different between the POM and README files.
-- set_versions.py - This script should only be used by the build system when we start producing nightly ops builds.
-
-In POM files this is done by inserting a specifically formatted comment on the same line as the version element.
-
-```xml
-  <groupId>MyGroup</groupId>
-  <artifactId>MyArtifact</artifactId>
-  <version>1.0.0-beta.1</version> <!-- {x-version-update;MyGroup:MyArtifact;[current|dependency]} -->
-```
-
-The last element of the tag would be current or dependency depending on the criteria previously explained.
-
-In README files this ends up being slightly different. Because the version tag is inside an XML element that we're explicitly telling a user to copy/paste into their product the comment tag really didn't make sense here. Instead there are tags before and after the XML element tags which effectively says "there's a version somewhere in between these two tags, when you find the line that matches replace it with the appropriate version of the group:artifact defined in the tag."
-
-    [//]: # ({x-version-update-start;MyGroup:MyArtifact;dependency})
-    ```xml
-      <groupId>MyGroup</groupId>
-      <artifactId>MyArtifact</artifactId>
-      <version>1.0.0-beta.1</version>
-    ```
-    [//]: # ({x-version-update-end})
-
-### What does the process look like?
-
-Let's say we've GA'd and I need to tick up the version of azure-storage libraries how would I do it? Guidelines for incrementing versions after release can be found [here](https://github.com/Azure/azure-sdk/blob/main/docs/policies/releases.md#incrementing-after-release).
-
-1. I'd open up eng\versioning\version_client.txt and update the current-versions of the libraries that are built and released as part of the azure storage pipeline. This list can be found in pom.service.xml under the sdk/storage directory. It's worth noting that any module entry starting with "../" are external module dependencies and not something that's released as part of the pipeline. Dependencies for library components outside of a given area would be downloading the appropriate dependency from Maven like we do for external dependencies.
-2. Execute the update_versions python script from the root of the enlistment. The exact syntax and commands will vary based upon what is being changed and some examples can be found in the use cases in the [update_versions.py](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/update_versions.py#L6) file.
-3. Review and submit a PR with the modified files.
-
-### Next steps: Management plane
-
-- Management plane. Management is in the process of being moved to service pipeline builds. The versioning work needs to wait until that work is finished.
-
-### Making changes to an already GA'd library that require other libraries to depend on the unreleased version
-
-This is where the `unreleased_` dependency tags come into play. Using the Unreleased Dependency example above, where `com.azure:azure-storage-blob` has a dependency on an unreleased `com.azure:azure-core`:
-
-- [ ] Make the additive changes to `com.azure:azure-core`
-- [ ] In [version_client.txt](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/version_client.txt) add the entry for the unreleased azure core in the unreleased section at the bottom of the file. The entry would look like `unreleased_com.azure:azure-core;<version>`.
-      Note: The version of the library referenced in the unreleased version tag should match the current version of that library.
-- [ ] In the pom.xml file for `com.azure:azure-storage-blob`, the dependency tag for `com.azure:azure-core` which was originally `{x-version-update;com.azure:azure-core-test;dependency}` would now become `{x-version-update;unreleased_com.azure:azure-core-test;dependency}`
-After the unreleased version of `com.azure:azure-core` was released but before `com.azure:azure-storage-blob` has been released.
-- [ ] In [version_client.txt](https://github.com/Azure/azure-sdk-for-java/blob/main/eng/versioning/version_client.txt) the the dependency version of `com.azure:azure-core` would become the released version and the "unreleased_" entry, at this time, would be removed.
-- [ ] In the pom.xml file for `com.azure:azure-storage-blob`, the dependency tag for `com.azure:azure-core` would get changed back to `{x-version-update;com.azure:azure-core-test;dependency}`
-
-## Packaging Versioning
-
-For general packaging versioning policies see [Package Versioning](https://azure.github.io/azure-sdk/policies_releases.html#package-versioning) and see [Java](https://azure.github.io/azure-sdk/policies_releases.html#java) for specific rules used in this repo.
-
-While some Java projects use SNAPSHOT versions for nightly builds, we have opted not to use that convention because it has proven to be very unreliable in our scenarios. For example, if we use SNAPSHOT versions in our pom.xml files that usually ends up becoming viral throughout our entire repo and we want to more tightly control our versioning, especially our dependency versioning. On top of the viral nature, we have experienced a lot of network reliability issues when consuming SNAPSHOT versions from Maven central so we want to avoid this reliability issue in our build pipelines. 
-
-Given we don't use SNAPSHOT versions in our pom.xml files we generally have the version currently under development committed to the repo in the pom.xml file. This means if you are looking at our active development code for the version you will see a version that is not yet published to Maven central. If you want to try out our packages under development, you should look for our latest alpha build (see Dev Feed section below).
-
-### Dev Feed
-
-Every day our engineering system produces a set of packages for each component of the SDK. These can be used by other projects to test updated builds of our libraries prior to their release. The packages are published to an Azure Artifacts public feed hosted at the following URL:
-
-> [https://dev.azure.com/azure-sdk/public/_packaging?_a=feed&feed=azure-sdk-for-java](https://dev.azure.com/azure-sdk/public/_packaging?_a=feed&feed=azure-sdk-for-java)
-
-For developers working within the repo, refer to the instructions above for updating versions numbers correctly. The parent POM for the Azure SDK already contains a repository reference to the daily feed and can download the packages.
-
-For developers wishing to use the daily packages for other purposes, refer to the [connect to feed instructions](https://dev.azure.com/azure-sdk/public/_packaging?_a=connect&feed=azure-sdk-for-java) in Azure Artifacts.
-
-Note: the daily package feed is considered volatile and taking dependencies on a daily package should be considered a temporary arrangement. We reserve the right to remove packages from this feed at any point in time.
-
-## Samples
-
-### Third-party dependencies
-
-Third party libraries should only be included in samples when necessary to demonstrate usage of an Azure SDK package; they should not be suggested or endorsed as alternatives to the Azure SDK.
-
-When code samples take dependencies, readers should be able to use the material without significant license burden or research on terms. This goal requires restricting dependencies to certain types of open source or commercial licenses.
-
-Samples may take the following categories of dependencies:
-
-- **Open-source** : Open source offerings that use an [Open Source Initiative (OSI) approved license](https://opensource.org/licenses). Any component whose license isn't OSI-approved is considered a commercial offering. Prefer OSS projects that are members of any of the [OSS foundations that Microsoft is part of](https://opensource.microsoft.com/ecosystem/). Prefer permissive licenses for libraries, like [MIT](https://opensource.org/licenses/MIT) and [Apache 2](https://opensource.org/licenses/Apache-2.0). Copy-left licenses like [GPL](https://opensource.org/licenses/gpl-license) are acceptable for tools, and OSs. [Kubernetes](https://github.com/kubernetes/kubernetes), [Linux](https://github.com/torvalds/linux), and [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) are examples of this license type. Links to open source components should be to where the source is hosted, including any applicable license, such as a GitHub repository (or similar).
-
-- **Commercial**: Commercial offerings that enable readers to learn from our content without unnecessary extra costs. Typically, the offering has some form of a community edition, or a free trial sufficient for its use in content. A commercial license may be a form of dual-license, or tiered license. Links to commercial components should be to the commercial site for the software, even if the source software is hosted publicly on GitHub (or similar).
-
-- **Dual licensed**: Commercial offerings that enable readers to choose either license based on their needs. For example, if the offering has an OSS and commercial license, readers can  choose between them. [MySql](https://github.com/mysql/mysql-server) is an example of this license type.
-
-- **Tiered licensed**: Offerings that enable readers to use the license tier that corresponds to their characteristics. For example, tiers may be available for students, hobbyists, or companies with defined revenue  thresholds. For offerings with tiered licenses, strive to limit our use in tutorials to the features available in the lowest tier. This policy enables the widest audience for the article. [Docker](https://www.docker.com/), [IdentityServer](https://duendesoftware.com/products/identityserver), [ImageSharp](https://sixlabors.com/products/imagesharp/), and [Visual Studio](https://visualstudio.com) are examples of this license type.
-
-In general, we prefer taking dependencies on licensed components in the order of the listed categories. In cases where the category may not be well known, we'll document the category so that readers understand the choice that they're making by using that dependency.
+For more contribution guidelines and tips, see [DeveloperTips](https://cwiki.apache.org/confluence/display/LUCENE/DeveloperTips).

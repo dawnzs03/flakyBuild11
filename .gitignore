@@ -1,121 +1,34 @@
-# Default Assets restore directory
-.assets
+# Gradle.
+# Ignore the generated local settings file.
+/gradle.properties
+.gradle/
+build/
 
-*.class
+# Ignore gradle wrapper jar.
+gradle/wrapper/gradle-wrapper.jar
 
-#Javadoc files
-dist/
-.publish/
-output/
-temp/
+# IntelliJ IDEA
+/.idea/
+#    IntelliJ creates this folder, ignore.
+/dev-tools/missing-doclet/out/
 
-# Spring
-**/*packageOutputDirectory*
+# Eclipse
+/.project
+/.classpath
+/.settings/
 
-# Sensitive files
-*.json.env
+# Eclipse Gradle oddity
+**/bin/default/
 
-#javadoc overview files generated from README.md
-readme_overview.html
-**/javadocTemp/**
-**/sourceTemp/**
+# macOS
+.DS_Store
 
-#External libs
-extlib/
-
-# Auth files
-*.auth
-*.azureauth
-
-# Local checkstyle
-*.checkstyle
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# Azure Tooling #
-node_modules
-packages
+# Python
+.pydevproject
 __pycache__
 
-# Eclipse #
-*.pydevproject
-.project
-.metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
+# Emacs backup
+*~
 
-# Other Tooling #
-.classpath
-.project
-target
-.idea
-*.iml
-
-# Mac OS #
-.DS_Store
-.DS_Store?
-
-# Windows #
-Thumbs.db
-
-# reduced pom files should not be included
-dependency-reduced-pom.xml
-package-lock.json
-
-# VS Code
-.vscode/
-.factorypath
-jacoco.exec
-.vs/
-
-# Generated client pom file
-ClientAggregatePom.xml
-ClientFromSourcePom.xml
-
-# Generated aggregate coverage reports pom file
-aggregate-pom.xml
-
-# Anaconda virtual env
-venv
-.venv
-
-# NetBeans
-nbproject
-nb-configuration.xml
-
-# Scala Stylecheck
-scalastyle-output.xml
-
-# Emacs #
-
-#changebundle.txt#
-
-# Flatten-pom
-.flattened-pom.xml
-flatter.pom
-/.vs/
-
-
-# stress-tests
-Chart.lock
-generatedValues.yaml
-stress-test-resources.json
-stress-test-addons*
-
-# Temp typespec files
-TempTypeSpecFiles/
+# SDKMAN
+.sdkmanrc
