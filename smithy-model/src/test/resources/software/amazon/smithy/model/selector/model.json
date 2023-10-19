@@ -1,0 +1,23 @@
+{
+    "smithy": "2.0",
+    "shapes": {
+        "ns.foo#String": {
+            "type": "string"
+        },
+        "ns.foo#List": {
+            "type": "list",
+            "member": {
+                "target": "ns.foo#String"
+            }
+        },
+        "ns.foo#Map": {
+            "type": "map",
+            "key": {
+                "target": "ns.foo#String"
+            },
+            "value": {
+                "target": "ns.foo#String"
+            }
+        }
+    }
+}

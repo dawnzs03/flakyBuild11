@@ -1,90 +1,80 @@
-# Contributing
+# Contributing Guidelines
 
-Pull requests for bug fixes are always welcome!
+Thank you for your interest in contributing to our project. Whether it's a bug report, new feature, correction, or additional
+documentation, we greatly value feedback and contributions from our community.
 
-Before submitting new features or changes to current functionality, it is recommended to first
-[open an issue](https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/new)
-and discuss your ideas or propose the changes you wish to make.
+Please read through this document before submitting any issues or pull requests to ensure we have all the necessary
+information to effectively respond to your bug report or contribution.
 
-## Building
 
-This project requires Java 17 to build and run tests. Newer JDK's may work, but this version is used in CI.
+## Reporting Bugs/Feature Requests
 
-Some instrumentations and tests may put constraints on which java versions they support.
-See [Running the tests](./docs/contributing/running-tests.md) for more details.
+We welcome you to use the GitHub issue tracker to report bugs or suggest features.
 
-### Snapshot builds
+When filing an issue, please check [existing open](https://github.com/smithy-lang/smithy/issues), or [recently closed](https://github.com/smithy-lang/smithy/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already
+reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
 
-For developers testing code changes before a release is complete, there are
-snapshot builds of the `main` branch. They are available from
-the Sonatype OSS snapshots repository at `https://oss.sonatype.org/content/repositories/snapshots/`
-([browse](https://oss.sonatype.org/content/repositories/snapshots/io/opentelemetry/))
+* A reproducible test case or series of steps
+* Any details of your application environment that may be relevant. At
+  minimum, this should include the __Smithy version__, __JRE version__,
+  and __operating system__.
+* Any modifications you've made relevant to the bug
 
-### Building from source
 
-Build using Java 17:
+## Contributing via Pull Requests
 
-```bash
-java -version
-```
+Contributions via pull requests are much appreciated. Before sending us a pull request, please ensure that:
 
-```bash
-./gradlew assemble
-```
+1. You are working against the latest source on the *main* branch.
+2. You check existing open, and recently merged, pull requests to make sure someone else hasn't addressed the problem already.
+3. You open an issue to discuss any significant work - we would hate for your time to be wasted.
 
-and then you can find the java agent artifact at
+To send us a pull request, please:
 
-`javaagent/build/libs/opentelemetry-javaagent-<version>.jar`.
+1. Fork the repository.
+2. Modify the source; please focus on the specific change you are contributing and
+   refrain from modifying unrelated code or reformatting code.
+3. Follow the same coding style as the rest of the project.
+4. Add new test cases that exercise the change and covers all non-trivial branches.
+5. Ensure that running `./gradlew clean build` completes successfully.
+6. Commit to your fork using clear commit messages by following the guidance at
+   [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
+7. Send us a pull request, answering any default questions in the pull request interface.
+8. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
 
-To simplify local development, you can remove the version number from the build product. This allows
-the file name to stay consistent across versions. To do so, add the following to
-`~/.gradle/gradle.properties`.
+GitHub provides additional documentation on [forking a repository](https://help.github.com/articles/fork-a-repo/)
+and [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
-```properties
-removeJarVersionNumbers=true
-```
 
-## IntelliJ setup and troubleshooting
+## Finding contributions to work on
 
-See [IntelliJ setup and troubleshooting](docs/contributing/intellij-setup-and-troubleshooting.md)
+Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'](https://github.com/smithy-lang/smithy/labels/help%20wanted) issues is a great place to start.
 
-## Style guide
 
-See [Style guide](docs/contributing/style-guideline.md)
+## Testing with AWS SDK code generators
 
-## Running the tests
+> In the past, Smithy changes have been released without integration testing with Smithy-based SDK code generators.
+> In addition, SDK code generators often fall behind in Smithy versions. As a result, we don’t have visibility on code generators’ failures
+> until they are upgraded to the latest smithy version.
 
-See [Running the tests](docs/contributing/running-tests.md)
+The GitHub action `sdk-codegen-ci.yml` builds and test Smithy-based AWS SDKs using the latest Smithy implementation.
 
-## Writing instrumentation
+The GitHub action can be triggered manually via `Run workflow` in the `Actions` tab of the Smithy repo.
+(See [Manually running a workflow](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow) for step-by-step instructions)
 
-See [Writing instrumentation](docs/contributing/writing-instrumentation.md)
 
-## Understanding the javaagent structure
+## Code of Conduct
 
-See [Understanding the javaagent structure](docs/contributing/javaagent-structure.md)
+This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).
+For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact
+opensource-codeofconduct@amazon.com with any additional questions or comments.
 
-## Understanding the javaagent instrumentation testing components
 
-See [Understanding the javaagent instrumentation testing components](docs/contributing/javaagent-test-infra.md)
+## Security issue notifications
 
-## Debugging
+If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public github issue.
 
-See [Debugging](docs/contributing/debugging.md)
 
-## Understanding Muzzle
+## Licensing
 
-See [Understanding Muzzle](docs/contributing/muzzle.md)
-
-## Troubleshooting PR build failures
-
-The build logs are very long and there is a lot of parallelization, so the logs can be hard to
-decipher, but if you scroll to the bottom you should see something like:
-
-```
-Publishing build scan...
-https://gradle.com/s/ila4qwp5lcf5s
-```
-
-Opening the build scan link can sometimes take several seconds (it's a large build), but it
-typically makes it a lot clearer what's failing.
+See the [LICENSE](https://github.com/smithy-lang/smithy/blob/main/LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.

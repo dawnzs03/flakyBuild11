@@ -1,0 +1,11 @@
+{
+    "smithy": "2.0",
+    "metadata": {
+        "validators": [
+            {
+                "name": "StandardOperationVerb",
+                "id": "Pointless"
+            }
+        ]
+    }
+}

@@ -1,0 +1,60 @@
+{
+  "typeName": "Smithy::TestService::Basil",
+  "description": "This is an herb.",
+  "properties": {
+    "BarId": {
+      "type": "string"
+    },
+    "BazExplicitMutableProperty": {
+      "type": "string"
+    },
+    "BazId": {
+      "type": "string"
+    },
+    "BazImplicitCreateProperty": {
+      "type": "string"
+    },
+    "BazImplicitFullyMutableProperty": {
+      "type": "string"
+    },
+    "BazImplicitReadProperty": {
+      "type": "string"
+    },
+    "BazImplicitWriteProperty": {
+      "type": "string"
+    }
+  },
+  "readOnlyProperties": [
+    "/properties/BazId",
+    "/properties/BazImplicitReadProperty"
+  ],
+  "writeOnlyProperties": [
+    "/properties/BazImplicitWriteProperty"
+  ],
+  "createOnlyProperties": [
+    "/properties/BarId",
+    "/properties/BazImplicitCreateProperty"
+  ],
+  "primaryIdentifier": [
+    "/properties/BarId",
+    "/properties/BazId"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": [
+        "testservice:CreateBazOperation"
+      ]
+    },
+    "read": {
+      "permissions": [
+        "testservice:GetBazOperation"
+      ]
+    },
+    "update": {
+      "permissions": [
+        "testservice:UpdateBazOperation"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,2647 +1,1850 @@
-# Changelog
-
-## Unreleased
-
-## Version 1.30.0 (2023-09-14)
-
-### Migration notes
-
-- Experimental HTTP server metrics have been split out from `HttpServerMetrics` into a separate
-  class `HttpServerExperimentalMetrics`
-  ([#9259](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9259))
-- `HttpClientResend` has been renamed to `HttpClientResendCount`, `HttpRouteHolder`
-  has been renamed to `HttpServerRoute`
-  ([#9280](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9280))
-- The previously deprecated `otel.javaagent.experimental.extensions` configuration was removed
-  (it is replaced by `otel.javaagent.extensions`)
-  ([#9378](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9378))
-
-### 🌟 New javaagent instrumentation
-
-- Add instrumentation for hibernate reactive
-  ([#9304](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9304))
-
-### 📈 Enhancements
-
-- Don't log stack trace for expected exceptions in AWS SDK instrumentation
-  ([#9279](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9279))
-- Add support for the AWS Secrets Manager JDBC URLs
-  ([#9335](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9335))
-- More support for upcoming semantic convention changes
-  ([#9346](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9346)
-   [#9345](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9345),
-   [#9320](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9320),
-   [#9355](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9355),
-   [#9381](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9381),
-   [#9441](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9441))
-- Unwrap Runnable in ThreadPoolExecutor before/after methods
-  ([#9326](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9326))
-- Add javaagent to instrumentation bom
-  ([#9026](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9026))
-- Add support for multiple headers in AlternateUrlSchemeProvider
-  ([#9389](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9389))
-- Skip PreparedStatement wrappers
-  ([#9399](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9399))
-- Disable Elasticsearch instrumentation for ES clients 8.10+
-  ([#9337](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9337))
-- Disable elasticsearch-rest-7.0 instrumentation when elasticsearch-java 8.10+ is present
-  ([#9450](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9450))
-- Use attributes advice for HTTP & RPC metrics
-  ([#9440](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9440))
-- Update Messaging semantic conventions to 1.21.0
-  ([#9408](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9408))
-- Add semconv to alpha bom
-  ([#9425](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9425))
-
-### 🛠️ Bug fixes
-
-- Ensure .class files aren't present in the resources library MR jar
-  ([#9245](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9245))
-- Fixed getDefinedPackage lookup for OpenJ9 (8)
-  ([#9272](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9272))
-- Ignore aws sdk v2 presign requests
-  ([#9275](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9275))
-- Add logging timestamp for log4j1 appender instrument
-  ([#9309](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9309))
-- Fix VerifyError with kotlin @WithSpan instrumentation
-  ([#9313](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9313))
-- Fix serializing key to string in Lettuce instrumentation
-  ([#9347](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9347))
-- Auto-instrumentation with JMX not working without a trigger
-  ([#9362](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9362))
-- Return default DbInfo when connection is null
-  ([#9413](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9413))
-- Fix instrumentation for reactor kafka 1.3.21
-  ([#9445](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9445))
-
-## Version 1.29.0 (2023-08-17)
-
-### Migration notes
-
-- `NetClientAttributesExtractor` and `NetServerAttributesExtractor`
-  have been deprecated
-  ([#9165](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9165),
-   [#9156](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9156))
-- `HttpClientAttributesGetter` now extends `NetClientAttributesGetter`
-  and `HttpServerAttributesGetter` extends `NetServerAttributesGetter`
-  ([#9015](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9015),
-   [#9088](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9088))
-- A couple of Spring starter configuration options have been renamed to match Java agent options:
-  - `otel.springboot.httpclients.enabled` -> `otel.instrumentation.spring-webmvc.enabled`
-    or `otel.instrumentation.spring-webmvc.enabled` depending on the underlying http client
-  - `otel.springboot.aspects.enabled` -> `otel.instrumentation.annotations.enabled`
-  ([#8950](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8950))
-- Previously deprecated suppression key `executor` was removed from executors module,
-  the new suppression key is `executors`
-  ([#9064](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9064))
-
-### 🌟 New javaagent instrumentation
-
-- Ktor
-  ([#9149](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9149))
-
-### 🌟 New library instrumentation
-
-- Elasticsearch rest client
-  ([#8911](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8911))
-
-### 📈 Enhancements
-
-- Include OpenTelemetry logging appenders in the Spring Starter
-  ([#8945](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8945))
-- Support RPC metrics under "stable" http semconv opt-in
-  ([#8948](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8948))
-- Support the `http.request.method_original` attribute under "stable" semconv opt-in
-  ([#8779](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8779))
-- Make `server.socket.*` attributes on the HTTP server side opt-in
-  ([#8747](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8747))
-- Fill additional db.* attributes on DataSource#getConnection()
-  ([#8966](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8966))
-- Lettuce instrumentation - optimization to avoid extra toString()
-  ([#8984](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8984))
-- Allow overriding span name in spring web library instrumentation
-  ([#8933](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8933))
-- Implement HTTP resend spec for Reactor Netty (excl CONNECT spans)
-  ([#8111](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8111))
-- Set `process.runtime.jvm.system.cpu.load_1m` metric unit to `{run_queue_item}`
-  ([#8777](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8777))
-- Update elasticsearch instrumentation to work with latest version
-  ([#9066](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9066))
-- Reactor Netty: emit actual HTTP client spans on connection errors
-  ([#9063](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9063))
-- Rename `http.*.duration` to `http.*.request.duration` under "stable" semconv opt-in
-  ([#9089](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9089))
-- Snippet inject support for non-empty head tags
-  ([#8736](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8736))
-- Update network.protocol.version `2.0` -> `2` and `3.0` -> `3`
-  ([#9145](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9145))
-- @WithSpan support for kotlin coroutines
-  ([#8870](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8870))
-
-### 🛠️ Bug fixes
-
-- Fix incompatibility between quarkus resteasy reactive and vertx-web instrumentations
-  ([#8998](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8998))
-- Fix `IllegalArgumentException` in `MetroServerSpanNaming`
-  ([#9075](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9075))
-- Fix rector netty instrumentation under concurrency
-  ([#9081](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9081))
-- Improve grpc cancellation propagation
-  ([#8957](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8957))
-- Add missing timestamp for jboss logmanager instrumentation
-  ([#9159](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9159))
-- Handle kafka `METRIC_REPORTER_CLASSES_CONFIG` being set to a List
-  ([#9155](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9155))
-- Fix NullPointerException with Pulsar and SSL
-  ([#9166](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9166))
-- Netty 4.1: handle closing connection before the request completes
-  ([#9157](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9157))
-- Micrometer bridge: use app's thread context class loader for callbacks into app
-  ([#9000](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9000))
-- Fix context propagation in Executor#execute() for non-capturing lambdas
-  ([#9179](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9179))
-- Ensure reactor netty spans are ended in the order they were started
-  ([#9203](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/9203))
-
-## Version 1.28.0 (2023-07-12)
-
-### Migration notes
-
-- Rename HTTP configuration settings
-  ([#8758](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8758))
-  - `otel.instrumentation.http.capture-headers.client.request`
-    → `otel.instrumentation.http.client.capture-request-headers`
-  - `otel.instrumentation.http.capture-headers.client.response`
-    → `otel.instrumentation.http.client.capture-response-headers`
-  - `otel.instrumentation.http.capture-headers.server.request`
-    → `otel.instrumentation.http.server.capture-request-headers`
-  - `otel.instrumentation.http.capture-headers.server.response`
-    → `otel.instrumentation.http.server.capture-response-headers`
-
-### 📈 Enhancements
-
-- Support latest armeria release
-  ([#8745](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8745))
-- Support latest mongo release
-  ([#8785](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8785))
-- Remove `server.{address,port}` from HTTP server metrics
-  ([#8771](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8771))
-- aws-sdk-2.2.: Support injection into SQS.SendMessageBatch message attributes
-  ([#8798](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8798))
-- Log4j and Logback appenders opt-in to using GlobalOpenTelemetry
-  ([#8791](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8791))
-- aws-sdk-2.2: SNS.Publish support with experimental messaging propagator flag
-  ([#8830](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8830))
-- support for adding baggage to log4j 2 ContextData
-  ([#8810](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8810))
-- Micrometer bridge: interpret no SLO config as no buckets advice
-  ([#8856](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8856))
-- Instrumentation for Elasticsearch 8+
-  ([#8799](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8799))
-- Add support for schemaUrls auto-computed from `AttributesExtrator`s
-  ([#8864](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8864))
-- Initialize appenders in the spring boot starter
-  ([#8888](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8888))
-- Support reactor-netty 1.0.34+
-  ([#8922](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8922))
-- Rename messaging operation "send" to "publish" per spec
-  ([#8929](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8929))
-- Extract query arguments without regex on lettuce 6
-  ([#8932](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8932))
-
-### 🛠️ Bug fixes
-
-- Fix logging timestamp
-  ([#8761](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8761))
-- Minor fixes to the `server.*` attributes extrator
-  ([#8772](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8772))
-- Fix context leak on call to AmazonS3.generatePresignedUrl
-  ([#8815](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8815))
-- Fix exception when pulsar has multiple service addresses
-  ([#8816](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8816))
-- Fix NPE in aws instrumentation on duplicate TracingExecutionInterceptor
-  ([#8896](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8896))
-- (micrometer) don't add . to empty unit with prometheus naming conventions
-  ([#8872](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8872))
-- Set server span name for aborted requests in quarkus resteasy native
-  ([#8891](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8891))
-- Fix instrumentation of Azure SDK EventHubs library
-  ([#8916](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8916))
-- Fix http attributes of AWS SDK V2 instrumentation
-  ([#8931](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8931))
-
-## Version 1.27.0 (2023-06-14)
-
-### Migration notes
-
-- Jersey 3.0 instrumentation suppression keys have changed from `jaxrs-2.0` to `jaxrs-3.0`,
-  and from `jersey-2.0` to `jersey-3.0`
-  ([#8486](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8486))
-- The `opentelemetry-runtime-metrics` artifact has been renamed and split into
-  `opentelemetry-runtime-telemetry-java8` and `opentelemetry-runtime-telemetry-java17`
-  ([#8165](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8165),
-  [#8715](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8715))
-- `InetSocketAddressNetServerAttributesGetter` and `InetSocketAddressNetClientAttributesGetter`
-  have been deprecated
-  ([#8341](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8341),
-  [#8591](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8591))
-- The new HTTP and network semantic conventions can be opted into using either the system
-  property `otel.semconv-stability.opt-in` or the environment variable
-  `OTEL_SEMCONV_STABILITY_OPT_IN`, which support two values:
-  - `http` - emit the new, stable HTTP and networking attributes, and stop emitting the old
-    experimental HTTP and networking attributes that the instrumentation emitted previously.
-  - `http/dup` - emit both the old and the stable HTTP and networking attributes, allowing
-    for a more seamless transition.
-  - The default behavior (in the absence of one of these values) is to continue emitting
-    the same HTTP and network semantic conventions that were emitted in `1.26.0`.
-  - Note: this option will be removed later this year after the new HTTP and network
-    semantic conventions are marked stable, at which time the Java instrumentation version
-    will be bumped from 1.x to 2.0, and the old HTTP and network semantic conventions will
-    no longer be supported.
-
-### 🌟 New javaagent instrumentation
-
-- Quarkus RESTEasy Reactive
-  ([#8487](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8487))
-- Reactor Kafka
-  ([#8439](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8439),
-  [#8529](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8529))
-
-### 📈 Enhancements
-
-- Use histogram advice in the Micrometer bridge
-  ([#8334](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8334))
-- Disable by default gauge-based histograms in the Micrometer bridge
-  ([#8360](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8360))
-- Specify ...jvm.gc.duration buckets using advice API
-  ([#8436](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8436))
-- Make spanKindExtractor configurable in Ktor instrumentations
-  ([#8255](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8255))
-- aws-sdk-2.2: Support non-X-Ray propagation for SQS
-  ([#8405](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8405))
-- Implement HTTP resend spec for OkHttp 3
-  ([#7652](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7652))
-- Use jakarta.servlet.error.exception request attribute on jetty11
-  ([#8503](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8503))
-- Provide spring-boot-autoconfigure configuration metadata
-  ([#8516](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8516))
-- Read AWS lambda tracing info from `com.amazonaws.xray.traceHeader` system property
-  ([#8368](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8368))
-- Skip not decorator check for classes in boot loader
-  ([#8594](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8594))
-- Change context propagation debug failures from error to warn
-  ([#8601](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8601))
-- JavaScript Snippet Injection Support Servlet 5
-  ([#8569](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8569))
-- Faster type matching
-  ([#8525](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8525))
-- Explicitly disable the logging exporter by default to override the upcoming SDK autoconfigure
-  module change in 1.27.0 and preserve existing behavior
-  ([#8647](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8647))
-- Support otel.sdk.disabled in the spring boot starter
-  ([#8602](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8602))
-- Add OTLP log exporter to the OpenTelemetry Spring Starter
-  ([#8493](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8493))
-- Suppress Spring Actuator instrumentation when micrometer instrumentation is suppressed
-  ([#8677](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8677))
-- Replace "1" with the appropriate units and don't fall back to "1" if the unit is unknown
-  ([#8668](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8668))
-- Added setOpenTelemetry method to log4j appender
-  ([#8231](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8231))
-
-### 🛠️ Bug fixes
-
-- Fix using logback mdc instrumentation along with SocketAppender
-  ([#8498](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8498))
-- Fix failure when kafka metrics reporter is set to an empty string
-  ([#8523](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8523))
-- Remove extra space from kubernetes client span name
-  ([#8540](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8540))
-- Fix jetty context leak
-  ([#8552](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8552))
-- Filter out scalar Mono/Flux instances
-  ([#8571](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8571))
-- End netty client span when channel is closed
-  ([#8605](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8605))
-- Unregistering jmx gc metrics on close
-  ([#8650](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8650))
-- Fix snippet injection ClassCastException
-  ([#8701](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8701))
-- Only instrument the actual Spring `TaskScheduler` implementations
-  ([#8676](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8676))
-
-## Version 1.26.0 (2023-05-11)
-
-### Migration notes
-
-- `java.util.concurrent` executors instrumentation suppression key has changed from `executor` to `executors`
-  ([#8451](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8451))
-
-### 🌟 New javaagent instrumentation
-
-- Add instrumentation for vertx-sql-client
-  ([#8311](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8311))
-
-### 🌟 New library instrumentation
-
-### 📈 Enhancements
-
-- Make net.transport an optional attribute
-  ([#8279](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8279))
-- Introduce `@AddingSpanAttributes` annotation
-  ([#7787](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7787))
-- JavaScript snippet injection
-  ([#7650](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7650))
-- Map `peer.service` also from `net.sock.peer.name`
-  ([#7888](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7888))
-- Set up EarlyInitAgentConfig even earlier
-  ([#8413](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8413))
-
-### 🛠️ Bug fixes
-
-- Fix nested http.route
-  ([#8282](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8282))
-- Fix undertow instrumentation with http pipelining
-  ([#8400](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8400))
-- Fix http pipelining on Grizzly
-  ([#8411](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8411))
-- Fix http pipelining on Netty 4.1 server
-  ([#8412](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8412))
-- Allow transforming classes with missing field types
-  ([#8393](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8393))
-- Fix reactor flux retry context leak
-  ([#8456](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8456))
-
-### 🧰 Tooling
-
-- Introduce new incubating `InstrumenterBuilder` methods
-  ([#8392](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8392))
-
-## Version 1.25.1 (2023-04-27)
-
-- Fix apache pulsar instrumentation missing from the Java agent
-  ([#8378](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8378))
-
-## Version 1.25.0 (2023-04-13)
-
-### Migration notes
-
-- Apache Pulsar instrumentation name is changed from `io.opentelemetry.apache-pulsar-2.8` to
-  `io.opentelemetry.pulsar-2.8` and Apache Camel instrumentation name is changed from
-  `io.opentelemetry.apache-camel-2.20` to `io.opentelemetry.camel-2.20`
-  ([#8195](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8195))
-- Mojarra instrumentation suppression key has changed from `mojarra` to `jsf-mojarra`
-  and MyFaces instrumentation suppression key has changed from `myfaces` to `jsf-myfaces`
-  ([#7811](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7811))
-
-### 🌟 New javaagent instrumentation
-
-- R2DBC
-  ([#7977](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7977))
-- Add JFR streaming metrics gatherer
-  ([#7886](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7886))
-- ZIO 2.0 instrumentation
-  ([#7980](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7980))
-
-### 🌟 New library instrumentation
-
-- R2DBC
-  ([#7977](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7977))
-- Add JFR streaming metrics gatherer
-  ([#7886](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7886))
-- Add library instrumentation for java http client
-  ([#8138](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8138))
-
-### 📈 Enhancements
-
-- Move X-Ray Env Variable propagation to span link instead of parent
-  ([#7970](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7970))
-- Reduce memory usage for ClassLoaderHasClassesNamedMatcher
-  ([#7866](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7866))
-- Remove password from db.user parsed from JDBC url
-  ([#8106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8106))
-- Ignore appd agent classes
-  ([#8065](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8065))
-- Add http client metrics to apache http library instrumentation
-  ([#8128](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8128))
-- Instrument additional pulsar receive methods
-  ([#8171](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8171))
-- Support latest Hibernate 6 version
-  ([#8189](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8189))
-- Support spring boot service name detector when spring boot application is packaged in one jar
-  ([#8101](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8101))
-- Support parsing Spring boot service name when more than one yaml is defined
-  ([#8006](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8006))
-- Add option to capture logback key value pairs
-  ([#8074](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8074))
-- Bridge agent logs into application's slf4j logger
-  ([#7339](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7339),
-  [#8228](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8228))
-- Better container ID parsing
-  ([#8206](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8206))
-- Pulsar batch receive instrumentation
-  ([#8173](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8173))
-- Improve compatibility with SecurityManager
-  ([#7983](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7983))
-- Instrument akka-http bindAndHandle
-  ([#8174](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8174))
-- Spring scheduling: run error handler with the same context as task
-  ([#8220](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8220))
-- Switch from http.flavor to net.protocol.\*
-  ([#8131](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8131),
-  [#8244](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8244))
-- Support latest Armeria release
-  ([#8247](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8247))
-- Populate `process.command_args` for Java 9+ and improve `process.command_line` for Java 8
-  ([#8130](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8130))
-
-### 🛠️ Bug fixes
-
-- Fix TracingCqlSession ClassCastException
-  ([#8041](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8041))
-- Kafka: avoid registering duplicate metrics reporter
-  ([#8099](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8099))
-- Prefix baggage key not value when adding it to logback mdc
-  ([#8066](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8066))
-- Fix error when using shardingsphere
-  ([#8110](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8110))
-- Fix order of cxf handlers to enable symmetric tracing around jaxws handler chain
-  ([#8160](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8160))
-- Fix javaagent armeria server instrumentation
-  ([#8281](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8281))
-
-### 🧰 Tooling
-
-- Add HttpServerResponseCustomizer support for various servers
-  ([#8094](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8094),
-  [#8095](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8095),
-  [#8265](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8265),
-  [#8264](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8264),
-  [#8273](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8273),
-  [#8263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8263),
-  [#8274](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8274),
-  [#8272](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8272))
-- Add `removeJarVersionNumbers` build setting
-  ([#8116](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8116))
-- Add `disableShadowRelocate` build setting
-  ([#8117](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8117))
-
-## Version 1.24.0 (2023-03-15)
-
-### Migration notes
-
-### 🌟 New javaagent instrumentation
-
-- Add Apache Pulsar client instrumentation
-  ([#5926](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5926),
-  [#7999](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7999),
-  [#7943](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7943),
-  [#8007](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8007))
-- Add Jodd-Http instrumentation
-  ([#7868](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7868))
-
-### 🌟 New library instrumentation
-
-- Add Ktor client instrumentation
-  ([#7982](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7982),
-  [#7997](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7997))
-- Add Spring Webflux server instrumentation
-  ([#7899](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7899))
-
-### 📈 Enhancements
-
-- Implement `messaging.kafka.*` attributes spec
-  ([#7824](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7824),
-  [#7860](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7860))
-- Make RxJava2 instrumentation Android-friendly
-  ([#7895](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7895))
-- Support more semantic convention for RocketMQ trace
-  ([#7871](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7871))
-- Instrumenting cassandra executeReactive method
-  ([#6441](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6441))
-- Make the OpenTelemetry Logback appender work with GraalVM native images
-  ([#7989](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7989))
-- Add baggage to Logback MDC; controlled by a configuration flag
-  ([#7892](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7892))
-- Make the Spring Boot autoconfigure module work with Spring Boot 3
-  ([#8028](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8028),
-  [#8051](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8051))
-
-### 🛠️ Bug fixes
-
-- Handle JMX MBean attributes with embedded dots
-  ([#7841](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7841))
-- Fix `ClassCastException` when using `-Dotel.jmx.target.system=tomcat`
-  ([#7884](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7884))
-- Fix NPE in the AWS SDK 2 instrumentation when request instrumentation is suppressed
-  ([#7953](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7953))
-- Fix Kotlin coroutine context propagation
-  ([#7879](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7879))
-- Fix the JAX-RS annotation instrumentation on Open Liberty
-  ([#7890](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7890))
-- Fix an `AbstractMethodError` in the Logback instrumentation
-  ([#7967](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7967))
-- Fix NPE in the RabbitMQ instrumentation
-  ([#8021](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8021))
-- Fix JMX metrics usage examples
-  ([#7877](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7877))
-
-### 🧰 Tooling
-
-- Remove deprecated `instrumentation-api-semconv` code
-  ([#7838](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7838))
-- Look up helper class bytes when they are needed
-  ([#7839](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7839))
-- Run smoke tests using Open Liberty 21.0.0.12 and 22.0.0.12
-  ([#7878](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7878),
-  [#7857](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7857))
-- Add additional groovy script classloaders to ignore list.
-  ([#7460](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7460))
-- Make AggregationTemporality configurable for `OtlpInMemoryMetricExporter` in
-  the `agent-for-testing` module
-  ([#7904](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7904))
-- Upgrade to gradle 8.0.2
-  ([#7910](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7910),
-  [ 7978](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7978))
-- Replace the test-sets plugin with Gradle test suites
-  ([#7930](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7930),
-  [#7933](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7933),
-  [#7932](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7932),
-  [#7931](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7931),
-  [#7929](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7929),
-  [#7946](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7946),
-  [#7945](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7945),
-  [#7944](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7944),
-  [#7943](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7943),
-  [#7942](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7942),
-  [#7928](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7928),
-  [#7951](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7951))
-- Add a utility for tracking HTTP resends
-  ([#7986](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7986))
-- Remove deprecated `messaging.url` attribute from messaging getter
-  ([#8008](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8008))
-- Add protocol name&version to net attribute getters
-  ([#7994](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7994))
-- Test http client captured headers
-  ([#7993](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7993))
-- Improve compatibility with other agents
-  ([#7916](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7916))
-- Share timer class used by messaging instrumentations
-  ([#8009](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8009))
-- Convert groovy tests to java
-  ([#7976](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7976),
-  [#7975](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7975),
-  [#7912](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7912))
-- Check that extracting extension jar doesn't escape designated directory
-  ([#7908](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7908))
-- Assert user agent when it is present in HTTP client tests
-  ([#7918](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7918))
-- Update the OpenTelemetry SDK version to 1.24.0
-  ([#8027](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/8027))
-- Provide ability to add HTTP server response headers, with Tomcat implementation
-  ([#7990](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7990))
-
-## Version 1.23.0 (2023-02-16)
-
-### Migration notes
-
-- HTTP span names are now `"{http.method} {http.route}"` instead of just `"{http.route}"`,
-  reflecting the recent change in the HTTP semantic conventions
-  ([#7730](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7730))
-- Added the base version into library package names to make room for other base versions
-  without breaking backwards compatibility in the future once these artifacts are declared stable
-  ([#7608](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7608),
-  [#7752](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7752),
-  [#7764](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7764))
-  - `io.opentelemetry.instrumentation.spring.web.SpringWebTelemetry`
-    → `io.opentelemetry.instrumentation.spring.web.v3_1.SpringWebTelemetry`
-  - `io.opentelemetry.instrumentation.spring.webflux.SpringWebfluxTelemetry`
-    → `io.opentelemetry.instrumentation.spring.webflux.v5_0.SpringWebfluxTelemetry`
-  - `io.opentelemetry.instrumentation.spring.integration.SpringIntegrationTelemetry`
-    → `io.opentelemetry.instrumentation.spring.integration.v4_1.SpringIntegrationTelemetry`
-  - `io.opentelemetry.instrumentation.logback.v1_0.OpenTelemetryAppender`
-    → `io.opentelemetry.instrumentation.logback.mdc.v1_0.OpenTelemetryAppender`
-  - `io.opentelemetry.instrumentation.apachedbcp.ApacheDbcpTelemetry`
-    → `io.opentelemetry.instrumentation.apachedbcp.v2_0.ApacheDbcpTelemetry`
-  - `io.opentelemetry.instrumentation.c3p0.C3p0Telemetry`
-    → `io.opentelemetry.instrumentation.c3p0.v0_9.C3p0Telemetry`
-  - `io.opentelemetry.instrumentation.graphql.GraphQLTelemetry`
-    → `io.opentelemetry.instrumentation.graphql.v12_0.GraphQLTelemetry`
-  - `io.opentelemetry.instrumentation.guava.GuavaAsyncOperationEndStrategy`
-    → `io.opentelemetry.instrumentation.guava.v10_0.GuavaAsyncOperationEndStrategy`
-  - `io.opentelemetry.instrumentation.hikaricp.HikariTelemetry`
-    → `io.opentelemetry.instrumentation.hikaricp.v3_0.HikariTelemetry`
-  - `io.opentelemetry.instrumentation.kafkaclients.KafkaTelemetry`
-    → `io.opentelemetry.instrumentation.kafkaclients.v2_6.KafkaTelemetry`
-  - `io.opentelemetry.instrumentation.oracleucp.OracleUcpTelemetry`
-    → `io.opentelemetry.instrumentation.oracleucp.v11_2.OracleUcpTelemetry`
-  - `io.opentelemetry.instrumentation.ratpack.RatpackTelemetry`
-    → `io.opentelemetry.instrumentation.ratpack.v1_7.RatpackTelemetry`
-  - `io.opentelemetry.instrumentation.reactor.ContextPropagationOperator`
-    →` io.opentelemetry.instrumentation.reactor.v3_1.ContextPropagationOperator`
-  - `io.opentelemetry.instrumentation.viburdbcp.ViburTelemetry`
-    → `io.opentelemetry.instrumentation.viburdbcp.v11_0.ViburTelemetry`
-- Several instrumentation scope names have been fixed
-  ([#7632](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7632))
-  - `io.opentelemetry.cxf-jaxrs-3.2` → `io.opentelemetry.jaxrs-2.0-cxf-3.2`
-  - `io.opentelemetry.jersey-2.0` → `io.opentelemetry.jaxrs-2.0-jersey-2.0`
-    or `io.opentelemetry.jaxrs-3.0-jersey-3.0` as appropriate
-  - `io.opentelemetry.resteasy-3.0` → `io.opentelemetry.jaxrs-2.0-resteasy-3.0`
-  - `io.opentelemetry.resteasy-3.1` → `io.opentelemetry.jaxrs-2.0-resteasy-3.1`
-  - `io.opentelemetry.resteasy-6.0` → `io.opentelemetry.jaxrs-3.0-resteasy-6.0`
-  - `io.opentelemetry.jws-1.1` → `io.opentelemetry.jaxws-jws-api-1.1`
-  - `io.opentelemetry.vertx-kafka-client-3.5` → `io.opentelemetry.vertx-kafka-client-3.6`
-  - `io.opentelemetry.hibernate-4.3` → `io.opentelemetry.hibernate-procedure-call-4.3`
-- All methods in all `*Getter` classes in `instrumentation-api-semconv` have been renamed
-  to use the `get*()` naming scheme
-  ([#7619](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7619))
-- Return interfaces instead of concrete implementations in `instrumentation-api-semconv`
-  ([#7658](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7658))
-
-### 📈 Enhancements
-
-- Support Spring Web 6 in library instrumentation
-  ([#7551](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7551))
-- Add gRPC request metadata instrumentation
-  ([#7011](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7011))
-- Pass context to content length http metrics meters
-  ([#7506](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7506))
-- Update SQL span name for procedures
-  ([#7557](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7557))
-- Ratpack services OpenTelemetry
-  ([#7477](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7477))
-- Ignore janino classloader
-  ([#7710](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7710))
-- Improve type resolution cache for classes in java package
-  ([#7714](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7714))
-- End netty client span before callbacks
-  ([#7737](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7737))
-- Support slf4j to log4j2
-  ([#7656](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7656))
-- Add `net.host.port` to the `http.server.active_requests` metric
-  ([#7757](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7757))
-- Allow JDBC library instrumentation to use a custom OpenTelemetry instance to be more DI
-  (e.g. Spring Boot) friendly
-  ([#7697](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7697))
-- Dubbo: don't create spans for calls inside the same jvm
-  ([#7761](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7761))
-- Bridge OpenTelemetry metrics batch API
-  ([#7762](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7762))
-- Support Spring Boot 3 in autoconfigure module
-  ([#7784](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7784))
-- Change Spring Scheduling to not capture span for one-time jobs (only repeated jobs)
-  ([#7760](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7760))
-- Add instrumentation for hibernate 6
-  ([#7773](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7773))
-- Put `http.route` attribute onto `http.server.duration` on Play framework request processing
-  ([#7801](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7801))
-- Add Jakarta JSF 3.0+ instrumentation
-  ([#7786](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7786))
-- Capture `net.sock.peer.addr` more reliably in grpc client instrumentation
-  ([#7742](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7742))
-
-### 🛠️ Bug fixes
-
-- Fix potential startup failure
-  ([#7567](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7567))
-- Fix NoClassDefFoundError happening when snakeyaml is used on a custom JRE
-  ([#7598](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7598))
-- Fix inconsistent handling of `net.peer.port` in HTTP instrumentations
-  ([#7618](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7618))
-- Fix concurrency issue in OpenTelemetryDriver
-  ([#7628](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7628))
-- Fix ClassCastException with redisson batch with atomic write option
-  ([#7743](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7743))
-- Ensure kafka configuration remains serializable
-  ([#7754](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7754),
-  [#7789](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7789))
-
-## Version 1.22.1 (2023-01-14)
-
-- Fix potential startup failure
-  ([#7567](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7567))
-
-## Version 1.22.0 (2023-01-12)
-
-### 📈 Enhancements
-
-- Add resource injection for getResourceAsStream
-  ([#7476](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7476))
-- GRPC: Adds peer socket address when the client call is ready
-  ([#7451](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7451))
-- Make OpenTelemetryAppender.Builder public
-  ([#7521](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7521))
-- Disable internal TaskScheduler spans in Spring Kafka instrumentation
-  ([#7553](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7553))
-- Support Spring Web MVC in library instrumentation
-  ([#7552](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7552))
-- Instrument JMS 3.0 (Jakarta)
-  ([#7418](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7418))
-- Shade `application.io.opentelemetry` in agent extension class loader
-  ([#7519](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7519))
-- Use new reactor contextWrite when available (from reactor 3.4.0)
-  ([#7538](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7538))
-- Make config file available in early agent initialization phase
-  ([#7550](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7550))
-- Support Spring JMS 6.0
-  ([#7438](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7438))
-
-### 🛠️ Bug fixes
-
-- Preserve original exception in jetty http client wrappers
-  ([#7455](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7455))
-- Propagate original exception through kafka wrapper
-  ([#7452](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7452))
-- Fix class file load error when using spring-guice together with spring-web instrumentation
-  ([#7447](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7447))
-- Fix NPE in servlet AsyncListener on OpenLiberty
-  ([#7498](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7498))
-
-### 🧰 Tooling
-
-- Muzzle logs should be logged using the io.opentelemetry.\* logger name
-  ([#7446](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7446))
-
-## Version 1.21.0 (2022-12-13)
-
-### 📈 Enhancements
-
-- Remove deprecated HTTP semconv code
-  ([#7259](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7259))
-- Rocketmq 5: set context for async callback
-  ([#7238](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7238))
-- HTTP semconv: filter out default peer/host ports
-  ([#7258](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7258))
-- Allow multiple YAML configuration files for JMX rules
-  ([#7284](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7284))
-- OpenTelemetryDriver better support for native images
-  ([#7089](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7089))
-- Support Spring Kafka 3
-  ([#7271](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7271))
-- Add instrumentation for opentelemetry-extension-kotlin
-  ([#7341](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7341))
-- Populate `messaging.kafka.message.offset` in all kafka instrumentations
-  ([#7374](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7374))
-- More flexible cgroupv2 container id parsing (and podman support)
-  ([#7361](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7361))
-- Instrument spring-web 6 & spring-webmvc 6
-  ([#7366](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7366))
-- Change log4j MapMessage attribute names
-  ([#7397](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7397))
-- Don't call Thread#setContextClassLoader()
-  ([#7391](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7391))
-
-### 🛠️ Bug fixes
-
-- Webflux instrumentation doesn't capture `http.status_code` in some cases
-  ([#7251](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7251))
-- Clean WeakConcurrentMap from background thread
-  ([#6240](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6240))
-- Update gwt rpc span from INTERNAL to SERVER
-  ([#7342](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7342))
-- JMXMetricInsight should log nothing at INFO level
-  ([#7367](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7367))
-- Fix NullPointerException when uri is null
-  ([#7387](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7387))
-- Agent context storage wrapper should not override other wrappers
-  ([#7355](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7355))
-- Do not install GC metrics when GarbageCollectionNotificationInfo is not available
-  ([#7405](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7405))
-- Fix connection pool timeouts unit
-  ([#7404](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7404))
-
-### 🧰 Tooling
-
-- Allow disabling muzzle checks for specific methods
-  ([#7289](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7289))
-
-## Version 1.20.2 (2022-11-22)
-
-### 🛠️ Bug fixes
-
-- Fix the boms
-  ([#7252](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7252))
-
-## Version 1.20.1 (2022-11-19)
-
-### 📈 Enhancements
-
-- Update SDK version from 1.19.0 to 1.20.1
-  ([#7223](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7223))
-
-## Version 1.20.0 (2022-11-17)
-
-Instrumentation annotations module is declared stable in this release
-(`io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.20.0`).
-
-### Migration notes
-
-- Renamed configuration property `otel.instrumentation.kafka.client-propagation.enabled` to
-  `otel.instrumentation.kafka.producer-propagation.enabled` and update code so that it only affects
-  producer propagation
-  ([#6957](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6957))
-- Deprecated RocketMQ configuration property `otel.instrumentation.rocketmq-client.propagation`
-  ([#6958](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6958))
-- Deprecated `HttpServerAttributesExtractor#create(HttpServerAttributesGetter)` and
-  `HttpServerAttributesExtractor#builder(HttpServerAttributesGetter)`
-  ([#7020](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7020))
-- Renamed annotation instrumentation property name for the recent
-  `opentelemetry-instrumentation-annotations` package from
-  `otel.instrumentation.opentelemetry-annotations.exclude-methods` to
-  `otel.instrumentation.opentelemetry-instrumentation-annotations.exclude-methods`
-  ([#7196](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7196))
-
-### 🌟 New javaagent instrumentation
-
-- OpenSearch 1.x and 2.x
-  ([#6998](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6998))
-- JMX Metric Insight
-  ([#6573](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6573))
-
-### 📈 Enhancements
-
-- Add meter version to runtime metrics
-  ([#6874](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6874))
-- Auto-detect service name based on the jar name
-  ([#6817](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6817))
-- okhttp: run our interceptor before other interceptors
-  ([#6997](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6997))
-- Implement producer part of RocketMQ new client instrumentation
-  ([#6884](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6884))
-- Ignore presto-jdbc shaded okhttp3 connection pool.
-  ([#7031](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7031))
-- Record memory usage after garbage collection
-  ([#6963](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6963))
-- Ignore trino shaded okhttp pool
-  ([#7114](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7114))
-- Ignore Nashorn's class loader for performance reasons
-  ([#7116](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7116))
-- Add gRPC library configuration for additionalServerExtractors
-  ([#7155](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7155))
-- Implement consumer part of rocketmq new client instrumentation
-  ([#7019](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7019))
-- Support cgroup v2
-  ([#7167](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7167))
-- Replace `runtime.jvm.gc.time` / `runtime.jvm.gc.count` metrics with
-  `process.runtime.jvm.gc.duration` histogram
-  ([#6964](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6964))
-
-### 🛠️ Bug fixes
-
-- End reactor-netty HTTP client span properly on `Mono#timeout()`
-  ([#6891](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6891))
-- Capture net.host.name for netty
-  ([#6892](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6892))
-- 6929 - fixing unit for runtime.jvm.gc.count
-  ([#6930](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6930))
-- fix spring-webflux cast to PathPattern throws ClassCastException
-  ([#6872](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6872))
-- Fix metric units
-  ([#6931](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6931))
-- Fix RocketMQ ClassCastException on hook conflict
-  ([#6940](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6940))
-- Handle UnsupportedClassVersionError in ServiceLoader on jdk9
-  ([#7090](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7090))
-- Avoid NPE when DirectWithAttributesChannel class is not available
-  ([#7133](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7133))
-
-### 🧰 Tooling
-
-- Revert removing the mavenCentral repo from the muzzle check plugin
-  ([#6937](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6937))
-- Make java.sql classes available to the agent and extensions
-  ([#7038](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7038))
-
-## Version 1.19.2 (2022-11-02)
-
-### 🛠️ Bug fixes
-
-- Bring back two public methods in `opentelemetry-instrumentation-api-semconv` that were mistakenly
-  removed in v1.19.1 without a deprecation cycle
-  ([#7020](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/7020))
-
-## Version 1.19.1 (2022-10-19)
-
-### 🛠️ Bug fixes
-
-- Capture `net.host.name` on netty SERVER spans
-  ([#6892](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6892))
-
-## Version 1.19.0 (2022-10-13)
-
-### Migration notes
-
-- Deprecated `HttpServerAttributesGetter.serverName()`, and removed `http.host` and
-  `http.server_name` attributes
-  ([#6709](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6709))
-- Removed previously deprecated configuration flags (see previous release notes for deprecations)
-  ([#6771](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6771))
-- The restlet-1 instrumentation name has changed from `restlet-1.0` to `restlet-1.1`
-  ([#6106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6106))
-
-### 🌟 New library instrumentation
-
-- Netty 4.1
-  ([#6820](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6820))
-
-### 📈 Enhancements
-
-- Move in resource providers from core repo
-  ([#6574](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6574))
-- Propagate client span context in doOnRequest
-  ([#6621](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6621))
-- Update attribute key of rocketmq's message tag to use name from semantic conventions
-  (`messaging.rocketmq.message_tag`)
-  ([#6677](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6677))
-- Avoid muzzle matcher warning for the spring-boot-actuator-autoconfigure instrumentation
-  ([#6695](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6695))
-- Add marker attribute for Log4j 2
-  ([#6680](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6680))
-- Add marker attribute for Logback
-  ([#6652](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6652))
-- Add daemon attribute to process.runtime.jvm.threads.count
-  ([#6635](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6635))
-- Link JMS receive span with the producer span
-  ([#6804](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6804))
-- Link RabbitMQ receive span with the producer span
-  ([#6808](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6808))
-- Run context customizers before span start instead of after
-  ([#6634](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6634))
-- Strip sensitive data from the url
-  ([#6417](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6417))
-- Extract `net.peer.{name,port}` on start for CLIENT spans
-  ([#6828](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6828))
-
-### 🛠️ Bug fixes
-
-- Fix scheduled job experimental attributes property
-  ([#6633](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6633))
-- Fix AutoConfigurationCustomizer.addPropertiesSupplier not taking into account configuration-file
-  ([#6697](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6697))
-- Fix Dubbo NPE and trace propagation issue
-  ([#6640](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6640))
-- Fix directory separator in ProcessResource attributes
-  ([#6716](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6716))
-- Fix instrumentation for tomcat 10.1.0
-  ([#6766](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6766))
-- Fix instrumentation name for jaxrs-2.0-annotations
-  ([#6770](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6770))
-- Fix instrumentation for vert.x 4.3.4
-  ([#6809](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6809))
-- Fix Restlet v2 `Message#getAttributes` calls
-  ([#6796](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6796))
-- Guard against null HttpContext
-  ([#6792](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6792))
-
-## Version 1.18.0 (2022-09-14)
-
-The `opentelemetry-instrumentation-api` artifact is declared stable in this release.
-
-### Migration notes
-
-- There were a few late-breaking changes in `opentelemetry-instrumentation-api`, prior to it being
-  declared stable:
-  - `InstrumenterBuilder.addAttributesExtractors(AttributesExtractor...)` was removed, use instead
-    `addAttributesExtractors(AttributesExtractor)` or
-    `addAttributesExtractors(Iterable<AttributesExtractor>)`
-  - `SpanLinksExtractor.extractFromRequest()` was removed, use instead manual extraction
-  - `ErrorCauseExtractor.jdk()` was renamed to `ErrorCauseExtractor.getDefault()`
-  - `ClassNames` utility was removed with no direct replacement
-- The deprecated `io.opentelemetry.instrumentation.api.config.Config` and related classes
-  have been removed
-  ([#6501](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6501))
-- Net attributes getters were updated to reflect latest specification changes
-  ([#6503](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6503))
-- The deprecated `Ordered` interface was removed from the `opentelemetry-javaagent-extension-api`,
-  use instead the `Ordered` interface from `opentelemetry-sdk-extension-autoconfigure-spi`
-  ([#6589](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6589))
-
-### 📈 Enhancements
-
-- Add Spring Boot service name guesser / ResourceProvider
-  ([#6516](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6516))
-- Move micrometer shim library instrumentation back
-  ([#6538](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6538))
-- Add grpc status code to metrics attrs
-  ([#6556](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6556))
-- Add mongo sanitization configuration
-  ([#6541](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6541))
-- Add kafka client metrics to the javaagent instrumentation
-  ([#6533](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6533))
-- Add experimental span attribute job.system
-  ([#6586](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6586))
-- Add code attributes for Logback
-  ([#6591](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6591))
-- Reactor instrumentation: do not make root context current
-  ([#6593](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6593))
-
-### 🛠️ Bug fixes
-
-- Fix default-enabled config
-  ([#6491](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6491))
-- Fix new jdbc javaagent config
-  ([#6492](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6492))
-- Fix jaxrs async instrumentation race
-  ([#6523](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6523))
-- Fix spring webmvc instrumentation name
-  ([#6557](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6557))
-- Fix spring boot `@WithSpan` handling
-  ([#6619](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6619))
-
-## Version 1.17.0 (2022-08-18)
-
-### Migration notes
-
-- The `@WithSpan` and `@SpanAttribute` annotations has been moved from the
-  `io.opentelemetry:opentelemetry-extension-annotations` artifact to the
-  `io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations` in order to live and
-  evolve alongside the instrumentation itself. The instrumentation will continue to support the old
-  artifact for backwards compatibility, but new annotation-based features will only be built out and
-  supported with the new annotation artifact.
-- `InstrumenterBuilder.newInstrumenter()` is renamed to `InstrumenterBuilder.buildInstrumenter()`
-  ([#6363](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6363))
-- `io.opentelemetry.instrumentation.api.config.Config` is deprecated
-  ([#6360](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6360))
-- `HttpCommonAttributesGetter.requestContentLengthUncompressed()` and
-  `responseContentLengthUncompressed` are deprecated
-  ([#6383](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6383))
-- Ktor 2.0 instrumentation name is changed from `io.opentelemetry.ktor-1.0` to
-  `io.opentelemetry.ktor-2.0`
-  ([#6452](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6452))
-- `io.opentelemetry.opentelemetry-annotations-1.0` instrumentation name is changed to
-  `io.opentelemetry.opentelemetry-instrumentation-annotations-1.16`
-  ([#6450](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6450))
-- Liberty instrumentation names are changed from `io.opentelemetry.liberty` and
-  `io.opentelemetry.liberty-dispatcher` to `io.opentelemetry.liberty-20.0` and
-  `io.opentelemetry.liberty-dispatcher-20.0`
-  ([#6456](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6456))
-- The 2-arg variant of HttpCommonAttributesGeter#statusCode() is deprecated
-  ([#6466](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6466))
-- The `opentelemetry-spring-starter` artifact has been renamed to
-  `opentelemetry-spring-boot-starter`, the `opentelemetry-zipkin-exporter-starter` artifact has been
-  renamed to `opentelemetry-zipkin-spring-boot-starter`, and the
-  `opentelemetry-zipkin-exporter-starter` artifact has been renamed to
-  `opentelemetry-zipkin-spring-boot-starter`
-  ([#6453](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6453))
-- Update net semantic convention changes based on recent specification changes:
-  `net.peer.ip` renamed to `net.sock.peer.addr`, `net.host.ip` renamed to `net.sock.host.addr`,
-  `net.peer.name` renamed to `net.sock.peer.name` for socket-level instrumentation,
-  and `NetClientAttributesGetter.peerIp()`, `NetServerAttributesGetter.peerIp()`, and
-  `NetServerAttributesGetter.peerPort()` are deprecated
-  ([#6268](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6268))
-
-### 📈 Enhancements
-
-- Move buffer pool metrics out of experimental
-  ([#6370](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6370))
-- Add code attributes to several instrumentations
-  ([#6365](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6365))
-- Add http.client|server.request|response.size metrics
-  ([#6376](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6376))
-- Add Kafka instrumentation to the Spring Boot starter
-  ([#6371](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6371))
-- Extract HTTP request & response content length from headers
-  ([#6415](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6415))
-- Support DataDirect and Tibco Jdbc URLs
-  ([#6420](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6420))
-- Set http.route in spring-autoconfigure webmvc instrumentation
-  ([#6414](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6414))
-- Grizzly: capture all matching request & response headers
-  ([#6463](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6463))
-- Capture messaging header value as span attribute
-  ([#6454](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6454))
-- Add JDBC-specific sanitizer property
-  ([#6472](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6472))
-
-### 🛠️ Bug fixes
-
-- Fix duplicate spans for Quarkus gRPC server
-  ([#6356](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6356))
-- Update Kafka library instrumentation to support version 3.0.0 and later
-  ([#6457](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6457))
-- Mongodb: avoid duplicate tracing
-  ([#6465](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6465))
-- Fix netty instrumentation NoSuchElementException
-  ([#6469](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6469))
-
-## Version 1.16.0 (2022-07-19)
-
-### Migration notes
-
-- Config has been replaced by ConfigProperties in Javaagent extensions SPIs
-- The deprecated TimeExtractor has been removed
-- The `opentelemetry-instrumentation-api-annotation-support` artifact has been renamed to
-  `opentelemetry-instrumentation-annotation-support`
-- The `opentelemetry-annotations` instrumentation suppression key has been renamed to
-  `opentelemetry-extension-annotations`
-- The 'otel.javaagent.experimental.use-noop-api' flag has been removed, as this capability is now
-  available via the `otel.experimental.sdk.enabled` flag
-
-### 🌟 New javaagent instrumentation
-
-- C3P0 connection pool metrics
-  ([#6174](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6174))
-- JVM buffer pool metrics
-  ([#6177](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6177))
-- Kafka client metrics
-  ([#6138](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6138))
-- dropwizard-metrics to OpenTelemetry metrics bridge
-  ([#6259](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6259))
-
-### 🌟 New library instrumentation
-
-- C3P0 connection pool metrics
-  ([#6174](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6174))
-- JVM buffer pool metrics
-  ([#6177](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6177))
-- Kafka client metrics
-  ([#6138](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6138))
-- Add metrics & micrometer support to spring-boot-autoconfigure
-  ([#6270](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6270))
-- Spring Kafka library instrumentation
-  ([#6283](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6283))
-
-### 📈 Enhancements
-
-- Update GraphQL instrumentation to match spec
-  ([#6179](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6179))
-- Make rpc.grpc.status_code required
-  ([#6184](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6184))
-- Always pass Context when recording HttpServerMetrics
-  ([#6223](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6223))
-- Capture enduser.id in servlet instrumentation
-  ([#6225](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6225))
-- Support metric view configuration file in the Javaagent
-  ([#6228](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6228))
-- Aws sdk2 sqs context propagation
-  ([#6199](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6199))
-- More Spring JMS support
-  ([#6308](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6308))
-- Hikaricp: Avoid registering duplicate metrics
-  ([#6325](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6325))
-
-### 🛠️ Bug fixes
-
-- Fix liberty net.peer.port
-  ([#6274](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6274))
-
-## Version 1.15.0 (2022-06-16)
-
-### Migration notes
-
-- The `opentelemetry-jboss-logmanager-1.1` artifact has been renamed to
-  `opentelemetry-jboss-logmanager-appender-1.1`
-- The play instrumentation name has changed from `play` to `play-mvc`
-  ([#6106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6106))
-- The vertx-http-client instrumentation name has changed from `vertx-client` to `vertx-http-client`
-  ([#6106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6106))
-- The metric `process.runtime.java.memory.max` has been renamed
-  to `process.runtime.java.memory.limit`
-  ([#6161](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6161))
-
-### 🌟 New javaagent instrumentation
-
-- JVM classes metrics
-  ([#6069](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6069))
-- JVM threads metrics
-  ([#6070](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6070))
-- Vibur DBCP connection pool metrics
-  ([#6092](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6092))
-- tomcat-jdbc connection pool metrics
-  ([#6102](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6102))
-- JVM cpu metrics
-  ([#6107](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6107))
-- Oracle UCP connection pool metrics
-  ([#6099](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6099))
-- Apache DBCP2 datasource metrics
-  ([#6175](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6175))
-- Add instrumentation for JAX-RS 3.0
-  ([#6136](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6136))
-
-### 🌟 New library instrumentation
-
-- JVM classes metrics
-  ([#6069](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6069))
-- JVM threads metrics
-  ([#6070](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6070))
-- Vibur DBCP connection pool metrics
-  ([#6092](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6092))
-- tomcat-jdbc connection pool metrics
-  ([#6102](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6102))
-- JVM cpu metrics
-  ([#6107](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6107))
-- Oracle UCP connection pool metrics
-  ([#6099](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6099))
-- Apache DBCP2 datasource metrics
-  ([#6175](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6175))
-
-### 📈 Enhancements
-
-- Enable grizzly instrumentation by default
-  ([#6049](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6049))
-- Instrumentation for redisson 3.17.2+
-  ([#6096](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6096))
-- Instrumentation for jboss-logmanager getMdcCopy()
-  ([#6112](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6112))
-- Allow specifying a comma separated list of extensions
-  ([#6137](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6137))
-
-### 🛠️ Bug fixes
-
-- Fix redisson ClassCastException
-  ([#6054](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6054))
-- Fix debug logging
-  ([#6085](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6085))
-- HttpURLConnection instrumentation can capture wrong http.method
-  ([#6053](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6053))
-- fix bug: get return type in a wrong way for method instrumentation
-  ([#6118](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6118))
-- Show correct runnable name in spring scheduling actuator
-  ([#6140](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6140))
-- Fix ClassCastException in JDBC instrumentation
-  ([#6088](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6088))
-
-### 🧰 Tooling
-
-- Remove TimeExtractor and use internal API for setting start/end timestamps
-  ([#6051](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6051))
-- Change SpanStatusExtractor to use a builder that can set status description
-  ([#6035](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6035))
-- Make gRPC metadata available to AttributeExtractors
-  ([#6125](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6125))
-
-## Version 1.14.0 (2022-05-17)
-
-### Migration notes
-
-- The `opentelemetry-log4j-appender-2.16` artifact has been renamed to
-  `opentelemetry-log4j-appender-2.17`
-- The `opentelemetry-log4j-context-data-2.16-autoconfigure` artifact has been renamed to
-  `opentelemetry-log4j-context-data-2.17-autoconfigure`
-- Micrometer library instrumentation has been removed as it has been moved to the core repo and
-  is now published under `io.opentelemetry:opentelemetry-micrometer1-shim`
-- The rxjava javaagent instrumentation names for suppression have changed to `rxjava`
-- `AgentListener#beforeAgent()` has been deprecated, as it is not expect to be needed by extensions
-  authors
-- `ConfigPropertySource` has been deprecated in favor of `ConfigCustomizer`
-- Several changes in the Instrumentation API
-  - `RequestMetrics` has been renamed to `OperationMetrics`
-  - `RequestListener` has been renamed to `OperationListener`
-  - `ErrorCauseExtractor#extractCause()` has been renamed to `extract()`
-  - `ContextCustomizer` and `RequestListener` `start()`/`end()` methods have been renamed to
-    `onStart()`/`onEnd()`
-- The `opentelemetry-javaagent-instrumentation-api` artifact has been merged into the
-  `opentelemetry-javaagent-extension-api` artifact
-
-### 🌟 New javaagent instrumentation
-
-- Add jboss-logmanager mdc support
-  ([#5842](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5842))
-- Spring-kafka single record instrumentation
-  ([#5904](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5904))
-- Add metrics instrumentation for grpc
-  ([#5923](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5923))
-- Add vertx-kafka-client instrumentation
-  ([#5973](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5973),
-  [#5982](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5982))
-- Hide the GC runtime metrics behind an experimental config flag
-  ([#5990](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5990))
-- Add HikariCP connection pool metrics
-  ([#6003](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6003))
-
-### 🌟 New library instrumentation
-
-- Add metrics instrumentation for grpc
-  ([#5923](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5923))
-- Add HikariCP library instrumentation
-  ([#6023](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6023))
-
-### 📈 Enhancements
-
-- Enable span suppression by SpanKey by default
-  ([#5779](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5779))
-- record exception in dubbo high version
-  ([#5892](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5892))
-- Introduce LocalRootSpan (replacing ServerSpan)
-  ([#5896](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5896))
-- Add javaagent<->application context bridge for HttpRouteHolder
-  ([#5838](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5838))
-- Exclude spring temporary type matching class loader
-  ([#5912](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5912))
-- Load agent classes child first
-  ([#5950](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5950))
-- Avoid looking up annotation types during type matching
-  ([#5906](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5906))
-- Add an SPI for customizing Config just before it's set
-  ([#6010](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6010))
-
-### 🛠️ Bug fixes
-
-- Fix duplicate class error on Android build
-  ([#5882](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5882))
-- Avoid npe in netty 4.1 instrumentation
-  ([#5902](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5902))
-- Fix logging exporter autoconfiguration issue
-  ([#5928](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5928))
-- fix NPE for commons-httpclient v3.1
-  ([#5949](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5949))
-- Exclude duplicate project classes from inst/
-  ([#5957](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5957))
-- Ignore known problematic jdbc wrappers
-  ([#5967](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5967))
-- Fix default enabled for runtime and oshi metrics
-  ([#5989](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5989))
-- Mitigate against another kafka leak
-  ([#6021](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/6021))
-
-## Version 1.13.1 (2022-04-22)
-
-### 🛠️ Bug fixes
-
-- Fix duplicate class error on Android build
-  ([#5882](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5882))
-- Fix spring-kafka single record instrumentation
-  ([#5904](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5904))
-
-## Version 1.13.0 (2022-04-19)
-
-### Migration notes
-
-- Micrometer instrumentation is now automatically applied to spring-boot-actuator apps
-- Some configuration properties have been renamed:
-  - `otel.instrumentation.common.experimental.suppress-controller-spans`
-    → `otel.instrumentation.common.experimental.controller-telemetry.enabled`
-    (important: note that the meaning is inverted)
-  - `otel.instrumentation.common.experimental.suppress-view-spans`
-    → `otel.instrumentation.common.experimental.view-telemetry.enabled`
-    (important: note that the meaning is inverted)
-  - `otel.instrumentation.netty.always-create-connect-span`
-    → `otel.instrumentation.netty.connection-telemetry.enabled`
-  - `otel.instrumentation.reactor-netty.always-create-connect-span`
-    → `otel.instrumentation.reactor-netty.connection-telemetry.enabled`
-- Runtime memory metric names were updated to reflect
-  [semantic conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/semantic_conventions/runtime-environment-metrics.md#jvm-metrics)
-- Micrometer library instrumentation has been deprecated as it has been moved to the core repo and
-  is now published under `io.opentelemetry:opentelemetry-micrometer1-shim`
-- Library instrumentation entry points have been renamed from `*Tracing` to `*Telemetry`
-
-### 🌟 New javaagent instrumentation
-
-- GraphQL
-  ([#5583](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5583))
-- JBoss Log Manager
-  ([#5737](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5737))
-- Apache HttpClient 5.x async client
-  ([#5697](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5697))
-
-### 🌟 New library instrumentation
-
-- GraphQL
-  ([#5583](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5583))
-- Ktor 2
-  ([#5797](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5797))
-
-### 📈 Enhancements
-
-- Elasticsearch rest client low cardinality span names
-  ([#5584](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5584))
-- Implement "Prometheus mode" for better micrometer->OTel->Prometheus support
-  ([#5537](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5537))
-- Apply micrometer instrumentation to spring-boot-actuator apps
-  ([#5666](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5666))
-- Sql sanitizer: handle double quoted table names
-  ([#5699](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5699))
-- Spring Boot Starter service-name is constant
-  ([#5359](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5359))
-- Update runtime memory metrics to reflect semantic conventions
-  ([#5718](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5718))
-- change rpc type in apache dubbo
-  ([#5432](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5432))
-- Rework context propagation to redisson async callback
-  ([#5748](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5748))
-- Resolve end strategy after WithSpan method instead of before.
-  ([#5756](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5756))
-- Allow scanning instrumented reactor publishers and only allow registe…
-  ([#5755](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5755))
-- Faster type matching
-  ([#5724](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5724))
-- Use UnsynchronizedAppenderBase as base class for our logback appender
-  ([#5818](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5818))
-- Do not set the http.route attribute in JSF instrumentations
-  ([#5819](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5819))
-- Use micrometer1-shim in micrometer javaagent instrumentation, deprecate library instrumentation
-  ([#5820](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5820))
-- Rename netty `always-create-connect-span` property to `connection-telemetry`
-  ([#5834](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5834))
-- Update the http.route attribute even for not sampled server spans
-  ([#5844](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5844))
-
-### 🛠️ Bug fixes
-
-- Fix possible deadlock
-  ([#5585](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5585))
-- Prevent possible deadlock in downstream distro
-  ([#5830](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5830))
-- Limit problems from kafka iterator instrumentation thread context leak
-  ([#5826](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5826))
-
-### 🧰 Tooling
-
-- Remove deprecated methods from instrumentation-api and library instrumentations
-  ([#5575](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5575))
-- Split out RpcAttributesGetter
-  ([#5548](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5548))
-- Run tests with jdk17
-  ([#5598](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5598))
-- Split out MessagingAttributesGetter
-  ([#5626](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5626))
-- Run Gradle and compile code with Java 17
-  ([#5623](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5623))
-- Rename library entrypoints to Telemetry
-  ([#5624](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5624))
-- Add InstrumenterBuilder.addRequestListener
-  ([#5655](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5655))
-- Simplify HttpUrlConnection instrumentation
-  ([#5673](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5673))
-- Convert all logging statements from slf4j to jul
-  ([#5674](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5674))
-- Allows passing an OpenTelemetry instance to registerObservers() methods.
-  ([#5716](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5716))
-- Make it possible to register multiple helper resources under the same…
-  ([#5703](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5703))
-- Split out instrumentation-api-semconv
-  ([#5721](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5721))
-- Move ClassNames & SpanNames to .util package
-  ([#5746](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5746))
-- Library instrumentation should read its version from a file
-  ([#5692](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5692))
-- Rename view and controller suppression config properties
-  ([#5747](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5747))
-- Deprecate AttributesExtractor#set() method
-  ([#5749](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5749))
-- Cleanup Config & ConfigBuilder API
-  ([#5733](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5733))
-- Instrumenter instrumentation version and schema url
-  ([#5752](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5752))
-
-## Version 1.12.1 (2022-03-17)
-
-### 🛠️ Bug fixes
-
-- Elasticsearch rest client low cardinality span name
-  ([#5584](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5584))
-- Fix possible deadlock
-  ([#5585](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5585))
-
-## Version 1.12.0 (2022-03-12)
-
-### 🌟 New javaagent instrumentation
-
-- Add Azure SDK instrumentation
-  ([#5467](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5467))
-
-### 📈 Enhancements
-
-- Use repository interface name in spring data operation name
-  ([#5352](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5352))
-- Change the way Micrometer LongTaskTimer is bridged
-  ([#5338](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5338))
-- Updates to http.server_name
-  ([#5369](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5369))
-- Support forwarded proto field and x-forwarded-proto
-  ([#5357](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5357))
-- Remove server span peer name
-  ([#5404](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5404))
-- Add peer service support back to couchbase26
-  ([#5451](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5451))
-- Remove duplicative JAXRS HttpClient instrumentation
-  ([#5430](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5430))
-- Add experimental thread attributes for logs
-  ([#5474](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5474))
-- Add log4j 1.2 appender MDC capture
-  ([#5475](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5475))
-- Capture logback formatted message
-  ([#5497](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5497))
-- Add JBoss java.util.logging support
-  ([#5498](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5498))
-- Disable the messaging receive span telemetry by default
-  ([#5500](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5500))
-- Remove old experimental properties in CapturedHttpHeaders
-  ([#5524](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5524))
-- Avoid conflicts in Micrometer description mapping
-  ([#5452](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5452))
-
-### 🛠️ Bug fixes
-
-- Fix another reverse lookup
-  ([#5393](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5393))
-- Regression in loading the prometheus exporter
-  ([#5408](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5408))
-- Fix muzzle failure on calls to primitive array clone
-  ([#5405](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5405))
-- Fix regression in spring-scheduling span name
-  ([#5436](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5436))
-- Fix android desugaring for HashMap.forEach
-  ([#5468](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5468))
-- Fix duplicate class definition of ContextDataProvider
-  ([#5528](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5528))
-- Do not propagate gRPC deadline when propagating OTel context via javaagent
-  ([#5543](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5543))
-
-### 🧰 Tooling
-
-- Split out CodeAttributesGetter
-  ([#5342](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5342))
-- Add prometheus smoke test
-  ([#5417](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5417))
-- Set custom gRPC client/server span name extractor
-  ([#5244](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5244))
-- Split out DbClientAttributesGetter and SqlClientAttributesGetter
-  ([#5354](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5354))
-- Add builders for setting optional attributes on HTTP extractors
-  ([#5347](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5347))
-- Write http server tests in java
-  ([#5501](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5501))
-- Deprecate CapturedHttpHeaders and replace it with builder methods
-  ([#5533](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5533))
-- Update to Groovy 4
-  ([#5532](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5532))
-
-## Version 1.11.1 (2022-02-21)
-
-### 🛠️ Bug fixes
-
-- Regression in loading the prometheus exporter
-  ([#5408](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5408))
-
-## Version 1.11.0 (2022-02-11)
-
-### Migration notes
-
-- The previous release (1.10.0) deprecated the entire `io.opentelemetry.instrumentation.api.tracer`
-  package in the `instrumentation-api` artifact, and the package was removed in this release.
-- The javaagent `-slim` artifact has been dropped in this release, because the exporters are much
-  smaller now and there is no longer a significant size difference between the `-slim` and default
-  artifacts.
-- The `opentelemetry-aws-lambda-1.0` has been split into two artifacts
-  `opentelemetry-aws-lambda-core-1.0` and `opentelemetry-aws-lambda-events-2.2`.
-
-### 🌟 New javaagent instrumentation
-
-- Spring RMI
-  instrumentation ([#5033](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5033))
-
-### 🌟 New library instrumentation
-
-- Ratpack
-  httpclient ([#4787](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4787))
-
-### 📈 Enhancements
-
-- Add `http.route` to server spans where route was already being captured for span name
-  ([#5086](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5086),
-  [#5240](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5240),
-  [#5242](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5242),
-  [#5241](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5241),
-  [#5239](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5239))
-- Use RPC attributes from spec for AWS SDK
-  ([#5166](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5166))
-- SdkTracerProvider auto closed as separate Context Bean
-  ([#5124](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5124)) (#5125)
-- Support redisson 3.16.8+
-  ([#5201](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5201))
-- Support AWS SDK v1 request object subclasses.
-  ([#5231](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5231))
-- Remove slim artifact
-  ([#5251](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5251))
-- kotlinx-coroutines-reactor context propagation
-  ([#5196](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5196))
-- Log a warning whenever GlobalOpenTelemetry.set() is called
-  ([#5264](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5264))
-- Use `http.route` in `HttpServerMetrics`
-  ([#5266](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5266))
-- Use VirtualField for associating netty listener with wrapper
-  ([#5282](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5282))
-- Add code attributes to spring-scheduling spans
-  ([#5306](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5306))
-- Propagate context into redisson async callback
-  ([#5313](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5313))
-- Add max measurements to Micrometer Timer & DistributionSummary
-  ([#5303](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5303))
-- Make it possible to configure base time unit used by the Micrometer bridge
-  ([#5304](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5304))
-- Make HttpClientMetrics report low cardinality metrics
-  ([#5319](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5319))
-- Implement NamingConvention support in Micrometer bridge
-  ([#5328](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5328))
-- Add net.peer.name and net.peer.port attributes for grpc client span
-  ([#5324](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5324))
-- Split lambda instrumentation into core and events
-  ([#5326](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5326))
-- Add jaeger remote sampler to agent
-  ([#5346](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5346))
-- Weak cache optimization
-  ([#5344](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5344))
-
-### 🛠️ Bug fixes
-
-- Several micrometer instrumentation fixes
-  ([#5118](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5118))
-- Fix serialisation exception on default lambda events
-  ([#4724](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4724))
-- NoSuchMethodError when using agent and modules (JPMS)
-  ([#5169](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5169))
-- Spring boot cloud gateway, context propagation broken
-  ([#5188](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5188))
-- Akka http server span names are always akka.request #3478
-  ([#5150](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5150))
-- Recover from duplicate class definition errors
-  ([#5185](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5185))
-- Fix serialization for quartz JobExecutionContext
-  ([#5263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5263))
-- End jedis span when operation actually ends
-  ([#5256](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5256))
-- Enable oshi ProcessMetrics in javaagent
-  ([#5281](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5281))
-- Add missing return type matchers to the executor instrumentation
-  ([#5294](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5294))
-- Fix triggering of DNS lookup
-  ([#5297](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5297))
-- Avoid potential for reverse name lookup
-  ([#5305](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5305))
-- Fix WeakConcurrentMap memory leak
-  ([#5316](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5316))
-- AWS Lambda instrumentation requires jackson and lambda-events on the classpath
-  ([#5326](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5326))
-
-### 🧰 Tooling
-
-- Convert InstrumentationTestRunner from interface to abstract class
-  ([#5112](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5112))
-- Parameterize VirtualField field type
-  ([#5165](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5165))
-- Remove old TraceUtils and use InstrumentationTestRunner#run\*Span() (almost) everywhere
-  ([#5160](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5160))
-- Remove deprecated tracer API
-  ([#5175](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5175))
-- Remove HttpServerTest#extraAttributes() method
-  ([#5176](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5176))
-- Rename ServerSpanNaming to HttpRouteHolder
-  ([#5211](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5211))
-- Don't run testLatestDeps on alpha/beta/rc versions
-  ([#5258](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5258))
-- Refactor HTTP attributes extractors to use composition over inheritance
-  ([#5030](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5030),
-  [#5194](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5194)
-  [#5267](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5267))
-- Refactor AttributesExtractor so that it extracts route from Context
-  ([#5288](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5288))
-- Publish gradle-plugins to Maven Central
-  ([#5333](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5333))
-
-## Version 1.10.1 (2022-01-27)
-
-### 🛠️ Bug fixes
-
-- Regression in project reactor context propagation instrumentation
-  ([#5188](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5188))
-- Recover from duplicate class definition errors
-  ([#5185](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5185))
-- StringIndexOutOfBoundsException in AWS SDK v1 when using request object subclass
-  ([#5231](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5231))
-- Update to OTel SDK 1.10.1
-  ([#5218](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5218))
-
-## Version 1.10.0 (2022-01-15)
-
-### Migration notes
-
-- The `opentelemetry-log4j-2.13.2` artifact has been renamed
-  to `opentelemetry-context-data-2.16-autoconfigure`
-- The `opentelemetry-logback-1.0` artifact has been renamed to `opentelemetry-logback-mdc-1.0`
-- The `opentelemetry-ratpack-1.4` artifact has been renamed to `opentelemetry-ratpack-1.7`
-  and only supports Ratpack 1.7 and above now
-
-### 🌟 New javaagent instrumentation
-
-- Logback appender instrumentation to send logs through the OpenTelemetry logging pipeline
-  ([#4939](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4939),
-  [#4968](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4968))
-- Log4j 2.x appender instrumentation to send logs through the OpenTelemetry logging pipeline
-  ([#4944](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4944),
-  [#4959](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4959),
-  [#4966](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4966))
-- Log4j 1.2 appender instrumentation to send logs through the OpenTelemetry logging pipeline
-  ([#4943](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4943))
-- java.util.logging instrumentation to send logs through the OpenTelemetry logging pipeline
-  ([#4941](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4941))
-- Micrometer instrumentation to send micrometer metrics through the OpenTelemetry metrics pipeline
-  ([#4919](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4919),
-  [#5001](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5001),
-  [#5017](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5017))
-
-### 🌟 New library instrumentation
-
-- Logback appender to send logs through the OpenTelemetry logging pipeline
-  ([#4984](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4984))
-- Log4j 2.x appender to send logs through the OpenTelemetry logging pipeline
-  ([#4375](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4375),
-  [#4907](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4907))
-- Ktor instrumentation
-  ([#4983](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4983))
-- Micrometer instrumentation to send micrometer metrics through the OpenTelemetry metrics pipeline
-  ([#5063](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5063))
-
-### 📈 Enhancements
-
-- Renamed Apache Dubbo and Log4j MDC library artifacts
-  ([#4779](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4779))
-- Added http4 handler to camel instrumentation
-  ([#4650](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4650))
-- Capture servlet request parameters
-  ([#4703](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4703))
-- Propagate Context instead of SpanContext in Kafka instrumentation
-  ([#4806](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4806))
-- Instrument ContextPropagationOperator to bridge lib/agent calls
-  ([#4786](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4786))
-- Add shouldStart() call to Armeria server instrumentation
-  ([#4843](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4843))
-- Capture RPC metrics
-  ([#4838](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4838))
-- Update log4j library base version
-  ([#4914](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4914))
-- Rename log4j-thread-context modules to log4j-context-data
-  ([#4957](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4957))
-- Support latest oshi version
-  ([#4993](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4993))
-- Support latest RxJava version
-  ([#4954](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4954))
-- Create producer span from spring integration instrumentation
-  ([#4932](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4932))
-- Capture servlet request parameters at the end of the request
-  ([#5019](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5019))
-- Don't extract deprecated cassandra keyspace attribute
-  ([#5041](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5041))
-- Add OTLP logs exporters
-  ([#5060](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5060),
-  [#5088](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5088))
-- End redisson span when the operation actually ends
-  ([#5073](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5073))
-- Don't capture high-cardinality http.target as metrics attribute
-  ([#5081](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5081))
-
-### 🛠️ Bug fixes
-
-- Remove virtual field interfaces from reflection results
-  ([#4722](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4722))
-- Work around jvm crash on early 1.8
-  ([#4345](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4345))
-- Fix http.url handing in vert.x 3 http client
-  ([#4739](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4739))
-- Capture missing RMI spans
-  ([#4764](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4764))
-- Avoid crashing on early 1.8 openjdk vms
-  ([#4789](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4789))
-- Fix Quarkus correlation
-  ([#4883](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4883))
-- Fix RabbitMQ instrumentation consumption on empty headers
-  ([#4903](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4903))
-- Fix NPE in Apache HttpClient 4.0 instrumentation
-  ([#4913](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4913))
-- Fix NPE in RocketMQ instrumentation
-  ([#4901](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4901))
-- Fix time units in HTTP & RPC metrics
-  ([#4963](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4963))
-- Fix some gauge types
-  ([#4962](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4962))
-- Fix context propagation for undertow async dispatch
-  ([#4950](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4950))
-- Fix redefinition failure on openj9
-  ([#5009](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5009))
-- Fix NPE in rmi server instrumentation
-  ([#5042](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/5042))
-
-### 🧰 Tooling
-
-- Merge start and end time extractors
-  ([#4692](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4692))
-- Move cache implementations to internal package
-  ([#4746](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4746))
-- Reorganize shared servlet code (intro
-  to [#4317](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4317))
-  ([#4785](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4785))
-- Move `AppServerBridge` and `MappingResolver` to `servlet-common:bootstrap`
-  ([#4817](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4817))
-- Move `ServletContextPath` to `servlet-common:bootstrap`
-  ([#4824](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4824))
-- Expose AutoConfiguredOpenTelemetrySdk to AgentListener
-  ([#4831](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4831))
-- Deprecate the Tracer API
-  ([#4868](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4868))
-- Remove ConfigPropertiesAdapter as it's no longer needed
-  ([#4888](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4888))
-- Refactor `ServerSpanNaming` (in preparation for `http.route`)
-  ([#4852](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4852))
-- Move SpanKey to internal package
-  ([#4869](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4869))
-
-## Version 1.9.2 (2022-01-07)
-
-### 🛠️ Bug fixes
-
-- Fix reactor-netty memory/connection leak
-  ([#4867](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4867))
-
-## Version 1.9.1 (2021-12-01)
-
-### 🛠️ Bug fixes
-
-- Shade class references within AWS SDK service files
-  ([#4752](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4752))
-
-## Version 1.9.0 (2021-11-25)
-
-### 📈 Enhancements
-
-- Don't report 400 level as error for SERVER spans
-  ([#4403](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4403))
-- Netty instrumentation now captures `http.scheme`
-  ([#4446](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4446),
-  [#4576](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4576))
-- Stabilize HTTP headers capturing configuration property names
-  ([#4459](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4459))
-- Add metrics to remaining http instrumentation
-  ([#4541](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4541))
-- Remove hibernate session spans
-  ([#4538](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4538))
-- Support Jedis 4
-  ([#4555](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4555))
-- Trace DNS resolution in Netty 4.1 and reactor-netty
-  ([#4587](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4587),
-  [#4627](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4627))
-- Update garbage collector instruments to be async counters
-  ([#4600](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4600))
-- Update HTTP metrics view to match the specification
-  ([#4556](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4556))
-- Improve Spring Integration interceptor ordering
-  ([#4602](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4602))
-- Support Restlet 2.0
-  ([#4535](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4535))
-- Improved capture of couchbase queries
-  ([#4615](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4615))
-- Trace SSL handshakes in netty 4.0 and 4.1
-  ([#4635](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4635),
-  [#4604](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4604))
-- Capture exception on finatra controller spans
-  ([#4669](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4669))
-- Capture exception on async servlet spans
-  ([#4677](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4677))
-- Automatic AWS library instrumentor
-  ([#4607](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4607))
-- Support spring boot 2.6.0
-  ([#4687](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4687))
-
-### 🛠️ Bug fixes
-
-- Preserve caught netty exception in the context instead of calling end()
-  ([#4413](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4413))
-- Extract net attributes both on start and on end in netty HTTP client
-  ([#4420](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4420))
-- Capture metric dimensions from end attributes also
-  ([#4430](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4430))
-- Avoid logging servlet3 muzzle failure when running on servlet2
-  ([#4474](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4474))
-- Fix JettyHttpClient9TracingInterceptor NullPointerException
-  ([#4527](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4527))
-- Fix context propagation in tomcat thread pool
-  ([#4521](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4521))
-- Add missing java.util.logging.Logger methods to PatchLogger
-  ([#4540](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4540))
-- Fix ClassCircularityError when running with security manager
-  ([#4557](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4557))
-- Fix sun.misc.Unsafe generation on Java 17
-  ([#4558](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4558))
-- Fix IndexOutOfBounds in apache http clients
-  ([#4575](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4575))
-- Fix RMI instrumentation on Java 17
-  ([#4577](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4577))
-- Fix Spring Integration instrumentation name
-  ([#4601](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4601))
-- Capture instrumentation version provided by application tracer correctly when using agent
-  ([#4630](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4630))
-- Ensure that netty 4.0 instrumentation is not applied to 4.1
-  ([#4626](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4626))
-- Fix muzzle problems happening when netty without SSL is used
-  ([#4631](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4631))
-- Fix memory leak when using ktor-client-java
-  ([#4637](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4637))
-- Fix quartz instrumentation name
-  ([#4657](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4657))
-- Fix Spring Integration context leak
-  ([#4673](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4673))
-- Fix exemplars
-  ([#4678](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4678))
-- Fix and enforce Android support
-  ([#4671](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4671),
-  [#4667](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4667)
-  [#4505](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4505))
-
-### 🧰 Tooling
-
-- Migrate to Spock 2
-  ([#4458](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4458))
-- Rename `newBuilder()` to `builder()`
-  ([#4475](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4475))
-- Sync gradle-plugins version with main project
-  ([#4248](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4248))
-- Muzzle match only once in each class loader
-  ([#4543](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4543))
-- Inject helper resources only once
-  ([#4573](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4573))
-- Improve muzzle check for constructors
-  ([#4591](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4591))
-- Add version to the InstrumenterBuilder and Instrumenter
-  ([#4611](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4611))
-- Add a ClassAndMethod class to Instrumentation API
-  ([#4619](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4619))
-- Implement a dedicated reactor-netty 1.0 instrumentation
-  ([#4662](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4662))
-- Remove gRPC dependency for export
-  ([#4674](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4674))
-- Start using Gradle Enterprise instance
-  ([#4663](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4663))
-
-## Version 1.8.0 - Bad Release
-
-Due to an issue in the publishing infrastructure, a bad release was published as 1.8.0. Do not use
-it.
-
-## Version 1.7.0 (2021-10-19)
-
-### 📈 Enhancements
-
-- Change the default javaagent artifact to have exporters, introduce new `-slim` artifact,
-  and deprecate the `-all` artifact
-  ([#4106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4106))
-- Support jlinked images without jdk.unsupported module
-  ([#4154](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4154))
-  ([#4124](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4124))
-- Added experimental option to suppress messaging receive spans
-  ([#4187](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4187))
-  ([#4204](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4204))
-- Refine 404 handling in Restlet instrumentation
-  ([#4206](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4206))
-- Remove dynamo db.name attribute
-  ([#4208](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4208))
-- Remove capturing http.url in server instrumentation in favor of http.scheme, http.host
-  and http.target
-  ([#4209](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4209))
-- Intern db info to reduce memory consumption
-  ([#4263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4263))
-- Better JAX-RS async cancel handling
-  ([#4279](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4279))
-- Extract HTTP request/response headers as span attributes
-  ([#4237](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4237),
-  [#4309](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4309),
-  [#4320](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4320),
-  [#4321](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4321),
-  [#4328](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4328),
-  [#4395](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4395))
-- Support kafka streams 3
-  ([#4236](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4236))
-- AWS lambda - improvements in custom type handling in wrappers, SQS event wrapper added
-  ([#4254](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4254))
-- Add code attributes to quartz spans
-  ([#4332](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4332))
-- Collect more attributes from servlet instrumenter
-  ([#4356](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4356))
-- Allow reactor instrumentation to pick up spans from reactor context
-  ([#4159](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4159))
-- Hide virtual field accessor interface methods from reflection
-  ([#4390](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4390))
-
-### 🛠️ Bug fixes
-
-- Fix spring context reload issue
-  ([#4051](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4051))
-- Remove incorrect lettuce db.statement attribute
-  ([#4160](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4160))
-- Fix tomcat async spans
-  ([#4339](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4339))
-
-### 🧰 Tooling
-
-- Add start/end time to RequestListener
-  ([#4155](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4155))
-- Add context customizer hook to Instrumenter API
-  ([#4167](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4167))
-- Transform lambda classes
-  ([#4182](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4182))
-- Separate HTTP client/server AttributesExtractors
-  ([#4195](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4195))
-- Introduce muzzle-specific interface to InstrumentationModule
-  ([#4207](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4207))
-- Make it possible to use InstrumentationContext (now VirtualField) from library instrumentation
-  ([#4218](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4218))
-- Add functionality to generate API changes
-  ([#4285](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4285))
-- Split NetAttributesExtractor into NetClientAttributesExtractor and NetServerAttributesExtractor
-  ([#4287](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4287))
-- Back VirtualField with a volatile field
-  ([#4355](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4355))
-- Convert AttributesExtractor to interface
-  ([#4363](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4363))
-- Rename some `*InstrumenterBuilder` classes to `*InstrumenterFactory`
-  ([#4391](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4391))
-- rename `newBuilder()` to `builder()`
-  ([#4407](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4407))
-
-## Version 1.6.2 (2021-09-30)
-
-### 🛠️ Bug fixes
-
-- The 1.6.1 patch release was not backwards compatible with javaagent extensions built against 1.6.0
-  ([#4245](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4245))
-
-## Version 1.6.1 (2021-09-29)
-
-### 🛠️ Bug fixes
-
-- Fix possible JDBC instrumentation deadlock
-  ([#4191](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4191))
-
-## Version 1.6.0 (2021-09-18)
-
-### 🌟 New javaagent instrumentation
-
-- Add instrumentation for Quartz 2.0
-  ([#4017](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4017))
-- Restlet instrumentation
-  ([#3946](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3946))
-
-### 🌟 New library instrumentation
-
-- Add instrumentation for Quartz 2.0
-  ([#4017](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4017))
-- Restlet instrumentation
-  ([#3946](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3946))
-
-### 📈 Enhancements
-
-- Extract Jedis 3 net attributes from InetSocketAddress
-  ([#3912](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3912))
-- Add option to suppress controller and view spans
-  ([#3865](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3865))
-- Capture http.user_agent for AsyncHttpClient
-  ([#3930](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3930))
-- Instrument spring-kafka batch message listeners
-  ([#3922](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3922))
-- Use unsafe to inject classes to the bootstrap class loader
-  ([#4026](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4026))
-- Some performance optimizations
-  ([#4004](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4004),
-  [#4006](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4006),
-  [#4008](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4008),
-  [#4013](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4013),
-  [#4014](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4014))
-- Do not fallback to net attributes for http.client_ip
-  ([#4063](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4063))
-- Start a CONSUMER span for Kafka poll()
-  ([#4041](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4041))
-- Support otlp http exporter
-  ([#4068](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4068))
-- Better grpc events
-  ([#4098](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4098))
-
-### 🛠️ Bug fixes
-
-- Bridge span keys defined in instrumentation-api
-  ([#3911](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3911))
-- Hide generated fields and methods from reflection
-  ([#3948](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3948))
-- Remove invalid message header
-  ([#3958](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3958))
-- Fix memleak in the Netty ChannelPipeline instrumentation
-  ([#4053](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4053))
-- Fix grpc instrumentation of callbacks
-  ([#4097](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4097))
-- Bridge trace builder
-  ([#4090](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4090))
-- Remove original handler when removelast in netty
-  ([#4123](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4123))
-
-### 🧰 Tooling
-
-- Deprecate old extensions
-  ([#3825](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3825))
-- Add request parameter to EndTimeExtractor
-  ([#3947](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3947))
-- Make Config behave exactly as SDK DefaultConfigProperties
-  ([#4035](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4035))
-- Fix extension shading
-  ([#4064](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4064))
-- Add error parameter to EndTimeExtractor and AttributesExtractor#onEnd()
-  ([#3988](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3988))
-- Allow adding multiple ContextStore fields to one key class
-  ([#4067](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4067),
-  [#4084](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4084),
-  [#4110](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4110))
-
-## Version 1.5.3 (2021-08-31)
-
-### 🛠️ Bug fixes
-
-- Fix parsing of unclean map values in Config
-  ([#4032](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/4032))
-
-## Version 1.5.2 (2021-08-27)
-
-### 🛠️ Bug fixes
-
-- Fix unbounded metrics cardinality, which in particular causes memory leak when not using any
-  metrics exporter
-  ([#3972](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3972))
-
-## Version 1.5.1 (2021-08-25)
-
-### 🛠️ Bug fixes
-
-- Fix broken Android level 21-25 support in OkHttp 3 library instrumentation
-  ([#3910](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3910))
-- Fix maven central pom file for the opentelemetry-javaagent artifact
-  ([#3929](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3929))
-- Fix maven central pom file for the opentelemetry-agent-for-testing artifact
-  ([#3935](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3935))
-
-## Version 1.5.0 (2021-08-22)
-
-### 🌟 New library instrumentation
-
-- Library instrumentation for Apache HTTP Client 4.3
-  ([#3623](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3623))
-- Library instrumentation for Ratpack server
-  ([#3749](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3749))
-
-### 📈 Enhancements
-
-- Support Couchbase 3.2.0
-  ([#3645](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3645))
-- Handle port and IPv6 in forwarded headers
-  ([#3651](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3651))
-- Set real Hibernate span name on method entry to help samplers
-  ([#3603](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3603))
-- Reduce overhead of unsampled requests
-  ([#3681](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3681))
-- Sanitize SQL in Apache Camel instrumentation
-  ([#3683](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3683),
-  [#3717](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3717))
-- Add option to create span on new netty connection
-  ([#3707](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3707))
-- Propagate context into jdk http client callback
-  ([#3719](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3719))
-- Instrument Tomcat executor to support async servlets in new Tomcat 9.0.52 release
-  ([#3789](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3789))
-- Add otlp-logging exporter
-  ([#3807](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3807))
-- Add new option to support capturing nested client spans of different types
-  ([#3691](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3691))
-- Propagate context to lettuce callbacks
-  ([#3839](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3839))
-- Instrument ForkJoinTask.fork()
-  ([#3849](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3849))
-- Implement a Call.Factory for okhttp 3.x+ library instrumentation
-  ([#3812](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3812))
-- Record exception in Dubbo instrumentation
-  ([#3851](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3851))
-- Propagate context to elasticsearch callbacks
-  ([#3858](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3858),
-  [#3861](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3861))
-- Added Vertx http client 4 instrumentation
-  ([#3665](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3665))
-- Make empty agent bridged context equal root context
-  ([#3869](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3869))
-
-### 🛠️ Bug fixes
-
-- Fix OkHttp 3 correlation when using callback under concurrency
-  ([#3669](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3669),
-  [#3676](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3676))
-- Fix Netty span not captured on read timeout
-  ([#3613](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3613))
-- Fix Netty connection failure handling when listener is lambda
-  ([#3569](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3569))
-- Fix NullPointerException in Apache HttpAsyncClient instrumentation
-  ([#3692](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3692))
-- Fix NullPointerException in Tomcat instrumentation
-  ([#3705](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3705))
-- Fix Apache HttpClient telemetry when host and absolute URI are used
-  ([#3694](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3694))
-- Fix JDK http client should propagate even when sampled out
-  ([#3736](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3736))
-- Limit netty exception capture to netty spans
-  ([#3809](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3809))
-- Fix jetty httpclient returning empty response when instrumented
-  ([#3831](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3831),
-  [#3833](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3833))
-- Don't clobber user decorators in Armeria client instrumentation
-  ([#3873](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3873))
-- Use valid Java identifiers for message keys
-  ([#3863](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3863))
-- Fix ClassNotFoundException: HandlerMappingResourceNameFilter in some ear deployments
-  ([#3718](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3718))
-
-### 🧰 Tooling
-
-- Improve extension sample documentation and add it to the README file
-  ([#3656](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3656))
-- Extract muzzle check plugin
-  ([#3657](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3657))
-- Move instrumentation specific classes out of javaagent-instrumentation-api
-  ([#3604](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3604))
-- Publish muzzle plugins to Gradle Plugin Portal
-  ([#3720](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3720),
-  [#3763](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3763))
-- Fill `http.client_ip` in ServerInstrumenter
-  ([#3756](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3756))
-- Fix printMuzzleReferences gradle task
-  ([#3808](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3808))
-- Introduce stable property for external extensions
-  ([#3823](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3823))
-- Run tests on j9 JVM during CI
-  ([#3764](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3764))
-- Support looking up a ContextStore from outside of Advice
-  ([#3827](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3827))
-- Deprecate MetricExporterFactory
-  ([#3862](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3862))
-- Don't pass configuration to SDK autoconfigure through system props
-  ([#3866](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3866))
-- Rename Config get\*Property() methods to get\*()
-  ([#3881](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3881))
-
-## Version 1.4.0 (2021-07-20)
-
-### ☢️ Behavioral changes
-
-- Updated all instrumentation names to `io.opentelemetry.{libName}-{libVersion}`
-  ([#3411](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3411))
-- Updated RabbitMQ to follow semantic conventions
-  ([#3425](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3425))
-
-### 🌟 New javaagent instrumentation
-
-- Jetty 9 HTTP client instrumentation
-  ([#3079](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3079))
-
-### 🌟 New library instrumentation
-
-- Jetty 9 HTTP client instrumentation
-  ([#3079](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3079))
-- Jdbc instrumentation
-  ([#3367](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3367))
-
-### 📈 Enhancements
-
-- Make @RabbitListener propagate context properly
-  ([#3339](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3339))
-- Add peer.service to grpc javaagent instrumentation
-  ([#3357](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3357))
-- Propagate context to cassandra4 callbacks
-  ([#3371](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3371))
-- Update Armeria instrumentation to support new Armeria 1.9.0 release
-  ([#3407](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3407))
-- Context propagation for ratpack Execution.fork()
-  ([#3416](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3416))
-
-### 🛠️ Bug fixes
-
-- Fix Kafka stream instrumentation to support Kafka 2.6 and above
-  ([#3438](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3438))
-- Fix Dubbo trace/span cross-process propagation
-  ([#3442](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3442))
-- Fix `peer.service` configuration mapping
-  ([#3378](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3378))
-
-### 🧰 Tooling
-
-- Hide Config#create() method and use builder everywhere
-  ([#3338](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3338))
-- Ignore task classes using IgnoredTypesConfigurer
-  ([#3380](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3380))
-- Exclude duplicate classes from final jars
-  ([#3432](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3432),
-  [#3430](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3430))
-- Port AsyncSpanEndStrategy to Instrumenter API
-  ([#3262](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3262))
-- Rename `opentelemetry-javaagent-api` artifact to `opentelemetry-javaagent-instrumentation-api`
-  ([#3513](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3513))
-
-## Version 1.3.1 (2021-06-23)
-
-### 🛠️ Bug fixes
-
-- Fix incorrect dependency in published BOM
-  ([#3376](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3376))
-- Fix UnsupportedOperationException with reactor-rabbitmq
-  ([#3381](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3381))
-- Fix Spring JMS not being instrumented
-  ([#3359](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3359))
-
-## Version 1.3.0 (2021-06-17)
-
-### ☢️ Behavioral changes
-
-- Update agent logger prefix
-  ([#3007](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3007))
-- Remove khttp instrumentation
-  ([#3087](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3087))
-- Enable akka actor instrumentation by default
-  ([#3173](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3173))
-
-### 🌟 New javaagent instrumentation
-
-- Spring Integration javaagent instrumentation
-  ([#3295](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3295))
-
-### 🌟 New library instrumentation
-
-- Spring Integration library instrumentation
-  ([#3120](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3120))
-
-### 📈 Enhancements
-
-- Support peer-service-mapping in OkHttp3 instrumentation
-  ([#3063](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3063))
-- Low cardinality span names for Hibernate spans
-  ([#3106](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3106))
-- Propagate context to armeria callbacks
-  ([#3108](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3108))
-- Add attributes to netty connection failure span
-  ([#3115](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3115))
-- Defer initialization of OpenTelemetry in spring-boot-autoconfigure
-  ([#3171](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3171))
-- Support couchbase 3.1.6
-  ([#3194](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3194))
-- New experimental support for agent extensions
-  ([#2881](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2881),
-  [#3071](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3071),
-  [#3226](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3226),
-  [#3237](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3237))
-- Propagate context to akka http callbacks
-  ([#3263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3263))
-
-### 🛠️ Bug fixes
-
-- Remove Netty instrumented handler wrapper when original handler is removed
-  ([#3026](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3026))
-- Fix memory leak when Netty handler is a lambda
-  ([#3059](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3059))
-- Fix race condition on Undertow
-  ([#2992](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2992))
-- Remove db.connection_string from redis instrumentation
-  ([#3094](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3094))
-- Fix context propagation leak in Akka instrumentation
-  ([#3099](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3099))
-- Fix webflux handler span sporadically not ending
-  ([#3150](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3150))
-- End span on cancellation of subscription to reactive publishers
-  ([#3153](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3153))
-- End span on cancellation of Guava future
-  ([#3175](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3175))
-- Create Netty connection failure span only when first operation fails
-  ([#3228](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3228))
-- Internal instrumentation should always be enabled by default
-  ([#3257](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3257))
-- Fix context propagation leak in Akka HTTP instrumentation
-  ([#3264](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3264))
-- Only include exporters in the `-all` jar
-  ([#3286](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3286))
-- Fix ForkJoinPool sometimes not instrumented
-  ([#3293](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3293))
-
-### 🧰 Tooling
-
-- Migrate MuzzlePlugin to Java
-  ([#2996](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2996),
-  [#3017](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3017))
-- Refactor TypeInstrumentation#transformers() method
-  ([#3019](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3019))
-- Change a couple of Longs to Integers in Instrumenter API
-  ([#3043](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3043))
-- Add peer.service to Instrumenter API
-  ([#3050](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3050))
-- Add response type parameter to db attributes extractor
-  ([#3093](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3093))
-- Add optimized Attributes implementation for Instrumenter
-  ([#3136](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3136))
-- Rename ComponentInstaller to AgentListener and add #order() method
-  ([#3182](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3182))
-- Update ByteBuddy
-  ([#3254](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3254))
-- Introduce IgnoredTypesConfigurer SPI to enable defining per-module ignores
-  ([#3219](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3219))
-- Extract agent shadow configuration to conventions script
-  ([#3256](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3256))
-- Deprecate SpanExporterFactory in favor of ConfigurableSpanExporterProvider
-  ([#3299](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3299))
-- Refactor span names class
-  ([#3281](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3281))
-- Move http client/server testing dependencies to internal package
-  ([#3305](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/3305))
-
-## Version 1.2.0 (2021-05-14)
-
-### ☢️ Behavioral changes
-
-- AWS lambda flush timeout raised to 10 seconds
-  ([#2855](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2855))
-- `SERVER` span names improved for Spring MVC, Grails, Wicket, and Struts
-  ([#2814](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2814))
-- `SERVER` span names improved for Servlet filters
-  ([#2887](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2887))
-- `SERVER` span names improved for Resteasy
-  ([#2900](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2900))
-- `SERVER` span names improved for Jersey and CXF
-  ([#2919](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2919))
-- JAX-RS `@ApplicationPath` annotation captured as part of `SERVER` span name
-  ([#2824](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2824))
-- RequestDispatcher `forward()` and `include()` internal spans removed
-  ([#2816](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2816))
-- Raised gRPC min version supported to 1.6 in order to use new gRPC context bridge API
-  ([#2948](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2948))
-
-### 🌟 New javaagent instrumentation
-
-- RxJava 3
-  ([#2794](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2794))
-
-### 🌟 New library instrumentation
-
-- RxJava 3
-  ([#2794](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2794))
-
-### 📈 Enhancements
-
-- Support sub-millisecond precision for start/end times on Java 9+
-  ([#2600](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2600))
-- `@WithSpan` async support added for methods returning async Reactor 3.x types
-  ([#2714](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2714))
-- `@WithSpan` async support added for methods returning Guava ListenableFuture
-  ([#2811](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2811))
-- Semantic attributes `code.namespace` and `code.function` captured on JAX-RS internal spans
-  ([#2805](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2805))
-- Context propagated to reactor-netty callbacks
-  ([#2850](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2850))
-
-### 🛠️ Bug fixes
-
-- gRPC context bridging issues
-  ([#2564](https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/2564),
-  [#2959](https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/2959))
-- URL credentials of the form `https://username:password@www.example.com/` no longer captured
-  ([#2707](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2707))
-- Spring MVC instrumentation can cause Spring MVC to misroute requests under some conditions
-  ([#2815](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2815))
-- RxJava2 NoSuchFieldError
-  ([#2836](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2836))
-- Duplicate http client tracing headers
-  ([#2842](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2842))
-- Netty 4.1 listeners could not be removed by application
-  ([#2851](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2851))
-- NPE caused in gRPC ProtoReflectionService
-  ([#2876](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2876))
-- Context leak when using Ratpack
-  ([#2910](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2910))
-- Context leak when using Jetty
-  ([#2920](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2920))
-- Servlet instrumentation overwrites setStatus that was set manually earlier
-  ([#2929](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2929))
-- Spans not captured on interface default methods annotated with JAX-RS annotations
-  ([#2930](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2930))
-
-### 🧰 Tooling
-
-- Documented how to write InstrumentationModule line by line
-  ([#2793](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2793))
-- New instrumenter API used in JMS instrumentation
-  ([#2803](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2803))
-- Instrumenter API improvements
-  ([#2860](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2860))
-- Muzzle checks whether used fields are actually declared somewhere
-  ([#2870](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2870))
-- Extracted javaagent-extension-api from tooling & spi
-  ([#2879](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2879))
-  - You no longer have to depend on the `javaagent-tooling` module to implement custom
-    instrumentations: a new `javaagent-extension-api` module was introduced, containing all the
-    necessary instrumentation classes and interfaces;
-  - `InstrumentationModule` and `TypeInstrumentation` were moved to
-    the `io.opentelemetry.javaagent.extension.instrumentation` package;
-  - `AgentElementMatchers`, `ClassLoaderMatcher` and `NameMatchers` were moved to
-    the `io.opentelemetry.javaagent.extension.matcher` package;
-  - A new SPI `AgentExtension` was introduced: it replaces `ByteBuddyAgentCustomizer`;
-  - `InstrumentationModule#getOrder()` was renamed to `order()`;
-  - `InstrumentationModule#additionalHelperClassNames()` has been removed;
-    use `isHelperClass(String)` instead if you use the muzzle compile plugin. If you're not using
-    muzzle, you can override `getMuzzleHelperClassNames()` directly instead;
-  - `InstrumentationModule#getAllHelperClassNames()` has been removed; you can
-    call `getMuzzleHelperClassNames()` to retrieve all helper class names instead.
-
-## Version 1.1.0 (2021-04-14)
-
-### ☢️ Behavioral changes
-
-- Update servlet attribute names for log injection, from `traceId` and `spanId` to `trace_id` and
-  `span_id`
-  ([#2593](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2593))
-- Renamed `runtime.jvm.gc.collection` metric to `runtime.jvm.gc.time`
-  ([#2616](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2616))
-
-### 🌟 New javaagent instrumentation
-
-- Elasticsearch 7
-  ([#2514](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2514),
-  [#2528](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2528))
-- Couchbase 3.1
-  ([#2524](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2524))
-- Grails
-  ([#2512](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2512))
-- RocketMQ
-  ([#2263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2263))
-- Lettuce 6
-  ([#2589](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2589))
-- Servlet 5
-  ([#2609](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2609))
-- Vaadin web framework
-  ([#2619](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2619))
-- GWT
-  ([#2652](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2652))
-- Tapestry web framework
-  ([#2690](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2690))
-- `@WithSpan` support for methods returning CompletableFuture
-  ([#2530](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2530))
-- `@WithSpan` support for methods returning async RxJava 2 types
-  ([#2530](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2530))
-
-### 🌟 New library instrumentation
-
-- Library instrumentation for AWS SDK v1
-  ([#2525](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2525))
-- Library instrumentation for Lettuce 5.1
-  ([#2533](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2533))
-- RocketMQ
-  ([#2263](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2263))
-- Lettuce 6
-  ([#2589](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2589))
-- Spring Boot Autoconfigure support for `@WithSpan` methods returning CompletableFuture
-  ([#2618](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2618))
-- Spring Boot Autoconfigure support for `@WithSpan` methods returning async RxJava 2 types
-  ([#2530](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2530))
-
-### 📈 Improvements
-
-- Move attributes to span builder for use by samplers
-  ([#2587](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2587))
-- Apache Camel - SNS propagation
-  ([#2562](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2562))
-- Apache Camel - S3 to SQS propagation
-  ([#2583](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2583))
-- Added `runtime.jvm.gc.count` metric
-  ([#2616](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2616))
-- Support reactor netty `HttpClient.from` construction
-  ([#2650](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2650))
-- Improve akka instrumentation
-  ([#2737](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2737))
-- Record internal metric for SQL cache misses
-  ([#2747](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2747))
-- End Netty 4.1 client and server spans when the response has completed, instead of when the
-  response has started
-  ([#2641](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2641))
-
-### 🛠️ Bug fixes
-
-- Fix RestTemplateInterceptor so that it calls endExceptionally() on exception
-  ([#2516](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2516))
-- Fix app failure under Eclipse OSGi
-  ([#2521](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2521))
-- Fix undertow span ending too early
-  ([#2560](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2560))
-- Fix context leak in AWS SDK 2.2 and RocketMQ instrumentations
-  ([#2637](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2637))
-- Fix hang when a webflux http request is made inside of another webflux http request
-  (e.g. auth filter)
-  ([#2646](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2646))
-- Fix `@WithSpan` instrumentation breaking Java 6 classes
-  ([#2699](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2699))
-- Fix context not propagated over JMS when explicit destination used
-  ([#2702](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2702))
-- Fix StackOverflowError if jdbc driver implementation of Connection getMetaData calls Statement
-  execute
-  ([#2756](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2756))
-
-### 🧰 Tooling
-
-- Make muzzle reference creation package(s) configurable
-  ([#2615](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2615))
-- Instrumentations now can skip defining context store manually
-  ([#2775](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2775))
-- New Instrumenter API
-  ([#2596](https://github.com/open-telemetry/opentelemetry-java-instrumentation/pull/2596))
+# Smithy Changelog
+
+## 1.37.0 (2023-08-22)
+
+### Features
+* Formatted operation errors onto multiple lines ([#1933](https://github.com/smithy-lang/smithy/pull/1933))
+* Added support for creating specific `TreeType` to smithy-syntax ([#1925](https://github.com/smithy-lang/smithy/pull/1925))
+* Added validator for services with noAuth trait ([#1929](https://github.com/smithy-lang/smithy/pull/1929))
+* Added ServiceIndex method for noAuth scheme ([#1924](https://github.com/smithy-lang/smithy/pull/1924))
+* Added warning on addition of required trait ([#1923](https://github.com/smithy-lang/smithy/pull/1923))
+* Added versioning for API Gateway defaults ([#1916](https://github.com/smithy-lang/smithy/pull/1916))
+* Added support for enum map keys with OpenApi 3.1.0 ([#1905](https://github.com/smithy-lang/smithy/pull/1905))
+* Added support for suppressions to smithy-diff ([#1861](https://github.com/smithy-lang/smithy/pull/1861))
+* Added `specificationExtension` trait for OpenAPI extensions ([#1609](https://github.com/smithy-lang/smithy/pull/1609))
+* Added `conditionKeyValue` and `conditionKeysResolvedByService` traits ([#1677](https://github.com/smithy-lang/smithy/pull/1677))
+
+### Documentation
+* Updated `getAuthSchemes` javadoc ([#1930](https://github.com/smithy-lang/smithy/pull/1930))
+* Clarified `default` and `clientOptional` traits ([#1920](https://github.com/smithy-lang/smithy/pull/1920))
+* Fixed version numbers in smithy-build.json examples ([#1918](https://github.com/smithy-lang/smithy/pull/1918))
+* Clarified ordering of auth schemes in ServiceIndex ([#1915](https://github.com/smithy-lang/smithy/pull/1915))
+* Included prelude in spec ([#1913](https://github.com/smithy-lang/smithy/pull/1913))
+
+### Bug Fixes
+* Fixed assembler addTraits for some resource models ([#1927](https://github.com/smithy-lang/smithy/pull/1927))
+
+## 1.36.0 (2023-08-03)
+
+### Features
+* Allowed disabling format on integers when converting to OpenAPI ([#1904](https://github.com/smithy-lang/smithy/pull/1904))
+* Added intEnum support when converting to OpenAPI ([#1898](https://github.com/smithy-lang/smithy/pull/1898))
+* Added support for overriding validation severity ([#1890](https://github.com/smithy-lang/smithy/pull/1890))
+* Added `disableDefaultValues` option when converting to OpenAPI ([#1887](https://github.com/smithy-lang/smithy/pull/1887))
+* Updated brew workflow to use new smithy tap ([#1897](https://github.com/smithy-lang/smithy/pull/1897))
+* Added progress tracker and message for CLI while cloning a template ([#1888](https://github.com/smithy-lang/smithy/pull/1888))
+* Updated init command to honor quiet setting ([#1889](https://github.com/smithy-lang/smithy/pull/1889))
+* Updated appearance of smithy init list output ([#1901](https://github.com/smithy-lang/smithy/pull/1901))
+* Added exceptions for invalid paths in template definition ([#1907](https://github.com/smithy-lang/smithy/pull/1907))
+* Added Cache template directory in init command ([#1896](https://github.com/smithy-lang/smithy/pull/1896))
+* Check for existing directory when creating template with init ([#1885](https://github.com/smithy-lang/smithy/pull/1885))
+
+### Documentation
+* Clarified constraint trait enforcement ([#1902](https://github.com/smithy-lang/smithy/pull/1902))
+* Better document trait merging ([#1895](https://github.com/smithy-lang/smithy/pull/1895))
+* Updated docs to use new smithy-lang tap ([#1893](https://github.com/smithy-lang/smithy/pull/1893))
+* Added naming recommendations ([#1892](https://github.com/smithy-lang/smithy/pull/1892))
+
+### Bug Fixes
+* Fixed NPE when docId is null when ServiceTrait.equals is called ([#1903](https://github.com/smithy-lang/smithy/pull/1903))
+* Fixed off-by-one issues in TokenTree and TreeCursor ([#1891](https://github.com/smithy-lang/smithy/pull/1891))
+* Fixed snapshot dependency resolution ([#1884](https://github.com/smithy-lang/smithy/pull/1884))
+
+### Other
+* Use standard output for regular messages ([#1894](https://github.com/smithy-lang/smithy/pull/1894))
+
+## 1.35.0 (2023-07-27)
+
+### Features
+* Enabled support for SNAPSHOT dependencies ([#1853](https://github.com/smithy-lang/smithy/pull/1853), [#1857](https://github.com/smithy-lang/smithy/pull/1857), [#1884](https://github.com/smithy-lang/smithy/pull/1884))
+* Enabled default mode for `smithy diff` rather than failing when not set ([#1856](https://github.com/smithy-lang/smithy/pull/1856))
+* Added warning to mis-cased standard HTTP verbs ([#1862](https://github.com/smithy-lang/smithy/pull/1862))
+* Relaxed type constraints for `pageSize` property of the `@paginated` trait ([#1866](https://github.com/smithy-lang/smithy/pull/1866))
+* Improved message for invalid `.errors` entries ([#1867](https://github.com/smithy-lang/smithy/pull/1867))
+* Added `docId` property to `aws.api#service` trait ([#1863](https://github.com/smithy-lang/smithy/pull/1863), [#1872](https://github.com/smithy-lang/smithy/pull/1872), [#1881](https://github.com/smithy-lang/smithy/pull/1881), [#1882](https://github.com/smithy-lang/smithy/pull/1882))
+* Improved validation for http binding protocols ([#1873](https://github.com/smithy-lang/smithy/pull/1873))
+* Expanded valid targets of `@httpPayload` ([#1876](https://github.com/smithy-lang/smithy/pull/1876))
+
+### Documentation
+* Updated documentation around `timestamp` and added more specificity to the definition ([#1858](https://github.com/smithy-lang/smithy/pull/1858)) 
+
+### Bug Fixes
+* Removed unrecognized models from sources ([#1851](https://github.com/smithy-lang/smithy/pull/1851), [#1860](https://github.com/smithy-lang/smithy/pull/1860))
+* Updated the content type of list & map shapes with the `@httpPayload` trait to document content type ([#1840](https://github.com/smithy-lang/smithy/pull/1840))
+* Fixed IDL serializer which would write emtpy `apply` statements to mixed in members of `enums` ([#1865](https://github.com/smithy-lang/smithy/pull/1865))
+* Fixed indentation when formatting text blocks ([#1875](https://github.com/smithy-lang/smithy/pull/1875))
+* Added resource files to source jars ([#1877](https://github.com/smithy-lang/smithy/pull/1877), [#1880](https://github.com/smithy-lang/smithy/pull/1880))
+* Fixed a potential resource leak by using a try with resources ([#1878](https://github.com/smithy-lang/smithy/pull/1878))
+
+### Other
+
+* Migrated to using Gradle 8.2.1 to build Smithy. This should have no impactful downstream effects ([#1849](https://github.com/smithy-lang/smithy/pull/1849))
+* Moved repository into `smithy-lang` organization and updated resources accordingly ([#1852](https://github.com/smithy-lang/smithy/pull/1852), [#1854](https://github.com/smithy-lang/smithy/pull/1854))
+
+## 1.34.0 (2023-07-10)
+
+### Features
+
+* Added a default template for the `smithy init` command, making specifying templates optional ([#1843](https://github.com/awslabs/smithy/pull/1843))
+* Updated the model loader to skip unrecognized non-Smithy JSON files ([#1846](https://github.com/awslabs/smithy/pull/1846))
+
+### Bug Fixes
+
+* Fixed basic HTTP authentication when resolving dependencies in the Smithy CLI ([#1838](https://github.com/awslabs/smithy/pull/1838))
+* Fixed a bug when deduping `ChangedNullability` events ([#1839](https://github.com/awslabs/smithy/pull/1839))
+
+### Documentation
+
+* Replaced implementation docs with the awesome-smithy repository ([#1845](https://github.com/awslabs/smithy/pull/1845))
+* Removed support for fractional seconds from the `http-date` timestamp format ([#1847](https://github.com/awslabs/smithy/pull/1847))
+* Rephrased optional fractional precision and no UTC offset support for the `date-time` timestamp format ([#1835](https://github.com/awslabs/smithy/pull/1835))
+
+## 1.33.0 (2023-06-21)
+
+### Features
+* Extended event ids for `AddedOperationError`, `RemovedOperationError`, `AddedEntityBinding` and `RemovedEntityBinding` diff events ([#1797](https://github.com/awslabs/smithy/pull/1797), [#1803](https://github.com/awslabs/smithy/pull/1803))
+* Added enum values to ids for `ChangedEnumTrait` diff events ([#1807](https://github.com/awslabs/smithy/pull/1807))
+* Added `init` command to Smithy CLI ([#1802](https://github.com/awslabs/smithy/pull/1802), [#1825](https://github.com/awslabs/smithy/pull/1825), [#1832](https://github.com/awslabs/smithy/pull/1832))
+* Added `smithy-syntax` package and `smithy format` command to Smithy CLI ([#1830](https://github.com/awslabs/smithy/pull/1830))
+
+### Bug Fixes
+* Fixed duplicated events for `ChangedNullability` alongside the `AddedInputTrait / RemovedInputTrait` ([#1806](https://github.com/awslabs/smithy/pull/1806))
+* Updated request compression trait protocol tests with regard to HTTP bindings and respective specification ([#1831](https://github.com/awslabs/smithy/pull/1831))
+
+### Documentation
+* Added `smithy-dafny` to code generators table ([#1813](https://github.com/awslabs/smithy/pull/1813))
+* Updated stale docs around `MissingPaginatedTrait` ([#1814](https://github.com/awslabs/smithy/pull/1814))
+* Fixed grammar rendering ([#1815](https://github.com/awslabs/smithy/pull/1815))
+* Updated recommendation for HTTP status code ([#1818](https://github.com/awslabs/smithy/pull/1818))
+* Fixed selector example ([#1824](https://github.com/awslabs/smithy/pull/1824))
+* Added note about how constraint traits affect backward compatibility ([#1826](https://github.com/awslabs/smithy/pull/1826))
+* Added guide on disabling authentication ([#1791](https://github.com/awslabs/smithy/pull/1791))
+
+## 1.32.0 (2023-06-06)
+
+### Features
+* Refactor parsing and validation of `list` and `map` shapes. This improved validation output when unexpected members were present in these shapes ([#1782](https://github.com/awslabs/smithy/pull/1782)) 
+* Updated smithy-build to output projection failures only after all plugins finish running (failed or otherwise) ([#1762](https://github.com/awslabs/smithy/pull/1762))
+* Added new pluggable validation-event decorator capability. This allows for customizing of validation events through a service provider interface ([#1774](https://github.com/awslabs/smithy/pull/1774))
+* Added new diff-evaluator to emit events for when the `@required` trait is added to existing structures without a default ([##1781](https://github.com/awslabs/smithy/pull/1781))
+* Improved validation output for `@default` collisions ([#1780](https://github.com/awslabs/smithy/pull/1780))
+* Updated `@httpQuery` trait validation to prevent query-literal and query-param conflicts ([#1786](https://github.com/awslabs/smithy/pull/1786))
+* Updated default pagination flags to improve missing-pagination validation ([#1764](https://github.com/awslabs/smithy/pull/1764))
+* Updated `SdkServiceIdValidator` to emit `DANGER` events instead of `ERROR` events ([#1772](https://github.com/awslabs/smithy/pull/1772))
+* Updated `ChangedEnumTrait` evaluator to include specific ids, in order to differentiate specific events ([#1787](https://github.com/awslabs/smithy/pull/1787))
+* Added protocol tests to validate http-label escaping in the `restXml` protocol ([#1759](https://github.com/awslabs/smithy/pull/1759))
+* Added support for `@externalDocs` trait when converting operations in the OpenAPI converter ([#1767](https://github.com/awslabs/smithy/pull/1767))
+* Updated a handful of specifications in the smithy-grammar to improve parsability ([#1788](https://github.com/awslabs/smithy/pull/1788), [#1790](https://github.com/awslabs/smithy/pull/1790), [#1792](https://github.com/awslabs/smithy/pull/1792), [#1793](https://github.com/awslabs/smithy/pull/1793), [#1800](https://github.com/awslabs/smithy/pull/1800))
+
+### Bug Fixes
+* Fixed `migrate` CLI command to properly upgrade 1/1.0 models to 2/2.0 ([#1579](https://github.com/awslabs/smithy/pull/1579), [#1769](https://github.com/awslabs/smithy/pull/1769))
+* Fixed application of enum-mixins on empty enums ([#1794](https://github.com/awslabs/smithy/pull/1794))
+* Fixed handling of dangling doc-comments in structures ([#1776](https://github.com/awslabs/smithy/pull/1776))
+* Fixed several smithy-grammar typos and consistency issues ([#1783](https://github.com/awslabs/smithy/pull/1783))
+
+### Documentation
+* Added a warning about the limitations of request-validation in API-Gateway ([#1765](https://github.com/awslabs/smithy/pull/1765))
+* Updated CLI installation guide for Windows to be more idiomatic ([#1757](https://github.com/awslabs/smithy/pull/1757))
+* Updated protocol documentation pages to indicate support for the `@requestCompression` trait ([#1763](https://github.com/awslabs/smithy/pull/1763))
+
+## 1.31.0 (2023-04-25)
+
+### Features
+* Added `@requestCompression` trait which indicates whether an operation supports compressed requests ([#1748](https://github.com/awslabs/smithy/pull/1748))
+* Improved IDL parser and added basic error recovery ([#1733](https://github.com/awslabs/smithy/pull/1733))
+* Added restJson1 protocol test for a list of structures missing a required key ([#1735](https://github.com/awslabs/smithy/pull/1735))
+* Added ability to order the output of the IDL serializer ([#1727](https://github.com/awslabs/smithy/pull/1727))
+ 
+### Bug Fixes
+* Updated conversion from string shape with `@enum` trait to enum shape to convert `internal` tag to `@internal` trait ([#1739](https://github.com/awslabs/smithy/pull/1739))
+
+### Documentation
+* Added documentation for changeStringEnumsToEnumShapes transformation ([#1740](https://github.com/awslabs/smithy/pull/1740))
+
+## 1.30.0 (2023-04-10)
+
+### Features
+* Updated smithy-diff and smithy-build to use pretty validation output and color theming options ([#1712](https://github.com/awslabs/smithy/pull/1712))
+* Added --mode flag to smithy diff command with support for `aribtrary`, `project`, and `git` modes 
+  ([#1724](https://github.com/awslabs/smithy/pull/1724), [#1721](https://github.com/awslabs/smithy/pull/1721), [#1718](https://github.com/awslabs/smithy/pull/1718)) 
+* Added --flatten flag to AST command which flattens and removes mixins from the model ([#1723](https://github.com/awslabs/smithy/pull/1723))
+* Expose functions to make ruleEvaluator more flexible to support coverage checking ([#1681](https://github.com/awslabs/smithy/pull/1681))
+
+### Bug Fixes
+* Updated mixins to allow multiple mixins to override the same member if they all target the same shape ([#1715](https://github.com/awslabs/smithy/pull/1715))
+* Fixed an issue where source file names impacted the ordering of metadata ([#1716](https://github.com/awslabs/smithy/pull/1716))
+* Fixed error messages for invalid operation input/output bindings ([#1728](https://github.com/awslabs/smithy/pull/1728))
+* Fixed bugs in smithy-rules-engine boolEquals and stringEquals which could cause unexpected results when visitors are 
+  invoked ([#1681](https://github.com/awslabs/smithy/pull/1681))
+* Remove unnecessary member from `aws.iam#actionName` ([#1726](https://github.com/awslabs/smithy/pull/1726))
+
+### Documentation
+* Added guide on how to install the Smithy CLI ([#1697](https://github.com/awslabs/smithy/pull/1697))
+* Added examples of how smithy validators can be used to prevent common bugs and enforce common style ([#1702](https://github.com/awslabs/smithy/pull/1702))
+* Added clarification on meaning and use of `@httpApiKeyAuth` `scheme` property ([#1714](https://github.com/awslabs/smithy/pull/1714))
+* Reduced IDL ambiguity by replacing *SP with [SP] ([#1711](https://github.com/awslabs/smithy/pull/1711))
+
+## 1.29.0 (2023-04-03)
+
+### Features
+* Added EnumTrait validation protocol test ([#1679](https://github.com/awslabs/smithy/pull/1679))
+* Added process based plugins to Smithy build ([#1672](https://github.com/awslabs/smithy/pull/1672))
+* Added GenerateOperationDirective to generate operation shapes separate from resources and services ([#1676](https://github.com/awslabs/smithy/pull/1679))
+* Added :root and :in selectors ([#1690](https://github.com/awslabs/smithy/pull/1690))
+* Added --show-traits to select command ([#1692](https://github.com/awslabs/smithy/pull/1692))
+* Added includePreludeShapes in model plugin ([#1693](https://github.com/awslabs/smithy/pull/1693))
+* Added aws.iam#actionName trait to override using the API operation name ([#1679](https://github.com/awslabs/smithy/pull/1665))
+* Improved resource property validation and error messages ([#1694](https://github.com/awslabs/smithy/pull/1694))
+* Improved CLI outputs for validation commands ([#1695](https://github.com/awslabs/smithy/pull/1695))
+* Optimized identity and neighbor selectors ([#1691](https://github.com/awslabs/smithy/pull/1691))
+* Refactored CLI to remove --severity from some commands ([#1700](https://github.com/awslabs/smithy/pull/1700))
+* Removed unused positional [<MODEL>] from diff command ([#1703](https://github.com/awslabs/smithy/pull/1703))
+
+### Bug Fixes
+* Ensured that the ValidationEvent listener gets all events when batch inclusions are used ([#1698](https://github.com/awslabs/smithy/pull/1698))
+* Fixed cp-R for linux, xcopy for windows in smithy-cli installers ([#1686](https://github.com/awslabs/smithy/pull/1686))
+* Fixed allowUnknownTraits for projection with import ([#1685](https://github.com/awslabs/smithy/pull/1685))
+* Fixed reversed parameters in diff message for RemovedOperationError ([#1689](https://github.com/awslabs/smithy/pull/1689))
+* Fixed hierarchical event ids lost when specifying a custom linter validator id or severity level ([#1705](https://github.com/awslabs/smithy/pull/1705))
+* Improved handling additionalSchema targeting an invalid shape ([#1708](https://github.com/awslabs/smithy/pull/1708))
+* Reduced IDL ambiguity by replacing *WS with [WS] ([#1699](https://github.com/awslabs/smithy/pull/1699))
+
+### Documentation
+* Added compatibility note to evolving models ([#1669](https://github.com/awslabs/smithy/pull/1669))
+* Fixed mixins usage examples in style guide ([#1670](https://github.com/awslabs/smithy/pull/1670))
+* Fixed type in primitive root-level example ([#1687](https://github.com/awslabs/smithy/pull/1687))
+* Removed recommendation to implement presence tracking when handling default values ([#1682](https://github.com/awslabs/smithy/pull/1682))
+* Removed OperationBody indefinite repetition in IDL ([#1707](https://github.com/awslabs/smithy/pull/1707))
+
+## 1.28.1 (2023-03-09)
+
+### Features
+* Added a suite of compliance tests for selectors ([#1643](https://github.com/awslabs/smithy/pull/1643))
+
+### Bug Fixes
+* Fixed an issue with generating CloudFormation Resource Schemas when using the `@nestedProperties` trait ([#1641](https://github.com/awslabs/smithy/pull/1641))
+* Fixed an issue where `enum` shapes could not be used as `resource` identifiers ([#1644](https://github.com/awslabs/smithy/pull/1644))
+* Fixed an issue when comparing event ids for deprecated shapes ([#1640](https://github.com/awslabs/smithy/pull/1640))
+* Fixed an issue where "core" validation events were not suppressible ([#1646](https://github.com/awslabs/smithy/pull/1646))
+* Fixed an issue with `NodeMapper`'s handling of lists of generic types ([#1635](https://github.com/awslabs/smithy/pull/1635))
+* Fixed various typos of the word "ignore", including for the `NodeMapper.WhenMissing` enum ([#1652](https://github.com/awslabs/smithy/pull/1652))
+* Fixed an issue where `enum` members were flagged by the `MissingSensitiveTrait` validator ([#1661](https://github.com/awslabs/smithy/pull/1661))
+* Updated the validation messages for `uniqueItems` malformed request tests ([#1639](https://github.com/awslabs/smithy/pull/1639))
+* Updated the validation messages for `enum` malformed request tests to not return internal values ([#1658](https://github.com/awslabs/smithy/pull/1658))
+* Fixed various issues with protocol tests ([#1642](https://github.com/awslabs/smithy/pull/1642), [#1648](https://github.com/awslabs/smithy/pull/1648),
+  [#1645](https://github.com/awslabs/smithy/pull/1645))
+
+## 1.28.0 (2023-02-24)
+
+### Features
+* Add client-only protocol tests for fractional second parsing ([#1627](https://github.com/awslabs/smithy/pull/1627))
+* Add protocol test for omitting empty http-query lists ([#1629](https://github.com/awslabs/smithy/pull/1629))
+* Add support for JSON Schema draft2020-12 ([#1617](https://github.com/awslabs/smithy/pull/1617))
+* Add hierarchical eventIds ([#1527](https://github.com/awslabs/smithy/pull/1527), [#1631](https://github.com/awslabs/smithy/pull/1631))
+* Preserve tag order in generated OpenAPI specification ([#1604](https://github.com/awslabs/smithy/pull/1604))
+* Add shapes generation order in CodegenDirector ([#1615](https://github.com/awslabs/smithy/pull/1615))
+
+### Bug Fixes
+* Remove reflected input values from validation protocol tests ([#1622](https://github.com/awslabs/smithy/pull/1622))
+* Fail ExamplesTraitValidator when both output and error are defined ([#1599](https://github.com/awslabs/smithy/pull/1599))
+* Fix mixin cycles being incorrectly detected ([#1628](https://github.com/awslabs/smithy/pull/1628))
+* Fix warnings in AST Loader for Resource and Operation Shapes with mixins ([#1626](https://github.com/awslabs/smithy/pull/1626))
+* Fix referenced components removed in openapi schema ([#1595](https://github.com/awslabs/smithy/pull/1595))
+* Fix OR condition in scoped attribute selector ([#1618](https://github.com/awslabs/smithy/pull/1618))
+* Fix passthroughBehavior casing on x-amzn-apigateway-integration ([#1619](https://github.com/awslabs/smithy/pull/1619))
+
+### Documentation
+* Clarify rules for escaping shapes bound to URIs ([#1630](https://github.com/awslabs/smithy/pull/1630))
+* Document Tree Sitter implementation ([#1621](https://github.com/awslabs/smithy/pull/1621))
+* Clarify handling of date-time offsets ([#1597](https://github.com/awslabs/smithy/pull/1597))
+* Add Smithy code generation guide ([#1586](https://github.com/awslabs/smithy/pull/1586), [#1592](https://github.com/awslabs/smithy/pull/1592))
+
+## 1.27.2 (2023-01-30)
+
+### Features
+* Implement Comparable interface for TagObject and ExternalDocumentation ([#1589](https://github.com/awslabs/smithy/pull/1589))
+* Relax rule engine validation to support test auth schemes ([#1590](https://github.com/awslabs/smithy/pull/1590))
+* Ensure that AuthSchemes added to Endpoint builder retain parameter ordering ([#1591](https://github.com/awslabs/smithy/pull/1591))
+* Add intEnum coverage on map of string list ([#1596](https://github.com/awslabs/smithy/pull/1596))
+
+### Bug Fixes
+* Add source location to synthetic Enum trait ([#1580](https://github.com/awslabs/smithy/pull/1580))
+
+### Documentation
+* Minor fix to restJson1 docs ([#1587](https://github.com/awslabs/smithy/pull/1587))
+
+## 1.27.1 (2023-01-11)
+
+### Features
+* Update protocol tests with datetime offset coverage ([#1502](https://github.com/awslabs/smithy/pull/1502))
+* Add protocol tests to cover @range for short, long and integer shapes ([#1515](https://github.com/awslabs/smithy/pull/1515))
+* Add exclude/include tranforms using selectors ([#1534](https://github.com/awslabs/smithy/pull/1534))
+* Add a parseArn test case for resources with `:` and `/` ([#1537](https://github.com/awslabs/smithy/pull/1537))
+* Move CDS warmup to the CLI directly ([#1553](https://github.com/awslabs/smithy/pull/1553))
+* Allow error rename and disallow error rename for all AWS protocols ([#1554](https://github.com/awslabs/smithy/pull/1554))
+* Add details to ModifiedTrait event id ([#1560](https://github.com/awslabs/smithy/pull/1560))
+
+### Bug Fixes
+* Fix deterministic order of properties ([#1555](https://github.com/awslabs/smithy/pull/1555))
+* Fix datetime offset restXml payload ([#1559](https://github.com/awslabs/smithy/pull/1559))
+* Fix `RestJsonQueryStringEscaping` protocol test ([#1562](https://github.com/awslabs/smithy/pull/1562))
+* Fix `RestJsonAllQueryStringTypes` protocol test ([#1564](https://github.com/awslabs/smithy/pull/1564))
+* Fix Upgrade1to2Command for Set shape ([#1569](https://github.com/awslabs/smithy/pull/1569))
+* Fix parameters to builder ([#1571](https://github.com/awslabs/smithy/pull/1571))
+
+### Documentation
+* Fix typo for NOTE under breaking change rules ([#1552](https://github.com/awslabs/smithy/pull/1552))
+
+## 1.27.0 (2022-12-15)
+
+### Features
+
+* Add tests for ACCEPT * ([#1365](https://github.com/awslabs/smithy/pull/1365))
+* Test content-type modeled inputs without body ([#1399](https://github.com/awslabs/smithy/pull/1399))
+* Improve member not targeting a property error message to better hint at fix ([#1501](https://github.com/awslabs/smithy/pull/1501))
+* Add typechecking to EndpointRuleset build ([#1507](https://github.com/awslabs/smithy/pull/1507))
+* Add warnings for private access on traits ([#1508](https://github.com/awslabs/smithy/pull/1508))
+* Tweak class caching in node (de)serializers. ([#1518](https://github.com/awslabs/smithy/pull/1518), [#1530](https://github.com/awslabs/smithy/pull/1530))
+* Add Maven dependency resolution to the CLI ([#1526](https://github.com/awslabs/smithy/pull/1526))
+* Add details to TraitBreakingChange EventId ([#1538](https://github.com/awslabs/smithy/pull/1538))
+
+### Bug Fixes
+
+* Fix dedicated io transform leaving unused shapes ([#1419](https://github.com/awslabs/smithy/pull/1419))
+* Fix return type of substring method ([#1504](https://github.com/awslabs/smithy/pull/1504))
+* Fix quoted text grammar and parsing ([#1535](https://github.com/awslabs/smithy/pull/1535))
+* Fix backwards compatibility rules for the paginated trait ([#1549](https://github.com/awslabs/smithy/pull/1549))
+
+### Documentation
+
+* Make it clearer that assembly-name stripping is not a MUST in `restJson1` ([#1493](https://github.com/awslabs/smithy/pull/1493))
+* Clarify service-level pagination configuration ([#1514](https://github.com/awslabs/smithy/pull/1514))
+* Document it is generally breaking to add/remove input trait ([#1519](https://github.com/awslabs/smithy/pull/1519))
+* Fix grammar for MapMembers ([#1520](https://github.com/awslabs/smithy/pull/1520))
+* Clarify that metadata has no namespace ([#1521](https://github.com/awslabs/smithy/pull/1521))
+* Update trailing line break, list member grammar ([#1533](https://github.com/awslabs/smithy/pull/1533))
+* Fix MapMembers grammar and update test ([#1536](https://github.com/awslabs/smithy/pull/1536))
+
+## 1.26.4 (2022-11-22)
+
+### Bug Fixes
+
+* Fixed updating mixins when replacing shapes in transforms ([1509](https://github.com/awslabs/smithy/pull/1509))
+
+## 1.26.3 (2022-11-17)
+
+### Features
+
+* Moved useIntegerType to jsonschema ([1495](https://github.com/awslabs/smithy/pull/1495))
+* Added intEnum protocol tests ([1492](https://github.com/awslabs/smithy/pull/1492))
+* Added timestampFormat protocol tests on target shapes ([1440](https://github.com/awslabs/smithy/pull/1440))
+* Added MissingSensitiveTraitValidator ([1364](https://github.com/awslabs/smithy/pull/1364))
+
+### Bug Fixes
+
+* Fixed applying protocol tests to correct operations ([1477](https://github.com/awslabs/smithy/pull/1477))
+* Fixed cfn-mutability for inherited identifiers ([1465](https://github.com/awslabs/smithy/pull/1465))
+* Fixed Resource shape properties Type entry ([1415](https://github.com/awslabs/smithy/pull/1415))
+
+### Documentation
+
+* Updated links to point to smithy.io ([1497](https://github.com/awslabs/smithy/pull/1497))
+* Fixed docs and fail on additional doc warnings ([1496](https://github.com/awslabs/smithy/pull/1496))
+* Fixed AbstractCodeWriter documentation ([1490](https://github.com/awslabs/smithy/pull/1490))
+
+## 1.26.2 (2022-11-07)
+
+### Bug Fixes
+
+* Add missing regions and fix typo in partitions.json ([#1487](https://github.com/awslabs/smithy/pull/1487))
+
+## 1.26.1 (2022-10-31)
+
+### Features
+
+* Added support for hierarchical event IDs in validation events, allowing for more granular suppression ([#1466](https://github.com/awslabs/smithy/pull/1466))
+* Removed the pattern from the `@suppress` trait's entry list, allowing them to match all validator IDs ([#1455](https://github.com/awslabs/smithy/pull/1455))
+* Added the ability to lint based on word boundaries for the `ReservedWords` validator ([#1461](https://github.com/awslabs/smithy/pull/1461))
+* Added a `toNode` method to the `Partition` class in `smithy-rules-engine` ([#1449](https://github.com/awslabs/smithy/pull/1449))
+* Added a warning when `smithy-diff` detects changes to traits that do not have definitions loaded ([#1468](https://github.com/awslabs/smithy/pull/1468))
+* Improved validation for members that target nullable shapes ([#1454](https://github.com/awslabs/smithy/pull/1454), [1460](https://github.com/awslabs/smithy/pull/1460))
+* Added a hook to the `CodegenDirector` to allow for customization before shape generation ([#1469](https://github.com/awslabs/smithy/pull/1469))
+* Updated model assembling to always attempt model interop transforms ([#1435](https://github.com/awslabs/smithy/pull/1435))
+
+### Bug Fixes
+
+* Fixed a bug where transforms would not remove enum members ([#1442](https://github.com/awslabs/smithy/pull/1442), [#1447](https://github.com/awslabs/smithy/pull/1447))
+* Fixed a bug where documentation comments were dropped if they occurred after a member using the default value syntactic
+  sugar ([1459](https://github.com/awslabs/smithy/pull/1459))
+* Fixed an issue where resource identifier collisions would cause a model to fail loading ([#1453](https://github.com/awslabs/smithy/pull/1453),
+  [#1474](https://github.com/awslabs/smithy/pull/1474))
+* Added `@private` to the local traits for the AWS `HttpConfiguration` shape ([#1445](https://github.com/awslabs/smithy/pull/1445))
+* Fixed an issue with behavior defined in an `awsQuery` protocol test ([#1444](https://github.com/awslabs/smithy/pull/1444))
+* Fixed several protocol tests in the `awsJson1_1` protocol test suite ([#1392](https://github.com/awslabs/smithy/pull/1392))
+* Fixed an incorrect application of the `@httpMalformedRequestTests` trait ([#1467](https://github.com/awslabs/smithy/pull/1467))
+
+### Documentation
+
+* Clarified streaming trait values and semantics ([#1458](https://github.com/awslabs/smithy/pull/1458))
+* Updated the identifier ABNF and parser ([#1464](https://github.com/awslabs/smithy/pull/1464))
+
+## 1.26.0 (2022-10-10)
+
+### Features
+
+* Add support for missing authorizer members ([#1426](https://github.com/awslabs/smithy/pull/1426))
+* Add intEnum DirectedCodegen ([#1434](https://github.com/awslabs/smithy/pull/1434))
+* Add Smithy Rules Engine (unstable) ([#1356](https://github.com/awslabs/smithy/pull/1356))
+
+### Documentation
+
+* Fix intEnum example ([#1432](https://github.com/awslabs/smithy/pull/1432))
+* Fix javadoc for CodegenDirector.simplifyModelForServiceCodegen ([#1433](https://github.com/awslabs/smithy/pull/1433))
+
+## 1.25.2 (2022-09-28)
+
+### Bug Fixes
+* Revert "Enforce private on traits (#1406)" ([#1428](https://github.com/awslabs/smithy/pull/1428))
+* Remove aws query compatible protocol test ([#1424](https://github.com/awslabs/smithy/pull/1424))
+
+## 1.25.1 (2022-09-23)
+
+### Features
+* Warn when box trait found on union member ([#1420](https://github.com/awslabs/smithy/pull/1420))
+* Warn when default used with union member target ([#1418](https://github.com/awslabs/smithy/pull/1418))
+* Simplify ShapeId caching ([#1411](https://github.com/awslabs/smithy/pull/1411))
+* Update smithy-diff for strings with the enum trait to enum shapes ([#1409](https://github.com/awslabs/smithy/pull/1409))
+* Add support for 1.0 downgrades and serialization ([#1403](https://github.com/awslabs/smithy/pull/1403) and [#1410](https://github.com/awslabs/smithy/pull/1410))
+* Add AwsQueryCompatible trait ([#1314](https://github.com/awslabs/smithy/pull/1314))
+
+### Bug Fixes
+* Only emit deprecation of enum trait in 2.0 models ([#1421](https://github.com/awslabs/smithy/pull/1421))
+* Enforce private on traits ([#1406](https://github.com/awslabs/smithy/pull/1406))
+* Fix apply statement parsing and ABNF ([#1414](https://github.com/awslabs/smithy/pull/1414))
+* Add test for synthetic box traits on mixins ([#1404](https://github.com/awslabs/smithy/pull/1404))
+
+### Documentation
+* Add some clarifications to revised default value design doc ([#1413](https://github.com/awslabs/smithy/pull/1413))
+* Revise default value design doc to match recent updates ([#1412](https://github.com/awslabs/smithy/pull/1412))
+* Fix typo in migration guide ([#1405](https://github.com/awslabs/smithy/pull/1405))
+
+## 1.25.0 (2022-09-13)
+
+Made many improvements for Smithy 1.0 and 2.0 interoperability. ([1394](https://github.com/awslabs/smithy/pull/1394))
+
+### Features
+
+* Default traits can now coexist with required trais. This indicates that a member should be serialized, but it is a
+  protocol-specific decision if and how this is enforced. This was a pattern that occurred in Smithy 1.0 models when
+  a member was required and targeted a shape with a zero value.
+* Default traits can be added to root-level shapes. Any structure member that targets a shape marked with the default
+  trait must repeat the default on the member. This removes the action at a distance problem observed in Smithy IDL 1.0
+  where a root level shape implicitly introduced a default zero value, and to know if that's the case for any member,
+  you had to look through from the member to the target shape. This change allows us to know if a root level shape was
+  boxed in IDL 1.0 too (root shapes with no default or a default set to anything other than the zero value was boxed).
+* Added the `@addedDefault` trait which is used to indicate that a `@default` trait was added to a member after it
+  was initially released. This can be used by tooling to make an appropriate determination if generating a
+  non-nullable type for the member is a backward compatible change. For example, if a generator only uses default
+  zero values to generate non-nullable types, then the removal of the required trait and addition of a default trait
+  would be a breaking change for them, so they can use addedDefault to ignore the default trait.
+* Add new NullableIndex modes for testing if a member is nullable based on the supported features of the
+  generator. For example, some generators only make members non-optional when the member is set to the zero value
+  of a type, so there is a NullableIndex check mode for that and other use cases.
+* When loading IDL 2.0 models, we will now patch synthetic box traits onto shapes that would have been considered
+  boxed in Smithy IDL 1.0. This improves further interop with tooling that has not yet adopted Smithy IDL 2 or that
+  hasn't yet migrated to use the NullableIndex abstraction.
+* When loading 1.0 models, rather than dropping the default trait from a member when the range trait of a shape is
+  invalid for its zero value, we now instead emit only a warning for this specific case. This prevents changing the
+  type and also doesn't lose the range constraint.
+* The Primitive* shapes in the prelude are no longer deprecated, and they now have a `@default` trait on them set to
+  the zero value of the type. This makes these traits function exactly as they did in Smithy 1.0 models. Any member
+  that targets one of these primitive prelude shapes must now also repeat the zero value of the target shape.
+* Added an optional nullability report to smithy-build that shows the computed nullability semantics of each member in
+  a model. This can be used to better understand nullability semantics.
+* Added method to NumberNode to detect if it is set to zero. ([#1385](https://github.com/awslabs/smithy/pull/1385))
+* In ChangeShapeType transform, ignored types changes to same type. ([#1397](https://github.com/awslabs/smithy/pull/1397))
+
+## Bug fixes
+
+* Updated smithy-diff to not emit events when diffing a 1.0 model against the 2.0 serialized version of the model.
+  This means that changes to the box trait are ignored unless the change impacts the nullability of the shape.
+  Special handling was added to detect breaking changes with the default trait too (you can't change a default
+  value of a root-level shape for example, you cannot change a default value of a shape to or from the zero value
+  of a type as this might break code generators, etc). ([1394](https://github.com/awslabs/smithy/pull/1394))
+* smithy-diff is no longer reporting expected `set` shape to `list` shape transitions. Sets are deprecated and
+  models are encouraged to migrate from sets to lists with the `@uniqueItems` trait. ([1383](https://github.com/awslabs/smithy/pull/1383))
+
+## Documentation
+
+* Fix operationOutputSuffix in example code snippet ([#1393](https://github.com/awslabs/smithy/pull/1393))
+* Fix ABNF grammar of inlined structure ([1377](https://github.com/awslabs/smithy/pull/1377))
+
+## 1.24.0 (2022-08-30)
+
+### Features
+
+* Made string enum to enum shape transform opt-in in CodegenDirector. ([#1370](https://github.com/awslabs/smithy/pull/1370))
+* Updated `@httpResponseCode` to not be applicable to `@input` structures. ([#1359](https://github.com/awslabs/smithy/pull/1359))
+* Made some improvements in smithy-build. ([#1366](https://github.com/awslabs/smithy/pull/1366))
+
+### Bug fixes
+
+* Filtered out synthetic traits from build info. ([#1374](https://github.com/awslabs/smithy/pull/1374))
+* Fixed a log message when unable to convert string enum to enum shape. ([#1372](https://github.com/awslabs/smithy/pull/1372))
+
+### Documentation
+
+* Updated Smithy IDL ABNF Docs. ([#1357](https://github.com/awslabs/smithy/pull/1357))
+
+## 1.23.1 (2022-08-18)
+
+### Features
+
+* Added new methods to help deserializing object nodes
+  ([#1350](https://github.com/awslabs/smithy/pull/1350))
+* Added several (unstable) traits for endpoint resolution in the new
+  `smithy-rules-engine` package
+  ([#1248](https://github.com/awslabs/smithy/pull/1248))
+
+### Bug fixes
+
+* Fixed an issue where validation events were emitted twice ([#1362](https://github.com/awslabs/smithy/pull/1362))
+* Fixed a bug that was causing errors loading 1.0 models with `@enum` traits ([#1358](https://github.com/awslabs/smithy/pull/1358))
+* Fixed `PostUnionWithJsonName` and `MalformedAcceptWithGenericString` protocol test. ([#1361](https://github.com/awslabs/smithy/pull/1361),  [#1360](https://github.com/awslabs/smithy/pull/1360))
+* Added missing readonly traits on HTTP GET tests ([#1354](https://github.com/awslabs/smithy/pull/1354))
+
+### Documentation
+
+* Fixed several documentation issues
+  ([#1355](https://github.com/awslabs/smithy/pull/1355),
+  [#1353](https://github.com/awslabs/smithy/pull/1353),
+  [#1349](https://github.com/awslabs/smithy/pull/1349),
+  [#1347](https://github.com/awslabs/smithy/pull/1347),
+  [#1346](https://github.com/awslabs/smithy/pull/1346),
+  [#1345](https://github.com/awslabs/smithy/pull/1345))
+
+
+## 1.23.0 (2022-08-10)
+
+### Features
+
+* Added version 2.0 of the Smithy IDL. ([#1317](https://github.com/awslabs/smithy/pull/1317),
+  [#1312](https://github.com/awslabs/smithy/pull/1312), [#1318](https://github.com/awslabs/smithy/pull/1318))
+* Added mixins for all shape types. ([#889](https://github.com/awslabs/smithy/pull/889), [#1025](https://github.com/awslabs/smithy/pull/1025),
+  [#1139](https://github.com/awslabs/smithy/pull/1139), [#1323](https://github.com/awslabs/smithy/pull/1323))
+* Added resource properties to version 2.0 of Smithy IDL. ([#1213](https://github.com/awslabs/smithy/pull/1213))
+* Added target elision for mixins/resources. ([#1231](https://github.com/awslabs/smithy/pull/1231))
+* Added inline operation IO shapes. ([#963](https://github.com/awslabs/smithy/pull/963), [#962](https://github.com/awslabs/smithy/pull/962),
+  [#1007](https://github.com/awslabs/smithy/pull/1007))
+* Added validation for multiple IDL versions. ([#917](https://github.com/awslabs/smithy/pull/917))
+* Added IDL 1.0 to 2.0 model migration tool. ([#1175](https://github.com/awslabs/smithy/pull/1175))
+* Added enum shapes. ([#1088](https://github.com/awslabs/smithy/pull/1088), [#1114](https://github.com/awslabs/smithy/pull/1114),
+  [#1133](https://github.com/awslabs/smithy/pull/1133), [#1313](https://github.com/awslabs/smithy/pull/1313))
+* Added `@clientOptional` trait. ([#1052](https://github.com/awslabs/smithy/pull/1052), [#1264](https://github.com/awslabs/smithy/pull/1264))
+* Multiple traits can now be applied in a single `apply` statement. ([#885](https://github.com/awslabs/smithy/pull/885))
+* Commas are now optional in the IDL. ([#772](https://github.com/awslabs/smithy/pull/772), [#776](https://github.com/awslabs/smithy/pull/776),
+  [#1166](https://github.com/awslabs/smithy/pull/1166))
+* Added `@default` trait. ([#1019](https://github.com/awslabs/smithy/pull/1019), [#1286](https://github.com/awslabs/smithy/pull/1286),
+  [#1021](https://github.com/awslabs/smithy/pull/1021), [#1048](https://github.com/awslabs/smithy/pull/1048), [#920](https://github.com/awslabs/smithy/pull/920))
+* Sets can no longer be used in 2.0 models. Use a list with the `@uniqueItems` trait instead. Sets can still be used in 1.0 models, though a
+  warning will be emitted. The `SetShape` in smithy-model is a subclass of `ListShape`, so new code generators can simply treat any `SetShape`
+  like a `ListShape`. ([#1292](https://github.com/awslabs/smithy/pull/1292))
+* Migrated traits packages to use Smithy IDL definitions instead of JSON AST. ([#1207](https://github.com/awslabs/smithy/pull/1207))
+* Added `@cfnDefaultValue` trait ([#1285](https://github.com/awslabs/smithy/pull/1285))
+
+### Bug fixes
+
+* Made streaming blobs required/default. ([#1209](https://github.com/awslabs/smithy/pull/1209))
+* Fixed TextIndex to handle synthetic traits. ([#1206](https://github.com/awslabs/smithy/pull/1206))
+* Removed duplicate aws.protocols model file. ([#1310](https://github.com/awslabs/smithy/pull/1310))
+* Removed empty trait block serialization. ([#1240](https://github.com/awslabs/smithy/pull/1240))
+* Fixed trait source locations. ([#1146](https://github.com/awslabs/smithy/pull/1146), [#1157](https://github.com/awslabs/smithy/pull/1157))
+
+### Documentation
+
+* Added documentation for IDL 2.0 and changed location of 1.0 docs. ([#1302](https://github.com/awslabs/smithy/pull/1302),
+  [#1057](https://github.com/awslabs/smithy/pull/1057))
+* Added IDL 1.0 to 2.0 migration guide. ([#1065](https://github.com/awslabs/smithy/pull/1065), [#1074](https://github.com/awslabs/smithy/pull/1074))
+* Updated the doc highlighter for IDL 2.0. ([#1251](https://github.com/awslabs/smithy/pull/1251))
+* Added documentation to IAM trait enums. ([#1322](https://github.com/awslabs/smithy/pull/1322))
+
+## 1.22.0 (2022-06-30)
+
+### Breaking changes
+
+* Disallowed `@sensitive` trait on members. It must be applied the shape targeted by members. ([#1226](https://github.com/awslabs/smithy/pull/1226))
+* Deprecated `set` in favor of `@uniqueItems`. `@uniqueItems` can no longer target `float`, `double` and `document`. ([#1278](https://github.com/awslabs/smithy/pull/1278))
+
+### Features
+
+* Added `breakingChanges` property to `@trait` to specify more complex backward compatibility rules. ([#1193](https://github.com/awslabs/smithy/pull/1193))
+* Added automatic casing detection to CamelCaseValidator. ([#1217](https://github.com/awslabs/smithy/pull/1217))
+* Added `--quiet` flag to all CLI commands. ([#1257](https://github.com/awslabs/smithy/pull/1257))
+* Added CodeWriter support to pull named parameters from CodeSections. ([#1256](https://github.com/awslabs/smithy/pull/1256))
+* Added stack trace comment support to code writer. ([#1198](https://github.com/awslabs/smithy/pull/1198))
+* Added an automatic topological sorting of shape in DirectedCodegen. ([#1214](https://github.com/awslabs/smithy/pull/1214))
+* Updated CodegenDirector to generate shapes before generating service. ([#1289](https://github.com/awslabs/smithy/pull/1289))
+* Updated CodegenDirector to automatically use `SymbolProvider.cache`. ([#1233](https://github.com/awslabs/smithy/pull/1233))
+* Made SmithyIntegrations available from CodegenContext. ([#1237](https://github.com/awslabs/smithy/pull/1237))
+* Added helper to convert `Symbol` to `SymbolReference`. ([#1220](https://github.com/awslabs/smithy/pull/1220))
+* Updated NodeDiff to sort results to make them easier to understand. ([#1238](https://github.com/awslabs/smithy/pull/1238))
+* Implemented `Comparable` in `SourceLocation`. ([#1192](https://github.com/awslabs/smithy/pull/1192))
+* Added missing validation to ensure that unions have at least one member. ([#1229](https://github.com/awslabs/smithy/pull/1229))
+* Added validation to forbid impossibly recursive shapes. ([#1200](https://github.com/awslabs/smithy/pull/1200),
+  [#1212](https://github.com/awslabs/smithy/pull/1212), [#1253](https://github.com/awslabs/smithy/pull/1253),
+  [#1269](https://github.com/awslabs/smithy/pull/1269))
+* Added validation to warn when HTTP 204/205 responses have bodies. ([#1254](https://github.com/awslabs/smithy/pull/1254),
+  [#1276](https://github.com/awslabs/smithy/pull/1276))
+* Added validation to forbid sparse maps with httpPrefixHeaders. ([#1268](https://github.com/awslabs/smithy/pull/1268))
+* Added ability to serialize the prelude. ([#1275](https://github.com/awslabs/smithy/pull/1275))
+* Added protocol tests for httpResponseCode. ([#1241](https://github.com/awslabs/smithy/pull/1241))
+
+### Bug fixes
+
+* Enabled the PostUnionWithJsonName protocol test. ([#1239](https://github.com/awslabs/smithy/pull/1239))
+* Fixed the MalformedAcceptWithGenericString compliance test. ([#1243](https://github.com/awslabs/smithy/pull/1243))
+
+### Documentation
+
+* Added definition for value equality for `@uniqueItems`. ([#1278](https://github.com/awslabs/smithy/pull/1278))
+* Added documentation for Smithy Server Generator for TypeScript. ([#1119](https://github.com/awslabs/smithy/pull/1119))
+* Added link to Smithy Diff from Evolving Models guide. ([#1208](https://github.com/awslabs/smithy/pull/1208))
+* Fixed constraint traits doc regarding non-structure members. ([#1205](https://github.com/awslabs/smithy/pull/1205))
+* Fixed typo in `uniqueItems` warning. ([#1201](https://github.com/awslabs/smithy/pull/1201))
+* Clarified `@deprecated` javadocs in `smithy-codegen-core`. ([#1197](https://github.com/awslabs/smithy/pull/1197))
+* Clarified Selectors documentation. ([#1196](https://github.com/awslabs/smithy/pull/1196))
+* Clarified meaning of Language in implementations. ([#1191](https://github.com/awslabs/smithy/pull/1191))
+* Clarified that constraint traits cascade for all members. ([#1205](https://github.com/awslabs/smithy/pull/1205))
+* Removed jsonName note from awsJson protocols. ([#1279](https://github.com/awslabs/smithy/pull/1279))
+
+## 1.21.0 (2022-04-13)
+
+### Features
+* Added `DirectedCodegen` to make codegen simpler. ([#1167](https://github.com/awslabs/smithy/pull/1167), [#1180](https://github.com/awslabs/smithy/pull/1180))
+* Add ability to register interceptors with delegator. ([#1165](https://github.com/awslabs/smithy/pull/1165))
+* Optimized deprecated trait validation. ([#1162](https://github.com/awslabs/smithy/pull/1162))
+* Used ConcurrentSkipListMap in Model for knowledge instead of synchornized IdentityMap. ([#1161](https://github.com/awslabs/smithy/pull/1161))
+
+### Documentation
+
+* Added http and eventStreamHttp properties to AWS protocols. ([#1172](https://github.com/awslabs/smithy/pull/1172))
+
+## 1.19.0 (2022-03-21)
+
+### Features
+
+* Disallowed `requiresLength` trait in output. ([#1155](https://github.com/awslabs/smithy/pull/1155), [#1152](https://github.com/awslabs/smithy/pull/1152))
+* Added validation that `code` in `http` trait is between 100 and 999. ([#1156](https://github.com/awslabs/smithy/pull/1156))
+* Added validation that `uri` in `http` trait uses ASCII characters. ([#1154](https://github.com/awslabs/smithy/pull/1154))
+* Allowed `jsonName` trait on union members. ([#1153](https://github.com/awslabs/smithy/pull/1153))
+* Improved Dockerfile support. ([#1140](https://github.com/awslabs/smithy/pull/1140))
+* Added support for conditions and loops to AbstractCodeWriter. ([#1144](https://github.com/awslabs/smithy/pull/1144))
+* Added a warning for missing `^` or `$` anchors in `@pattern` trait. ([#1141](https://github.com/awslabs/smithy/pull/1141))
+* Added a validator to catch usage of non-inclusive words. ([#931](https://github.com/awslabs/smithy/pull/931))
+* Added new classes for code writing and delegation, which deprecates the `software.amazon.smithy.codegen.core.writer`
+  package. ([#1131](https://github.com/awslabs/smithy/pull/1131))
+* Added a warning for using `@sensitive` trait on members, which will be removed in IDL 2.0. ([#1132](https://github.com/awslabs/smithy/pull/1132))
+
+### Documentation
+
+* Documented the supported OpenAPI version. ([#1151](https://github.com/awslabs/smithy/pull/1151))
+* Added links to Scala generator and plugin. ([#1145](https://github.com/awslabs/smithy/pull/1145))
+
+## 1.18.1 (2022-03-10)
+
+### Features
+* Downgraded set type violations from ERROR to WARNING to give consumers more time to convert these sets to lists.
+  These will be upgraded to ERROR again in a future release. ([#1125](https://github.com/awslabs/smithy/pull/1125))
+
+### Bug Fixes
+
+* Fixed backwards compatibility of CodeWriter and created a new basic implementation of `AbstractCodeWriter` named
+  `SimpleCodeWriter`. ([#1123](https://github.com/awslabs/smithy/pull/1123))
+* Fixed a bug in `AbstractCodeWriter` where indenting the next line would not be preserved after popping a state.
+  ([#1129](https://github.com/awslabs/smithy/pull/1129))
+* Fixed a bug in `AbstractCodeWriter` where text could sometimes be lost due to lazy StringBuilder construction.
+  ([#1128](https://github.com/awslabs/smithy/pull/1128))
+* Fixed a null pointer exception in `ModelAssembler` after calling `reset()`. 
+  ([#1124](https://github.com/awslabs/smithy/pull/1124))
+
+### Documentation
+
+* Removed examples showing `@sensitive` on structure members, which is deprecated in IDL 2.0.
+  ([#1127](https://github.com/awslabs/smithy/pull/1127))
+
+## 1.18.0 (2022-03-07)
+
+### Breaking changes
+
+* Sets can now only contain byte, short, integer, long, bigInteger, bigDecimal,
+  and string shapes. Sets with other types of values are either difficult to
+  implement in various programming languages (for example, sets of floats in
+  Rust), or highly problematic for client/server use cases. Clients that are
+  out of sync with a service model could receive structures or unions from a
+  service, not recognize new members and drop them, causing the hash codes of
+  members of the set to collide, and this would result in the client discarding
+  set entries. For example, a service might return a set of 3 structures, but
+  when clients deserialize them, they drop unknown members, and the set
+  contains fewer than 3 entries.
+
+  Existing models that already use a set of other types will need to migrate to
+  use a list rather than a set, and they will need to implement any necessary
+  uniqueness checks server-side as needed. ([#1106](https://github.com/awslabs/smithy/pull/1106))
+
+  **NOTE**: This restriction was downgraded to a WARNING in 1.18.1
+
+* Removed unused `UseShapeWriterObserver` and related features. ([#1117](https://github.com/awslabs/smithy/pull/1117))
+
+### Features
+
+* Added interfaces for Codegen integrations, interceptors, and contexts. ([#1109](https://github.com/awslabs/smithy/pull/1109),
+  [#1118](https://github.com/awslabs/smithy/pull/1118))
+* Added support for typed sections, prependers and appenders, and more explicit newline control to `CodeWriter`. ([#1110](https://github.com/awslabs/smithy/pull/1110))
+* Added built-in `Symbol` and `Call` formatters, a typed context, and debug info to `CodeWriter`. ([#1095](https://github.com/awslabs/smithy/pull/1095),
+  [#1104](https://github.com/awslabs/smithy/pull/1104))
+* Added a `DependencyTracker` for `Symbol`s. ([#1107](https://github.com/awslabs/smithy/pull/1107))
+* Rewrote `CodeFormatter` to be easier to understand and evolve. ([#1104](https://github.com/awslabs/smithy/pull/1104))
+* Exposed `CodegenWriter`'s `DocumentationWriter`. ([#1083](https://github.com/awslabs/smithy/pull/1083))
+* Improved error messages from `SmithyBuilder`. ([#1100](https://github.com/awslabs/smithy/pull/1100))
+* Reduced copies made in `smithy-codegen-core` and `smithy-build`. ([#1103](https://github.com/awslabs/smithy/pull/1103))
+* Added non-optional method for `@httpMalformedRequestTest` uris. ([#1108](https://github.com/awslabs/smithy/pull/1108))
+* Added multi-code-unit characters to `@length` validation tests. ([#1092](https://github.com/awslabs/smithy/pull/1092))
+* Added malformed request tests for `set` types. ([#1094](https://github.com/awslabs/smithy/pull/1094))
+* Clarified a message for `@httpPayload` binding errors. ([#1113](https://github.com/awslabs/smithy/pull/1113))  
+* Deprecated `onSectionAppend` and `onSectionPrepend`. ([#1110](https://github.com/awslabs/smithy/pull/1110))
+
+### Bug Fixes
+
+* Fixed an incorrect warning when the `errors` property was set on a `service`. ([#1120](https://github.com/awslabs/smithy/pull/1120))
+* Fixed various issues in protocol tests. ([#1084](https://github.com/awslabs/smithy/pull/1084), [#1040](https://github.com/awslabs/smithy/pull/1040))
+* Fixed a failing code path in `SmithyBuild`. ([#1100](https://github.com/awslabs/smithy/pull/1100))
+
+### Documentation
+
+* Added note about escaping `\` in `@pattern`. ([#1091](https://github.com/awslabs/smithy/pull/1091))
+* Clarified error serialization behavior for `@restJson1`. ([#1099](https://github.com/awslabs/smithy/pull/1099))
+* Clarified defaulting behavior of `@httpResponseCode`. ([#1111](https://github.com/awslabs/smithy/pull/1111))
+* Clarified behavior of the `sources` plugin. ([#977](https://github.com/awslabs/smithy/pull/977))
+* Clarified how `@length` interacts with UTF-8 encoding. ([#1089](https://github.com/awslabs/smithy/pull/1089))
+* Fixed an `@idRef` example. ([#1087](https://github.com/awslabs/smithy/pull/1087))
+
+## Other
+
+* Migrated to using Gradle 7.3.3 to build Smithy. This should have no impactful downstream effects. ([#1085](https://github.com/awslabs/smithy/pull/1085))
+
+## 1.17.0 (2022-02-04)
+
+### Bug Fixes
+* Updated `@streaming` validation for protocols that support `@httpPayload`.
+  ([#1076](https://github.com/awslabs/smithy/pull/1076))
+
+### Features
+* Added ability to serialize the JMESPath AST. ([#1059](https://github.com/awslabs/smithy/pull/1059))
+* Update `CodeWriter` to add getters and ability to copy settings. ([#1067](https://github.com/awslabs/smithy/pull/1067))
+
+### Documentation
+* Clarified `outputToken`. ([#1056](https://github.com/awslabs/smithy/pull/1056))
+* Removed repeated words. ([#1063](https://github.com/awslabs/smithy/pull/1063))
+* Clarified server behavior for query parameter deserialization. ([#1080](https://github.com/awslabs/smithy/pull/1080))
+
+## Other
+* Updated traits to preserve the original `Node` value from the model.
+  ([#1047](https://github.com/awslabs/smithy/pull/1047))
+
+## 1.16.3 (2022-01-13)
+
+### Bug Fixes
+* Removed @internal from the @unitType trait. ([#1054](https://github.com/awslabs/smithy/pull/1054))
+* Fixed JMESPath and-expression evaluation to correctly provide the result of the
+  left expression when it is falsey. [#1053](https://github.com/awslabs/smithy/pull/1053)
+* Fixed quoted string headers restJson1 response protocol test. [#1049](https://github.com/awslabs/smithy/pull/1049)
+
+## 1.16.2 (2022-01-10)
+
+### Features
+* Renamed `StutteredShapeName` validator to `RepeatingShapeName` and added an `exactMatch` configuration to let it more
+  precisely prevent problematic models. ([#1041](https://github.com/awslabs/smithy/pull/1041))
+* Reduced the severity of `HttpBindingsMissing` events for services that do not use protocols that support the `@http`
+  trait. ([#1044](https://github.com/awslabs/smithy/pull/1044))
+* Added `unwrite()` to `CodeWriter`. ([#1038](https://github.com/awslabs/smithy/pull/1038))
+
+### Bug Fixes
+* Fixed the `RestJsonInputUnionWithUnitMember` protocol test. ([#1042](https://github.com/awslabs/smithy/pull/1042))
+
+### Documentation
+* Updated the documentation for pagination. ([#1043](https://github.com/awslabs/smithy/pull/1043))
+
+## 1.16.1 (2022-01-06)
+
+### Features
+* Make `smithy.api#Unit` easier to adopt by excluding direct relationships between it and operation inputs and outputs.
+  ([#1034](https://github.com/awslabs/smithy/pull/1034))
+
+### Bug Fixes
+* Fixed character escaping in a restJson1 protocol test. ([#1035](https://github.com/awslabs/smithy/pull/1035))
+
+## 1.16.0 (2022-01-03)
+
+### Features
+* Added `smithy.api#Unit` and `@input` and `@output` traits. ([#980](https://github.com/awslabs/smithy/pull/980),
+  [#1005](https://github.com/awslabs/smithy/pull/1005))
+* Removed support for collection values for `@httpPrefixHeaders`. ([#1022](https://github.com/awslabs/smithy/pull/1022))
+* Added a protocol test for handling path segments that contain regex expressions. 
+  ([#1018](https://github.com/awslabs/smithy/pull/1018))
+
+### Bug Fixes
+* Removed `jsonName` from the `awsJson` protocol tests and documentation.
+  ([#1026](https://github.com/awslabs/smithy/pull/1026))
+* Reverted changes to timestamp list header serialization protocol tests.
+  ([#1023](https://github.com/awslabs/smithy/pull/1023))
+* Fixed links in the search results of Smithy's javadocs.
+  ([#1009](https://github.com/awslabs/smithy/pull/1009))
+* Fixed duplication of validation events for conflicting names.
+  ([#999](https://github.com/awslabs/smithy/pull/999))
+
+### Documentation
+* Added links to Kotlin and Swift generators.
+  ([#1020](https://github.com/awslabs/smithy/pull/1020))
+* Clarified matching of URIs where greedy labels have no matching segment.
+  ([#1013](https://github.com/awslabs/smithy/pull/1013))
+
+### Other
+* Added minor optimizations. ([#1028](https://github.com/awslabs/smithy/pull/1028), 
+  [#1027](https://github.com/awslabs/smithy/pull/1027),
+  [#1004](https://github.com/awslabs/smithy/pull/1004))
+* Added Apple silicon target for smithy-cli. ([#1012](https://github.com/awslabs/smithy/pull/1012))
+* Updated smithy-cli to use JDK 17. ([#1003](https://github.com/awslabs/smithy/pull/1003))
+
+## 1.15.0 (2021-12-02)
+
+### Features
+* Added protocol tests for quoted strings in headers. ([#986](https://github.com/awslabs/smithy/pull/986))
+
+### Bug Fixes
+
+* Fixed `filterSuppressions` transform's handling of members. ([#989](https://github.com/awslabs/smithy/pull/989))
+* Fixed http-content-type protocol tests. ([#993](https://github.com/awslabs/smithy/pull/993))
+
+### Documentation
+
+* Fixed documentation regarding `@length` and `@auth` traits. ([#988](https://github.com/awslabs/smithy/pull/988), [#997](https://github.com/awslabs/smithy/pull/997))
+* Added documentation for `httpMalformedRequestTests`. ([#973](https://github.com/awslabs/smithy/pull/973))
+
+### Other
+
+* Upgraded to use version `0.6.0` of the [Smithy Gradle Plugin](https://github.com/awslabs/smithy-gradle-plugin). ([#996](https://github.com/awslabs/smithy/pull/996))
+* Reduced number of copies builders need to make when building up immutable objects. ([#995](https://github.com/awslabs/smithy/pull/995))
+* Ensured InputStreams in loader are closed. ([#991](https://github.com/awslabs/smithy/pull/991))
+
+## 1.14.1 (2021-11-15)
+
+### Features
+
+* Updated the `@aws.protocols#httpChecksum` trait to use uppercase algorithm names. ([#982](https://github.com/awslabs/smithy/pull/982))
+
+### Bug Fixes
+
+* Fixed an issue where JSON Schema conversion wouldn't remove out-of-service references before deconflicting. ([#978](https://github.com/awslabs/smithy/pull/978))
+* Fixed IAM condition key inference not using the `@aws.iam#iamResource` trait. ([#981](https://github.com/awslabs/smithy/pull/981))
+
+## 1.14.0 (2021-11-10)
+
+### Features
+
+* Added the `@aws.protocols#httpChecksum` trait to describe checksumming behavior for operations. ([#972](https://github.com/awslabs/smithy/pull/972))
+
+### Bug Fixes
+
+* Fixed a bug that used a JSON pointer instead of names when generating CloudFormation Resource Schema
+  required properties. ([#971](https://github.com/awslabs/smithy/pull/971))
+
+### Documentation
+
+* Clarified parsing of members marked with the `@httpQueryParams` trait. ([#957](https://github.com/awslabs/smithy/pull/957))
+
+## 1.13.1 (2021-11-02)
+
+### Bug Fixes
+
+* Fixed a bug that caused the `apply` transform to not run its projections. ([#969](https://github.com/awslabs/smithy/pull/969))
+
+### Documentation
+
+* Clarified uri label and greedy label documentation. ([#965](https://github.com/awslabs/smithy/pull/965), [#968](https://github.com/awslabs/smithy/pull/968))
+
+## 1.13.0 (2021-10-29)
+
+### Features
+
+* Added a `filterSuppressions` model transform. ([#940](https://github.com/awslabs/smithy/pull/940))
+* Updated selector attributes to be stricter. ([#946](https://github.com/awslabs/smithy/pull/946))
+* Added support for generating the `required` property when generating CloudFormation Resource Schemas. ([#937](https://github.com/awslabs/smithy/pull/937))
+* Added support for generating the `handlers` property when generating CloudFormation Resource Schemas. ([#939](https://github.com/awslabs/smithy/pull/939))
+* Added the `@aws.iam#iamResource` trait to indicate properties of a Smithy resource in AWS IAM. ([#948](https://github.com/awslabs/smithy/pull/948))
+* Added the `@aws.iam#supportedPrincipleTypes` trait to indicate which IAM principal types can use a service or
+  operation. ([#941](https://github.com/awslabs/smithy/pull/941))
+* Updated model serializers to allow for serializing the prelude. ([#955](https://github.com/awslabs/smithy/pull/955))
+* Updated JSON Schema conversion to maintain property order. ([#932](https://github.com/awslabs/smithy/pull/932))
+* Improved `@httpApiKeyAuth` description when converting to OpenAPI. ([#934](https://github.com/awslabs/smithy/pull/934))
+* Updated the error message received when http request body content issues are encountered. ([#959](https://github.com/awslabs/smithy/pull/959))
+* Updated request tests for `restJson1` query strings. ([#933](https://github.com/awslabs/smithy/pull/933), [#958](https://github.com/awslabs/smithy/pull/958))
+* Added protocol tests for `restJson1` content types. ([#924](https://github.com/awslabs/smithy/pull/924), [#945](https://github.com/awslabs/smithy/pull/945))
+
+### Bug Fixes
+
+* Fixed issues in model loading that required a service `version` property. ([#936](https://github.com/awslabs/smithy/pull/936))
+* Fixed an issue that where CORS headers in OpenAPI conversions were not case-insensitive. ([#950](https://github.com/awslabs/smithy/pull/950))
+* Fixed various issues in protocol tests. ([#930](https://github.com/awslabs/smithy/pull/930), [#933](https://github.com/awslabs/smithy/pull/933),
+  [#935](https://github.com/awslabs/smithy/pull/935), [#944](https://github.com/awslabs/smithy/pull/944), [#949](https://github.com/awslabs/smithy/pull/949),
+  [#954](https://github.com/awslabs/smithy/pull/954))
+
+### Documentation
+
+* Clarified host-related settings in the `@httpRequestTests` trait documentation. ([#951](https://github.com/awslabs/smithy/pull/951))
+* Clarified uri samples and descriptions. ([#960](https://github.com/awslabs/smithy/pull/960))
+* Fixed some issues in documentation. ([#952](https://github.com/awslabs/smithy/pull/952))
+
+## 1.12.0 (2021-10-05)
+
+### Features
+
+* Added support for binding common errors to a `service` shape. ([#919](https://github.com/awslabs/smithy/pull/919))
+* Loosened the requirement of setting a `version` property when defining a `service`. ([#918](https://github.com/awslabs/smithy/pull/918))
+* Updated `smithy-build` to fail when a build plugin cannot be found. ([#909](https://github.com/awslabs/smithy/pull/909))
+* Added a `changeTypes` build transform. ([#912](https://github.com/awslabs/smithy/pull/912))
+* Added support for replacing simple shapes in `ModelTransformer`. ([#900](https://github.com/awslabs/smithy/pull/900))
+* Added a `scheme` property to the `@httpApiKeyAuth` trait. ([#893](https://github.com/awslabs/smithy/pull/893))
+* Added support for specifying errors in the `@examples` trait. ([#888](https://github.com/awslabs/smithy/pull/888))
+* Added multi-character newline support in `CodeWriter`. ([#892](https://github.com/awslabs/smithy/pull/892))
+* Updated semantic validation of modeled `OPTIONS` operations. ([#890](https://github.com/awslabs/smithy/pull/890))
+* Added several malformed request protocol tests. ([#879](https://github.com/awslabs/smithy/pull/879), [#882](https://github.com/awslabs/smithy/pull/882),
+  [#881](https://github.com/awslabs/smithy/pull/881), [#898](https://github.com/awslabs/smithy/pull/898), [#901](https://github.com/awslabs/smithy/pull/901),
+  [#905](https://github.com/awslabs/smithy/pull/905), [#908](https://github.com/awslabs/smithy/pull/908))
+* Added protocol tests for path prefixes. ([#899](https://github.com/awslabs/smithy/pull/899))
+
+### Bug Fixes
+
+* Fixed how `NodeMapper` handles generic params. ([#912](https://github.com/awslabs/smithy/pull/912))
+* Fixed how the CLI logs messages and interacts with logging levels. ([#910](https://github.com/awslabs/smithy/pull/910))
+
+### Documentation
+
+* Updated guidance on ordering of `set` shapes. ([#875](https://github.com/awslabs/smithy/pull/875))
+* Clarify that event streams contain modeled errors. ([#891](https://github.com/awslabs/smithy/pull/891))
+* Added an index that lists all traits. ([#876](https://github.com/awslabs/smithy/pull/876))
+* Fixed various documentation issues. ([#884](https://github.com/awslabs/smithy/pull/884), [#911](https://github.com/awslabs/smithy/pull/911),
+  [#927](https://github.com/awslabs/smithy/pull/927))
+
+## 1.11.0 (2021-08-03)
+
+### Features
+
+* Updated CORS header configuration when converting to OpenAPI while using `sigv4` or `restJson1`. ([#868](https://github.com/awslabs/smithy/pull/868))
+* Added the (unstable) `httpMalformedRequestTests` trait to validate service behavior around malformed requests. ([#871](https://github.com/awslabs/smithy/pull/871))
+* Added `smithy-diff` error when an enum entry is inserted. ([#873](https://github.com/awslabs/smithy/pull/873))
+* Added a `restXml` protocol test. ([#866](https://github.com/awslabs/smithy/pull/866))
+* Added a `httpChecksumRequired` protocol test. ([#869](https://github.com/awslabs/smithy/pull/869))
+
+### Bug Fixes
+
+* Updated `NodeMapper` to properly handle `sourceLocation` for traits. ([#865](https://github.com/awslabs/smithy/pull/865))
+* Removed warning when an operation using the HTTP `PATCH` method is marked with the `@idempotent` trait. ([#867](https://github.com/awslabs/smithy/pull/867))
+* Fixed several issues where a `sourceLocation` wasn't propagated for traits. ([#864](https://github.com/awslabs/smithy/pull/864))
+
+### Documentation
+
+* Fixed various documentation issues. ([#870](https://github.com/awslabs/smithy/pull/870), [#874](https://github.com/awslabs/smithy/pull/874))
+
+## 1.10.0 (2021-07-14)
+
+### Features
+
+* Loosened the requirement of setting an `error` property when configuring `aws.api#clientEndpointDiscovery` trait. ([#850](https://github.com/awslabs/smithy/pull/850))
+* Added a `restJson1` protocol test. ([#845](https://github.com/awslabs/smithy/pull/845))
+* Added a warning when using the OpenAPI conversion `jsonAdd` setting to alter schemas. ([#851](https://github.com/awslabs/smithy/pull/851))
+* Added the `httpChecksum` trait. ([#843](https://github.com/awslabs/smithy/pull/843))
+
+### Bug Fixes
+
+* Revert "Tightened substitution pattern for Fn::Sub to match CloudFormation." ([#858](https://github.com/awslabs/smithy/pull/858))
+* Fixed an issue where `cors` trait `additionalExposedHeaders` were not added to gateway responses. ([#852](https://github.com/awslabs/smithy/pull/852))
+* Fixed various issues in protocol tests. ([#849](https://github.com/awslabs/smithy/pull/849), [#855](https://github.com/awslabs/smithy/pull/855), [#857](https://github.com/awslabs/smithy/pull/857))
+
+### Documentation
+
+* Clarified behavior for the `aws.api#service` trait's `sdkId` member. ([#848](https://github.com/awslabs/smithy/pull/848))
+* Fixed various typos. ([#853](https://github.com/awslabs/smithy/pull/853), [#859](https://github.com/awslabs/smithy/pull/859))
+
+## 1.9.1 (2021-06-28)
+
+### Bug Fixes
+
+* Fixed a number of protocol tests related to non-numeric floats. ([#844](https://github.com/awslabs/smithy/pull/844))
+* Tightened substitution pattern for Fn::Sub to match CloudFormation. ([#842](https://github.com/awslabs/smithy/pull/842))
+
+## 1.9.0 (2021-06-23)
+
+### Features
+
+* Added a common validation model for use in server SDKs. ([#813](https://github.com/awslabs/smithy/pull/813))
+* Added support for cross platform builds of the CLI. ([#832](https://github.com/awslabs/smithy/pull/832))
+* Validate the contents of protocol test bodies for known media types. ([#822](https://github.com/awslabs/smithy/pull/822),
+  [#835](https://github.com/awslabs/smithy/pull/835))
+* Updated support for non-numeric floating-point values in several places. ([#828](https://github.com/awslabs/smithy/pull/828))
+* Added several `restJson` protocol tests. ([#684](https://github.com/awslabs/smithy/pull/684))
+* Added several `restXml` protocol tests. ([#804](https://github.com/awslabs/smithy/pull/804))
+* Added and updated several `awsQuery` and `ec2Query` protocol tests. ([#815](https://github.com/awslabs/smithy/pull/815),
+  [#833](https://github.com/awslabs/smithy/pull/833))
+* Added several `document` type protocol tests. ([#810](https://github.com/awslabs/smithy/pull/810))
+
+### Bug Fixes
+
+* Fixed a `NullPointerException` when loading a config and no parent path is present. ([#814](https://github.com/awslabs/smithy/pull/814))
+
+### AWS Customizations
+
+* Added `s3UnwrappedXmlOutput` trait, which defines when an S3 operation does not use the protocol standard XML wrapper.
+  ([#839](https://github.com/awslabs/smithy/pull/839))
+
+### Documentation
+
+* Added an overview of known Smithy implementations and projects. ([#830](https://github.com/awslabs/smithy/pull/830), [#831](https://github.com/awslabs/smithy/pull/831))
+* Improved the documentation for the `restXml`. ([#827](https://github.com/awslabs/smithy/pull/827))
+* Improved the documentation for the `awsQuery`. ([#827](https://github.com/awslabs/smithy/pull/827))
+* Improved the documentation for the `ec2Query` protocol. ([#823](https://github.com/awslabs/smithy/pull/823), [#827](https://github.com/awslabs/smithy/pull/827),
+  [#836](https://github.com/awslabs/smithy/pull/836))
+* Added more context for documentation types. ([#818](https://github.com/awslabs/smithy/pull/818))
+* Fixed several minor documentation issues. ([#816](https://github.com/awslabs/smithy/pull/816), [#818](https://github.com/awslabs/smithy/pull/818),
+  [#837](https://github.com/awslabs/smithy/pull/837), [#840](https://github.com/awslabs/smithy/pull/840))
+
+## 1.8.0 (2021-05-20)
+
+### Features
+* Added `awsQueryError` trait, which defines the value in the `Code` distinguishing field. ([#807](https://github.com/awslabs/smithy/pull/807))
+* Added methods to get shapes by type and trait. ([#806](https://github.com/awslabs/smithy/pull/806))
+* Improved performance. ([#805](https://github.com/awslabs/smithy/pull/805))
+* Improved percent-encoding tests and doumentation. ([#803](https://github.com/awslabs/smithy/pull/803))
+* Added `double` format to epoch-seconds timestamps when converting to OpenAPI. ([#802](https://github.com/awslabs/smithy/pull/802))
+* Improved CLI output. ([#800](https://github.com/awslabs/smithy/pull/800), [#801](https://github.com/awslabs/smithy/pull/801))
+
+### Bug Fixes
+* Fixed awsQuery protocol test to show distinction from ignored `@xmlNamespace` trait. ([#799](https://github.com/awslabs/smithy/pull/799))
+
+## 1.7.2 (2021-05-11)
+
+### Bug Fixes
+* Fixed a bug where unions would cause CloudFormation schema conversion to fail. ([#794](https://github.com/awslabs/smithy/pull/794))
+* Fixed an incorrect restXml protocol test. ([#795](https://github.com/awslabs/smithy/pull/795))
+
+## 1.7.1 (2021-05-07)
+
+### Features
+* Added the `recommended` structure member trait, which indicates that a structure member SHOULD be set. ([#745](https://github.com/awslabs/smithy/pull/745))
+* Added support for service renames when using the `flattenNamespaces` transformer. ([#760](https://github.com/awslabs/smithy/pull/760))
+* Set `additionalProperties` to `false` for CloudFormation objects. ([#764](https://github.com/awslabs/smithy/pull/764))
+* Improved model validation debugging by stopping validation when an `ERROR` occurs while loading models. ([#775](https://github.com/awslabs/smithy/pull/775))
+* Added validation warning when a `hostPrefix` contains a label that does not end in a period. ([#779](https://github.com/awslabs/smithy/pull/779))
+* Added and updated several `@restXml` protocol test. ([#744](https://github.com/awslabs/smithy/pull/744), [#755](https://github.com/awslabs/smithy/pull/755),
+  [#757](https://github.com/awslabs/smithy/pull/757), [#777](https://github.com/awslabs/smithy/pull/777), [#766](https://github.com/awslabs/smithy/pull/781),
+  [#789](https://github.com/awslabs/smithy/pull/789))
+* Added and updated several `@restJson1` protocol test. ([#747](https://github.com/awslabs/smithy/pull/747), [#755](https://github.com/awslabs/smithy/pull/755),
+  [#765](https://github.com/awslabs/smithy/pull/765), [#790](https://github.com/awslabs/smithy/pull/790))
+
+### Bug Fixes
+* Fixed number parsing in the IDL, using BigDecimal or BigInteger where needed. ([#766](https://github.com/awslabs/smithy/pull/766))
+* Fixed Gradle 7 builds. ([#758](https://github.com/awslabs/smithy/pull/758))
+* Added `Document` type to list of inherently boxed shapes. ([#749](https://github.com/awslabs/smithy/pull/749))
+* Reordered `TraitService` SPI entries for readability. ([#742](https://github.com/awslabs/smithy/pull/742))
+
+### AWS Customizations
+* Added missing `name` properties to `aws.iam#ConditionKeyType` enum. ([#759](https://github.com/awslabs/smithy/pull/759))
+
+### Documentation
+* Fixed `selector_expression` and `comment` in ABNF for Smithy IDL. ([#771](https://github.com/awslabs/smithy/pull/771),
+  [#771](https://github.com/awslabs/smithy/pull/773))
+* Documented conflict resolution of HTTP query params. ([#783](https://github.com/awslabs/smithy/pull/783))
+* Documented precedence of constraint traits. ([#784](https://github.com/awslabs/smithy/pull/784))
+
+### Other
+* Upgraded to use version `0.5.3` of the [Smithy Gradle Plugin](https://github.com/awslabs/smithy-gradle-plugin). ([#791](https://github.com/awslabs/smithy/pull/791))
+
+## 1.7.0 (2021-03-12)
+
+### Features
+
+* Added the `rename` property to the `service` shape to disambiguate shape name conflicts in the service closure. ([#734](https://github.com/awslabs/smithy/pull/734))
+* Added the `httpQueryParams` trait that binds a map of key-value pairs to query string parameters. ([#735](https://github.com/awslabs/smithy/pull/735))
+* Improved the usability of code for building and running Selectors. ([#726](https://github.com/awslabs/smithy/pull/726))
+* Added several protocol tests for behavior around `null` serialization. ([#728](https://github.com/awslabs/smithy/pull/728))
+
+### Documentation
+
+* Added missing documentation for some trait models. ([#737](https://github.com/awslabs/smithy/pull/737))
+* Fixed `awsQuery` and `ec2Query` list serialization examples. ([#732](https://github.com/awslabs/smithy/pull/732))
+
+## 1.6.1 (2021-02-23)
+
+### Features
+
+* Added the `renameShapes` build transform to rename shapes within a model. ([#721](https://github.com/awslabs/smithy/pull/721))
+
+### Bug Fixes
+
+* Fixed several issues in protocol tests around `@endpoint`. ([#720](https://github.com/awslabs/smithy/pull/720))
+
+## 1.6.0 (2021-02-22)
+
+### Features
+
+* Added support for checking backwards compatibility for diffs of trait contents. ([#716](https://github.com/awslabs/smithy/pull/716))
+* Added support for adding CORS configurations to API Gateway HTTP APIs. ([#670](https://github.com/awslabs/smithy/pull/670))
+* Relaxed constraints on the `@httpPayload` trait, allowing it to target `list`, `set`, and `map` shapes. ([#679](https://github.com/awslabs/smithy/pull/679))
+  * Targeting these shapes is invalid for operations utilizing the `aws.protocols` traits. ([#679](https://github.com/awslabs/smithy/pull/679),
+    [#683](https://github.com/awslabs/smithy/pull/683))
+* Added validation to ensure a `payloadFormatVersion` is set when generating an API Gateway HTTP API. ([#688](https://github.com/awslabs/smithy/pull/688))
+* Added `vendorParamsShape` to protocol test cases to support validating a test case's `vendorParams` values are
+  configured properly. ([#702](https://github.com/awslabs/smithy/pull/702))
+* Added the ability to validate resolved hosts to protocol tests. ([#707](https://github.com/awslabs/smithy/pull/707))
+* Added backwards compatibility checking to `smithy-diff` for the `@paginated` trait. ([#716](https://github.com/awslabs/smithy/pull/716))
+* Added `tags` and `appliesTo` to protocol test definitions for better categorization and grouping. ([#696](https://github.com/awslabs/smithy/pull/696))
+* Added several protocol tests for the `endpoint` and `hostLabel` traits. ([#708](https://github.com/awslabs/smithy/pull/708))
+* Added several `@restXml` protocol tests. ([#689](https://github.com/awslabs/smithy/pull/689), [#690](https://github.com/awslabs/smithy/pull/690),
+  [#678](https://github.com/awslabs/smithy/pull/678), [#694](https://github.com/awslabs/smithy/pull/694))
+
+### Bug Fixes
+
+* Fixed an issue that produced duplicate entries in the `security` list of a converted OpenAPI document. ([#687](https://github.com/awslabs/smithy/pull/687))
+* Fixed an issue where `alphanumericOnlyRefs` was not fully satisfied when generating synthesized shapes. ([#695](https://github.com/awslabs/smithy/pull/695))
+* Fixed several issues in IDL parsing where duplicate bindings were allowed incorrectly. ([#714](https://github.com/awslabs/smithy/pull/714))
+* Fixed several issues in protocol tests around serialization of empty contents. ([#692](https://github.com/awslabs/smithy/pull/692))
+* Fixed an issue where parameters in a diff error message were swapped. ([#713](https://github.com/awslabs/smithy/pull/713))
+* Fixed an issue in a `restXml` protocol test. ([#715](https://github.com/awslabs/smithy/pull/715))
+
+### AWS Customizations
+
+* Added a configuration definition for use validating `vendorParams` in AWS protocol tests. ([#705](https://github.com/awslabs/smithy/pull/705))
+* Added tests and documentation for some required Amazon S3 customizations. ([#709](https://github.com/awslabs/smithy/pull/709))
+* Added tests and documentation for required Amazon Glacier customizations. ([#704](https://github.com/awslabs/smithy/pull/704))
+* Added a test and documentation for the required Amazon API Gateway customization. ([#706](https://github.com/awslabs/smithy/pull/706))
+* Added a test and documentation for the required Amazon Machine Learning customization. ([#707](https://github.com/awslabs/smithy/pull/707)) 
+
+### Documentation
+
+* Improved the documentation for the `awsJson1_0` and `awsJson1_1` protocols. ([#698](https://github.com/awslabs/smithy/pull/698))
+* Improved the documentation for the `awsQuery` and `ec2Query` protocols. ([#700](https://github.com/awslabs/smithy/pull/700))
+* Clarified that Smithy requires support for fractional seconds for the `http-date` value of `@timestampFormat`. ([#672](https://github.com/awslabs/smithy/pull/672))
+* Added missing shape documentation for some waiters related shapes. ([#711](https://github.com/awslabs/smithy/pull/711))
+* Fixed several minor documentation issues. ([#681](https://github.com/awslabs/smithy/pull/681), [#693](https://github.com/awslabs/smithy/pull/693),
+  [#697](https://github.com/awslabs/smithy/pull/697), [#701](https://github.com/awslabs/smithy/pull/701), [#708](https://github.com/awslabs/smithy/pull/708),
+  [#717](https://github.com/awslabs/smithy/pull/717))
+
+### Other
+
+* Migrated to using Gradle 6 to build Smithy. This should have no impactful downstream effects. ([#194](https://github.com/awslabs/smithy/pull/194))
+* Migrated to using `main` from `master` for the default branch. This should have no impactful downstream effects. ([#685](https://github.com/awslabs/smithy/pull/685))
+
+## 1.5.1 (2020-12-21)
+
+### Bug Fixes
+
+* Fixed several issues related to building and running on Windows. ([#671](https://github.com/awslabs/smithy/pull/671))
+* Fixed an issue loading the `jsonAdd` map from configuration for the `cloudformation` plugin. ([#673](https://github.com/awslabs/smithy/pull/673))
+* Fixed an issue where API Gateway REST APIs would have greedy label parameter names rendered into OpenAPI with
+  a `+` suffix. ([#674](https://github.com/awslabs/smithy/pull/674))
+
+## 1.5.0 (2020-12-10)
+
+### Features
+
+* Added the `endpointPrefix` property to the `@aws.api#service` trait. ([#663](https://github.com/awslabs/smithy/pull/663))
+* Added support for `tags` and `deprecated` members to `@waitable` definitions. ([#652](https://github.com/awslabs/smithy/pull/652))
+* Added validation for `@httpHeader` trait values. ([#650](https://github.com/awslabs/smithy/pull/650))
+* Add `required` property for `requestBody` when converting to OpenAPI. ([#655](https://github.com/awslabs/smithy/pull/655))
+* Added more helper methods to `OperationIndex`. ([#657](https://github.com/awslabs/smithy/pull/657))
+
+### Bug Fixes
+
+* Ensure that names in the `@waitable` trait are unique in the closure of the service. ([#645](https://github.com/awslabs/smithy/pull/645))
+* Fixed a regression with `@aws.apigateway#authorizors` behavior when setting the `customAuthType` property without
+  having set its `type` property. ([#613](https://github.com/awslabs/smithy/pull/613))
+* Fixed an issue where modeled headers were not populated in to `Access-Control-Expose-Headers` in CORS responses.
+  ([#659](https://github.com/awslabs/smithy/pull/659))
+* Added missing `deprecated` member to `@enum` definitions in the prelude model. ([#651](https://github.com/awslabs/smithy/pull/651))
+* Fixed an issue with the conversion of greedy label parameter names in to OpenAPI. ([#641](https://github.com/awslabs/smithy/pull/641))
+* Fixed an issue in `CodeWriter.popState` where it would not honor custom expression start characters. ([#648](https://github.com/awslabs/smithy/pull/648))
+* Fixed a potential `NullPointerException` when validating the `@examples` trait. ([#642](https://github.com/awslabs/smithy/pull/642))
+* Fixed issues with some `@awsQuery` and `@ec2Query` protocol test responses. ([#653](https://github.com/awslabs/smithy/pull/653))
+* Fixed an issue where the `removeTraitDefinitions` build transform was not registered with the SPI. ([#660](https://github.com/awslabs/smithy/pull/660))
+* Fixed an issue where using an environment variable in `smithy-build.json` would consume an extra preceding
+  character when performing a replacement. ([#662](https://github.com/awslabs/smithy/pull/662)) 
+
+### Documentation
+
+* Update `@waitable` documentation to specify using jitter and account for overflows. ([#656](https://github.com/awslabs/smithy/pull/656))
+* Added examples and clarified documentation for several HTTP traits, most importantly `@httpLabel` and `@httpQuery`.
+  ([#654](https://github.com/awslabs/smithy/pull/654))
+* Clarified various aspects of the `@xmlNamespace` trait documentation. ([#643](https://github.com/awslabs/smithy/pull/643))
+* Clarified `@waitable` documentation. ([#646](https://github.com/awslabs/smithy/pull/646), [#664](https://github.com/awslabs/smithy/pull/664))
+* Clarified that the `@pattern` trait does not implicitly match an entire string. ([#649](https://github.com/awslabs/smithy/pull/649))
+* Fixed various examples in the specification. ([#639](https://github.com/awslabs/smithy/pull/639))
+
+### Cleanup
+
+* Sort `TopDownIndex` contents to provide deterministic results. ([#667](https://github.com/awslabs/smithy/pull/667))
+* Improved error messages when an unknown annotation trait is encountered. ([#644](https://github.com/awslabs/smithy/pull/644))
+* Added `smithy-diff` error when the `@idempotencyTrait` token is removed from a shape. ([#640](https://github.com/awslabs/smithy/pull/640))
+
+## 1.4.0 (2020-11-20)
+
+### Features
+
+#### New Packages
+
+* Added `smithy-jmespath`, a dependency-less, JMESPath parser with a rich AST that can be used in code generation, and
+  performs static analysis of expressions. ([#621](https://github.com/awslabs/smithy/pull/621))
+* Added `smithy-waiters`, containing the `@waitable` trait. This provides information that clients can use to poll
+  until a desired state is reached, or it is determined that state cannot be reached. ([#623](https://github.com/awslabs/smithy/pull/623))
+* Added `smithy-aws-cloudformation-traits`, containing several (unstable) traits that indicate CloudFormation resources
+  and the additional metadata about their properties. ([#579](https://github.com/awslabs/smithy/pull/579))
+* Added `smithy-aws-cloudformation`, containing the (unstable) "cloudformation" build tool that, given a model
+  decorated with traits from `aws.cloudformation`, will generate CloudFormation Resource Schemas. ([#622](https://github.com/awslabs/smithy/pull/622))
+
+#### Other Features
+
+* Added support for `patternProperties` when generating JSON Schema. ([#611](https://github.com/awslabs/smithy/pull/611))
+* Added more utility methods to the `CodeWriter`. ([#624](https://github.com/awslabs/smithy/pull/624))
+* Added validation for `@sensitive` trait when applied to members. ([#609](https://github.com/awslabs/smithy/pull/609))
+* Added support for retrieving full paths to the `outputToken` and `items` pagination members. ([#628](https://github.com/awslabs/smithy/pull/628))
+* Added a warning for `@enum` entries without names. ([#610](https://github.com/awslabs/smithy/pull/610))
+* Added support for generating an `integer` OpenAPI type. ([#632](https://github.com/awslabs/smithy/pull/632))
+* Improved `smithy-diff` evaluation of changing member targets. ([#630](https://github.com/awslabs/smithy/pull/630))
+* Updated pagination tokens to support being `map` shapes. ([#629](https://github.com/awslabs/smithy/pull/629))
+
+### Bug Fixes
+
+* Fixed a bug where URIs would be declared conflicting if the differed through the `@endpoint` trait. ([#626](https://github.com/awslabs/smithy/pull/626))
+* Fixed a bug that would allow the `@aws.auth#sigv4` trait's `name` property to be empty. ([#635](https://github.com/awslabs/smithy/pull/635))
+* Updated protocol tests for `@sparse` trait. ([#620](https://github.com/awslabs/smithy/pull/620), [#631](https://github.com/awslabs/smithy/pull/631))
+* Fixed a bug with the interaction of `CodeWriter.writeInline` with sections. ([#617](https://github.com/awslabs/smithy/pull/617))
+
+### Documentation
+
+* Fixed links for protocol test suites. ([#615](https://github.com/awslabs/smithy/pull/615))
+* Added example and test for composing with `CodeWriter`. ([#619](https://github.com/awslabs/smithy/pull/619))
+* Clarified that `@enum` values cannot be empty. ([#633](https://github.com/awslabs/smithy/pull/633))
+* Clarified binary data in protocol tests. ([#634](https://github.com/awslabs/smithy/pull/634))
+
+### Cleanup
+
+* Lowered severity of validation that a `pageSize` member is marked `@required`. ([#612](https://github.com/awslabs/smithy/pull/612))
+
+## 1.3.0 (2020-10-20)
+
+### Features
+
+* Added several `CodegenWriter` and related abstractions to simplify creating code generators. ([#587](https://github.com/awslabs/smithy/pull/587))
+* Added the `@sparse` trait to the Prelude. ([#599](https://github.com/awslabs/smithy/pull/599))
+* Added the `NullableIndex` to help check if a shape can be set to null. ([#599](https://github.com/awslabs/smithy/pull/599))
+* Added support for API Gateway API key usage plans. ([#603](https://github.com/awslabs/smithy/pull/603), [#605](https://github.com/awslabs/smithy/pull/605))
+* Added the `sortMembers` model transform to reorder the members of structures and unions. ([#588](https://github.com/awslabs/smithy/pull/588))
+* Add `description` property to operations when converting to OpenAPI. ([#589](https://github.com/awslabs/smithy/pull/589))
+
+### Bug Fixes
+
+* Fixed an issue where the `flattenNamespaces` build transform was not registered with the SPI. ([#593](https://github.com/awslabs/smithy/pull/593))
+
+### Optimizations
+
+* Optimized the reverse `NeighborProvider` for memory usage. ([#590](https://github.com/awslabs/smithy/pull/590))
+* Optimized model validation event aggregation for memory usage. ([#595](https://github.com/awslabs/smithy/pull/595))
+
+### Documentation
+
+* Clarified that `map` keys, `set` values, and `union` members cannot be null. ([#596](https://github.com/awslabs/smithy/pull/596/))
+* Clarified `enum` names and their usage. ([#601](https://github.com/awslabs/smithy/pull/601))
+* Added an example dependency to OpenAPI conversion. ([#594](https://github.com/awslabs/smithy/pull/594))
+* Improve and clean up formatting. ([#585](https://github.com/awslabs/smithy/pull/585), [#597](https://github.com/awslabs/smithy/pull/597),
+  [#598](https://github.com/awslabs/smithy/pull/598))
+
+### Cleanup
+
+* Updated `service`, `resource`, and `operation` shapes to maintain the order of bound `resource` and `operation`
+  shapes. ([#602](https://github.com/awslabs/smithy/pull/602))
+* Updated the `sources` build plugin to create an empty manifest if there are no source models. ([#607](https://github.com/awslabs/smithy/pull/607))
+* Deprecated the `BoxIndex`. ([#599](https://github.com/awslabs/smithy/pull/599))
+* Added `enum` names for `httpApiKeyLocation` in the Prelude. ([#606](https://github.com/awslabs/smithy/pull/606))
+
+## 1.2.0 (2020-09-30)
+
+### Features
+
+* Added information to the `ModelDiff.Result` indicating how events have changed between the diff'd models. ([#574](https://github.com/awslabs/smithy/pull/574))
+* Added a media type parser and validation for the `@mediaType` trait. ([#582](https://github.com/awslabs/smithy/pull/582))
+* Added additional default CORS headers and configuration for OpenAPI conversions. ([#583](https://github.com/awslabs/smithy/pull/583))
+* Added the `flattenNamespaces` build transform to flatten the namespaces of shapes connected to a specified service
+  in a model in to a target namespace. ([#572](https://github.com/awslabs/smithy/pull/572))
+* Added `runCommand` functionality to `smithy-utils`. ([#580](https://github.com/awslabs/smithy/pull/580))
+* Added a `TriConsumer` to `smithy-utils`. ([#581](https://github.com/awslabs/smithy/pull/581))
+* Added support for the `@httpResponseCode` trait in the `HttpBindingIndex`. ([#571](https://github.com/awslabs/smithy/pull/571))
+* Added protocol tests for the `@httpResponseCode` trait. ([#573](https://github.com/awslabs/smithy/pull/573))
+
+### Bug Fixes
+
+* Fixed several issues that would cause Smithy to fail when running on Windows. ([#575](https://github.com/awslabs/smithy/pull/575),
+  [#576](https://github.com/awslabs/smithy/pull/576), [#577](https://github.com/awslabs/smithy/pull/577))
+* Fixed a bug where a `union` shape marked as an `@httpPayload` would throw an exception when trying to resolve
+  its content-type. ([#584](https://github.com/awslabs/smithy/pull/584))
+* Fixed a bug in OpenAPI conversions where tags were not passed through unless set in the `supportedTags` list, even
+  when the `tags` setting was enabled. ([#570](https://github.com/awslabs/smithy/pull/570))
+
+## 1.1.0 (2020-09-16)
+
+### Features
+
+* Added the `removeTraitDefinitions` build transform to remove trait definitions from models but leave instances intact.
+  ([#558](https://github.com/awslabs/smithy/pull/558))
+* Added payload binding validation to HTTP `DELETE` operations. ([#566](https://github.com/awslabs/smithy/pull/566))
+* Updated `SmithyDiff` to emit events when traits are changed. ([#561](https://github.com/awslabs/smithy/pull/561))
+
+### Bug Fixes
+
+* Fixed an issue where some `StringListTrait` instances could lose `SourceLocation` information. ([#564](https://github.com/awslabs/smithy/pull/564))
+* Fixed some issues in protocol tests. ([#560](https://github.com/awslabs/smithy/pull/560), [#563](https://github.com/awslabs/smithy/pull/563))
+
+### Cleanup
+
+* Model components are now deduplicated based on location and value. ([#565](https://github.com/awslabs/smithy/pull/565))
+* Normalize URL import filenames for better deduplication and reporting. ([#562](https://github.com/awslabs/smithy/pull/562))
+
+## 1.0.11 (2020-09-10)
+
+### Features
+
+* Added a reverse-topological knowledge index to aid in code generation for languages that require types to be
+  defined before they are referenced. ([#545](https://github.com/awslabs/smithy/pull/545), [#53](https://github.com/awslabs/smithy/pull/553))
+* Added the `@httpResponseCode` trait to indicate that a structure member represents an HTTP response status code. ([#546](https://github.com/awslabs/smithy/pull/546))
+* Added (unstable) support for generating a "Trace File" to link code generated artifacts back to their modeled source.
+  ([#552](https://github.com/awslabs/smithy/pull/552))
+* Added the `:topdown` selector that matches shapes hierarchically. ([#539](https://github.com/awslabs/smithy/pull/539))
+* Added validation for the `cloudTrailEventSource` property of the `@aws.api#service` trait. ([#550](https://github.com/awslabs/smithy/pull/550))
+* Updated shape builders to properly update their member ShapeIds if the ShapeId of the builder changes. ([#556](https://github.com/awslabs/smithy/pull/556))
+* Added several more XML related protocol tests. ([#547](https://github.com/awslabs/smithy/pull/547))
+
+### Bug Fixes
+
+* Fixed a bug where the `PaginatedIndex` did not properly support resolving paths. ([#554](https://github.com/awslabs/smithy/pull/554))
+
+### Documentation
+
+* Clarified the documentation for the `cloudTrailEventSource` property of the `@aws.api#service` trait. ([#550](https://github.com/awslabs/smithy/pull/550))
+* Clarified that the `@aws.api#arn` trait has no impact on OpenAPI conversions. ([#555](https://github.com/awslabs/smithy/pull/555))
+
+## 1.0.10 (2020-08-26)
+
+### Features
+
+* Added a validation event when a syntactic shape ID is found that does not target an actual shape in the model.
+  ([#542](https://github.com/awslabs/smithy/pull/542))
+
+### Bug Fixes
+
+* Fixed a bug where forward reference resolution would use the incorrect namespace when resolving operation and
+  resource bindings. ([#543](https://github.com/awslabs/smithy/pull/543))
+
+### Cleanup
+
+* Deprecated the reflection-based creation pattern for `KnowledgeIndex` implementations. ([#541](https://github.com/awslabs/smithy/pull/541))
+
+## 1.0.9 (2020-08-21)
+
+### Features
+
+* Allow conflicting shape definitions if the fully built shapes are equivalent. ([#520](https://github.com/awslabs/smithy/pull/520))
+* Added the `@internal` trait to the prelude. ([#531](https://github.com/awslabs/smithy/pull/531))
+* Added the `excludeShapesByTrait` build transform that will remove any shapes marked with one or more of the
+  specified traits. ([#531](https://github.com/awslabs/smithy/pull/531))
+* Improved support for newlines and indentation in `CodeWriter`. ([#529](https://github.com/awslabs/smithy/pull/529))
+* Added support for configuring the expression starting character in `CodeWriter`. ([#529](https://github.com/awslabs/smithy/pull/529))
+* Added `payloadFormatVersion` property for API Gateway integrations. ([#527](https://github.com/awslabs/smithy/pull/527))
+* Add `deprecated` property to operations when converting to OpenAPI. ([#535](https://github.com/awslabs/smithy/pull/535))
+* Added several more protocol tests. ([#528](https://github.com/awslabs/smithy/pull/528), [#536](https://github.com/awslabs/smithy/pull/536)) 
+
+### Bug Fixes
+
+* Fixed the selector for the `@httpQuery` trait. ([#534](https://github.com/awslabs/smithy/pull/534))
+* Fixed the selector for the `@httpPrefixHeaders` trait. ([#533](https://github.com/awslabs/smithy/pull/533))
+* Fixed some issues in protocol tests. ([#526](https://github.com/awslabs/smithy/pull/526))
+
+### Cleanup
+
+* Removed the `abbreviation` property from the `@aws.api#service` trait. ([#532](https://github.com/awslabs/smithy/pull/532))
+* Simplified prelude model loading. ([#524](https://github.com/awslabs/smithy/pull/524))
+* Further simplified overall model loading. ([#525](https://github.com/awslabs/smithy/pull/525))
+
+## 1.0.8 (2020-07-31)
+
+### Features
+
+* Updated `Walker` to provide a stable sort for shapes. ([#511](https://github.com/awslabs/smithy/pull/511))
+* Improved support for loading `ValidationEvent`s via `NodeMapper`. ([#518](https://github.com/awslabs/smithy/pull/518),
+  [#516](https://github.com/awslabs/smithy/pull/516))
+* Added the ability to `disableFromNode` via `NodeMapper`. ([#505](https://github.com/awslabs/smithy/pull/505))
+
+### Bug Fixes
+
+* Fixed several issues in protocol tests. ([#502](https://github.com/awslabs/smithy/pull/502), [#507](https://github.com/awslabs/smithy/pull/507))
+
+### Cleanup
+
+* Stopped raising validation errors and running validation with `RenameShapes` transformer. ([#512](https://github.com/awslabs/smithy/pull/512))
+* Simplified conflict handling for shapes. ([#514](https://github.com/awslabs/smithy/pull/514))
+* Simplified duplicate member detection and handling. ([#513](https://github.com/awslabs/smithy/pull/513))
+
+## 1.0.7 (2020-07-16)
+
+### Features
+
+* Use the `@title` trait to improve generated documentation for JSON Schema unions that use `"oneOf"`. ([#485](https://github.com/awslabs/smithy/pull/485))
+* Added and updated several protocol tests for `restJson1`. ([#490](https://github.com/awslabs/smithy/pull/490))
+* Added and updated several protocol tests for `awsJson1_1`. ([#484](https://github.com/awslabs/smithy/pull/484), [#493](https://github.com/awslabs/smithy/pull/493))
+* Added protocol tests for `awsJson1_0`. ([#496](https://github.com/awslabs/smithy/pull/496))
+
+### Bug Fixes
+
+* Fixed a bug where `passthroughBehavior` was misspelled as `passThroughBehavior`
+  in APIGateway OpenAPI output for integrations and mock integrations. ([#495](https://github.com/awslabs/smithy/pull/495))
+* Fixed a bug where only the last line in a multiline doc comment on a
+  member would be successfully parsed. ([#498](https://github.com/awslabs/smithy/pull/498))
+* Fixed several issues in protocol tests. ([#473](https://github.com/awslabs/smithy/pull/473), [#476](https://github.com/awslabs/smithy/pull/476),
+  [#481](https://github.com/awslabs/smithy/pull/481), [#491](https://github.com/awslabs/smithy/pull/491))
+
+### Documentation
+
+* Refactored the specification to better explain the semantic model and its representations. ([#497](https://github.com/awslabs/smithy/pull/497),
+  [#482](https://github.com/awslabs/smithy/pull/482))
+* Clarified guidance on using `@mediaType`. ([#500](https://github.com/awslabs/smithy/pull/500))
+* Removed outdated namespace guidance. ([#487](https://github.com/awslabs/smithy/pull/487))
+* Fixed several minor issues. ([#494](https://github.com/awslabs/smithy/pull/494))
+
+### Cleanup
+
+* Disallowed problematic identifiers misusing `_`. ([#499](https://github.com/awslabs/smithy/pull/499))
+* Moved validation of members with the `@httpLabel` trait being marked required to the selector. ([#480](https://github.com/awslabs/smithy/pull/480))
+
+## 1.0.6 (2020-06-24)
+
+### Features
+
+* Update `structure` and `union` shapes so member order is maintained as part of the contract. ([#465](https://github.com/awslabs/smithy/pull/465))
+* Add validation for `document` types in protocols. ([#474](https://github.com/awslabs/smithy/pull/474))
+* Provide suggestions for invalid Shape ID targets if a close match is found. ([#466](https://github.com/awslabs/smithy/pull/466))
+* Added message templates and trait binding to the `EmitEachSelector`. ([#467](https://github.com/awslabs/smithy/pull/467))
+* Added ability to add traits directly to the `ModelAssembler`. ([#470](https://github.com/awslabs/smithy/pull/470))
+* Convert `awsJson1_1` protocol tests to Smithy IDL. ([#472](https://github.com/awslabs/smithy/pull/472))
+* Update decimal values in protocol tests. ([#471](https://github.com/awslabs/smithy/pull/471)) 
+
+### Documentation
+
+* Update quick start guide with more examples. ([#462](https://github.com/awslabs/smithy/pull/462))
+
+### Bug Fixes
+
+* Fixed issues allowing `document` types in `@httpHeader` and `@httpPrefixHeaders` traits. ([#474](https://github.com/awslabs/smithy/pull/474))
+
+## 1.0.5 (2020-06-05)
+
+### Bug Fixes
+
+* Fixed a bug in loading IDL files where resolving a forward reference that needed another
+  forward reference would throw an exception. ([#458](https://github.com/awslabs/smithy/pull/458))
+* Fixed a bug where smithy-build imports were not resolved relative to their `smithy-build.json`. ([#457](https://github.com/awslabs/smithy/pull/457))  
+* Fixed a bug where the `PREFIX_HEADERS` HTTP binding location would not default its timestamp
+  format to `HTTP_DATE`. ([#456](https://github.com/awslabs/smithy/pull/456))
+
+## 1.0.4 (2020-05-29)
+
+### Features
+
+* Ensure that when a property is removed from a JSON schema object, that a corresponding "required"
+  entry is also removed. ([#452](https://github.com/awslabs/smithy/pull/452))
+* Added the (unstable) `@httpChecksumRequired` trait to indicate an operation requires a checksum
+  in its HTTP request. ([#433](https://github.com/awslabs/smithy/pull/433), [#453](https://github.com/awslabs/smithy/pull/453))
+
+### Bug Fixes
+
+* Fixed a bug in OpenApi conversion where removing authentication for an operation would result
+  in the operation inheriting the global "security" configuration instead of having it set to none. ([#451](https://github.com/awslabs/smithy/pull/451/))
+
+### Documentation
+
+* Added examples of building models to various guides. ([#449](https://github.com/awslabs/smithy/pull/449))
+* Fixed various documentation issues. ([#449](https://github.com/awslabs/smithy/pull/449))
+
+## 1.0.3 (2020-05-26)
+
+### Bug Fixes
+
+* Prevent parsing overly deep Node values ([#442](https://github.com/awslabs/smithy/pull/442))
+* Fix an issue with the OpenAPI conversion where synthesized structure inputs reference required properties that
+  were removed. ([#443](https://github.com/awslabs/smithy/pull/443))
+
+## 1.0.2 (2020-05-18)
+
+### Bug Fixes
+
+* Fix an issue that would squash exceptions thrown for invalid suppressions. ([#440](https://github.com/awslabs/smithy/pull/440))
+
+## 1.0.1 (2020-05-13)
+
+### Features
+
+* The `smithy.api#httpPayload` trait can now target document shapes. ([#431](https://github.com/awslabs/smithy/pull/431))
+* Updated the IDL grammar to include many previously enforced parsing rules. ([#434](https://github.com/awslabs/smithy/pull/434))
+* Added the `select` command to the CLI to print out shapes from a model that match a selector. ([#430](https://github.com/awslabs/smithy/pull/430))
+* Added the `ast` command to the CLI to convert 0 or more Smithy models into a JSON AST. ([#435](https://github.com/awslabs/smithy/pull/435))
+* Added a Dockerfile for building Smithy as a Docker image. ([#427](https://github.com/awslabs/smithy/pull/427))
+
+### Optimizations
+
+* The Smithy IDL parser has been rewritten and optimized. ([#434](https://github.com/awslabs/smithy/pull/434))
+* Generate a class data share to speed up the CLI. ([#429](https://github.com/awslabs/smithy/pull/429))
+
+### Bug Fixes
+
+* Fix several ambiguities and issues in the IDL grammar. ([#434](https://github.com/awslabs/smithy/pull/434))
+* JSON pretty printing of the AST now uses 4 spaces for indentation. ([#435](https://github.com/awslabs/smithy/pull/435))
+* Fix CLI `--help` output alignment. ([#429](https://github.com/awslabs/smithy/pull/429))
+
+## 1.0.0 (2020-05-04)
+
+***Note***: Changes marked with "[BC]" are breaking changes more accurately described in the
+specific section. A list of further intended breaking changes have a specific section near
+the end of this entry.
+
+### Features
+
+#### General
+
+* The model format version has been updated to `1.0` and contains several updates: [BC] ([#357](https://github.com/awslabs/smithy/pull/357),
+  [#381](https://github.com/awslabs/smithy/pull/381))
+  * The JSON AST representation requires describing annotation traits as `{}` instead of `true`.
+  * Annotation traits in the IDL are now provided as `@foo` or `@foo()`. Explicit `@foo(true)` and
+  `@foo(null)` support was removed.
+* Smithy models can now be serialized to the IDL. ([#284](https://github.com/awslabs/smithy/pull/284))
+* Added a Node-based object mapper to simplify the process of building and using Java components
+from Smithy `Node`s. ([#301](https://github.com/awslabs/smithy/pull/301))
+  * Many packages have seen significant updates to use this functionality. ([#305](https://github.com/awslabs/smithy/pull/305),
+    [#364](https://github.com/awslabs/smithy/pull/364))
+* Made error messages clearer when encountering duplicate shapes. ([#324](https://github.com/awslabs/smithy/pull/324))
+* Model loaders now warn on additional shape properties instead of fail. ([#374](https://github.com/awslabs/smithy/pull/374))
+* Added expect* methods to the base `Shape`. ([#314](https://github.com/awslabs/smithy/pull/314))
+* Added `@SmithyUnstableApi`, `@SmithyInternalApi` and `@SmithyGenerated` Java annotations. ([#297](https://github.com/awslabs/smithy/pull/297))
+* `NodeValidationVisitor`s are marked as internal and/or unstable. ([#375](https://github.com/awslabs/smithy/pull/375))
+* The `$version` control statement can now be set to only a major version (e.g., "1") to indicate that an
+  implementation must support a version >= 1 and < 2. `$version` can now be set to `major.minor` (e.g., "1.1")
+  to indicate that an implementation must support a version >= 1.1 and < 2.
+
+#### Trait updates
+
+* Individual protocols are now defined as individual traits that are annotated with
+[the `protocolDefinition` trait.](https://smithy.io/2.0/spec/protocol-traits.html#protocoldefinition-trait) [BC]
+  ([#273](https://github.com/awslabs/smithy/pull/273), [#280](https://github.com/awslabs/smithy/pull/280), [#379](https://github.com/awslabs/smithy/pull/379),
+    [#390](https://github.com/awslabs/smithy/pull/390))
+  * Previously listed [AWS protocols now have trait implementations.](https://smithy.io/2.0/aws/index.html#aws-protocols)
+* Individual authentication schemes are now defined as individual traits that are annotated with
+[the `authDefinition` trait.](https://smithy.io/2.0/spec/authentication-traits.html#authdefinition-trait) [BC]
+  ([#273](https://github.com/awslabs/smithy/pull/273), [#280](https://github.com/awslabs/smithy/pull/280))
+  * Previously listed [authentication schemes now have trait implementations.](https://smithy.io/2.0/spec/authentication-traits.html)
+* The `smithy.api#enum` trait is now a list of enum definitions instead of a map of string keys to
+enum definitions to improve clarity and encourage adding more properties to definitions. [BC] ([#326](https://github.com/awslabs/smithy/pull/326))
+* The `aws.api#streaming` trait is now applied to shapes directly instead of members. [BC] ([#340](https://github.com/awslabs/smithy/pull/340))
+* The `smithy.api#eventStream` trait has been removed. Event streams are now indicated by applying
+the `smithy.api#streaming` trait to unions. [BC] ([#365](https://github.com/awslabs/smithy/pull/365))
+* The `smithy.api#requiresLength` trait has been split out of the `smithy.api#streaming` trait to
+improve clarity around event stream modeling. [BC] ([#368](https://github.com/awslabs/smithy/pull/368))
+* The `smithy.api#externalDocumentation` trait is now a map instead of a single string to allow for
+multiple links per trait. [BC] ([#363](https://github.com/awslabs/smithy/pull/363))
+* Added the `smithy.api#noReplace` trait to indicate a PUT lifecycle operation cannot replace the
+existing resource. ([#351](https://github.com/awslabs/smithy/pull/351))
+* Added the `smithy.api#unstable` trait to indicate a shape MAY change. ([#290](https://github.com/awslabs/smithy/pull/290))
+* Simplified `aws.api#unsignedPayload` to be an annotation. [BC] ([#270](https://github.com/awslabs/smithy/pull/270))
+* Annotation traits are now lossless when loaded with additional properties, meaning they will
+contain those properties when serialized. ([#385](https://github.com/awslabs/smithy/pull/385))
+
+#### Selector updates
+
+Selectors have received significant updates: ([#388](https://github.com/awslabs/smithy/pull/388))
+
+* Attribute selectors can now evaluate scoped comparisons using `@foo:` to define a scope
+and `@{bar}` to define a context value. ([#391](https://github.com/awslabs/smithy/pull/391))
+* And logic, via `&&`, has been added to allow multiple attribute comparisons. ([#391](https://github.com/awslabs/smithy/pull/391))
+* Support for selecting nested trait properties with `|`, including list/object values and object
+keys, was added.
+* An opt-in `trait` relationship has been added. ([#384](https://github.com/awslabs/smithy/pull/384))
+* The recursive neighbor selector, `~>`, has been added. ([#386](https://github.com/awslabs/smithy/pull/386))
+* A not equal comparison, `!=`, was added.
+* An exists comparison, `?=`, was added. ([#391](https://github.com/awslabs/smithy/pull/391))
+* Support for numbers in attribute selectors was added.
+* Numeric comparisons (`>`, `>=`, `<`, `<=`) were added.
+* The `(length)` function property was added. ([#391](https://github.com/awslabs/smithy/pull/391))
+* Attribute selectors now support CSV values, allowing matching on one or more target values.
+* The `:each` selector is now `:is` for clarity. [BC]
+* The `:of` selector is now removed. Use reverse neighbors instead (e.g., `member :test(< structure)`). [BC]
+* The semantics of the `:not` selector have changed significantly. `:not(list > member > string)` now means
+  "do not match list shapes that target strings", whereas this previously meant,
+  "do not match string shapes targeted by lists". [BC]
+* Shape IDs with members must now be quoted. [BC]
+* Selector parsing and evaluating now tolerates unknown relationship types. ([#377](https://github.com/awslabs/smithy/pull/377))
+
+#### Validation updates
+
+* Services must now contain a closure of shapes that have case-insensitively unique names. [BC] ([#337](https://github.com/awslabs/smithy/pull/337))
+* `suppressions` has been updated to now only suppress validation events that occur for an entire namespace or across
+  the entire model. The `@suppress` trait was added to suppress validation events for a specific shape. [BC] ([#397](https://github.com/awslabs/smithy/pull/397)).
+* The `UnreferencedShape` validator has moved to `smithy-model` and is now always run. [BC] ([#319](https://github.com/awslabs/smithy/pull/319))
+* `EmitEachSelector` and `EmitNoneSelector` were moved from `smithy-linters` into `smithy-model`.
+
+#### JSON Schema conversion
+
+The conversion to JSON schema was significantly overhauled. [BC] ([#274](https://github.com/awslabs/smithy/pull/274))
+
+* Configuration for the build plugin was significantly overhauled. [BC] ([#364](https://github.com/awslabs/smithy/pull/364))
+* The strategy for shape inlining has been changed. [BC]
+* The strategy for naming shapes and handling shape id conflicts has been changed. [BC]
+* Output schema error detection was improved.
+* The Java API surface has been reduced. [BC]
+* Added the ability to select schemas from a document using a JSON pointer.
+
+#### OpenAPI conversion
+
+The conversion to OpenAPI was significantly overhauled. [BC] ([#275](https://github.com/awslabs/smithy/pull/275))
+
+* Configuration for the build plugin was significantly overhauled.  [BC] ([#364](https://github.com/awslabs/smithy/pull/364))
+* Protocol conversion was updated to utilize the new traits. ([#275](https://github.com/awslabs/smithy/pull/275), [#392](https://github.com/awslabs/smithy/pull/392))
+* Schemas are now generated for requests and responses instead of being inlined. [BC]
+* Fixed several issues with CORS integrations.
+
+#### API Gateway OpenAPI conversion
+
+The API Gateway specific OpenAPI mappers have been updated. [BC] ([#367](https://github.com/awslabs/smithy/pull/367))
+
+*  The `ApiGatewayMapper` interface was added, allowing mappers to control which API Gateway API
+type(s) they support.
+* Fixed several issues with CORS integrations. ([#370](https://github.com/awslabs/smithy/pull/370))
+* Added support for JSON Patch-like OpenAPI schema changes based on JSON Pointers. ([#293](https://github.com/awslabs/smithy/pull/293))
+* Added support for event streams in OpenAPI conversion. ([#334](https://github.com/awslabs/smithy/pull/334))
+
+### Bug Fixes
+
+* Fixed an issue in JSON schema conversion where member traits were dropped in some scenarios. ([#274](https://github.com/awslabs/smithy/pull/274))
+* Fixed an issue where authorization headers were not properly added to CORS configurations. ([#328](https://github.com/awslabs/smithy/pull/328))
+* Fixed an issue where operation response headers were being applied to error responses in OpenAPI
+conversions. ([#275](https://github.com/awslabs/smithy/pull/275))
+* Fixed an issue where `apply` statements wouldn't resolve target shapes properly in some cases. ([#287](https://github.com/awslabs/smithy/pull/287))
+* Fixed an issue with the selector for the `smithy.api#title` trait. ([#387](https://github.com/awslabs/smithy/pull/387))
+* Fixed several issues with the `smithy.api#httpApiKeyAuth` trait and its related conversions. ([#291](https://github.com/awslabs/smithy/pull/291))
+* Fixed a bug with timestamp validation in specific versions of Java. ([#316](https://github.com/awslabs/smithy/pull/316))
+
+### Optimizations
+
+* The `TraitTargetValidator` now performs as few checks on and selections of the entire model. ([#389](https://github.com/awslabs/smithy/pull/389))
+* The dependency on `jackson-core` was replaced with a vendored version of `minimal-json` to reduce
+the chances of dependency conflicts. [BC] ([#323](https://github.com/awslabs/smithy/pull/323))
+* Sped up model loading time by loading JSON models before IDL models to reduce forward
+reference lookups. ([#287](https://github.com/awslabs/smithy/pull/287))
+
+### Breaking changes
+
+All changes listed in this heading and any sub-headings are breaking changes.
+
+* The `BooleanTrait` abstract class in `smithy-model` was renamed `AnnotationTrait`. ([#381](https://github.com/awslabs/smithy/pull/381))
+* The traits in the `aws.apigateway` namespace have moved from `smithy-aws-traits` to the
+`smithy-aws-apigateway-traits` package for more granular use. ([#322](https://github.com/awslabs/smithy/pull/322))
+  * Tooling that referenced these traits has also been updated.
+* The traits in the `aws.iam` namespace have moved from `smithy-aws-traits` to the
+`smithy-aws-iam-traits` package for more granular use. ([#322](https://github.com/awslabs/smithy/pull/322))
+  * Tooling that referenced these traits has also been updated.
+* The `aws.api#ec2QueryName` trait has moved to `aws.protocols#ec2QueryName`. ([#286](https://github.com/awslabs/smithy/pull/286))
+* The `aws.api#unsignedPayload ` trait has moved to `aws.auth#unsignedPayload `. ([#286](https://github.com/awslabs/smithy/pull/286))
+* The `smithy-codegen-freemarker` package has been removed. ([#382](https://github.com/awslabs/smithy/pull/382))
+* Traits can no longer be applied to public Smithy Prelude shapes. ([#317](https://github.com/awslabs/smithy/pull/317))
+* Smithy's `Pattern` class is renamed to `SmithyPattern` to remove the conflict with Java's regex
+`Pattern` class. ([#315](https://github.com/awslabs/smithy/pull/315))
+* Removed the `Triple` class from `smithy-utils`. ([#313](https://github.com/awslabs/smithy/pull/313))
+* Normalized class names for OpenAPI `SecurityScemeConverter` implementations. ([#291](https://github.com/awslabs/smithy/pull/291))
+* Removed alias functionality from `software.amazon.smithy.build.SmithyBuildPlugin` and
+  `software.amazon.smithy.build.ProjectionTransformer`. ([#409](https://github.com/awslabs/smithy/pull/409))
+* Removed `software.amazon.smithy.model.shapes.Shape#visitor` and
+  `software.amazon.smithy.model.shapes.ShapeVisitor$Builder`. Use
+  `software.amazon.smithy.model.shapes.ShapeVisitor$Default` instead. ([#413](https://github.com/awslabs/smithy/pull/413))
+* `software.amazon.smithy.model.Model#getTraitDefinitions` and `getTraitShapes` were removed in favor of
+  `software.amazon.smithy.model.Model#getShapesWithTrait`. ([#412](https://github.com/awslabs/smithy/pull/412))
+
+#### Deprecation cleanup
+
+* The deprecated IDL operation syntax has been removed ([#373](https://github.com/awslabs/smithy/pull/373))
+* The deprecated `NodeFactory` interface has been removed. ([#265](https://github.com/awslabs/smithy/pull/265))
+* The deprecated `ShapeIndex` class and all related APIs have been removed. ([#266](https://github.com/awslabs/smithy/pull/266))
+* Support for the deprecated `0.4.0` model version has been removed. ([#267](https://github.com/awslabs/smithy/pull/267))
+* The `aws.api#service` trait no longer supports the deprecated
+`sdkServiceId`, `arnService`, or `productName` properties. ([#268](https://github.com/awslabs/smithy/pull/268))
+* The deprecated `TemplateEngine` and `DefaultDataTemplateEngine` have been removed. ([#268](https://github.com/awslabs/smithy/pull/268))
+* The deprecated `smithy.validators` and `smithy.suppressions` are no longer used as aliases for
+validators and suppressions. ([#268](https://github.com/awslabs/smithy/pull/268))
+* The `smithy.api#references` and `smithy.api#idRef` traits no longer support relative shape IDs. ([#268](https://github.com/awslabs/smithy/pull/268))
+
+### Documentation
+
+A significant overhaul of the specification and guides has been completed. This includes a better
+flow to the spec, more complete guides, deeper documentation of AWS specific components, and a
+complete redesign. Many direct links to components of the documentation will have changed.
+
+## 0.9.9 (2020-04-01)
+
+### Bug Fixes
+
+* Add security to individual operations in OpenAPI conversion ([#329](https://github.com/awslabs/smithy/pull/329))
+* Fix an issue with header casing for `x-api-key` integration with API Gateway ([#330](https://github.com/awslabs/smithy/pull/330))
+* Fix discrepancies in `smithy-aws-protocol-tests` ([#333](https://github.com/awslabs/smithy/pull/333), [#335](https://github.com/awslabs/smithy/pull/335),
+  [#349](https://github.com/awslabs/smithy/pull/349))
+
+## 0.9.8 (2020-03-26)
+
+### Features
+
+* Add `RenameShapes` model transformer ([#318](https://github.com/awslabs/smithy/pull/318))
+* Build `ValidationEvents` are now sorted ([#263](https://github.com/awslabs/smithy/pull/263))
+* Smithy CLI logging improvements ([#263](https://github.com/awslabs/smithy/pull/263))
+* Model builds fail early when syntax errors occur ([#264](https://github.com/awslabs/smithy/pull/264))
+* Warn when a deprecated trait is applied to a shape ([#279](https://github.com/awslabs/smithy/pull/279))
+
+### Bug Fixes
+
+* Fix behavior of `schemaDocumentExtensions` when converting to OpenAPI ([#320](https://github.com/awslabs/smithy/pull/320))
+* Fix discrepancies in `smithy-aws-protocol-tests` ([#309](https://github.com/awslabs/smithy/pull/309), [#321](https://github.com/awslabs/smithy/pull/321))
+* Properly format test case results ([#271](https://github.com/awslabs/smithy/pull/271))
+* Fix dropping one character text block lines ([#285](https://github.com/awslabs/smithy/pull/285))
+
+### Optimizations
+
+* Builds run parallel projections in parallel only if there are more than one ([#263](https://github.com/awslabs/smithy/pull/263))
+* Run Smithy test suites as parameterized tests ([#263](https://github.com/awslabs/smithy/pull/263))
+
+### Cleanup
+
+* Migrate protocol tests to new operation syntax ([#260](https://github.com/awslabs/smithy/pull/260))
+* Build protocol tests with the Smithy Gradle plugin ([#263](https://github.com/awslabs/smithy/pull/263))
+* Deprecate using explicitly `smithy.api` for trait removal ([#306](https://github.com/awslabs/smithy/pull/306))
+
+## 0.9.7 (2020-01-15)
+
+### Features
+
+* Updated Operation syntax in the Smithy IDL ([#253](https://github.com/awslabs/smithy/pull/253))
+* Updated specification for XML traits ([#242](https://github.com/awslabs/smithy/pull/242))
+* Add the `@aws.api#ec2QueryName-trait` trait ([#251](https://github.com/awslabs/smithy/pull/251))
+* Add AWS protocol test models ([#246](https://github.com/awslabs/smithy/pull/246), [#247](https://github.com/awslabs/smithy/pull/247),
+  [#250](https://github.com/awslabs/smithy/pull/250), [#255](https://github.com/awslabs/smithy/pull/255),
+  and [#258](https://github.com/awslabs/smithy/pull/258))
+
+### Optimizations
+
+* Use URLConnection cache setting in ModelAssembler ([#244](https://github.com/awslabs/smithy/pull/244))
+
+### Bug Fixes
+
+* Use list of string for queryParams in the `httpRequestTests` trait ([#240](https://github.com/awslabs/smithy/pull/240))
+
+## 0.9.6 (2020-01-02)
+
+### Features
+
+* Allow XML maps to be flattened ([#205](https://github.com/awslabs/smithy/pull/205))
+* Add and remove shape members to model automatically ([#206](https://github.com/awslabs/smithy/pull/206))
+* Deprecate ShapeIndex in favor of Model ([#209](https://github.com/awslabs/smithy/pull/209))
+* Allow the sensitive trait to be applied to all but operations, services, and resources ([#212](https://github.com/awslabs/smithy/pull/212))
+* Added 0.5.0 IDL and AST format ([#213](https://github.com/awslabs/smithy/pull/213))
+* Allow min to equal max in range trait ([#216](https://github.com/awslabs/smithy/pull/216))
+* Added validation for length trait values ([#217](https://github.com/awslabs/smithy/pull/217))
+* Limit streaming trait to top-level members ([#221](https://github.com/awslabs/smithy/pull/221))
+* Added protocol compliance test traits ([#226](https://github.com/awslabs/smithy/pull/226))
+* Added ability to configure timestamp validation ([#229](https://github.com/awslabs/smithy/pull/229))
+* Moved `TemplateEngine` implementation into FreeMarker implementation ([#230](https://github.com/awslabs/smithy/pull/230))
+* Added `BoxIndex` ([#234](https://github.com/awslabs/smithy/pull/234))
+* Added more expect methods to `Shape` and `Model` ([#237](https://github.com/awslabs/smithy/pull/237))
+
+### Optimizations
+
+* Update smithy-build to be streaming ([#211](https://github.com/awslabs/smithy/pull/211))
+
+### Bug Fixes
+
+* Prevent bad list, set, and map recursion ([#204](https://github.com/awslabs/smithy/pull/204))
+* Properly allow omitting endpoint discovery operation inputs ([#220](https://github.com/awslabs/smithy/pull/220))
+
+## 0.9.5 (2019-11-11)
+
+### Features
+
+* Allow overriding state management in CodeWriter ([#186](https://github.com/awslabs/smithy/pull/186))
+* Allow the `xmlFlattened` trait to be applied to members ([#191](https://github.com/awslabs/smithy/pull/191))
+* Add helper to determine HTTP-based timestamp formats ([#193](https://github.com/awslabs/smithy/pull/193))
+* Allow specifying XML namespace prefixes ([#195](https://github.com/awslabs/smithy/pull/195))
+* Add `SymbolContainer`, an abstraction over `Symbol`s that enables easily
+  creating and aggregating `Symbols` ([#202](https://github.com/awslabs/smithy/pull/202))
+
+### Bug Fixes
+
+* Escape popped state content ([#187](https://github.com/awslabs/smithy/pull/187))
+* Make shape ID serialization consistent ([#196](https://github.com/awslabs/smithy/pull/196))
+* Exclude private members targeted in JSON schema converters ([#199](https://github.com/awslabs/smithy/pull/199))
+* Fix naming collisions in JSON schema output ([#200](https://github.com/awslabs/smithy/pull/200))
+* Update `equals` to included typed bag parents ([#201](https://github.com/awslabs/smithy/pull/201))
+
+## 0.9.4 (2019-10-09)
+
+### Features
+
+* Add support for AWS Client Endpoint Discovery ([#165](https://github.com/awslabs/smithy/pull/165))
+* Refactor event streams to target members ([#171](https://github.com/awslabs/smithy/pull/171))
+* Add support for aliasing referenced `Symbol`s ([#168](https://github.com/awslabs/smithy/pull/168))
+* Add support for `Symbol`s to introduce dependencies ([#169](https://github.com/awslabs/smithy/pull/169))
+* Add ability to manually escape reserved words in `ReservedWordSymbolProvider` ([#174](https://github.com/awslabs/smithy/pull/174))
+* Add method to gather dependencies for `Symbol`s ([#170](https://github.com/awslabs/smithy/pull/170))
+* Add a caching `SymbolProvider` ([#167](https://github.com/awslabs/smithy/pull/167))
+* Improve the usability of `CodeWroter#openBlock` ([#175](https://github.com/awslabs/smithy/pull/175))
+* Improve the usability of `PluginContext` ([#181](https://github.com/awslabs/smithy/pull/181))
+
+### Optimizations
+
+* Disable URLConnection cache in CLI ([#180](https://github.com/awslabs/smithy/pull/180))
+
+### Bug Fixes
+
+* Fix issue with generated authentication for CORS checks ([#179](https://github.com/awslabs/smithy/pull/179))
+* Set the `defaultTimestampFormat` to `epoch-seconds` for `aws.rest-json` protocols in OpenAPI ([#184](https://github.com/awslabs/smithy/pull/184))
+
+## 0.9.3 (2019-09-16)
+
+### Features
+
+* Clean up `CodeWriter` modifiers ([#143](https://github.com/awslabs/smithy/pull/143))
+* Add typed `ObjectNode` member expectation functions ([#144](https://github.com/awslabs/smithy/pull/144))
+* Add `expectShapeId` for fully-qualified shape ID ([#147](https://github.com/awslabs/smithy/pull/147))
+* Add helper to `EnumTrait` to check if it has names ([#148](https://github.com/awslabs/smithy/pull/148))
+* Add `Symbol` references ([#149](https://github.com/awslabs/smithy/pull/149))
+* Add `ReservedWords` builder for simpler construction ([#150](https://github.com/awslabs/smithy/pull/150))
+* Allow using path expressions in paginator outputs ([#152](https://github.com/awslabs/smithy/pull/152))
+* Add method to get non-trait shapes ([#153](https://github.com/awslabs/smithy/pull/153))
+* Add method to write class resource to manifest ([#157](https://github.com/awslabs/smithy/pull/157))
+* Allow `authType` to be specified ([#160](https://github.com/awslabs/smithy/pull/160))
+
+
+### Bug Fixes
+
+* Fix collection and gradle doc issues ([#145](https://github.com/awslabs/smithy/pull/145))
+* Make `AuthorizerDefinition` definition private ([#146](https://github.com/awslabs/smithy/pull/146))
+* Fix put handling on `ResourceShape` ([#158](https://github.com/awslabs/smithy/pull/158))
+* Fix parse error when `apply` is at eof ([#159](https://github.com/awslabs/smithy/pull/159))
+* Prevent `list`/`set` member from targeting container ([#162](https://github.com/awslabs/smithy/pull/162))
+* Allow model assembling from symlink model files / directory ([#163](https://github.com/awslabs/smithy/pull/163))
