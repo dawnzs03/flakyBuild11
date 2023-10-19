@@ -1,51 +1,35 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
-Thanks for stopping by to let us know something could be better!
+NOTE: Before filing a ticket, please see the following URL:
+https://github.com/hapifhir/hapi-fhir/wiki/Getting-Help
 
-**PLEASE READ**: If you have a support contract with Google, please create an issue in the [support console](https://cloud.google.com/support/) instead of filing on GitHub. This will ensure a timely response.
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-Please run down the following list and make sure you've tried the usual "quick fixes":
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-  - Search the issues already opened: https://github.com/googleapis/google-cloud-java/issues
-  - Check for answers on StackOverflow: http://stackoverflow.com/questions/tagged/google-cloud-platform
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-If you are still having issues, please include as much information as possible:
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-#### Environment details
+**Environment (please complete the following information):**
+ - HAPI FHIR Version
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
 
-1. Specify the API at the beginning of the title. For example, "[vision]: ...").
-   General, Core, and Other are also allowed as types
-2. OS type and version:
-3. Java version:
-4. Version(s):
-
-#### Steps to reproduce
-
-  1. ?
-  2. ?
-
-#### Code example
-
-```java
-// example
-```
-
-#### Stack trace
-```
-Any relevant stacktrace here.
-```
-
-#### External references such as API reference guides
-
-- ?
-
-#### Any additional information below
-
-
-Following these steps guarantees the quickest resolution possible.
-
-Thanks!
+**Additional context**
+Add any other context about the problem here.

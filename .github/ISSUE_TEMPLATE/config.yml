@@ -1,4 +1,5 @@
+blank_issues_enabled: false
 contact_links:
-  - name: Google Cloud Support
-    url: https://cloud.google.com/support/
-    about: If you have a support contract with Google, please use the Google Cloud Support portal.
+  - name: Getting Help / Community
+    url: https://github.com/hapifhir/hapi-fhir/wiki/Getting-Help
+    about: Please click here to learn about where to ask questions about HAPI FHIR
