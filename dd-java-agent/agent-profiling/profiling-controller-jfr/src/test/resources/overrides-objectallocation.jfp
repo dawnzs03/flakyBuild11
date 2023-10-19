@@ -1,2 +1,0 @@
-jdk.ObjectAllocationInNewTLAB#enabled=true
-jdk.ObjectAllocationOutsideTLAB#enabled=true

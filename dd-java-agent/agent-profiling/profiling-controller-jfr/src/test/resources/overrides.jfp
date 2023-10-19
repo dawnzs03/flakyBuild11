@@ -1,2 +1,0 @@
-test.continuous.override#value=200
-jdk.SafepointBegin#enabled=continuous-test-value

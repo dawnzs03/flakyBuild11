@@ -1,6 +1,0 @@
-apply from: "$rootDir/gradle/java.gradle"
-description = 'Sample Trace CLI Smoke Tests.'
-
-dependencies {
-  testImplementation project(':dd-smoke-tests')
-}

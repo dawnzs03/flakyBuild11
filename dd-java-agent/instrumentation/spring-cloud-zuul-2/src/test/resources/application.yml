@@ -1,5 +1,0 @@
-zuul:
-  routes:
-    allPaths:
-      path: /**
-      url: forward:/

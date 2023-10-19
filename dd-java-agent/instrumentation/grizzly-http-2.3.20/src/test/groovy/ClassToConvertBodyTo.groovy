@@ -1,3 +1,0 @@
-class ClassToConvertBodyTo {
-  String a
-}

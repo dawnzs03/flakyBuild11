@@ -1,7 +1,0 @@
-apply from: "$rootDir/gradle/java.gradle"
-
-description = 'appsec-smoke-tests'
-
-dependencies {
-  api project(':dd-smoke-tests')
-}

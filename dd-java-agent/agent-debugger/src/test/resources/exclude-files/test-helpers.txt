@@ -1,2 +1,0 @@
-utils/*
-datadog/trace/bootstrap/debugger/*

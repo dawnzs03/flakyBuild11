@@ -1,0 +1,13 @@
+changelog:
+  repository: spring-projects-experimental/spring-modulith
+  sections:
+  - title: ":star: New Features"
+    labels: ["type: enhancement"]
+  - title: ":bulb: Improvements"
+    labels: ["type: improvement"]
+  - title: ":beetle: Bugs"
+    labels: ["type: bug"]
+  - title: ":book: Documentation"
+    labels: ["in: reference documentation"]
+  - title: ":hammer: Dependency Upgrades"
+    labels: ["type: dependency-upgrade"]
