@@ -1,107 +1,115 @@
-<h1 align="center">DDDplus</h1>
+<!--
 
-<div align="center">
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-A lightweight DDD(Domain Driven Design) enhancement framework for forward/reverse business modeling, supporting complex system architecture evolution!
+      https://www.apache.org/licenses/LICENSE-2.0
 
-[![CI](https://github.com/funkygao/cp-ddd-framework/workflows/CI/badge.svg?branch=master)](https://github.com/funkygao/cp-ddd-framework/actions?query=branch%3Amaster+workflow%3ACI)
-[![Javadoc](https://img.shields.io/badge/javadoc-Reference-blue.svg)](https://funkygao.github.io/cp-ddd-framework/doc/apidocs/)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.dddplus/dddplus.svg?label=Maven%20Central)](https://central.sonatype.com/namespace/io.github.dddplus)
-![Requirement](https://img.shields.io/badge/JDK-8+-blue.svg)
-[![Coverage Status](https://img.shields.io/codecov/c/github/funkygao/cp-ddd-framework.svg)](https://codecov.io/gh/funkygao/cp-ddd-framework)
-[![Mentioned in Awesome DDD](https://awesome.re/mentioned-badge.svg)](https://github.com/heynickc/awesome-ddd#jvm)
-[![Gitter chat](https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/cp-ddd-framework/community)
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 
-</div>
+-->
 
-<div align="center">
+[![Apache Accumulo][logo]][accumulo]
+--
+[![Build Status][ti]][tl] [![Maven Central][mi]][ml] [![Javadoc][ji]][jl] [![Apache License][li]][ll]
 
-Languages： English | [中文](README.zh-cn.md)
-</div>
+[Apache Accumulo][accumulo] is a sorted, distributed key/value store that provides robust,
+scalable data storage and retrieval. With Apache Accumulo, users can store and manage large
+data sets across a cluster. Accumulo uses [Apache Hadoop]'s HDFS to store its data and
+[Apache Zookeeper] for consensus.
 
-----
+Download the latest version of Apache Accumulo on the [project website][dl].
 
-## What is DDDplus?
+## Getting Started
 
-DDDplus, formerly named cp-ddd-framework(cp means Central Platform：中台), is a lightweight DDD(Domain Driven Design) enhancement framework for forward/reverse business modeling, supporting complex system architecture evolution!
+* Follow the [quick start] to install and run Accumulo
+* Read the [Accumulo documentation][docs]
+* Run the [Accumulo examples][examples] to learn how to write Accumulo clients
+* View the [Javadocs][javadocs] to learn the [Accumulo API][api]
 
->It captures DDD missing concepts and patches the building block. It empowers building domain model with forward and reverse modeling. It visualizes the complete domain knowledge from code. It connects frontline developers with (architect, product manager, business stakeholder, management team). It makes (analysis, design, design review, implementation, code review, test) a positive feedback closed-loop. It strengthens building extension oriented flexible software solution. It eliminates frequently encountered misunderstanding of DDD via thorough javadoc for each building block with detailed example.
+More resources can be found on the [project website][accumulo].
 
-In short, the 3 most essential `plus` are:
-1. [patch](/dddplus-spec/src/main/java/io/github/dddplus/model) DDD building blocks for pragmatic forward modeling, clearing obstacles of DDD implementation
-2. offer a reverse modeling [DSL](/dddplus-spec/src/main/java/io/github/dddplus/dsl), visualizing complete domain knowledge from code
-3. provide [extension point](/dddplus-spec/src/main/java/io/github/dddplus/ext) with multiple routing mechanism, suited for complex business scenarios
+## Building
 
-## Current status
+Accumulo uses [Maven] to compile, [test], and package its source. The following
+command will build the binary tar.gz from source. Add `-DskipTests` to build without
+waiting for the tests to run.
 
-Used for several complex critical central platform projects in production environment.
+    mvn package
 
-## Showcase
+This command produces `assemble/target/accumulo-<version>-bin.tar.gz`
 
-[A full demo of DDDplus forward/reverse modeling ->](dddplus-test/src/test/java/ddd/plus/showcase/README.md)
+## Contributing
 
-## Quickstart
+Contributions are welcome to all Apache Accumulo repositories.
 
-### Forward modeling
+If you want to contribute, read [our guide on our website][contribute].
 
-```xml
-<dependency>
-    <groupId>io.github.dddplus</groupId>
-    <artifactId>dddplus-runtime</artifactId>
-</dependency>
-```
+## Export Control
 
-#### Integration with SpringBoot
+<details>
+<summary>Click here to show/hide details</summary>
 
-```java
-@SpringBootApplication(scanBasePackages = {"${your base packages}", "io.github.dddplus"})
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class);
-    }
-}
-```
+---
 
-### Reverse Modeling
+This distribution includes cryptographic software. The country in which you
+currently reside may have restrictions on the import, possession, use, and/or
+re-export to another country, of encryption software. BEFORE using any
+encryption software, please check your country's laws, regulations and
+policies concerning the import, possession, or use, and re-export of encryption
+software, to see if this is permitted. See <https://www.wassenaar.org/> for more
+information.
 
-Please check out the [《step by step guide》](doc/ReverseModelingGuide.md).
+The U.S. Government Department of Commerce, Bureau of Industry and Security
+(BIS), has classified this software as Export Commodity Control Number (ECCN)
+5D002.C.1, which includes information security software using or performing
+cryptographic functions with asymmetric algorithms. The form and manner of this
+Apache Software Foundation distribution makes it eligible for export under the
+License Exception ENC Technology Software Unrestricted (TSU) exception (see the
+BIS Export Administration Regulations, Section 740.13) for both object code and
+source code.
 
-```xml
-<dependency>
-    <groupId>io.github.dddplus</groupId>
-    <artifactId>dddplus-spec</artifactId>
-</dependency>
-```
+The following provides more details on the included cryptographic software:
 
-Annotate your code With [DSL](/dddplus-spec/src/main/java/io/github/dddplus/dsl), DDDplus will parse AST and render domain model in multiple views.
+Apache Accumulo uses the built-in java cryptography libraries in its RFile
+encryption implementation. See [oracle's export-regulations doc][java-export]
+for more details for on Java's cryptography features. Apache Accumulo also uses
+the bouncycastle library for some cryptographic technology as well. See
+[the BouncyCastle site][bouncy-site] for
+more details on bouncycastle's cryptography features.
 
-```bash
-mvn io.github.dddplus:dddplus-maven-plugin:model \
-    -DrootDir=${colon separated source code dirs} \
-    -DplantUml=${target business model in svg format} \
-    -DtextModel=${target business model in txt format}
-```
+</details>
 
-### Architecture Guard
-
-```bash
-mvn io.github.dddplus:dddplus-maven-plugin:enforce \
-    -DrootPackage={your pkg} \
-    -DrootDir={your src dir}
-```
-
-## Known Issues
-
-- reverse modeling assumes unique class names within a code repo
-
-## Contribution
-
-You are welcome to contribute to the project with pull requests on GitHub.
-
-If you find a bug or want to request a feature, please use the [Issue Tracker](https://github.com/funkygao/cp-ddd-framework/issues).
-
-For any question, you can use [Gitter Chat](https://gitter.im/cp-ddd-framework/community) to ask.
-
-## Licensing
-
-DDDplus is licensed under the Apache License, Version 2.0 (the "License"); you may not use this project except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
+[api]: https://accumulo.apache.org/api
+[accumulo]: https://accumulo.apache.org
+[logo]: contrib/accumulo-logo.png
+[quick start]: https://accumulo.apache.org/docs/2.x/getting-started/quickstart
+[test]: TESTING.md
+[Apache Hadoop]: https://hadoop.apache.org
+[Apache Zookeeper]: https://zookeeper.apache.org
+[Maven]: https://maven.apache.org
+[docs]: https://accumulo.apache.org/latest/accumulo_user_manual
+[examples]: https://github.com/apache/accumulo-examples
+[javadocs]: https://accumulo.apache.org/latest/apidocs
+[li]: https://img.shields.io/badge/license-ASL-blue.svg
+[ll]: https://www.apache.org/licenses/LICENSE-2.0
+[mi]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-core/badge.svg
+[ml]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-core/
+[ji]: https://www.javadoc.io/badge/org.apache.accumulo/accumulo-core.svg
+[jl]: https://www.javadoc.io/doc/org.apache.accumulo/accumulo-core
+[ti]: https://github.com/apache/accumulo/workflows/QA/badge.svg
+[tl]: https://github.com/apache/accumulo/actions
+[java-export]: https://www.oracle.com/us/products/export/export-regulations-345813.html
+[bouncy-site]: https://bouncycastle.org
+[dl]: https://accumulo.apache.org/downloads
+[contribute]: https://accumulo.apache.org/how-to-contribute
