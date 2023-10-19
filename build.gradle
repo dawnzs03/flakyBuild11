@@ -1,837 +1,611 @@
-/* ====================================================================
-   Licensed to the Apache Software Foundation (ASF) under one or more
-   contributor license agreements.  See the NOTICE file distributed with
-   this work for additional information regarding copyright ownership.
-   The ASF licenses this file to You under the Apache License, Version 2.0
-   (the "License"); you may not use this file except in compliance with
-   the License.  You may obtain a copy of the License at
+// Copyright 2019 The Nomulus Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-==================================================================== */
-
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-
-import javax.xml.xpath.XPath
-import javax.xml.xpath.XPathConstants
-import javax.xml.xpath.XPathFactory
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 buildscript {
-    repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
-        mavenCentral()
+  if (rootProject.enableDependencyLocking.toBoolean()) {
+    // Lock buildscript dependencies.
+    configurations.classpath {
+      resolutionStrategy.activateDependencyLocking()
+
+      // log4j has high-profile security vulnerabilities. It's a transitive
+      // dependency used by Gradle itself during build, and not strictly needed.
+      exclude group: 'org.apache.logging.log4j'
     }
+  }
+
+  dependencies {
+    classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.1'
+    classpath 'net.ltgt.gradle:gradle-errorprone-plugin:2.0.2'
+    classpath 'org.sonatype.aether:aether-api:1.13.1'
+    classpath 'org.sonatype.aether:aether-impl:1.13.1'
+  }
 }
 
 plugins {
-    id 'base'
-    id 'com.dorongold.task-tree' version '2.1.1'
-    id 'org.nosphere.apache.rat' version '0.8.0'
-    id 'distribution'
-    id "com.github.spotbugs" version '5.0.14'
-    id 'de.thetaphi.forbiddenapis' version '3.5.1'
-    id 'org.sonarqube' version '4.0.0.2929'
-    id 'org.cyclonedx.bom' version '1.7.4'
-    id 'com.adarshr.test-logger' version '3.2.0'
+  // Java static analysis plugins. Keep versions consistent with
+  // ./buildSrc/build.gradle.kts
+
+  // Re-enable when compatible with Gradle 8
+  // id 'nebula.lint' version '16.0.2'
+  id 'net.ltgt.errorprone' version '2.0.2'
+  id 'checkstyle'
+  id 'com.github.johnrengelman.shadow' version '5.1.0'
+
+  // NodeJs plugin
+  id "com.github.node-gradle.node" version "3.0.1"
+
+  id 'idea'
+  id 'com.diffplug.spotless' version '6.20.0'
+
+  id 'jacoco'
+  id 'com.dorongold.task-tree' version '2.1.0'
 }
 
-repositories {
-    mavenCentral()
-    //maven { url 'https://repository.apache.org/content/repositories/staging' }
+dependencyLocking {
+    lockAllConfigurations()
 }
 
-// Only add the plugin for Sonar if enabled
-if (project.hasProperty('enableSonar')) {
-    println 'Enabling Sonar support'
-    apply plugin: 'org.sonarqube'
+node {
+  download = true
+  version = "16.14.0"
+  npmVersion = "6.14.11"
 }
-
-boolean isCIBuild = false;
-
-// For help converting an Ant build to a Gradle build, see
-// https://docs.gradle.org/current/userguide/ant.html
-
-configurations {
-    antLibs {
-        attributes {
-            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
-        }
-    }
-}
-
-dependencies {
-    antLibs("org.junit.jupiter:junit-jupiter:5.10.0")
-    antLibs("org.apache.ant:ant-junitlauncher:1.10.12")
-}
-
-ant.taskdef(name: "junit",
-        classname: "org.apache.tools.ant.taskdefs.optional.junitlauncher.confined.JUnitLauncherTask",
-        classpath: configurations.antLibs.asPath)
-
 
 wrapper {
-    gradleVersion = '8.3'
+  distributionType = Wrapper.DistributionType.ALL
 }
 
-task adjustWrapperPropertiesFile {
-    doLast {
-        ant.replaceregexp(match:'^#.*', replace:'', flags:'g', byline:true) {
-            fileset(dir: project.projectDir, includes: 'gradle/wrapper/gradle-wrapper.properties')
-        }
-        new File(project.projectDir, 'gradle/wrapper/gradle-wrapper.properties').with { it.text = it.readLines().findAll { it }.sort().join('\n') }
-        ant.fixcrlf(file: 'gradle/wrapper/gradle-wrapper.properties', eol: 'lf')
+apply plugin: google.registry.gradle.plugin.ReportUploaderPlugin
+
+reportUploader {
+  // Set the location where we want to upload the build results.
+  // e.g. -P uploaderDestination=gcs://domain-registry-alpha-build-result-test
+  //
+  // If not set - the upload will be skipped
+  destination = uploaderDestination
+
+  // The location of the file containing the OAuth2 Google Cloud credentials.
+  //
+  // The file can contain a Service Account key file in JSON format from the
+  // Google Developers Console or a stored user credential using the format
+  // supported by the Cloud SDK.
+  //
+  // If no file is given - the default credentials are used.
+  credentialsFile = uploaderCredentialsFile
+
+  // If set to 'yes', each file will be uploaded to GCS in a separate thread.
+  // This is MUCH faster.
+  multithreadedUpload = uploaderMultithreadedUpload
+}
+
+apply from: 'dependencies.gradle'
+
+apply from: 'dependency_lic.gradle'
+
+apply from: 'utils.gradle'
+
+// Custom task to run checkLicense in buildSrc, which is not triggered
+// by root project tasks. A shell task is used because buildSrc tasks
+// cannot be referenced in the same way as tasks from a regular included
+// build.
+task checkBuildSrcLicense(type:Exec) {
+  workingDir "${rootDir}/buildSrc"
+  commandLine '../gradlew', 'checkLicense'
+}
+tasks.checkLicense.dependsOn(tasks.checkBuildSrcLicense)
+tasks.build.dependsOn(tasks.checkLicense)
+
+// Provide defaults for all of the project properties.
+
+// Only do linting if the build is successful.
+// Re-enable when compatible with Gradle 8
+// gradleLint.autoLintAfterFailure = false
+
+// Paths to main and test sources.
+ext.projectRootDir = "${rootDir}"
+
+// Tasks to deploy/stage all App Engine services
+task deploy {
+  group = 'deployment'
+  description = 'Deploys all services to App Engine.'
+}
+
+task stage {
+  group = 'deployment'
+  description = 'Generates application directories for all services.'
+}
+
+// App-engine environment configuration.  We set up all of the variables in
+// the root project.
+
+def environments = ['production', 'sandbox', 'alpha', 'crash', 'qa']
+
+def gcpProject = null
+
+apply from: "${rootDir.path}/projects.gradle"
+
+if (environment == '') {
+    // Keep the project null, this will prevent deployment.  Set the
+    // environment to "alpha" because other code needs this property to
+    // explode the war file.
+    environment = 'alpha'
+} else if (environment != 'production' && environment != 'sandbox') {
+    gcpProject = projects[environment]
+    if (gcpProject == null) {
+        throw new GradleException("-Penvironment must be one of " +
+                                  "${projects.keySet()}.")
     }
 }
-wrapper.finalizedBy adjustWrapperPropertiesFile
 
-group = 'org.apache.poi'
+rootProject.ext.environment = environment
+rootProject.ext.gcpProject = gcpProject
+rootProject.ext.prodOrSandboxEnv = environment in ['production', 'sandbox']
 
-/**
- Define properties for all projects, including this one
- */
+// Function to verify that the deployment parameters have been set.
+def verifyDeploymentParams() {
+    if (prodOrSandboxEnv) {
+        // Do not deploy to prod or sandbox. Print a prominent error in bright red.
+        System.err.println('\033[31;1m-----------------------------------------------------------------')
+        System.err.println('*** DANGER WILL ROBINSON!')
+        System.err.println('*** You may not deploy to production or sandbox from gradle.  Do a')
+        System.err.println('*** release from Spinnaker, see deployment playbook.')
+        System.err.println('-----------------------------------------------------------------')
+        throw new GradleException('Aborting. See prominent error above.')
+    } else if (gcpProject == null) {
+        def error = 'You must specify -Penvironment={alpha,crash,qa}'
+        System.err.println("\033[33;1m${error}\033[0m")
+        throw GradleException("Aborting:  ${error}")
+    }
+}
+
+// Closure that we can just drop into all of our deployment tasks.
+rootProject.ext.verifyDeploymentConfig = {
+    doFirst { verifyDeploymentParams() }
+}
+
+// Subproject configuration.
+
+// Alias this since it collides with the closure variable name
+def allowInsecure = allowInsecureProtocol
+
 allprojects {
-//    apply plugin: 'eclipse'
-    apply plugin: 'idea'
+  // Skip no-op project
+  if (project.name == 'services') return
 
-    version = '5.2.4-SNAPSHOT'
+  repositories {
+    if (!mavenUrl.isEmpty()) {
+      maven {
+        println "Java dependencies: Using repo ${mavenUrl}..."
+        url mavenUrl
+        allowInsecureProtocol = allowInsecure == "true"
+      }
+    } else {
+      println "Java dependencies: Using Maven Central..."
+      mavenCentral()
+      google()
+      maven {
+        url "https://packages.confluent.io/maven/"
+        content {
+          includeGroup "io.confluent"
+        }
+      }
+    }
+  }
+
+  if (rootProject.enableCrossReferencing.toBoolean()) {
+    gradle.projectsEvaluated {
+      tasks.withType(JavaCompile) {
+        options.fork = true
+        options.forkOptions.javaHome =
+          file("${System.env.REAL_JAVA_HOME}")
+      }
+    }
+  }
 }
 
-/**
- Define things that are only necessary in sub-projects, but not in the master-project itself
- */
+rootProject.ext {
+  pyver = { exe ->
+    try {
+      ext.execInBash(
+          exe + " -c 'import sys; print(sys.hexversion)' 2>/dev/null",
+          "/") as Integer
+    } catch (org.gradle.process.internal.ExecException e) {
+      return -1;
+    }
+  }
+
+  // Return the path to a usable python3 executable.
+  getPythonExecutable = {
+    // Find a python version greater than 3.7.3 (this is somewhat arbitrary, we
+    // know we'd like at least 3.6, but 3.7.3 is the latest that ships with
+    // Debian so it seems like that should be available anywhere).
+    def MIN_PY_VER = 0x3070300
+    if (pyver('python') >= MIN_PY_VER) {
+      return 'python'
+    } else if (pyver('/usr/bin/python3') >= MIN_PY_VER) {
+      return '/usr/bin/python3'
+    } else {
+      throw new GradleException("No usable Python version found (build " +
+                                "requires at least python 3.7.3)");
+    }
+  }
+}
+
+task runPresubmits(type: Exec) {
+
+  args('config/presubmits.py')
+
+  doFirst {
+    executable getPythonExecutable()
+  }
+}
+
+def javadocSource = []
+def javadocClasspath = []
+def javadocDependentTasks = []
+
 subprojects {
-    //Put instructions for each sub project, but not the master
-    apply plugin: 'java-library'
-    apply plugin: 'jacoco'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
-    apply plugin: 'de.thetaphi.forbiddenapis'
-    apply plugin: 'com.github.spotbugs'
-    apply plugin: 'org.cyclonedx.bom'
-    apply plugin: 'com.adarshr.test-logger'
+  // Skip no-op project
+  if (project.name == 'services') return
 
-    ext {
-        bouncyCastleVersion = '1.76'
-        commonsCodecVersion = '1.16.0'
-        commonsCompressVersion = '1.23.0'
-        commonsIoVersion = '2.13.0'
-        commonsMathVersion = '3.6.1'
-        junitVersion = '5.10.0'
-        log4jVersion = '2.20.0'
-        mockitoVersion = '4.11.0'
-        hamcrestVersion = '2.2'
-        xmlbeansVersion = '5.1.1'
-        batikVersion = '1.17'
-        graphics2dVersion = '0.43'
-        pdfboxVersion = '2.0.29'
-        saxonVersion = '11.5'
-        apiGuardianVersion = '1.1.2'
-
-        jdkVersion = (project.properties['jdkVersion'] ?: '8') as int
-        // see https://github.com/gradle/gradle/blob/master/subprojects/jvm-services/src/main/java/org/gradle/internal/jvm/inspection/JvmVendor.java
-        jdkVendor = (project.properties['jdkVendor'] ?: '') as String
-
-        JAVA9_SRC = 'src/main/java9'
-        JAVA9_OUT = "${buildDir}/classes/java9/main/"
-        TEST9_SRC = 'src/test/java9'
-        TEST9_OUT = "${buildDir}/classes/java9/test/"
-        VERSIONS9 = 'META-INF/versions/9'
-
-        NO_SCRATCHPAD = (findProperty("scratchpad.ignore") == "true")
-        SAXON_TEST = (findProperty("saxon.test") == "true")
-    }
-
-    configurations {
-        all {
-            resolutionStrategy {
-                force "commons-io:commons-io:${commonsIoVersion}"
-                force 'org.slf4j:slf4j-api:2.0.7'
-                force 'com.fasterxml.woodstox:woodstox-core:6.5.1'
-            }
-        }
-    }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-        options.compilerArgs += '-Xlint:unchecked'
-        options.deprecation = true
-        options.incremental = true
-    }
-    tasks.withType(Test) {
-        systemProperty "file.encoding", "UTF-8"
-    }
-    tasks.withType(Javadoc) {
-        options.encoding = 'UTF-8'
-    }
-    tasks.withType(AbstractArchiveTask).configureEach {
-        preserveFileTimestamps = false
-        reproducibleFileOrder = true
-    }
-
-    repositories {
-        mavenCentral()
-        //maven { url 'https://repository.apache.org/content/repositories/staging' }
-    }
-
-    dependencies {
-        testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-        testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-        testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
-        testImplementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
-
-        if (SAXON_TEST) {
-            testRuntimeOnly("net.sf.saxon:Saxon-HE:${saxonVersion}") {
-                exclude group: 'xml-apis', module: 'xml-apis'
-            }
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(jdkVersion)
-            if (jdkVendor != '') vendor = JvmVendorSpec.matching(jdkVendor)
-        }
-        withJavadocJar()
-        withSourcesJar()
-    }
-
-    javadoc {
-        failOnError = true
-        maxMemory = "1024M"
-        javadocTool = javaToolchains.javadocToolFor {
-            languageVersion = JavaLanguageVersion.of(jdkVersion)
-        }
-
-        doFirst {
-            options {
-                if (jdkVersion > 8) addBooleanOption('html5', true)
-                addBooleanOption('Xdoclint:all,-missing', true)
-                links 'https://poi.apache.org/apidocs/dev/'
-                links 'https://docs.oracle.com/javase/8/docs/api/'
-                links 'https://xmlbeans.apache.org/docs/5.0.0/'
-                links 'https://commons.apache.org/proper/commons-compress/apidocs/'
-                use = true
-                splitIndex = true
-                source = "1.8"
-            }
-        }
-    }
-
-    // helper-target to get a directory with all third-party libraries
-    // this is used for mass-regression-testing
-    task getDeps(type: Copy) {
-        from sourceSets.main.runtimeClasspath
-        into 'build/runtime/'
-    }
-
-    tasks.withType(Jar) {
-        duplicatesStrategy = 'fail'
-        destinationDirectory = file("../build/dist/maven/${project.archivesBaseName}")
-
-        doLast {
-            ant.checksum(file: it.archivePath, algorithm: 'SHA-256', fileext: '.sha256', format: 'MD5SUM')
-            ant.checksum(file: it.archivePath, algorithm: 'SHA-512', fileext: '.sha512', format: 'MD5SUM')
-        }
-    }
-
-    jar {
-        from("../legal") {
-            include "NOTICE"
-            include "LICENSE"
-        }
-
-        rename('^(NOTICE|LICENSE)', 'META-INF/$1')
-
+  ext.createUberJar = {
+      taskName,
+      binaryName,
+      mainClass,
+      List<Configuration> configs = [project.configurations.runtimeClasspath],
+      List<SourceSetOutput> srcOutput = [project.sourceSets.main.output],
+      List<String> excludes = [] ->
+    project.tasks.create(
+        taskName, com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+      mergeServiceFiles()
+      archiveBaseName = binaryName
+      if (mainClass != '') {
         manifest {
-            attributes(
-                'Specification-Title': 'Apache POI',
-                'Specification-Version': project.version,
-                'Specification-Vendor': 'The Apache Software Foundation',
-                'Implementation-Title': 'Apache POI',
-                'Implementation-Version': project.version,
-                'Implementation-Vendor': 'org.apache.poi',
-                'Implementation-Vendor-Id': 'The Apache Software Foundation'
-            )
+          attributes 'Main-Class': mainClass
         }
-    }
+      }
+      zip64 = true
+      archiveClassifier = ''
+      archiveVersion = ''
+      configurations = configs
+      from srcOutput
+      // Excludes signature files that accompany some dependency jars, like
+      // bonuncycastle. If they are present, only classes from those signed jars are
+      // made available to the class loader.
+      // see https://discuss.gradle.org/t/signing-a-custom-gradle-plugin-thats-downloaded-by-the-build-system-from-github/1365
+      exclude "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA"
+      exclude excludes
 
-    javadocJar {
-        // if javadocs and binaries are in the same directory, JPMS complaints about duplicated modules
-        // in the module-path
-        destinationDirectory = file("../build/dist/maven/${project.archivesBaseName}-javadoc")
+      // We do seem to get duplicates when constructing uber-jars, either
+      // this is a product of something in gradle 7 or a product of gradle 7
+      // now giving an error about them when it didn't previously.
+      duplicatesStrategy DuplicatesStrategy.WARN
     }
+  }
 
-    sourcesJar {
-        destinationDirectory = file("../build/dist/maven/${project.archivesBaseName}")
-        exclude 'META-INF/services/**'
+  if (rootProject.enableDependencyLocking.toBoolean()) {
+    buildscript {
+      // Lock buildscript dependencies.
+      configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+      }
     }
+  }
 
+  afterEvaluate {
+    if (rootProject.enableDependencyLocking.toBoolean()
+        && project.name != 'integration'
+        && project.name != 'java8compatibility') {
+      // The ':integration' project runs server/schema integration tests using
+      // dynamically specified jars with no transitive dependency. Therefore
+      // dependency-locking does not make sense. Furthermore, during
+      // evaluation it resolves the 'testRuntimeOnly' configuration, making it
+      // immutable. Locking activation would trigger an invalid operation
+      // exception.
+      //
+      // The ':java8compatibility' project is test-only. Its source does not go
+      // into production.
+      //
+      // For all other projects, due to problem with the gradle-license-report
+      // plugin, the dependencyLicenseReport configuration must opt out of
+      // dependency-locking. See dependency_lic.gradle for the reason why.
+      //
+      // To selectively activate dependency locking without hardcoding them
+      // in the 'configurations' block, the following code must run after
+      // project evaluation, when all configurations have been created.
+      configurations.each {
+        if (it.name != 'dependencyLicenseReport' && it.name != 'integration') {
+          it.resolutionStrategy.activateDependencyLocking()
+        }
+      }
+    }
+  }
+
+  // 'listenablefuture' is folded into guava since v32. This block is required
+  // until all transitive dependencies have upgraded past guava v32.
+  // TODO(periodically): remove this block and see if build succeeds.
+  configurations.all {
+    resolutionStrategy
+            .capabilitiesResolution
+            .withCapability("com.google.guava:listenablefuture") {
+      select("com.google.guava:guava:0")
+    }
+  }
+
+  def services = [':services:default',
+                  ':services:backend',
+                  ':services:tools',
+                  ':services:pubapi']
+
+  // Set up all of the deployment projects.
+  if (services.contains(project.path)) {
+
+    apply from: "${rootDir.path}/appengine_war.gradle"
+
+    // Return early, do not apply the settings below.
+    return
+  }
+
+  apply from: "${rootDir.path}/java_common.gradle"
+
+  if (project.name != 'docs') {
+    compileJava {
+      // TODO: Remove this once we migrate off AppEngine.
+      options.release = 8
+    }
+  }
+
+  project.tasks.test.dependsOn runPresubmits
+
+  def commonlyExcludedResources = ['**/*.java', '**/BUILD']
+
+  project.ext.javaDir = "${project.projectDir}/src/main/java"
+  project.ext.javaTestDir = "${project.projectDir}/src/test/java"
+  project.ext.resourcesSourceDir = "${project.projectDir}/src/main/resources"
+
+  sourceSets {
+    main {
+      resources {
+        srcDirs += project.ext.javaDir
+        exclude commonlyExcludedResources
+      }
+    }
     test {
-        // make XML test-results available for Jenkins CI
-        useJUnitPlatform()
-        reports {
-            junitXml.required = true
-        }
-
-        javaLauncher = javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(jdkVersion)
-            if (jdkVendor != '') vendor = JvmVendorSpec.matching(jdkVendor)
-        }
-
-        // Exclude some tests that are not actually tests or do not run cleanly on purpose
-        exclude '**/BaseTestBorderStyle.class'
-        exclude '**/BaseTestCellUtil.class'
-        exclude '**/TestUnfixedBugs.class'
-        exclude '**/TestOneFile.class'
-
-        // Exclude Test Suites
-        exclude '**/All*Tests.class'
-        exclude '**/HSSFTests.class'
-
-        // set heap size for the test JVM(s)
-        minHeapSize = "128m"
-        maxHeapSize = "2g"
-
-
-        // Specifying the local via system properties did not work, so we set them this way
-        jvmArgs += [
-            '-Djava.awt.headless=true',
-            '-Djavax.xml.stream.XMLInputFactory=com.sun.xml.internal.stream.XMLInputFactoryImpl',
-            "-Dversion.id=${project.version}",
-            '-ea',
-            // -Xjit:verbose={compileStart|compileEnd},vlog=build/jit.log${no.jit.sherlock}   ... if ${isIBMVM}
-        ]
-
-        // detect if running on Jenkins/CI
-        isCIBuild |= Boolean.valueOf(System.getenv("CI_BUILD"));
-
-        if (isCIBuild) {
-            System.out.println("Run with reduced parallelism for CI build");
-
-            jvmArgs += [
-                // Strictly serial
-                '-Djunit.jupiter.execution.parallel.enabled=false',
-
-                // OR parallel on 2 threads
-                //'-Djunit.jupiter.execution.parallel.config.strategy=fixed',
-                //'-Djunit.jupiter.execution.parallel.config.fixed.parallelism=2'
-            ]
-            maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
-        } else {
-            jvmArgs += [
-                '-Djunit.jupiter.execution.parallel.enabled=true',
-                '-Djunit.jupiter.execution.parallel.config.strategy=dynamic',
-
-                // this setting breaks the test builds, do not use it!
-                //'-Djunit.jupiter.execution.parallel.mode.default=concurrent'
-            ]
-
-             // Explicitly defining the maxParallelForks was always slower than not setting it
-             // So we leave this to Gradle itself, which seems to be very smart
-             // maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
-             // maxParallelForks = Math.max( Runtime.runtime.availableProcessors() - 1, 1 )
-        }
-
-        // show standard out and standard error of the test JVM(s) on the console
-        //testLogging.showStandardStreams = true
-
-        // http://forums.gradle.org/gradle/topics/jacoco_related_failure_in_multiproject_build
-        systemProperties['user.dir'] = workingDir
-        systemProperties['java.io.tmpdir'] = 'build'
-
-        systemProperties['POI.testdata.path'] = '../test-data'
-
-        // define the locale to not have failing tests when the locale is set differently on the current machine
-        systemProperties['user.language'] = 'en'
-        systemProperties['user.country'] = 'US'
-
-        // this is necessary for JDK 9+ to keep formatting dates the same way as in previous JDK-versions
-        systemProperties['java.locale.providers'] = 'JRE,CLDR'
-
-        doFirst {
-            if (jdkVersion > 8) {
-                // some options were removed in JDK 18
-                if (jdkVersion < 18) {
-                    jvmArgs += [
-                        '--illegal-access=warn',
-                    ]
-                }
-
-                jvmArgs += [
-                    // see https://github.com/java9-modularity/gradle-modules-plugin/issues/97
-                    // opposed to the recommendation there, it doesn't work to add ... to the dependencies
-                    // testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
-                    // gradles gradle-worker.jar is still not a JPMS module and thus runs as unnamed module
-                    '--add-exports','org.junit.platform.commons/org.junit.platform.commons.util=org.apache.poi.poi',
-                    '--add-exports','org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED',
-                    '--add-exports','org.junit.platform.commons/org.junit.platform.commons.logging=ALL-UNNAMED',
-
-                    '-Dsun.reflect.debugModuleAccessChecks=true',
-                    '-Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true',
-                ]
-            }
-        }
-
-        jacoco {
-            excludes = [
-                // this is necessary to make JaCoCo work with JDK 18 for now
-                'sun/**',
-                'javax/**',
-            ]
-        }
+      resources {
+        srcDirs += project.ext.javaTestDir
+        exclude commonlyExcludedResources
+      }
     }
+  }
 
-    jacoco {
-        toolVersion = '0.8.10'
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required = true
-        }
-    }
-
-    // ensure the build-dir exists
-    projectDir.mkdirs()
-
-    if (project.hasProperty('enableSonar')) {
-        // See https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/ and
-        // https://docs.sonarqube.org/display/SONARQUBE52/Analyzing+with+SonarQube+Scanner+for+Gradle
-        // for documentation of properties.
-        //
-        // Some additional properties are currently set in the Jenkins-DSL, see jenkins/create_jobs.groovy
-        //
-        sonarqube {
-            properties {
-                // as we currently use build/<module>/ as project-basedir, we need to tell Sonar to use
-                // the root-folder as "basedir" for the projects
-                property "sonar.projectBaseDir", "$projectDir"
-                // currently supported providers on Jenkins: "hg,git": property "sonar.scm.provider", "svn"
-
-                // the plugin seems to not detect our non-standard build-layout
-                property "sonar.junit.reportPaths", "$projectDir/build/test-results/test"
-
-                // the Gradle run will report an invalid directory for 'ooxml-schema', but it seems to still work fine
-                property "sonar.coverage.jacoco.xmlReportPaths", "$projectDir/build/reports/jacoco/test/jacocoTestReport.xml"
-
-                // somehow the version was not use properly
-                property "sonar.projectVersion", version
-            }
-        }
-    }
-
-    forbiddenApis {
-        bundledSignatures = [ 'jdk-unsafe', 'jdk-deprecated', 'jdk-internal', 'jdk-non-portable', 'jdk-reflection' ]
-        signaturesFiles = files('../src/resources/devtools/forbidden-signatures.txt')
-        ignoreFailures = false
-        suppressAnnotations = [ 'org.apache.poi.util.SuppressForbidden' ]
-    }
-
-    forbiddenApisTest {
-        // forbiddenapis bundled signatures max supported version is 17
-        // also see https://github.com/policeman-tools/forbidden-apis/issues/191
-        targetCompatibility = (JavaVersion.VERSION_17.isCompatibleWith(JavaVersion.current()) ? JavaVersion.current() : JavaVersion.VERSION_17)
-    }
-
-    forbiddenApisMain {
-        signaturesFiles += files('../src/resources/devtools/forbidden-signatures-prod.txt')
-        targetCompatibility = (JavaVersion.VERSION_17.isCompatibleWith(JavaVersion.current()) ? JavaVersion.current() : JavaVersion.VERSION_17)
-    }
-
-    publishing {
-        publications {
-            POI(MavenPublication) {
-                groupId 'org.apache.poi'
-                artifactId project.archivesBaseName
-
-                from components.java
-
-                pom {
-                    packaging = 'jar'
-                    url = 'https://poi.apache.org/'
-                    name = 'Apache POI'
-                    description = 'Apache POI - Java API To Access Microsoft Format Files'
-
-                    mailingLists {
-                        mailingList {
-                            name = 'POI Users List'
-                            subscribe = 'user-subscribe@poi.apache.org'
-                            unsubscribe = 'user-unsubscribe@poi.apache.org'
-                            archive = 'https://lists.apache.org/list.html?user@poi.apache.org'
-                        }
-                        mailingList {
-                            name = 'POI Developer List'
-                            subscribe = 'dev-subscribe@poi.apache.org'
-                            unsubscribe = 'dev-unsubscribe@poi.apache.org'
-                            archive = 'https://lists.apache.org/list.html?dev@poi.apache.org'
-                        }
-                    }
-
-                    licenses {
-                        license {
-                            name = 'Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution = 'repo'
-                        }
-                    }
-
-                    organization {
-                        name = 'Apache Software Foundation'
-                        url = 'http://www.apache.org/'
-                    }
-
-                    issueManagement {
-                        system = 'bugzilla'
-                        url = 'https://bz.apache.org/bugzilla'
-                    }
-
-                    developers {
-                        developer {
-                            name = 'POI Team'
-                            id = 'poi'
-                            email = 'user@poi.apache.org'
-                            organization = 'Apache POI'
-                        }
-                    }
-
-                    withXml {
-                        def r = asElement()
-                        def doc = r.getOwnerDocument()
-                        def hdr = new File('../legal/HEADER')
-                        if (!hdr.exists()) hdr = new File('legal/HEADER')
-                        def asl = doc.createComment(hdr.text)
-                        // adding ASF header before root node is ignored
-                        // doc.insertBefore(asl, doc.getDocumentElement())
-                        r.insertBefore(asl, r.getFirstChild())
-
-                        // Replace ooxml-full with ooxml-lite
-                        XPath xpath = XPathFactory.newInstance().newXPath()
-                        NodeList res = (NodeList)xpath.evaluate("//dependency/artifactId[text() = 'poi-ooxml-full']", doc, XPathConstants.NODESET)
-                        for (int i=res.getLength()-1; i>=0; i--) {
-                            res.item(i).setTextContent('poi-ooxml-lite')
-                        }
-
-                        // remove duplicate entries
-                        res = (NodeList)xpath.evaluate("//dependency[artifactId = ./preceding-sibling::dependency/artifactId]", doc, XPathConstants.NODESET)
-                        for (int i=res.getLength()-1; i>=0; i--) {
-                            Node n = res.item(i)
-                            n.getParentNode().removeChild(n)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    generatePomFileForPOIPublication.destination = "../build/dist/maven/${project.archivesBaseName}/${project.archivesBaseName}-${project.version}.pom"
-
-    tasks.withType(GenerateModuleMetadata) {
-        enabled = false
-    }
-
-    signing {
-        setRequired {
-            // signing is only required if this is a release version
-            // and the artifacts are to be published
-            gradle.taskGraph.allTasks.any { it instanceof PublishToMavenRepository }
-        }
-        sign publishing.publications.POI
-    }
-    signPOIPublication.dependsOn('generatePomFileForPOIPublication')
-
-    spotbugs {
-        ignoreFailures = true
-        showStackTraces = false
-        maxHeapSize = '2g'
-    }
-
-    build {
-        if (project.hasProperty('signing.keyId')) {
-            dependsOn 'signPOIPublication'
-        }
-    }
+  // No need to produce javadoc for the docs subproject, which has no APIs to
+  // expose to users.
+  if (project.name != 'docs') {
+    javadocSource << project.sourceSets.main.allJava
+    javadocClasspath << project.sourceSets.main.runtimeClasspath
+    javadocClasspath << "${buildDir}/generated/sources/annotationProcessor/java/main"
+    javadocDependentTasks << project.tasks.compileJava
+  }
 }
 
-// initial try to provide a combined JavaDoc, grouping is still missing here, though!
-task allJavaDoc(type: Javadoc) {
-    var prj = [ project(':poi'), project(':poi-excelant'), project(':poi-ooxml'), project(':poi-scratchpad') ]
-    source prj.collect { it.sourceSets.main.allJava }
+// If "-P verboseTestOutput=true" is passed in, configure all subprojects to dump all of their
+// output and final test status (pass/fail, errors) for each test class.
+//
+// Note that we can't do this in the main subprojects section above because that's evaluated before
+// the subproject build files and the test tasks haven't been defined yet.  We have to do it from
+// the projectsEvaluted hook, which gets called after the subprojects are configured.
+if (verboseTestOutput.toBoolean()) {
+  gradle.projectsEvaluated({
+    subprojects {
+      tasks.withType(Test) {
+        testLogging {
+          events TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED,
+              TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
+          exceptionFormat TestExceptionFormat.FULL
+          showExceptions true
+          showCauses true
+          showStackTraces true
 
-    // for possible settings see https://docs.gradle.org/current/dsl/org.gradle.api.tasks.javadoc.Javadoc.html
-    classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
-    destinationDir = file("${buildDir}/docs/javadoc")
-    maxMemory="2048M"
-
-    // for possible options see https://docs.gradle.org/current/javadoc/org/gradle/external/javadoc/StandardJavadocDocletOptions.html
-    options.use = true
-    options.splitIndex = true
-    options.addBooleanOption('Xdoclint:all,-missing', true)
-
-    title = 'POI API Documentation'
-    options.bottom = '<![CDATA[<i>Copyright ' + new Date().format('yyyy') + ' The Apache Software Foundation or its licensors, as applicable.</i>]]>'
-
-    options.group('DDF - Dreadful Drawing Format', 'org.apache.poi.ddf*')
-    options.group('HPSF - Horrible Property Set Format', 'org.apache.poi.hpsf*')
-    options.group('SS - Common Spreadsheet Format', 'org.apache.poi.ss*')
-    options.group('HSSF - Horrible Spreadsheet Format', 'org.apache.poi.hssf*')
-    options.group('XSSF - Open Office XML Spreadsheet Format', 'org.apache.poi.xssf*')
-    options.group('SL - Common Slideshow Format',  'org.apache.poi.sl*')
-    options.group('HSLF - Horrible Slideshow Format', 'org.apache.poi.hslf*', 'org.apache.poi.hwmf*', 'org.apache.poi.hemf*')
-    options.group('XSLF - Open Office XML Slideshow Format', 'org.apache.poi.xslf*')
-    options.group('HWPF - Horrible Word Processor Format', 'org.apache.poi.hwpf*')
-    options.group('XWPF - Open Office XML Word Processor Format', 'org.apache.poi.xwpf*')
-    options.group('HDGF - Horrible Diagram Format', 'org.apache.poi.hdgf*')
-    options.group('XDGF - Open Office XML Diagram Format', 'org.apache.poi.xdgf*')
-    options.group('HMEF - Transport Neutral Encoding Files (TNEF)', 'org.apache.poi.hmef*')
-    options.group('HSMF Outlook message file format', 'org.apache.poi.hsmf*')
-    options.group('HPBF - Publisher Format Files', 'org.apache.poi.hpbf*')
-    options.group('POIFS - POI File System', 'org.apache.poi.poifs*')
-    options.group('Utilities', 'org.apache.poi.util*')
-    options.group('Excelant', 'org.apache.poi.ss.excelant**')
-//  options.group('Examples', 'org.apache.poi.examples*')
-}
-
-clean {
-    delete "${rootDir}/build/dist"
-}
-
-rat {
-    // Input directory, defaults to '.'
-    inputDir.set(file("."))
-
-    // include all directories which contain files that are included in releases
-    includes = [
-        "poi-examples/**",
-        "poi-excelant/**",
-        "poi-integration/**",
-        "legal/**",
-        "poi/**",
-        "maven/**",
-        "poi-ooxml/**",
-        "poi-ooxml-full/**",
-        "poi-ooxml-lite/**",
-        "poi-ooxml-lite-agent/**",
-        "osgi/**",
-        "poi-scratchpad/**",
-        "src/**",
-    //    "sonar/**",
-        "build.*"
-    ]
-
-    // List of Gradle exclude directives, defaults to ['**/.gradle/**']
-    //excludes.add("main/java/org/apache/poi/**/*-chart-data.txt")
-    excludes = [
-        "build.javacheck.xml",
-        "**/build/**",
-        "**/out/**",
-        "**/*.iml",
-        "**/*.log",
-        "**/gradle-wrapper.properties",
-        "**/main/java/org/apache/poi/**/*-chart-data.txt",
-        "poi/src/main/resources/org/apache/poi/sl/draw/geom/presetShapeDefinitions.xml",
-        "poi-ooxml/src/main/resources/org/apache/poi/xslf/usermodel/notesMaster.xml",
-        "poi-ooxml/src/main/resources/org/apache/poi/xssf/usermodel/presetTableStyles.xml",
-        "poi-ooxml-full/src/main/xmlschema/org/apache/poi/schemas/*.xsd",
-        "poi-ooxml-full/src/main/xmlschema/org/apache/poi/xdgf/visio.xsd",
-        "osgi/README.md",
-        "src/resources/ooxml-lite-report.*",
-        // ignore svn conflict artifacts
-        "**/module-info.*"
-    ]
-
-    /*
-    <exclude name="documentation/*.txt" />
-    <exclude name="documentation/content/xdocs/dtd/" />
-    <exclude name="documentation/content/xdocs/entity/" />
-    <exclude name="documentation/resources/images/pb-poi.cdr"/>
-    */
-
-    // Prints the list of files with unapproved licences to the console, defaults to false
-    verbose.set(true)
-}
-
-task jenkins(dependsOn: [
-        'replaceVersion',
-        subprojects.build,
-        subprojects.check,
-        subprojects.javadoc,
-        subprojects.jacocoTestReport,
-        subprojects.getDeps,
-        'srcDistZip',
-        'srcDistTar',
-        rat
-]) {}
-
-task jenkinsLite(dependsOn: [
-        'replaceVersion',
-        subprojects.build,
-        subprojects.test
-]) {}
-
-/*task downloadJarsToLibs() {
-    def f = new File("$projectDir/../lib/ooxml/xmlbeans-5.0.0.jar")
-    if (!f.exists()) {
-    println 'writing file ' + f.getAbsolutePath()
-    f.getParentFile().mkdirs()
-    new URL('https://ci-builds.apache.org/job/POI/job/POI-XMLBeans-DSL-1.8/lastSuccessfulBuild/artifact/build/xmlbeans-5.0.0.jar').withInputStream{ i -> f.withOutputStream{ it << i }}
+          afterSuite { desc, result ->
+            println "Results: ${result.resultType}, " +
+                "${result.successfulTestCount}/${result.testCount} tests " +
+                "passed, ${result.failedTestCount} failures.";
+          }
+        }
+      }
     }
-}*/
+  })
+}
 
-//compileJava.dependsOn 'downloadJarsToLibs'
+task checkDependenciesDotGradle {
+  def buildSrcDepsFile = File.createTempFile('buildSrc', 'deps')
+  buildSrcDepsFile.deleteOnExit()
+  dependsOn createGetBuildSrcDirectDepsTask(buildSrcDepsFile)
 
-task replaceVersion() {
-    outputs.upToDateWhen { false }
-
-    var version = subprojects[0].version
-    var tokens = [
-        [ 'osgi', 'pom.xml', '(packaging>\\n\\s*<version>)[0-9.]+(?:-SNAPSHOT|-RC\\d+)?', "\\1${version}" ],
-        [ 'osgi', 'pom.xml', '(<poi.version>)[0-9.]+(?:-SNAPSHOT|-RC\\d+)?', "\\1${version}" ]
-        // [ '.', 'build.gradle', ' version = \'[0-9.]+(?:-SNAPSHOT)?\'', " version = '${version}'" ]
-    ]
-
-    doLast {
-        tokens.forEach {
-            var dir = it[0], name = it[1], match = it[2], replace = it[3]
-            ant.replaceregexp(match: match, replace: replace) {
-                fileset(dir: dir) {
-                    include(name: name)
-                }
-            }
+  doLast {
+    Set<String> depsInUse = []
+    allprojects {
+      configurations.all {
+        it.dependencies.findAll { it.group != null }.each {
+          // Note: .toString() is required since GString should
+          // not be mixed with Java Strings.
+          depsInUse.add("${it.group}:${it.name}".toString())
         }
+      }
     }
-}
-
-task zipJavadocs(type: Zip, dependsOn: allJavaDoc) {
-    from('build/docs/javadoc/')
-    destinationDirectory = file('build/dist')
-    archiveBaseName = 'poi'
-    archiveVersion = subprojects[0].version
-    archiveAppendix = 'javadoc'
-    archiveExtension = 'jar'
-}
-
-tasks.withType(Tar) {
-    compression = Compression.GZIP
-    archiveExtension = 'tgz'
-}
-
-distributions {
-    var version = subprojects[0].version
-    var date = new Date().format('yyyyMMdd')
-
-    var poiDep = project(':poi').configurations.getAt('compileClasspath')
-    var ooxmlImp = project(':poi-ooxml').configurations.getAt('compileClasspath')
-
-    src {
-        distributionBaseName = "poi-src-${version}-${date}"
-        contents {
-            from('.') {
-                exclude '*/build/**'
-                exclude 'build/**'
-                exclude 'dist*/**'
-                exclude 'lib/**'
-                exclude 'lib.stored/**'
-                exclude 'bin/**'
-                exclude 'out/**'
-                exclude 'tmp/**'
-                exclude 'gradle/**'
-                exclude 'sonar/**/target/**'
-                exclude 'sonar/*/src/**'
-                exclude 'compile-lib/**'
-                exclude 'ooxml-lib/**'
-                exclude 'ooxml-testlib/**'
-                exclude 'scripts/**'
-                exclude '.gradle/**'
-                exclude '.idea/**'
-                exclude '.classpath'
-                exclude '.settings/**'
-                exclude '.project'
-                exclude 'TEST*'
-                exclude 'gradlew'
-                exclude 'gradlew.bat'
-                exclude '**/*.iml'
-                exclude '*.ipr'
-                exclude '*.iws'
-                exclude '*.rdf'
-                exclude '*.png'
-                exclude '*.gif'
-                exclude '*.jpg'
-                exclude '*.jpeg'
-                exclude '*.swp'
-                exclude '*.lnk'
-                exclude '*.log'
-                exclude '*.launch'
-                exclude '*.docx'
-                exclude '*.pptx'
-                exclude '*.xlsx'
-
-                // exclude intermediate files
-                exclude '**/*-saved.xls'
-            }
-            from('legal') { exclude 'HEADER' }
-
-            includeEmptyDirs = false
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        }
+    if (buildSrcDepsFile.exists()) {
+      depsInUse.addAll(buildSrcDepsFile.readLines())
     }
-}
+    def unusedDeps =
+        rootProject.dependencyMap.keySet()
+            .findAll { !depsInUse.contains(it) }
+            .toSorted()
 
-task soLinkCheck() {
-    doLast {
-        def path = ant.path {
-            fileset(dir: '.', includes: '**/*.java') {
-                exclude(name: 'build.gradle')
-                contains(text: 'stackoverflow.com')
-            }
-        }
-
-        path.list().each {
-            println it
-        }
-
-        if (path.size() > 0) {
-            // #65796 - minimize notifications about non-asf open source
-            throw new GradleException('License issue found - conceal the link and contradict any findings m(')
-        }
+    if (unusedDeps.isEmpty()) {
+      return
     }
+    logger.error(
+        "Unused dependencies in dependencies.gradle:\n${unusedDeps.toListString()}")
+    throw new IllegalStateException(
+        "The dependencies.gradle file should only contain direct dependencies.")
+  }
+}
+tasks.build.dependsOn(tasks.checkDependenciesDotGradle)
+
+def createGetBuildSrcDirectDepsTask(outputFileName) {
+  return tasks
+      .create(
+          "getBuildSrcDeps_${java.util.UUID.randomUUID()}".toString(),
+          Exec) {
+    workingDir "${rootDir}/buildSrc"
+    commandLine '../gradlew', 'exportDependencies',
+                "-PdependencyExportFile=${outputFileName}"
+  }
 }
 
-var srcDep = [
-    ':poi:compileJava9',
-    ':poi:compileTest9',
-    ':poi-ooxml-full:compileJava9',
-    ':poi-ooxml-lite-agent:compileJava9',
-    ':poi-ooxml:compileJava9',
-    ':poi-ooxml:compileTest9',
-    ':poi-scratchpad:compileJava9',
-    ':poi-scratchpad:compileTest9',
-    ':poi-excelant:compileJava9',
-    ':poi-excelant:compileTest9',
-    ':poi-examples:compileJava9',
-    ':poi-integration:compileTest9',
-    ':poi-ooxml-lite:compileJava9',
-    ':poi-ooxml-lite:generateModuleInfo'
-]
+rootProject.ext {
+  invokeJavaDiffFormatScript = { action ->
+    println("JAVA_HOME=${System.env.JAVA_HOME}")
+    println("PATH=${System.env.PATH}")
+    println(ext.execInBash("type java", "${rootDir}"))
+    println(ext.execInBash("java -version", "${rootDir}"))
+    def scriptDir = rootDir.path.endsWith('buildSrc')
+            ? "${rootDir}/../java-format"
+            : "${rootDir}/java-format"
+    def workingDir = rootDir.path.endsWith('buildSrc')
+            ? "${rootDir}/.."
+            : rootDir
+    def formatDiffScript = "${scriptDir}/google-java-format-git-diff.sh"
+    def pythonExe = getPythonExecutable()
 
-srcDistTar.dependsOn srcDep
-srcDistZip.dependsOn srcDep
-soLinkCheck.dependsOn srcDep
-rat.dependsOn soLinkCheck
+    return ext.execInBash(
+        "PYTHON=${pythonExe} ${formatDiffScript} ${action}", "${workingDir}")
+  }
+}
 
-task fixDistDir {
-    doLast {
-        ant.mkdir(dir: 'build/dist')
-        ant.move(todir: 'build/dist') {
-            fileset(dir: 'build/distributions', includes: '*')
-        }
+// Checks if modified lines in Java source files need reformatting.
+// Note that this task checks modified Java files in the entire repository.
+task javaIncrementalFormatCheck {
+  doLast {
+    // We can only do this in a git tree.
+    if (new File("${rootDir}/.git").exists()) {
+      def checkResult = invokeJavaDiffFormatScript("check")
+      if (checkResult == 'true') {
+        throw new IllegalStateException(
+            "Some Java files need to be reformatted. You may use the "
+                + "'javaIncrementalFormatDryRun' task to review\n "
+                + "the changes, or the 'javaIncrementalFormatApply' task "
+                + "to reformat.")
+      } else if (checkResult != 'false') {
+        throw new RuntimeException(
+            "Failed to invoke format check script:\n" + checkResult)
+      }
+      println("Incremental Java format check ok.")
+    } else {
+      println("Omitting format check: not in a git directory.")
     }
+  }
 }
 
-srcDistZip.finalizedBy fixDistDir
-srcDistTar.finalizedBy fixDistDir
+// Shows how modified lines in Java source files will change after formatting.
+// Note that this task checks modified Java files in the entire repository.
+task javaIncrementalFormatDryRun {
+  doLast {
+    println("${invokeJavaDiffFormatScript("show")}")
+  }
+}
+tasks.build.dependsOn(tasks.javaIncrementalFormatCheck)
+
+// Checks if modified lines in Java source files need reformatting.
+// Note that this task processes modified Java files in the entire repository.
+task javaIncrementalFormatApply {
+  doLast {
+    invokeJavaDiffFormatScript("format")
+  }
+}
+
+task javadoc(type: Javadoc) {
+  source javadocSource
+  // Java 11.0.17 has the following bug that affects annotation handling on
+  // package-info.java:
+  // https://bugs.openjdk.org/browse/JDK-8222091
+  exclude "**/package-info.java"
+  classpath = files(javadocClasspath)
+  destinationDir = file("${buildDir}/docs/javadoc")
+  options.encoding = "UTF-8"
+  // In a lot of places we don't write @return so suppress warnings about that.
+  options.addBooleanOption('Xdoclint:all,-missing', true)
+  options.addBooleanOption("-allow-script-in-comments",true)
+  options.tags = ["type:a:Generic Type",
+                  "error:a:Expected Error",
+                  "invariant:a:Guaranteed Property"]
+}
+
+tasks.build.dependsOn(tasks.javadoc)
+
+// Task for doing development on core Nomulus.
+// This fixes code formatting automatically as necessary, builds and tests the
+// core Nomulus codebase, and runs all presubmits.
+task coreDev {
+  dependsOn 'javaIncrementalFormatApply'
+  dependsOn 'console-webapp:applyFormatting'
+  dependsOn 'javadoc'
+  dependsOn 'checkDependenciesDotGradle'
+  dependsOn 'checkLicense'
+  dependsOn ':console-webapp:runConsoleWebappUnitTests'
+  dependsOn ':core:check'
+  dependsOn 'assemble'
+}
+
+javadocDependentTasks.each { tasks.javadoc.dependsOn(it) }
+
+// Runs the script, which deploys cloud scheduler and tasks based on the config
+task deployCloudSchedulerAndQueue {
+  doLast {
+    def env = environment
+    if (!prodOrSandboxEnv) {
+      exec {
+        workingDir "${rootDir}/release/builder/"
+        commandLine 'go', 'run',
+                "./deployCloudSchedulerAndQueue.go",
+                "${rootDir}/core/src/main/java/google/registry/config/files/nomulus-config-${env}.yaml",
+                "${rootDir}/core/src/main/java/google/registry/env/${env}/default/WEB-INF/cloud-scheduler-tasks.xml",
+                "domain-registry-${env}"
+      }
+      exec {
+        workingDir "${rootDir}/release/builder/"
+        commandLine 'go', 'run',
+                "./deployCloudSchedulerAndQueue.go",
+                "${rootDir}/core/src/main/java/google/registry/config/files/nomulus-config-${env}.yaml",
+                "${rootDir}/core/src/main/java/google/registry/env/common/default/WEB-INF/cloud-tasks-queue.xml",
+                "domain-registry-${env}"
+      }
+    }
+  }
+}
+
+// disable javadoc in subprojects, these will break because they don't have
+// the correct classpath (see above).
+gradle.taskGraph.whenReady { graph ->
+  graph.getAllTasks().each { task ->
+    def subprojectJavadoc = (task.path =~ /:.+:javadoc/)
+    if (subprojectJavadoc) {
+        println "Skipping ${task.path} for javadoc (only root javadoc works)"
+        task.enabled = false
+    }
+  }
+}

@@ -1,4 +1,4 @@
-# Security
-
-If you suspect you have found a security vulnerability in Apache POI code, please read https://www.apache.org/security/
-for how to report the issue. Please do not report the details publicly until the report is reviewed.
+To report a security issue, please use http://g.co/vulnz. We use
+http://g.co/vulnz for our intake, and do coordination and disclosure here on
+GitHub (including using GitHub Security Advisory). The Google Security Team will
+respond within 5 working days of your report on g.co/vulnz.
